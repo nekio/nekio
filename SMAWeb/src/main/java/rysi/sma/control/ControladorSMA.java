@@ -93,7 +93,7 @@ public class ControladorSMA {
     @RequestMapping(value = "agregarUsuario", method = RequestMethod.POST)
     public String agregarUsuario(@ModelAttribute Usuario usuario, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("usr", usuario);
+            model.addAttribute("usuario", usuario);
             return "nuevoUsuario";
         }
 
@@ -115,7 +115,37 @@ public class ControladorSMA {
                 usuario.getPassword(),
                 usuario.isActivo());
 
-        return "redirect:/listarUsuarios";                              
+        return "redirect:/listarUsuarios";
+    }
+    
+    @RequestMapping("editarEstadoUsuario")
+    public ModelAndView editarEstadoUsuario() {
+        ModelAndView mav = new ModelAndView("editarEstadoUsuario");
+        mav.addObject("usuario", new Usuario());
+        mav.addObject("usuarios", usuarioDAO.findAll());
+        return mav;
+    }
+    
+    
+    @RequestMapping(value = "desactivarUsuario", method = RequestMethod.POST)
+    public String desactivarUsuario(@ModelAttribute Usuario usuario, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("usuario", usuario);
+            return "nuevoUsuario";
+        }
+        
+        GestorJpaController jpa = new GestorJpaController();
+        jpa.getUsuarioJC().modificarUsuario(
+                usuario.getIdUsuario(),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                false);
+                
+        return "redirect:/listarUsuarios";
     }
     
     /* Funcionalidades de Tickets */

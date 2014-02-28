@@ -11,10 +11,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Solicitudes de Tickets por periodo</title>
+        <title>Reporte de Solicitudes de Tickets por periodo</title>
     </head>
     <body>
-        <h1>Solicitudes de Tickets por periodo</h1>
+        <h1>Reporte de Solicitudes de Tickets por periodo</h1>
         
         <table border="1">
             <thead>

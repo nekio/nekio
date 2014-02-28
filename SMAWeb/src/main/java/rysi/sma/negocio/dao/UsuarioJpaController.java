@@ -326,7 +326,7 @@ public class UsuarioJpaController implements Serializable {
         }
     }
     
-    public void modificarUsuario(int idUsuario, TipoUsuario tipoUsuario, String nombre, String apellidoP, String apellidoM, String contacto, String password){
+    public void modificarUsuario(int idUsuario, TipoUsuario tipoUsuario, String nombre, String apellidoP, String apellidoM, String contacto, String password, Boolean activo){
         try {
             Usuario usuario = findUsuario(idUsuario);
             
@@ -342,6 +342,8 @@ public class UsuarioJpaController implements Serializable {
                 usuario.setContacto(contacto);
             if(password != null)
                 usuario.setPassword(password);
+            if(activo != null)
+                usuario.setActivo(activo);
             
             edit(usuario);
             

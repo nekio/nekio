@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Ticket</title>
+        <title>Nuevo Ticket</title>
     </head>
     <body>
         <h1>Nuevo Ticket</h1>
@@ -96,5 +96,6 @@
         </sf:form>
         
         <span style="font-size: smaller;">${fechaActualEnServidor}</span>
+        <li><a href="listarTickets">Regresar al Cat&aacute;logo de Tickets</a></li>
     </body>
 </html>

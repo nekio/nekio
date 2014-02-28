@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Usuario</title>
+        <title>Nuevo Usuario</title>
     </head>
     <body>
         <h1>Nuevo Usuario</h1>
@@ -52,5 +52,6 @@
         </sf:form>
         
         <span style="font-size: smaller;">${fechaActualEnServidor}</span>
+        <br/><a href="listarUsuarios">Regresar al Cat&aacute;logo de Usuarios</a>
     </body>
 </html>
