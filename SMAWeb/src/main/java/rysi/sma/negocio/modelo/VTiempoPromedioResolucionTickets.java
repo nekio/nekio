@@ -29,6 +29,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "VTiempoPromedioResolucionTickets.findAll", query = "SELECT v FROM VTiempoPromedioResolucionTickets v")})
 public class VTiempoPromedioResolucionTickets implements Serializable {
     private static final long serialVersionUID = 1L;
+    
     @Column(name = "DIAS_PROMEDIO")
     private BigInteger diasPromedio;
     
