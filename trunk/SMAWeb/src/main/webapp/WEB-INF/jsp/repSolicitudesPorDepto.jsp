@@ -20,14 +20,12 @@
             <thead>
                 <th>Numero de Tickets</th>
                 <th>Descripcion</th>
-                <th>Mes</th>
             </thead>
             <tbody>
                 <c:forEach var="vResultado" items="${resultado}">
                     <tr>
                         <td>${vResultado.numTickets}</td>
-                        <td>${vResultado.descripcion}</td>
-                        <td>${vResultado.mes}</td>
+                        <td>${vResultado.mesDepto}</td>
                     </tr>
                 </c:forEach>
             </tbody>

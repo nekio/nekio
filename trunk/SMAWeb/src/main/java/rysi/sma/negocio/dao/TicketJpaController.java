@@ -493,41 +493,5 @@ public class TicketJpaController implements Serializable {
         } finally {
             em.close();
         }
-    }
-    
-    public List<String> getSolicitudesPorDepto(){
-       EntityManager em = getEntityManager();
-        try {
-            Query q = em.createNativeQuery(
-                    "SELECT COUNT (x.id_ticket) AS numtickets, x.descripcion AS descripcion, x.mes AS mes " +
-                    "FROM(SELECT t.id_ticket, d.descripcion, " +
-                    "        CAST({fn SUBSTR(CAST(t. fecha_creacion AS CHAR(10 )),6, 2)}AS INTEGER) AS mes " +
-                    "     FROM sma.ticket t, sma.departamento d " +
-                    "     WHERE d.id_depto = t.id_depto) AS x " +
-                    "GROUP BY x.descripcion, x.mes " +
-                    "ORDER BY COUNT(x.id_ticket) DESC, x.mes DESC ");
-
-            return q.getResultList();
-        } finally {
-            em.close();
-        }
-    }
-    
-    public List<String> getTiempoPromedioResolucion(){
-       EntityManager em = getEntityManager();
-        try {
-            Query q = em.createNativeQuery(
-                    "SELECT (SUM(x.dias_en_resolver) / COUNT(x.id_ticket)) AS diaspromedio, x.descripcion AS descripcion " +
-                    "FROM(SELECT t.id_ticket, d.descripcion, {fn timestampdiff(SQL_TSI_DAY, t.fecha_creacion, t.fecha_cierre)} AS dias_en_resolver " +
-                    "    FROM sma.ticket t, sma.departamento d " +
-                    "    WHERE  d.id_depto = t.id_depto) AS x " +
-                    "GROUP BY x.descripcion " +
-                    "ORDER BY dias_promedio DESC ");
-
-            return q.getResultList();
-        } finally {
-            em.close();
-        }
-    }
-    
+    } 
 }

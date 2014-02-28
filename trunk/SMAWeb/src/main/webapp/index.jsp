@@ -8,6 +8,7 @@
         <title>SMA Web</title>
     </head>
     <body>
+        <h2>SMA Web</h2>
         <ul>
             <li><a href="listarUsuarios">Cat&aacute;logo de Usuarios</a></li>
             <li><a href="listarTickets">Cat&aacute;logo de Tickets</a></li>
