@@ -386,8 +386,11 @@ public class TicketJpaController implements Serializable {
             int idTicket = getProximoIdTicket();
             String folio = generarFolio(idUsuario.getIdUsuario());
             
-            if(idEstado == null)
-                idEstado.setIdEstado(2); // EstadoTicket = 2 (Nuevo)
+            if(idEstado == null){
+                // EstadoTicket = 2 (Nuevo)
+                idEstado = new EstadoTicket();
+                idEstado.setIdEstado(2);
+            }
             
             ticket.setIdTicket(idTicket);
             ticket.setIdUsuario(idUsuario);

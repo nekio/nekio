@@ -11,10 +11,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Tiempo Promedio de Resolucion de Tickets por Depto.</title>
+        <title>Reporte de Tiempo Promedio de Resolucion de Tickets por Depto.</title>
     </head>
     <body>
-        <h1>Tiempo Promedio de Resolucion de Tickets por Depto.</h1>
+        <h1>Reporte de Tiempo Promedio de Resolucion de Tickets por Depto.</h1>
         
         <table border="1">
             <thead>
