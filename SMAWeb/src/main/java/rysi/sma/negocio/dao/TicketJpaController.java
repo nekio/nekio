@@ -418,8 +418,7 @@ public class TicketJpaController implements Serializable {
     public void modificarTicket(
             int idTicket, Departamento idDepartamento, TopicoAyuda idTopicoAyuda,
             Usuario idPersonalAtencion, NivelAtencion idNivelAtencion, EstadoTicket idEstado,
-            CausaCierreTicket idCausaCierreTicket, String descripcion, Short calificacion,
-            boolean resuelto){
+            CausaCierreTicket idCausaCierreTicket, String descripcion, Short calificacion){
         try {
             Ticket ticket = findTicket(idTicket);
             
@@ -437,9 +436,11 @@ public class TicketJpaController implements Serializable {
                 ticket.setIdCausaCierreTicket(idCausaCierreTicket);
             if(descripcion != null)
                 ticket.setDescripcion(descripcion);
-            if(calificacion != null)
+            if(calificacion != null){
                 ticket.setCalificacion(calificacion);
-            ticket.setResuelto(resuelto);
+                ticket.setFechaCierre(new Date());
+                ticket.setResuelto(true);
+            }
             
             edit(ticket);
             
