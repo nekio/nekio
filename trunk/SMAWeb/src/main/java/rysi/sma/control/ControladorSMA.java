@@ -228,13 +228,6 @@ public class ControladorSMA {
         
     @RequestMapping(value = "guardarModificacionTicket", method = RequestMethod.POST)
     public String guardarModificacionTicket(@ModelAttribute Ticket ticket, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("ticket", ticket);
-            return "nuevoTicket";
-        }
-        
-        //ticketDAO.save(ticket);
-        //Ocupo mi propia opcion de guardar del JpaController, en vez del guardado por defecto del DAO
         GestorJpaController jpa = new GestorJpaController();
         jpa.getTicketJC().modificarTicket(
                 ticket.getIdTicket(),

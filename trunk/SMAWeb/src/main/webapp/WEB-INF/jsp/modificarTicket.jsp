@@ -57,6 +57,8 @@
         <sf:form method="POST" id="forma" name="forma" 
                  commandName="ticket" action="guardarModificacionTicket">
             
+            <sf:input type="hidden" id="idTicket" path="idTicket" value="${ticket.idTicket}"/><br/>
+            
             <label><b>Descripcion:</b></label>
             <sf:input id="descripcion" path="descripcion" value="${ticket.descripcion}"  size="120" maxlength="200"/><br/>
             
