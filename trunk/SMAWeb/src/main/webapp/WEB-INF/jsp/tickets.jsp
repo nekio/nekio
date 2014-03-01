@@ -4,10 +4,12 @@
     Author     : Ivan 
 --%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,6 +21,19 @@
         
         <h1>Tickets</h1>
         
+        <sf:form method="POST" id="forma" name="forma" 
+                 commandName="ticket" action="modificarTicket">
+            <label><b>Ticket:</b></label>
+            <sf:select 
+                items="${tickets}"
+                itemValue="idTicket"
+                itemLabel="folio"
+                path="idTicket"
+            />
+            <button type="submit" name="modificarTicket" id="modificarTicket">Modificar</button><br/>
+        </sf:form>
+        <br/>
+    
         <table border="1">
             <thead>
                 <th>ID Ticket</th>
@@ -37,7 +52,7 @@
                 <th>Resuelto</th>
             </thead>
             <tbody>
-                <c:forEach var="vTicket" items="${ticket}">
+                <c:forEach var="vTicket" items="${tickets}">
                     <tr>
                         <td>${vTicket.idTicket}</td>
                         <td>${vTicket.idUsuario.usuario}</td>

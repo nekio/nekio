@@ -67,7 +67,6 @@
                 implica que al crear un nuevo ticket, su estado es "nuevo"
             <label><b>Estado</b></label>
             <sf:select 
-                type="hidden"
                 items="${estado}"
                 itemValue="idEstado"
                 itemLabel="descripcion"
@@ -80,7 +79,6 @@
                 implica que al crear un nuevo ticket, no puede ser cerrado al mismo tiempo
             <label><b>Causa de Cierre del Ticket:</b></label>
             <sf:select 
-                type="hidden"
                 items="${causaCierre}"
                 itemValue="idCausaCierre"
                 itemLabel="descripcion"

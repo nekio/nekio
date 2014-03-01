@@ -153,7 +153,8 @@ public class ControladorSMA {
     @RequestMapping("listarTickets")
     public ModelAndView listarTickets() {
         ModelAndView mav = new ModelAndView("tickets");
-        mav.addObject("ticket", ticketDAO.findAll());
+        mav.addObject("ticket", new Ticket());
+        mav.addObject("tickets", ticketDAO.findAll());
         return mav;
     }
     
@@ -211,6 +212,40 @@ public class ControladorSMA {
                 ticket.getIdEstado(),
                 ticket.getIdCausaCierreTicket(),
                 ticket.getDescripcion());
+
+        return "redirect:/listarTickets";                              
+    }
+    
+    @RequestMapping(value = "modificarTicket", method = RequestMethod.POST)
+    public ModelAndView modificarTicket(@ModelAttribute Ticket ticket, BindingResult result, Model model) {
+        ModelAndView mav = new ModelAndView("modificarTicket");
+        
+        Ticket ticketSeleccionado = ticketDAO.findOne(ticket.getIdTicket());
+        mav.addObject("ticket", ticketSeleccionado);
+        mav.addObject("causaCierre", causaCierreDAO.findAll());
+        return mav;
+    }
+        
+    @RequestMapping(value = "guardarModificacionTicket", method = RequestMethod.POST)
+    public String guardarModificacionTicket(@ModelAttribute Ticket ticket, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("ticket", ticket);
+            return "nuevoTicket";
+        }
+        
+        //ticketDAO.save(ticket);
+        //Ocupo mi propia opcion de guardar del JpaController, en vez del guardado por defecto del DAO
+        GestorJpaController jpa = new GestorJpaController();
+        jpa.getTicketJC().modificarTicket(
+                ticket.getIdTicket(),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                ticket.getDescripcion(),
+                ticket.getCalificacion());
 
         return "redirect:/listarTickets";                              
     }
