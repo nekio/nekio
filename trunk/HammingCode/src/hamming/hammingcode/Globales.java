@@ -13,4 +13,19 @@ public class Globales {
         double base2=(Math.log(numero)/Math.log(BASE_BINARIA));
         return base2 % 1 == 0;
     }
+    
+    public static int obtenerNumeroDeBitsDeParidad(int longitudCodigoOriginal){
+        int bitsParidad = 0;
+        int n = longitudCodigoOriginal;
+        
+        if(n>=1 && n<=4){
+            bitsParidad = 3;
+        }else if(n>4 && n<=11) {
+            bitsParidad = 4;
+        }else if(n>11){
+            bitsParidad = 5;
+        }
+
+        return bitsParidad;
+    }
 }

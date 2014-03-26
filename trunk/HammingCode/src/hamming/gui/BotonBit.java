@@ -46,6 +46,7 @@ class BotonBit{
                     gui.getDto().getBitsOriginales().set(indice-1, false);
                 }                    
 
+                gui.escribirCodigoOriginal();
                 gui.escribirHamming();
             }
         });
