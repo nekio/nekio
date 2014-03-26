@@ -51,6 +51,7 @@ public class GUI extends JFrame{
     private JButton btnGenerarHamming;
     private JButton btnDetectarError;
     
+    private JTextPane txtCodigoOriginal;
     private JTextPane txtHamming;
     private JComboBox cmbPosicion;
     private JTextPane txtHammingCorrupto;
@@ -62,11 +63,10 @@ public class GUI extends JFrame{
     public GUI(HammingDTO dto){
         super("Hamming");
         
-        this.hamming = new Hamming();
         this.dto = dto;
         
         contenedor = this.getContentPane();
-        Dimension dimensionesMinimas=new Dimension(850,340);
+        Dimension dimensionesMinimas=new Dimension(850,370);
 
         this.setSize(dimensionesMinimas);
         this.setLocationRelativeTo(null);
@@ -108,25 +108,33 @@ public class GUI extends JFrame{
         /*Panel Central*/
         pnlCentral = new JPanel(null);
         
+        JLabel lblCodOriginal = new JLabel("Codigo Original:");
+        lblCodOriginal.setBounds(10,10,130,24);
+        pnlCentral.add(lblCodOriginal);
+        
+        txtCodigoOriginal = new JTextPane();
+        txtCodigoOriginal.setBounds(150,10,300,24);
+        pnlCentral.add(txtCodigoOriginal);
+        
         JLabel lblCodHamming = new JLabel("Codigo Hamming:");
-        lblCodHamming.setBounds(10,10,130,24);
+        lblCodHamming.setBounds(10,50,130,24);
         pnlCentral.add(lblCodHamming);
         
         txtHamming = new JTextPane();
-        txtHamming.setBounds(150,10,300,24);
-        pnlCentral.add(txtHamming, "Center");
+        txtHamming.setBounds(150,50,300,24);
+        pnlCentral.add(txtHamming);
         
         JLabel lblPosicionError = new JLabel("Posicion de error:");
-        lblPosicionError.setBounds(10,50,130,24);
+        lblPosicionError.setBounds(10,90,130,24);
         pnlCentral.add(lblPosicionError);
         
         JLabel lblCodCorrupto = new JLabel("Código Corrupto:");
-        lblCodCorrupto.setBounds(10,90,130,24);
+        lblCodCorrupto.setBounds(10,130,130,24);
         pnlCentral.add(lblCodCorrupto);
         
         txtHammingCorrupto = new JTextPane();
-        txtHammingCorrupto.setBounds(150,90,300,24);
-        pnlCentral.add(txtHammingCorrupto, "Center");
+        txtHammingCorrupto.setBounds(150,130,300,24);
+        pnlCentral.add(txtHammingCorrupto);
         
         /*Panel Bits*/
         pnlBitsExterno = new JPanel(new BorderLayout());
@@ -140,7 +148,7 @@ public class GUI extends JFrame{
         pnlBitsExternoSur = new JPanel(new BorderLayout());
         definirBitsCodeword(Globales.MIN_BITS);
         
-        JLabel lblCodeword = new JLabel("Codeword original");
+        JLabel lblCodeword = new JLabel(" "/*"Codigo original"*/);
         lblCodeword.setHorizontalAlignment(SwingConstants.CENTER);
         pnlBitsExternoSur.add(lblCodeword,"South");
         
@@ -203,7 +211,8 @@ public class GUI extends JFrame{
         btnGenerarHamming.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent evt){
-                //hamming.
+                hamming = new Hamming();
+                dto.setBitsHamming(hamming.procesarCodigo(dto.getCadenaBitsOriginales()));
                 descubrirHamming();
             }
         });
@@ -217,7 +226,7 @@ public class GUI extends JFrame{
     }
     
     private void agregarTextoPanel(JTextPane tp, String texto, boolean bitParidad){
-        txtHamming.setEditable(true);
+        activarPanelesTexto(true);
         
         Color color = Color.BLACK;
         if(bitParidad)
@@ -234,7 +243,13 @@ public class GUI extends JFrame{
         tp.setCharacterAttributes(as, false);
         tp.replaceSelection(texto);
         
-        txtHamming.setEditable(false);
+        activarPanelesTexto(false);
+    }
+    
+    private void activarPanelesTexto(boolean activar){
+        txtCodigoOriginal.setEditable(activar);
+        txtHamming.setEditable(activar);
+        txtHammingCorrupto.setEditable(activar);
     }
     
     private void eliminarBit(){
@@ -286,12 +301,20 @@ public class GUI extends JFrame{
         
         cmbPosicion = new JComboBox();
         cmbPosicion.setModel(obtenerModeloCombo());
-        cmbPosicion.setBounds(150,50,50,24);
+        cmbPosicion.setBounds(150,90,50,24);
         pnlCentral.add(cmbPosicion);
         
+        escribirCodigoOriginal();
         escribirHamming();
                 
         pnlBitsExternoSur.add(pnlBitsBotones,"Center");
+    }
+    
+    public void escribirCodigoOriginal(){
+        txtCodigoOriginal.setText("");
+
+        for(int i=0; i<dto.getBitsOriginales().size(); i++)
+                agregarTextoPanel(txtCodigoOriginal,dto.getBitsOriginales().get(i)==true?"1":"0", false);
     }
     
     public void escribirHamming(){

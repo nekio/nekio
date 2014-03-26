@@ -1,17 +1,14 @@
 package hamming.hammingcode;
 
-import java.util.Scanner;
-
+import java.util.ArrayList;
 
 public class Hamming {
-    private HammingDTO dto;
-    final int MAX = 30;
     final int TOPE = Globales.MAX_BITS + Globales.MAX_BITS_PARIDAD;
+   
+    private byte[] bitsConvertidos;
+    private byte[] bitsHamming;
     
-    private String datos;
-    private byte[] arregloDatosConvertidos;
-    private byte[] arregloHamming;
-    
+    private int lingitudBitsOriginales;
     private int numeroBitsParidad;
     private int longitudTotalDatos;
     
@@ -19,91 +16,45 @@ public class Hamming {
     private byte[][] bitsNoParidad;
     
     public Hamming(){
-        this(null);
     }
-    
-    public Hamming(HammingDTO dto){
-        this.dto = dto;
-    }
-    
-    public int validarLongitudDeDatos(String codigoIngresado){
-        int longitudDatos = TOPE;
-        byte data2;
-        
-        datos=null;
-        while (longitudDatos > MAX){
-            definirValores(codigoIngresado);
-        }
-        return longitudDatos;
-    }
-    
-    public int calcularErrorEnArray(int error, int longitudDatos){
-        if (arregloHamming[error-1] == 1) {
-            arregloHamming[error-1] = 0;
-        } else {
-            arregloHamming[error-1] = 1;
-        }
-        
-        System.out.print("Codigo Hamming corrupto: ");
-        for (int i = 0; i < longitudDatos; i++) {
-            System.out.print(arregloHamming[i]);
-        }
-        
-        int posicionError = detectarError(bitsParidad, numeroBitsParidad, bitsNoParidad, longitudDatos, arregloDatosConvertidos, datos.length(), arregloHamming);
-        return posicionError;
-    }
-    
-    public void definirValores(String codigoIngresado){
-        int datosConvertidos = 0;
-        arregloDatosConvertidos = new byte[TOPE];
 
-        datos = codigoIngresado;
-        for (int i=0; i<datos.length(); i++) 
-            arregloDatosConvertidos[i] = Byte.parseByte(datos.substring(i, i+1));
+    public ArrayList<Boolean> procesarCodigo(String cadenaBitsOriginales){
+        definirValores(cadenaBitsOriginales);
 
-        datosConvertidos = Integer.parseInt(datos, Globales.BASE_BINARIA);
-        numeroBitsParidad = obtenerNumeroDeBitsDeParidad(datos);
-            
-        //La longitud total entre los datos y los bits de paridad agregados
-        longitudTotalDatos = datos.length() + numeroBitsParidad;
+        return obtenerHamming();
     }
     
-     private int obtenerNumeroDeBitsDeParidad(String datos){
-        int n = 0;
-        int bitsParidad = 0;
-        n = datos.length();
-        if (n >= 1 && n <= 4) {
-            bitsParidad = 3;
-        } else if (n > 4 && n <= 11) {
-            bitsParidad = 4;
-        } else if (n > 11) {
-            bitsParidad = 5;
-        }
+    private void definirValores(String cadenaBitsOriginales){
+        lingitudBitsOriginales = cadenaBitsOriginales.length();
         
-        System.out.println("\nLa longitud de la entrada es: " + n);
-        System.out.println("Bits de paridad: "+bitsParidad);
-        System.out.println("Longitud del CodeWord: " + (n+bitsParidad));
+        bitsConvertidos = new byte[TOPE];
+        for (int i=0; i<lingitudBitsOriginales; i++) 
+            bitsConvertidos[i] = Byte.parseByte(cadenaBitsOriginales.substring(i, i+1));
 
-        return bitsParidad;
+        int datosConvertidos = Integer.parseInt(cadenaBitsOriginales, Globales.BASE_BINARIA);
+        numeroBitsParidad = Globales.obtenerNumeroDeBitsDeParidad(lingitudBitsOriginales);
+        longitudTotalDatos = lingitudBitsOriginales + numeroBitsParidad;
     }
     
-     public void generarArreglos(int longitudDatos){
-        arregloHamming = new byte[longitudDatos];
+    private ArrayList<Boolean> obtenerHamming(){
+        ArrayList<Boolean> codigoHamming = new ArrayList<>();
+        bitsHamming = new byte[longitudTotalDatos];
+        
         boolean bitParidad = false;
         int indiceNoParidad = 0;
         int indiceHamming = 0;
         int indiceAuxiliar = 0;
         
         //guarda los bits que no forman parte de los de paridad
-        bitsNoParidad = new byte[datos.length()][];
+        bitsNoParidad = new byte[lingitudBitsOriginales][];
         //guarda los indices de los bits que no forman parte de los de paridad
-        int[] indiceNumeroNoParidad = new int[datos.length()];
+        int[] indiceNumeroNoParidad = new int[lingitudBitsOriginales];
         //coloca los datos en los arreglos
-        for (int i = 1; i <= longitudDatos; i++) {
+        for (int i = 1; i <= longitudTotalDatos; i++) {
             int indice = 0;
             bitParidad = esBitDeParidad(i);
             if (!bitParidad) {
-                arregloHamming[i-1] = arregloDatosConvertidos[indiceAuxiliar++]; //covertDataArray data we got
+                bitsHamming[i-1] = bitsConvertidos[indiceAuxiliar++]; //covertDataArray data we got
                 //inicializa los tamaños de los arreglos de bits de no paridad
                 bitsNoParidad[indiceNoParidad] = new byte[5];
                 //asigna las posiciones al arreglo de bits de no paridad
@@ -115,14 +66,32 @@ public class Hamming {
                 indiceHamming++;
         }
         bitsParidad = new byte[numeroBitsParidad];
-        definirBitsDeParidad(bitsParidad, numeroBitsParidad, bitsNoParidad, indiceNoParidad, arregloDatosConvertidos);
-        insertarBitsDeParidad(longitudDatos, bitsParidad, arregloHamming);
-        System.out.print("Codigo Hamming: ");
-        for (int i = 0; i < longitudDatos; i++) 
-            System.out.print(arregloHamming[i]);
+        definirBitsDeParidad(bitsParidad, numeroBitsParidad, bitsNoParidad, indiceNoParidad, bitsConvertidos);
+        insertarBitsDeParidad(longitudTotalDatos, bitsParidad, bitsHamming);
+        
+        for(byte bit:bitsHamming)
+            codigoHamming.add(bit==1?true:false);
+        
+        return codigoHamming;
+    }
+    
+    public int calcularErrorEnArray(int error, int longitudDatos){
+        if (bitsHamming[error-1] == 1) {
+            bitsHamming[error-1] = 0;
+        } else {
+            bitsHamming[error-1] = 1;
+        }
+        
+        System.out.print("Codigo Hamming corrupto: ");
+        for (int i = 0; i < longitudDatos; i++) {
+            System.out.print(bitsHamming[i]);
+        }
+        
+        int posicionError = detectarError(bitsParidad, numeroBitsParidad, bitsNoParidad, longitudDatos, bitsConvertidos, lingitudBitsOriginales, bitsHamming);
+        return posicionError;
     }
      
-     private boolean esBitDeParidad(int posicion) {
+    private boolean esBitDeParidad(int posicion) {
         boolean bitParidad = true;
         int auxiliar = 0;
         while (posicion > 1) {
@@ -153,9 +122,8 @@ public class Hamming {
         byte m = 0;
         int indice = 0;
         int indiceOriginal = 0;
-        //Columnas de datos
+
         for(int columna=0; columna<5; columna++){
-            //Filas de datos
             for(int fila=0; fila<indiceNoParidad; fila++){
                 //checa si es la posicion 2'0, 2'1, 2'2 
                 if(bitsNoParidad[fila][columna]==1){
