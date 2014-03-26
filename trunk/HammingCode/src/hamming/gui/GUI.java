@@ -136,6 +136,18 @@ public class GUI extends JFrame{
         txtHammingCorrupto.setBounds(150,130,300,24);
         pnlCentral.add(txtHammingCorrupto);
         
+        /*Panel Botones*/
+        pnlBotones = new JPanel();
+        
+        btnGenerarHamming = new JButton("Generar Hamming");
+        btnDetectarError = new JButton("Detectar Error");
+        btnDetectarError.setEnabled(false);
+        
+        pnlBotones.add(btnGenerarHamming);
+        pnlBotones.add(btnDetectarError);
+        
+        pnlCentral.setBackground(Color.LIGHT_GRAY);
+        
         /*Panel Bits*/
         pnlBitsExterno = new JPanel(new BorderLayout());
         
@@ -154,18 +166,8 @@ public class GUI extends JFrame{
         
         pnlBitsExterno.add(pnlBitsExternoNorte,"North");
         pnlBitsExterno.add(pnlBitsExternoSur,"South");
-                
-        /*Panel Botones*/
-        pnlBotones = new JPanel();
         
-        btnGenerarHamming = new JButton("Generar Hamming");
-        btnDetectarError = new JButton("Detectar Error");
-        
-        pnlBotones.add(btnGenerarHamming);
-        pnlBotones.add(btnDetectarError);
-        
-        pnlCentral.setBackground(Color.LIGHT_GRAY);
-        
+        /*Localizacion de paneles*/
         contenedor.add(pnlBitsExterno,"North");
         contenedor.add(pnlCentral,"Center");
         contenedor.add(pnlBotones,"South");
@@ -304,20 +306,26 @@ public class GUI extends JFrame{
         cmbPosicion.setBounds(150,90,50,24);
         pnlCentral.add(cmbPosicion);
         
-        escribirCodigoOriginal();
-        escribirHamming();
+        actualizarValores();
                 
         pnlBitsExternoSur.add(pnlBitsBotones,"Center");
     }
     
-    public void escribirCodigoOriginal(){
+    public void actualizarValores(){
+        escribirCodigoOriginal();
+        escribirHamming();
+        
+        btnDetectarError.setEnabled(false);
+    }
+    
+    private void escribirCodigoOriginal(){
         txtCodigoOriginal.setText("");
 
         for(int i=0; i<dto.getBitsOriginales().size(); i++)
                 agregarTextoPanel(txtCodigoOriginal,dto.getBitsOriginales().get(i)==true?"1":"0", false);
     }
     
-    public void escribirHamming(){
+    private void escribirHamming(){
         txtHamming.setText("");
         dto.getBitsHamming().clear();
         
@@ -339,6 +347,8 @@ public class GUI extends JFrame{
         
         for(int i=0; i<dto.getBitsHamming().size(); i++)
             agregarTextoPanel(txtHamming,dto.getBitsHamming().get(i)==true?"1":"0", Globales.esPotenciaDe2(i+1));
+        
+        btnDetectarError.setEnabled(true);
     }
     
     
