@@ -2,6 +2,7 @@ package hamming.hammingcode;
 
 public class Globales {
     /*Constantes*/    
+    public static final String NOMBRE_APLICACION = "RSA - Codigos Hamming";
     public static final int MAX_BITS_PARIDAD = 5;
     public static final int MAX_BITS = 16;
     public static final int MIN_BITS = 3;

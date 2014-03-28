@@ -75,7 +75,27 @@ public class Hamming {
         return codigoHamming;
     }
     
-    public int calcularErrorEnArray(int error, int longitudDatos){
+    public ArrayList<Boolean> calcularErrorEnArray(int posicionError, int longitudDatos){
+        ArrayList<Boolean> codigoCorrupto = new ArrayList<Boolean>();
+
+        if(bitsHamming[posicionError-1] == 1){
+            bitsHamming[posicionError-1]=0;
+        }else{
+            bitsHamming[posicionError-1]=1;
+        }
+        
+//        for(int i=0; i<longitudDatos; i++)
+//            codigoCorrupto.add((int)bitsHamming[i]);
+        
+        for(byte bit:bitsHamming)
+            codigoCorrupto.add(bit==1?true:false);
+        
+        return codigoCorrupto;
+        //int posicionError = detectarError(bitsParidad, numeroBitsParidad, bitsNoParidad, longitudDatos, bitsConvertidos, lingitudBitsOriginales, bitsHamming);
+        //return posicionError;
+    }
+    
+    /*public int calcularErrorEnArray(int error, int longitudDatos){
         if (bitsHamming[error-1] == 1) {
             bitsHamming[error-1] = 0;
         } else {
@@ -89,7 +109,7 @@ public class Hamming {
         
         int posicionError = detectarError(bitsParidad, numeroBitsParidad, bitsNoParidad, longitudDatos, bitsConvertidos, lingitudBitsOriginales, bitsHamming);
         return posicionError;
-    }
+    }*/
      
     private boolean esBitDeParidad(int posicion) {
         boolean bitParidad = true;

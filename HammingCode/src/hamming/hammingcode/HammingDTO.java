@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class HammingDTO {
     private ArrayList<Boolean> bitsOriginales;
     private ArrayList<Boolean> bitsHamming;
+    private ArrayList<Boolean> bitsHammingCorrupto;
 
     public String getCadenaBitsOriginales() {
         String cadenaBitsOriginales = "";
@@ -36,5 +37,13 @@ public class HammingDTO {
 
     public void setBitsHamming(ArrayList<Boolean> bitsHamming) {
         this.bitsHamming = bitsHamming;
+    }
+
+    public ArrayList<Boolean> getBitsHammingCorrupto() {
+        return bitsHammingCorrupto;
+    }
+
+    public void setBitsHammingCorrupto(ArrayList<Boolean> bitsHammingCorrupto) {
+        this.bitsHammingCorrupto = bitsHammingCorrupto;
     }
 }
