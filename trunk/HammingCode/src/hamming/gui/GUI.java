@@ -20,7 +20,9 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.text.AttributeSet;
@@ -49,19 +51,23 @@ public class GUI extends JFrame{
     private JButton btnAgregarBits;
     private JButton btnEliminarBits;
     private JButton btnGenerarHamming;
+    private JButton btnVerHammingCorrupto;
     private JButton btnDetectarError;
     
     private JTextPane txtCodigoOriginal;
     private JTextPane txtHamming;
     private JComboBox cmbPosicion;
     private JTextPane txtHammingCorrupto;
+    private JTextField txtBitsOriginales;
+    private JTextField txtBitsParidad;
+    private JTextField txtLongitud;
     
     public GUI(){
         this(null);
     }
     
     public GUI(HammingDTO dto){
-        super("Hamming");
+        super(Globales.NOMBRE_APLICACION);
         
         this.dto = dto;
         
@@ -136,14 +142,45 @@ public class GUI extends JFrame{
         txtHammingCorrupto.setBounds(150,130,300,24);
         pnlCentral.add(txtHammingCorrupto);
         
+        JLabel lblBitsOriginales = new JLabel("Bits Originales:");
+        lblBitsOriginales.setBounds(550,10,100,24);
+        pnlCentral.add(lblBitsOriginales);
+                
+        txtBitsOriginales = new JTextField();
+        txtBitsOriginales.setBounds(670,10,50,24);
+        txtBitsOriginales.setEditable(false);
+        pnlCentral.add(txtBitsOriginales);
+        
+        JLabel lblBitsParidad = new JLabel("Bits de Paridad:");
+        lblBitsParidad.setBounds(550,50,100,24);
+        pnlCentral.add(lblBitsParidad);
+                
+        txtBitsParidad = new JTextField();
+        txtBitsParidad.setBounds(670,50,50,24);
+        txtBitsParidad.setEditable(false);
+        pnlCentral.add(txtBitsParidad);
+                
+        JLabel lblLongitud = new JLabel("Longitud Total:");
+        lblLongitud.setBounds(550,90,100,24);
+        pnlCentral.add(lblLongitud);
+        
+        txtLongitud = new JTextField();
+        txtLongitud.setBounds(670,90,50,24);
+        txtLongitud.setEditable(false);
+        pnlCentral.add(txtLongitud);
+        
         /*Panel Botones*/
         pnlBotones = new JPanel();
         
         btnGenerarHamming = new JButton("Generar Hamming");
-        btnDetectarError = new JButton("Detectar Error");
-        btnDetectarError.setEnabled(false);
-        
         pnlBotones.add(btnGenerarHamming);
+        
+        btnVerHammingCorrupto = new JButton("Ver Hamming Corrupto");
+        btnVerHammingCorrupto.setEnabled(false);
+        pnlBotones.add(btnVerHammingCorrupto);
+        
+        btnDetectarError = new JButton("Detectar Error");
+        btnDetectarError.setEnabled(false);     
         pnlBotones.add(btnDetectarError);
         
         pnlCentral.setBackground(Color.LIGHT_GRAY);
@@ -178,7 +215,8 @@ public class GUI extends JFrame{
             @Override
             public void actionPerformed( ActionEvent evt){
                 reiniciar();
-                definirBitsCodeword(dto.getBitsOriginales().size());
+                definirBitsCodeword(Globales.MIN_BITS);
+                btnGenerarHamming.setEnabled(true);
             }
         });
         
@@ -192,7 +230,12 @@ public class GUI extends JFrame{
         mnItemAcercaDe.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed( ActionEvent evt){
-                //mensaje
+                JOptionPane.showMessageDialog(null,
+                        "Desarrolladores:\n"+
+                        "\n      Emiliano Anastasio Landa"+
+                        "\n      ISC. Sinesio Ivan Carrillo Heredia",
+                        Globales.NOMBRE_APLICACION,
+                        JOptionPane.INFORMATION_MESSAGE);
             }
         });
         
@@ -213,9 +256,21 @@ public class GUI extends JFrame{
         btnGenerarHamming.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent evt){
-                hamming = new Hamming();
-                dto.setBitsHamming(hamming.procesarCodigo(dto.getCadenaBitsOriginales()));
-                descubrirHamming();
+                generarHamming();
+            }
+        });
+        
+        btnVerHammingCorrupto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                verHammingCorrupto();                
+            }
+        });
+        
+        btnDetectarError.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                detectarError();                
             }
         });
         
@@ -225,6 +280,28 @@ public class GUI extends JFrame{
                 salir();
             }
         });
+    }
+    
+    private void generarHamming(){
+        hamming = new Hamming();
+        dto.setBitsHamming(hamming.procesarCodigo(dto.getCadenaBitsOriginales()));
+        descubrirHamming();
+    }
+    
+    private void verHammingCorrupto(){
+        int posicionError = (int)cmbPosicion.getSelectedItem();
+        int longitudDatos = dto.getBitsHamming().size();
+        
+        dto.setBitsHammingCorrupto(hamming.calcularErrorEnArray(posicionError,longitudDatos));
+        escribirHammingCorrupto();
+        
+        cmbPosicion.setEnabled(false);
+        btnVerHammingCorrupto.setEnabled(false);
+        btnDetectarError.setEnabled(true);
+    }
+    
+    private void detectarError(){
+        System.out.println("NADA AUN");
     }
     
     private void agregarTextoPanel(JTextPane tp, String texto, boolean bitParidad){
@@ -312,10 +389,27 @@ public class GUI extends JFrame{
     }
     
     public void actualizarValores(){
+        escribirEstadisticas();
+        
         escribirCodigoOriginal();
         escribirHamming();
         
+        dto.getBitsHammingCorrupto().clear();
+        escribirHammingCorrupto();
+        
+        cmbPosicion.setEnabled(true);
         btnDetectarError.setEnabled(false);
+        btnVerHammingCorrupto.setEnabled(false);
+    }
+    
+    private void escribirEstadisticas(){
+        int longitudOriginal = dto.getBitsOriginales().size();
+        int cantidadBitsParidad = Globales.obtenerNumeroDeBitsDeParidad(longitudOriginal);
+        int longitudTotal = longitudOriginal + cantidadBitsParidad;
+        
+        txtBitsOriginales.setText(String.valueOf(longitudOriginal));
+        txtBitsParidad.setText(String.valueOf(cantidadBitsParidad));
+        txtLongitud.setText(String.valueOf(longitudTotal));
     }
     
     private void escribirCodigoOriginal(){
@@ -342,20 +436,34 @@ public class GUI extends JFrame{
         }
     }
     
+    private void escribirHammingCorrupto(){
+        txtHammingCorrupto.setText("");
+        
+        for(int i=0; i<dto.getBitsHammingCorrupto().size(); i++){
+            String bit=dto.getBitsHammingCorrupto().get(i)==true?"1":"0";
+            if(i == cmbPosicion.getSelectedIndex()){
+                dto.getBitsHammingCorrupto().add(i,true);
+                agregarTextoPanel(txtHammingCorrupto,bit, true);
+            }else
+                agregarTextoPanel(txtHammingCorrupto,bit, false);
+        }
+        
+    }
+    
     private void descubrirHamming(){
         txtHamming.setText("");
         
         for(int i=0; i<dto.getBitsHamming().size(); i++)
             agregarTextoPanel(txtHamming,dto.getBitsHamming().get(i)==true?"1":"0", Globales.esPotenciaDe2(i+1));
         
-        btnDetectarError.setEnabled(true);
+        btnGenerarHamming.setEnabled(false);
+        btnVerHammingCorrupto.setEnabled(true);
     }
-    
-    
-        
+
     private void reiniciar(){
         dto.setBitsOriginales(new ArrayList<Boolean>());
         dto.setBitsHamming(new ArrayList<Boolean>());
+        dto.setBitsHammingCorrupto(new ArrayList<Boolean>());
     }
     
     private void salir(){
