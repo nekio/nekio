@@ -12,7 +12,7 @@ public class Globales {
     
     public static boolean esPotenciaDe2(int numero){
         double base2=(Math.log(numero)/Math.log(BASE_BINARIA));
-        return base2 % 1 == 0;
+        return base2%1 == 0;
     }
     
     public static int obtenerNumeroDeBitsDeParidad(int longitudCodigoOriginal){
@@ -29,4 +29,20 @@ public class Globales {
 
         return bitsParidad;
     }
+    
+    /*public static boolean esBitDeParidad(int posicion) {
+        boolean bitParidad = true;
+        int auxiliar = 0;
+        
+        while(posicion>1){
+            auxiliar = posicion%2;
+            if(auxiliar!=0){
+                bitParidad = false;
+                break;
+            }else 
+                posicion= posicion/2;
+        }
+        
+        return bitParidad;
+    }*/
 }
