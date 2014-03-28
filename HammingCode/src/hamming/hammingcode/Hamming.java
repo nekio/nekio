@@ -15,8 +15,7 @@ public class Hamming {
     private byte[] bitsParidad;
     private byte[][] bitsNoParidad;
     
-    public Hamming(){
-    }
+    public Hamming(){}
 
     public ArrayList<Boolean> procesarCodigo(String cadenaBitsOriginales){
         definirValores(cadenaBitsOriginales);

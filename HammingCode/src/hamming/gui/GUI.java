@@ -195,7 +195,7 @@ public class GUI extends JFrame{
         pnlBitsExternoNorte.add(btnAgregarBits,"West");
         
         pnlBitsExternoSur = new JPanel(new BorderLayout());
-        definirBitsCodeword(Globales.MIN_BITS);
+        definirBitsOriginales(Globales.MIN_BITS);
         
         JLabel lblCodeword = new JLabel(" "/*"Codigo original"*/);
         lblCodeword.setHorizontalAlignment(SwingConstants.CENTER);
@@ -215,7 +215,7 @@ public class GUI extends JFrame{
             @Override
             public void actionPerformed( ActionEvent evt){
                 reiniciar();
-                definirBitsCodeword(Globales.MIN_BITS);
+                definirBitsOriginales(Globales.MIN_BITS);
                 btnGenerarHamming.setEnabled(true);
             }
         });
@@ -332,23 +332,26 @@ public class GUI extends JFrame{
     }
     
     private void eliminarBit(){
-        definirBitsCodeword(dto.getBitsOriginales().size()-1);
+        definirBitsOriginales(dto.getBitsOriginales().size()-1);
     }
     
     private void agregarBit(){
-        definirBitsCodeword(dto.getBitsOriginales().size()+1);
+        definirBitsOriginales(dto.getBitsOriginales().size()+1);
     }
-    
+
     private DefaultComboBoxModel obtenerModeloCombo(){
         DefaultComboBoxModel mdlCombo = new DefaultComboBoxModel();
+        int longitudOriginal = dto.getBitsOriginales().size();
+        int cantidadBitsParidad = Globales.obtenerNumeroDeBitsDeParidad(longitudOriginal);
+        int longitudTotal = longitudOriginal + cantidadBitsParidad;
                 
-        for(int i=0; i<dto.getBitsOriginales().size(); i++)
+        for(int i=0; i<longitudTotal; i++)
             mdlCombo.addElement(i+1);
         
         return mdlCombo;
     }
     
-    private void definirBitsCodeword(int botones){
+    private void definirBitsOriginales(int botones){
         reiniciar();
         
         if(pnlBitsBotones != null){
@@ -393,13 +396,13 @@ public class GUI extends JFrame{
         
         escribirCodigoOriginal();
         escribirHamming();
-        
         dto.getBitsHammingCorrupto().clear();
         escribirHammingCorrupto();
         
-        cmbPosicion.setEnabled(true);
-        btnDetectarError.setEnabled(false);
+        btnGenerarHamming.setEnabled(true);
         btnVerHammingCorrupto.setEnabled(false);
+        btnDetectarError.setEnabled(false);
+        cmbPosicion.setEnabled(false);
     }
     
     private void escribirEstadisticas(){
@@ -458,6 +461,7 @@ public class GUI extends JFrame{
         
         btnGenerarHamming.setEnabled(false);
         btnVerHammingCorrupto.setEnabled(true);
+        cmbPosicion.setEnabled(true);
     }
 
     private void reiniciar(){
