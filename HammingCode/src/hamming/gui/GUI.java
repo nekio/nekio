@@ -230,12 +230,9 @@ public class GUI extends JFrame{
         mnItemAcercaDe.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed( ActionEvent evt){
-                JOptionPane.showMessageDialog(null,
-                        "Desarrolladores:\n"+
-                        "\n      Emiliano Anastasio Landa"+
-                        "\n      ISC. Sinesio Ivan Carrillo Heredia",
-                        Globales.NOMBRE_APLICACION,
-                        JOptionPane.INFORMATION_MESSAGE);
+                mostrarMsj("Desarrolladores:\n"+
+                           "\n      LI. Emiliano Anastasio Landa"+
+                           "\n      ISC. Sinesio Ivan Carrillo Heredia");
             }
         });
         
@@ -292,7 +289,7 @@ public class GUI extends JFrame{
         int posicionError = (int)cmbPosicion.getSelectedItem();
         int longitudDatos = dto.getBitsHamming().size();
         
-        dto.setBitsHammingCorrupto(hamming.calcularErrorEnArray(posicionError,longitudDatos));
+        dto.setBitsHammingCorrupto(hamming.obtenerHammingCorrupto(posicionError,longitudDatos));
         escribirHammingCorrupto();
         
         cmbPosicion.setEnabled(false);
@@ -301,21 +298,31 @@ public class GUI extends JFrame{
     }
     
     private void detectarError(){
-        System.out.println("NADA AUN");
+        int longitudTotal = dto.getBitsHamming().size();
+        int indiceError = cmbPosicion.getSelectedIndex()+1;
+        
+        int indiceCalculado = hamming.detectarError();
+        String mensaje = "El algoritmo ha calculado el error en la el indice: "+indiceCalculado;
+        
+        mostrarMsj(mensaje);
     }
     
     private void agregarTextoPanel(JTextPane tp, String texto, boolean bitParidad){
+        agregarTextoPanel(tp,texto,bitParidad,Color.LIGHT_GRAY);
+    }
+    private void agregarTextoPanel(JTextPane tp, String texto, boolean bitEspecial,Color colorSecundario){
         activarPanelesTexto(true);
         
         Color color = Color.BLACK;
-        if(bitParidad)
-            color = Color.LIGHT_GRAY;
+        if(bitEspecial)
+            color = colorSecundario;
         
         StyleContext sc = StyleContext.getDefaultStyleContext();
         AttributeSet as = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, color);
 
         as = sc.addAttribute(as, StyleConstants.FontFamily, "Courier New");
         as = sc.addAttribute(as, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
+        as = sc.addAttribute(as, StyleConstants.Bold, Boolean.TRUE);
 
         int longitud = tp.getDocument().getLength();
         tp.setCaretPosition(longitud);
@@ -445,8 +452,8 @@ public class GUI extends JFrame{
         for(int i=0; i<dto.getBitsHammingCorrupto().size(); i++){
             String bit=dto.getBitsHammingCorrupto().get(i)==true?"1":"0";
             if(i == cmbPosicion.getSelectedIndex()){
-                dto.getBitsHammingCorrupto().add(i,true);
-                agregarTextoPanel(txtHammingCorrupto,bit, true);
+                dto.getBitsHammingCorrupto().set(i,true);
+                agregarTextoPanel(txtHammingCorrupto,bit, true,Color.RED);
             }else
                 agregarTextoPanel(txtHammingCorrupto,bit, false);
         }
@@ -461,6 +468,8 @@ public class GUI extends JFrame{
         
         btnGenerarHamming.setEnabled(false);
         btnVerHammingCorrupto.setEnabled(true);
+        
+        obtenerModeloCombo();
         cmbPosicion.setEnabled(true);
     }
 
@@ -468,6 +477,10 @@ public class GUI extends JFrame{
         dto.setBitsOriginales(new ArrayList<Boolean>());
         dto.setBitsHamming(new ArrayList<Boolean>());
         dto.setBitsHammingCorrupto(new ArrayList<Boolean>());
+    }
+    
+    private void mostrarMsj(String mensaje){
+        JOptionPane.showMessageDialog(null,mensaje,Globales.NOMBRE_APLICACION,JOptionPane.INFORMATION_MESSAGE);
     }
     
     private void salir(){
