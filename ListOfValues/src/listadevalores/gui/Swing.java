@@ -8,9 +8,6 @@ package listadevalores.gui;
  *
  */
 
-import herramientas.Conexion;
-import java.awt.BorderLayout;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -19,12 +16,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.Connection;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -110,16 +105,22 @@ public class Swing extends JFrame{
         });
     }
     
-    private void generarTabla(int registros){
-        String[] columnas = {"ID", "Descripcion",};
-        String matriz[][]=new String[registros][columnas.length];
+    private void generarTabla(){
+        ArrayList<String> listaCabeceras = obtenerCabeceras();
+        String[] cabeceras = listaCabeceras.toArray(new String[listaCabeceras.size()]);
+        
+        int campos = cabeceras.length;
+        int registros = lista.size();
+        String matriz[][]=new String[registros][campos];
         
         for(int i=0;i<registros;i++){
-            matriz[i][0]=String.valueOf(lista.get(i).getKey());
-            matriz[i][1]=lista.get(i).getValue();
+            matriz[i][ListaDeValores.LLAVE] = String.valueOf(lista.get(i).getLlave());
+            matriz[i][ListaDeValores.VALOR] = lista.get(i).getValor();
+            for(int campoExtra=2; campoExtra<campos; campoExtra++)
+                matriz[i][campoExtra] = lista.get(i).getRegistroExtra().get(campoExtra-2);
         }
         
-        modelo = new DefaultTableModel(matriz,columnas){
+        modelo = new DefaultTableModel(matriz,cabeceras){
             @Override
             public boolean isCellEditable(int fila, int columna) {
                     return false;
@@ -130,17 +131,17 @@ public class Swing extends JFrame{
             private static final long serialVersionUID = 1L;          
             private int anchoTabla;
             
-            @Override
-            public void paint(Graphics graficos) {                
-                /*Redimensionar las columnas*/
-                anchoTabla = getWidth();
-
-                int[] anchos = {porcentuar(15),porcentuar(85)};
-                for(int i=0;i<tabla.getColumnCount();i++)
-                    tabla.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
-                
-                super.paint(graficos);
-            }
+//            @Override
+//            public void paint(Graphics graficos) {                
+//                /*Redimensionar las columnas*/
+//                anchoTabla = getWidth();
+//
+//                int[] anchos = {porcentuar(15),porcentuar(85)};
+//                for(int i=0;i<tabla.getColumnCount();i++)
+//                    tabla.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+//                
+//                super.paint(graficos);
+//            }
             
             private int porcentuar(int numero){
                 return (numero*anchoTabla)/100;
@@ -159,21 +160,32 @@ public class Swing extends JFrame{
         this.add(scrollPane,"Center");
     }
     
+    private ArrayList<String> obtenerCabeceras(){
+        ArrayList<String> cabeceras = listaDeValores.getNombresColumnas();
+        int columnas = cabeceras.size();
+                
+        ArrayList<String> valores = new ArrayList<String>();
+        valores.add(cabeceras.get(ListaDeValores.LLAVE));
+        valores.add(cabeceras.get(ListaDeValores.VALOR));
+        
+        for(int campoExtra=2; campoExtra<columnas; campoExtra++)
+            valores.add(cabeceras.get(campoExtra));
+        
+        return valores;    
+    }
+    
     private void ejecutar(){
-        try{
-            Connection conexion = Conexion.getConexion();
-            listaDeValores = new ListaDeValores(elementos);
-            lista = listaDeValores.getResultado();
-            generarTabla(lista.size());
-        }catch(Exception e){}
+        listaDeValores = new ListaDeValores(elementos);
+        lista = listaDeValores.getResultado();
+        generarTabla();
     }
     
     private void aceptar(){
         int fila = tabla.getSelectedRow();
         LlaveValor resultado = listaDeValores.getResultado().get(fila);
         
-        cmpLlave.setText(String.valueOf(resultado.getKey()));
-        cmpDescripcion.setText(resultado.getValue());
+        cmpLlave.setText(String.valueOf(resultado.getLlave()));
+        cmpDescripcion.setText(resultado.getValor());
         
         salir();
     }

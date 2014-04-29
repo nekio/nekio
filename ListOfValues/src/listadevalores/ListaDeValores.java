@@ -14,8 +14,13 @@ import listadevalores.dao.Listado;
 import listadevalores.dto.LlaveValor;
 
 public class ListaDeValores{
+    public static final int LLAVE = 0;
+    public static final int VALOR = 1;
+    public static final int EXTRAS = 2;
+    
+    private ArrayList<String> nombresColumnas;
     private ArrayList<LlaveValor> resultado;
-    private Elementos elementos;    
+    private Elementos elementos;
     
     public ListaDeValores(){}
     
@@ -29,11 +34,16 @@ public class ListaDeValores{
         Listado listado = new Listado();
         try{
             resultado = listado.getLista(elementos);
+            nombresColumnas = listado.getNombresColumnas();
         }catch(Exception e){
             resultado = new ArrayList<LlaveValor>();
         }
     }
 
+    public ArrayList<String> getNombresColumnas() {
+        return nombresColumnas;
+    }
+    
     public ArrayList<LlaveValor> getResultado() {
         return resultado;
     }
