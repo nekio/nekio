@@ -9,11 +9,13 @@ package listadevalores.dto;
  */
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 public class Elementos {
     private Connection conexion;
     private String llave;
     private String valor;
+    private ArrayList<String> camposExtras;
     private String filtros;
     private String tabla;
     private boolean ordendoPorLlave;
@@ -40,6 +42,14 @@ public class Elementos {
 
     public void setValor(String valor) {
         this.valor = valor;
+    }
+    
+    public ArrayList<String> getCamposExtras() {
+        return camposExtras;
+    }
+
+    public void setCamposExtras(ArrayList<String> camposExtras) {
+        this.camposExtras = camposExtras;
     }
 
     public String getFiltros() {

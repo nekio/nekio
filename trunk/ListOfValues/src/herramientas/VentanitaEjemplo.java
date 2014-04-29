@@ -14,6 +14,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,6 +27,11 @@ public class VentanitaEjemplo extends JFrame{
     /*Valores de ejemplo para la obtencion de la lista de valores*/
     private String llave = "id_usuario";
     private String valor = "usuario";
+    private ArrayList<String> camposExtras = new ArrayList<String>(){{
+            add("nombre");
+            add("apellido_p");
+            add("apellido_m");
+    }};
     private String tabla = "usuario";
     private boolean ordenadoPorLlave = true;
     
@@ -122,6 +128,7 @@ public class VentanitaEjemplo extends JFrame{
             elementos.setConexion(Conexion.getConexion());
             elementos.setLlave(llave);
             elementos.setValor(valor);
+            //elementos.setCamposExtras(camposExtras);
             elementos.setTabla(tabla);
             elementos.setOrdendoPorLlave(ordenadoPorLlave);
             
