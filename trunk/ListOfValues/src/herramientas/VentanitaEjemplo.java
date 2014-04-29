@@ -8,10 +8,13 @@ package herramientas;
  *
  */
 
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -20,6 +23,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.text.JTextComponent;
 import listadevalores.gui.Swing;
 import listadevalores.dto.Elementos;
 
@@ -31,6 +35,7 @@ public class VentanitaEjemplo extends JFrame{
             add("nombre");
             add("apellido_p");
             add("apellido_m");
+            add("activo");
     }};
     private String tabla = "usuario";
     private boolean ordenadoPorLlave = true;
@@ -107,10 +112,16 @@ public class VentanitaEjemplo extends JFrame{
             } 
         });
         
-        btnListaValores.addActionListener(new ActionListener(){
-            public void actionPerformed( ActionEvent evt){
-                llamarListaDeValores();
-              }
+        btnListaValores.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent mouse){
+                int x=mouse.getXOnScreen();
+                int y=mouse.getYOnScreen();
+
+                Point punto = new Point(x,y);
+
+                llamarListaDeValores(punto);
+            }
         });
         
         addWindowListener( new WindowAdapter(){
@@ -121,18 +132,24 @@ public class VentanitaEjemplo extends JFrame{
         });
     }
     
-    private void llamarListaDeValores(){
+    private void llamarListaDeValores(Point punto){
         try{
             Elementos elementos = new Elementos();
 
             elementos.setConexion(Conexion.getConexion());
             elementos.setLlave(llave);
             elementos.setValor(valor);
-            //elementos.setCamposExtras(camposExtras);
+            elementos.setCamposExtras(camposExtras);
             elementos.setTabla(tabla);
             elementos.setOrdendoPorLlave(ordenadoPorLlave);
             
-            new Swing(elementos, txtCampoId, txtCampoDesc);
+            ArrayList<JTextComponent> componentesTxt = new ArrayList<JTextComponent>();
+            componentesTxt.add(txtCampoId);
+            componentesTxt.add(txtCampoDesc);
+            
+            String titulo = tabla;
+
+            new Swing(elementos, componentesTxt, titulo, punto);
         }catch(Exception e){
             System.out.println("Fallo en los valores de conexion a la BD");
         }
