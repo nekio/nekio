@@ -8,6 +8,7 @@ package listadevalores.gui;
  *
  */
 
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -42,19 +43,23 @@ public class Swing extends JFrame{
     private JButton btnAceptar;
     private JTable tabla;
     private DefaultTableModel modelo;
+    private ArrayList<JTextComponent> componentesTxt;
     
-    private JTextComponent cmpLlave;
-    private JTextComponent cmpDescripcion;
+    public Swing(Elementos elementos, ArrayList<JTextComponent> componentesTxt){
+        this(elementos, componentesTxt, null, null);
+    }
     
-    
-    public Swing(Elementos elementos, JTextComponent cmpLlave, JTextComponent cmpDescripcion){
-        super("Lista De Valores");
-        setSize(500,270);
-        setLocationRelativeTo(null);
+    public Swing(Elementos elementos, ArrayList<JTextComponent> componentesTxt, String titulo, Point ubicacion){
+        super("Lista De Valores "+titulo);
         
         this.elementos = elementos;
-        this.cmpLlave = cmpLlave;
-        this.cmpDescripcion = cmpDescripcion;
+        this.componentesTxt = componentesTxt;
+        
+        this.setSize(500,270);
+        if(ubicacion == null)
+            this.setLocationRelativeTo(null);
+        else
+            this.setLocation(ubicacion);
         
         agregarComponentes();
         agregarEscuchadores();
@@ -182,12 +187,17 @@ public class Swing extends JFrame{
     
     private void aceptar(){
         int fila = tabla.getSelectedRow();
-        LlaveValor resultado = listaDeValores.getResultado().get(fila);
         
-        cmpLlave.setText(String.valueOf(resultado.getLlave()));
-        cmpDescripcion.setText(resultado.getValor());
+        componentesTxt.get(ListaDeValores.LLAVE).setText(obtenRegistro(fila,ListaDeValores.LLAVE));
+        componentesTxt.get(ListaDeValores.VALOR).setText(obtenRegistro(fila,ListaDeValores.VALOR));
         
         salir();
+    }
+    
+    private String obtenRegistro(int fila, int columna){
+        String registro = String.valueOf(tabla.getValueAt(fila, columna));
+        
+        return registro;
     }
     
     private void salir(){

@@ -54,8 +54,6 @@ public class Listado {
                 "FROM   " + tabla + " " +
                 "WHERE  " + filtros + " " +
                 "ORDER BY " + campo;
-        
-        System.out.println(query);
 
         ArrayList<LlaveValor> lista;
         try {
