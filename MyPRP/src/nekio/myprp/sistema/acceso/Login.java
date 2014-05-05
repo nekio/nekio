@@ -6,6 +6,7 @@ package nekio.myprp.sistema.acceso;
  */
 
 import java.util.ArrayList;
+import nekio.myprp.recursos.utilerias.plantillas.DTO;
 import nekio.myprp.sistema.acceso.dao.UsuarioDAO;
 import nekio.myprp.sistema.acceso.dto.UsuarioDTO;
 
@@ -34,9 +35,11 @@ public class Login {
     public boolean validar(){
         boolean valido = false;
         UsuarioDAO dao = new UsuarioDAO();
-        ArrayList<UsuarioDTO> usuarios = dao.leerUsuarios(); 
+        ArrayList<DTO> usuarios = dao.leer(null); 
          
-         for(UsuarioDTO usuario:usuarios){
+        UsuarioDTO usuario;
+         for(DTO dto:usuarios){
+              usuario = (UsuarioDTO) dto;
              usuarioValido = validarUsuario(usuario.getUsuario());
             if(isUsuarioValido()){
                 passwordValido = validarPassword(usuario.getPassword());
@@ -44,6 +47,9 @@ public class Login {
                     accesoValido = usuario.isActivo();  
                     if(accesoValido)
                         valido = true;
+                    
+                    idUsuario = usuario.getIdUsuario();
+                    break;
                 }
             }
          }

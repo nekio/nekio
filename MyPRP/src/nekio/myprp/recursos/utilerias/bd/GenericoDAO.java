@@ -9,19 +9,18 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import nekio.myprp.recursos.utilerias.Globales;
-import nekio.myprp.recursos.utilerias.bd.BDConexion;
 
-public class DAO {
-    public ArrayList<DTO> leer(){
+public class GenericoDAO {
+    public ArrayList<GenericoDTO> leer(){
         return leer("", "");
     }
     
-    public ArrayList<DTO> leer(String select, String from){
+    public ArrayList<GenericoDTO> leer(String select, String from){
         return leer(select, from, null, null, null);
     }
     
-    public ArrayList<DTO> leer(String select, String from, String where, String orderBy, String groupBy){
-        ArrayList<DTO> listaDTO = null;
+    public ArrayList<GenericoDTO> leer(String select, String from, String where, String orderBy, String groupBy){
+        ArrayList<GenericoDTO> listaDTO = null;
         
         String consulta = 
                 "SELECT " + select + "\n" +
@@ -43,12 +42,12 @@ public class DAO {
             
             int columnas = resultados.getMetaData().getColumnCount();
             
-            listaDTO = new ArrayList<DTO>();
-            DTO dto = null;
+            listaDTO = new ArrayList<GenericoDTO>();
+            GenericoDTO dto = null;
             List<Object> campoDTO = null;
             
             while(resultados.next()){
-                dto = new DTO();
+                dto = new GenericoDTO();
                 
                 campoDTO = new ArrayList<Object>();
                 for(int columna=0; columna < columnas; columna++)
