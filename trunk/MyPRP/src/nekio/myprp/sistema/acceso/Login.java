@@ -50,7 +50,8 @@ public class Login {
                     
                     idUsuario = usuario.getIdUsuario();
                     break;
-                }
+                }else
+                    break;
             }
          }
          

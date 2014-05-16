@@ -18,6 +18,34 @@ public class UsuarioDAO extends DAO{
             "id_usuario, id_tipo_usuario, nombre, " + 
             "apellido_p, apellido_m, contacto, " + 
             "usuario, password, activo \n";
+    
+    private int idTipoUsuario;
+    private String nombre;
+    private String apellidoP;
+    private String apellidoM;
+    private String contacto;
+    private String usuario;
+    private String password;
+    private int activo;
+    
+    @Override
+    public void asignarParametros(ArrayList parametros) {
+        idTipoUsuario = Integer.valueOf(String.valueOf(parametros.get(0)));
+        nombre = String.valueOf(parametros.get(1));
+        apellidoP = String.valueOf(parametros.get(2));
+        apellidoM = String.valueOf(parametros.get(3));
+        contacto = String.valueOf(parametros.get(4));
+        usuario = String.valueOf(parametros.get(5));
+        password = String.valueOf(parametros.get(6));
+        activo = Integer.valueOf(String.valueOf(parametros.get(7)));
+        
+        if(Globales.APP_DEBUG){
+            System.out.println("\nParametros ingresados");
+            for(Object parametro:parametros)
+                System.out.println(parametro);
+        }
+    }
+    
     @Override
     public ArrayList<DTO> leer(String where){
         return leer(TODOS_CAMPOS, where, null, null);
@@ -68,11 +96,11 @@ public class UsuarioDAO extends DAO{
         return lista;
     }
     
-    public UsuarioDTO leerUno(String where){
+    public DTO leerUno(String where){
         return leerUno(TODOS_CAMPOS, where, null, null);
     }
     
-    public UsuarioDTO leerUno(String select, String where, String orderBy, String groupBy){
+    public DTO leerUno(String select, String where, String orderBy, String groupBy){
         UsuarioDTO dto = null;
         
         String consulta = 
@@ -108,7 +136,7 @@ public class UsuarioDAO extends DAO{
             
             BDConexion.cerrar();
         }catch(Exception e){
-            System.out.println("Error en Leer Usuarios: " + e);
+            System.out.println("Error en Leer un Usuario: " + e);
         }
         
         return dto;

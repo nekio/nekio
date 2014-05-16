@@ -10,8 +10,8 @@ import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.Mapeador;
 
 public abstract class Gestor {
-    public ObjetoNegocio objetoNegocio;
-    private ArrayList<String> parametros;
+    protected ObjetoNegocio objetoNegocio;
+    protected ArrayList parametros;
     
     public abstract void ejecutarControladorNegocio(String negocio);
     public abstract String obtenerResultado(ObjetoNegocio objetoNegocio,int metodo);
@@ -30,16 +30,20 @@ public abstract class Gestor {
         }
     }
     
-    public ArrayList<String> getParametros() {
+    public ArrayList<Object> getParametros() {
         return parametros;
     }
     
     public void setParametros(Object ... parametros) {
-        ArrayList<String> listaParametros = new ArrayList<String>();
+        ArrayList<Object> listaParametros = new ArrayList<Object>();
         
         for(Object parametro:parametros)
-            listaParametros.add(String.valueOf(parametro));
+            listaParametros.add(parametro);
         
         this.parametros = listaParametros;
+    }
+
+    public ObjetoNegocio getObjetoNegocio() {
+        return objetoNegocio;
     }
 }

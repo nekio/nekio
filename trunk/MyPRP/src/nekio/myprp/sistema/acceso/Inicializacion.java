@@ -1,5 +1,7 @@
 package nekio.myprp.sistema.acceso;
 
+import java.util.ArrayList;
+import nekio.myprp.recursos.img.obj.GestorImagen;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.bd.BDConexion;
 import nekio.myprp.recursos.utilerias.Idioma;
@@ -9,15 +11,23 @@ import nekio.myprp.recursos.utilerias.Idioma;
  * @author Nekio
  */
 public class Inicializacion {
+    private String usuario;
+    private String password;
     
     public Inicializacion(){
-        this(1, null);
+        this(null, null);
     }
     
-    public Inicializacion(int idioma, String usuario){
+    public Inicializacion(String usuario, String password){
+        this(1, usuario, password);
+    }
+    
+    public Inicializacion(int idioma, String usuario, String password){
+        this.usuario = usuario;
+        this.password = password;
+        
         Idioma.IDIOMA_DEFINIDO = idioma;
         conectarBD();
-        loggear("usuario_02", "password_02");
     }
     
     private void conectarBD(){
@@ -33,20 +43,23 @@ public class Inicializacion {
         );
     }
     
-    private void loggear(String usuario, String password){        
+    public String loggear(){        
+        GestorAcceso gestor = new GestorAcceso();
+        String mensaje = null;
+        
         if(usuario == null){
-            usuario = Idioma.obtenerTexto(Idioma.PROP_ACC_USR_ANONIMO, "usuario");
-            password = Idioma.obtenerTexto(Idioma.PROP_ACC_USR_ANONIMO, "password");
+            setUsuario(Idioma.obtenerTexto(Idioma.PROP_ACC_USR_ANONIMO, "usuario"));
+            setPassword(Idioma.obtenerTexto(Idioma.PROP_ACC_USR_ANONIMO, "password"));
         }
         
         Login login = new Login(usuario,password);
-        if(login.validar()){
-            GestorAcceso gestor = new GestorAcceso();
-            
+        if(login.validar()){            
             gestor.setParametros(login.getIdUsuario());
             gestor.ejecutarControladorNegocio("leerUsuario");
+            
+            mensaje = "Bienvenido "+login.getUsuarioIngresado();
         }else{
-            String mensaje = "\nEl login fue rechazado por el siguiente motivo:\n";
+            mensaje = "\nEl login fue rechazado por el siguiente motivo:\n";
             
             if(!login.isUsuarioValido())
                 mensaje += "   Usuario No valido\n";
@@ -55,8 +68,33 @@ public class Inicializacion {
             else if(!login.isAccesoValido())
                 mensaje += "   Usuario Inactivo\n";
             
-            if(Globales.APP_DEBUG)
-                System.out.println(mensaje);
+            gestor.ejecutarControladorNegocio("login");
         }
+        
+        return mensaje;
+    }
+    
+    public String probarImagen(){        
+        GestorImagen gestor = new GestorImagen();
+        String mensaje = null;
+                
+        ArrayList parametros = new ArrayList();
+        parametros.add("C:\\Users\\SITI\\Pictures\\vegeta.png");
+        parametros.add("Prueba");
+        parametros.add("Esta imagen es una prueba");
+        gestor.setParametros(parametros);
+        gestor.ejecutarControladorNegocio("agregarImagen");
+
+        mensaje = "Prueba de imagen finalizada ";
+        
+        return mensaje;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+    
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
