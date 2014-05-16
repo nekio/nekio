@@ -58,8 +58,12 @@ public class BDConexion {
                 url = "jdbc:microsoft:sqlserver://" + host + ":" + puerto + "[;DatabaseName=" + db + "]";
             break;
             case MY_SQL:
-                driver = "com.mysql.jdbc.Driver"; //puerto 3306
-                url = "jdbc:mysql://" + host + "/" + db;
+                String relax = "?autoReconnect=true&relaxAutoCommit=true";
+                if (puerto == null || puerto.isEmpty() || puerto.equals(""))
+                    puerto = "3306";
+                driver = "com.mysql.jdbc.Driver";
+                url = "jdbc:mysql://" + host + ":" + puerto + "/" + db + relax;
+                //url = "jdbc:mysql://" + host + "/" + db;
             break;
             case POSTGRE_SQL:
                 if (puerto == null || puerto.isEmpty() || puerto.equals(""))

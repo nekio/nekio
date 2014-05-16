@@ -8,6 +8,8 @@ package nekio.myprp.recursos.utilerias.plantillas;
 import java.util.ArrayList;
 
 public abstract class DAO {
+    public abstract void asignarParametros(ArrayList parametros);
+    
     public abstract ArrayList<DTO> leer(String where);   
     public abstract int agregar();
     public abstract int eliminar();

@@ -28,13 +28,14 @@ public class Globales {
     
     // <editor-fold defaultstate="collapsed" desc="Valores de Modulos">  
     public static final int MOD_ACCESO = 0;
-    public static final int MOD_ACADEMICO = 1;
-    public static final int MOD_DEPORTES = 2;
-    public static final int MOD_ESPIRITUAL = 3;
-    public static final int MOD_FINANCIERO = 4;
-    public static final int MOD_LABORAL = 5;
-    public static final int MOD_SALUD = 6;
-    public static final int MOD_SOCIAL = 7;
+    public static final int MOD_IMAGEN = 1;
+    public static final int MOD_ACADEMICO = 2;
+    public static final int MOD_DEPORTES = 3;
+    public static final int MOD_ESPIRITUAL = 4;
+    public static final int MOD_FINANCIERO = 5;
+    public static final int MOD_LABORAL = 6;
+    public static final int MOD_SALUD = 7;
+    public static final int MOD_SOCIAL = 8;
     // </editor-fold>
         
     // <editor-fold defaultstate="collapsed" desc="Rutas de archivos">
@@ -45,12 +46,12 @@ public class Globales {
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Conexion a la BD">  
-    public static final Gestor BD_GESTOR    = Gestor.JAVA_DERBY;
-    public static final String BD_USUARIO   = "sma";
-    public static final String BD_PASSWORD  = "admin";
+    public static final Gestor BD_GESTOR    = Gestor.MY_SQL;
+    public static final String BD_USUARIO   = "lania";
+    public static final String BD_PASSWORD  = "lania";
     public static final String BD_HOST      = "localhost";
-    public static final String BD_PUERTO    = "1527";
-    public static final String BD_ESQUEMA   = "lania";
+    public static final String BD_PUERTO    = "3306";
+    public static final String BD_ESQUEMA   = "catalogador_series"; //Database
     public static final int BD_MAX_ACTIVOS  = 20;
     public static final int BD_MAX_IDLE     = 2;
     // </editor-fold>

@@ -1,4 +1,4 @@
-package nekio.myprp.sistema.acceso;
+package nekio.myprp.recursos.img.obj;
 
 /**
  *
@@ -8,10 +8,9 @@ package nekio.myprp.sistema.acceso;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.plantillas.Gestor;
 import nekio.myprp.recursos.utilerias.plantillas.ObjetoNegocio;
-import nekio.myprp.sistema.acceso.negocio.Usuario;
 
-public class GestorAcceso extends Gestor{
-    private final Usuario OBJ_USUARIO = new Usuario();
+public class GestorImagen extends Gestor{
+private final Imagen OBJ_IMAGEN = new Imagen();
     
     @Override
     public void ejecutarControladorNegocio(String negocio){
@@ -20,30 +19,20 @@ public class GestorAcceso extends Gestor{
         
         String resultado = null;
         String pagina = null;
-        int modulo = 0;
+        int modulo = Globales.MOD_IMAGEN;
         
-        /* ACCIONES BASICAS */
-        modulo = Globales.MOD_ACCESO;
-        if(negocio.equals(Globales.ACC_LOGIN)){
-            resultado = Globales.RES_OK;
-            pagina = "login";
-        }else if(negocio.equals(Globales.RES_OK)){
-            resultado = Globales.RES_OK;
-            pagina = "blank";
-        }
-        
-        /* ACCIONES DE USUARIO */
-        else if(negocio.equals("agregarUsuario")){
-            resultado = obtenerResultado(OBJ_USUARIO, Globales.BD.AGREGAR.getLlave());
-        }else if(negocio.equals("buscarUsuario")){
-            resultado = obtenerResultado(OBJ_USUARIO, Globales.BD.BUSCAR.getLlave());
-        }else if(negocio.equals("eliminarUsuario")){
-            resultado = obtenerResultado(OBJ_USUARIO, Globales.BD.ELIMINAR.getLlave());
-        }else if(negocio.equals("leerUsuario")){
-            resultado = obtenerResultado(OBJ_USUARIO, Globales.BD.LEER.getLlave());
-            pagina = "bienvenida";
-        }else if(negocio.equals("modificarUsuario")){
-            resultado = obtenerResultado(OBJ_USUARIO, Globales.BD.MODIFICAR.getLlave());
+        /* ACCIONES DE IMAGEN */
+        if(negocio.equals("agregarImagen")){
+            resultado = obtenerResultado(OBJ_IMAGEN, Globales.BD.AGREGAR.getLlave());
+        }else if(negocio.equals("buscarImagen")){
+            resultado = obtenerResultado(OBJ_IMAGEN, Globales.BD.BUSCAR.getLlave());
+        }else if(negocio.equals("eliminarImagen")){
+            resultado = obtenerResultado(OBJ_IMAGEN, Globales.BD.ELIMINAR.getLlave());
+        }else if(negocio.equals("leerImagen")){
+            resultado = obtenerResultado(OBJ_IMAGEN, Globales.BD.LEER.getLlave());
+            pagina = "mostrarImagen";
+        }else if(negocio.equals("modificarImagen")){
+            resultado = obtenerResultado(OBJ_IMAGEN, Globales.BD.MODIFICAR.getLlave());
         }
         
         /* ERROR DE ACCION*/
@@ -62,8 +51,8 @@ public class GestorAcceso extends Gestor{
     public String obtenerResultado(ObjetoNegocio objetoNegocio,int metodo){
         String resultado = null;
         
-        if(objetoNegocio instanceof Usuario)
-            this.objetoNegocio = (Usuario) objetoNegocio;
+        if(objetoNegocio instanceof Imagen)
+            this.objetoNegocio = (Imagen) objetoNegocio;
         
         if(metodo == Globales.BD.AGREGAR.getLlave() || metodo == Globales.BD.ELIMINAR.getLlave() || metodo == Globales.BD.MODIFICAR.getLlave())
             resultado = this.objetoNegocio.ejecutar(metodo, this, parametros);
@@ -75,3 +64,4 @@ public class GestorAcceso extends Gestor{
         return resultado;
     }
 }
+
