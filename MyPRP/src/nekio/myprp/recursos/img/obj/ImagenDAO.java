@@ -1,5 +1,6 @@
 package nekio.myprp.recursos.img.obj;
 
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -11,6 +12,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import nekio.myprp.recursos.herramientas.ImagenEnvoltorio;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.bd.BDConexion;
 import nekio.myprp.recursos.utilerias.plantillas.DAO;
@@ -23,6 +25,7 @@ import nekio.myprp.recursos.utilerias.plantillas.DTO;
 public class ImagenDAO extends DAO{
     private final String TABLA = "imagen";
     private final String TODOS_CAMPOS = "id_imagen, imagen, nombre, descripcion \n";
+    private final Dimension DIMENSION = new Dimension(120, 120);
     
     private String rutaImagen;
     private String nombre;
@@ -151,14 +154,17 @@ public class ImagenDAO extends DAO{
         int resultado = 1;
         
         FileInputStream imagen = null;
-        String procedimiento = "{ call " + Globales.BD_ESQUEMA + ".insertar_" + TABLA + "(?, ?, ?) }";
+        
+        String procedimiento = super.obtenerProcedimiento(Globales.BD_ESQUEMA, INSERTAR, TABLA, 3);
         
         if(Globales.APP_DEBUG)
             System.out.println("\n" + procedimiento + " : " + rutaImagen);
 
         try{
             Connection conexion = BDConexion.getConnection();
-            File archivo = new File(rutaImagen);
+            
+            String rutaTemporal = ImagenEnvoltorio.crearImagenTemporal(DIMENSION, rutaImagen);
+            File archivo = new File(rutaTemporal);
             imagen = new FileInputStream(archivo);
                 
             CallableStatement procInsertarImagen = conexion.prepareCall(procedimiento);
@@ -169,6 +175,9 @@ public class ImagenDAO extends DAO{
 
             conexion.commit();
             BDConexion.cerrar();
+            
+            if(!ImagenEnvoltorio.eliminarImagenTemporal())
+                System.out.println("No fue eliminada la imagen temporal");
             
             resultado = 0;
         }catch(Exception e){

@@ -83,8 +83,8 @@ public class Inicializacion {
                 
         ArrayList parametros = new ArrayList();
         parametros.add("C:\\Users\\SITI\\Pictures\\vegeta.png");
-        parametros.add("Prueba");
-        parametros.add("Esta imagen es una prueba");
+        parametros.add("Prueba temporal");
+        parametros.add("Esta imagen temporal es una prueba");
         gestor.setParametros(parametros);
         
         gestor.ejecutarControladorNegocio(Globales.BD.AGREGAR.getValor(), entidad1);

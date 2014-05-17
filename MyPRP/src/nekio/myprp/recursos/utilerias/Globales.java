@@ -12,6 +12,7 @@ public class Globales {
     
     // <editor-fold defaultstate="collapsed" desc="Datos del Software">  
     public static final String NOMBRE_APP       = "MyPRP";
+    public static final String SIGLAS_APP       = "myprp";
     public static final String TITULO_APP       = "My Personal Resource Planning";
     public static final String DEVELOPER        = "Nekio";
     public static final String CONTACTO         = "nekio@outlook.com";
@@ -39,7 +40,7 @@ public class Globales {
     // </editor-fold>
         
     // <editor-fold defaultstate="collapsed" desc="Rutas de archivos">
-    public static final String RUTA_BASE    = "/nekio/myprp";
+    public static final String RUTA_BASE    = "/nekio/" + SIGLAS_APP;
     public static final String RECURSOS     = RUTA_BASE+"/recursos";
     public static final String IMG          = RECURSOS+"/img/";
     public static final String VALORES      = RECURSOS+"/valores";
