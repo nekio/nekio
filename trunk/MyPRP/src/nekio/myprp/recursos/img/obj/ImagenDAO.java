@@ -21,6 +21,7 @@ import nekio.myprp.recursos.utilerias.plantillas.DTO;
  * @author Nekio
  */
 public class ImagenDAO extends DAO{
+    private final String TABLA = "imagen";
     private final String TODOS_CAMPOS = "id_imagen, imagen, nombre, descripcion \n";
     
     private String rutaImagen;
@@ -50,7 +51,7 @@ public class ImagenDAO extends DAO{
         ArrayList<DTO> lista = new ArrayList<DTO>();
         String consulta = 
                 "SELECT " + select +
-                "FROM imagen \n" +
+                "FROM " + Globales.BD_ESQUEMA + "." + TABLA + " \n" +
                 "WHERE 1=1\n";
         
         if(where != null)
@@ -89,7 +90,7 @@ public class ImagenDAO extends DAO{
             
             BDConexion.cerrar();
         }catch(Exception e){
-            System.out.println("Error al leer Imagenes: " + e);
+            System.out.println("Error al leer registros de " + Globales.BD_ESQUEMA + "." + TABLA + ": " + e);
         }
         
         return lista;
@@ -104,7 +105,7 @@ public class ImagenDAO extends DAO{
         
         String consulta = 
                 "SELECT " + select +
-                "FROM imagen \n" +
+                "FROM " + Globales.BD_ESQUEMA + "." + TABLA + " \n" +
                 "WHERE 1=1\n";
         
         if(where != null)
@@ -139,7 +140,7 @@ public class ImagenDAO extends DAO{
             
             BDConexion.cerrar();
         }catch(Exception e){
-            System.out.println("Error al leer una Imagene: " + e);
+            System.out.println("Error al leer un registro de " + Globales.BD_ESQUEMA + "." + TABLA + ": " + e);
         }
         
         return dto;
@@ -147,10 +148,10 @@ public class ImagenDAO extends DAO{
     
     @Override
     public int agregar(){
-        int resultado = 0;
+        int resultado = 1;
         
         FileInputStream imagen = null;
-        String procedimiento = "{ call catalogador_series.insertar_imagen(?, ?, ?) }";
+        String procedimiento = "{ call " + Globales.BD_ESQUEMA + ".insertar_" + TABLA + "(?, ?, ?) }";
         
         if(Globales.APP_DEBUG)
             System.out.println("\n" + procedimiento + " : " + rutaImagen);
@@ -169,9 +170,9 @@ public class ImagenDAO extends DAO{
             conexion.commit();
             BDConexion.cerrar();
             
-            resultado = 1;
+            resultado = 0;
         }catch(Exception e){
-            System.out.println("No se pudo insertar la imagen\n"+e);
+            System.out.println("No se pudo insertar en la tabla " + Globales.BD_ESQUEMA + "." + TABLA + "\n"+e);
         }
 
         return resultado;

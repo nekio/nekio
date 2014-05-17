@@ -14,6 +14,7 @@ import nekio.myprp.recursos.utilerias.plantillas.DTO;
 import nekio.myprp.sistema.acceso.dto.UsuarioDTO;
 
 public class UsuarioDAO extends DAO{
+    private final String TABLA = "usuario";
     private final String TODOS_CAMPOS = 
             "id_usuario, id_tipo_usuario, nombre, " + 
             "apellido_p, apellido_m, contacto, " + 
@@ -55,7 +56,7 @@ public class UsuarioDAO extends DAO{
         ArrayList<DTO> lista = new ArrayList<DTO>();
         String consulta = 
                 "SELECT " + select +
-                "FROM usuario \n" +
+                "FROM " + Globales.BD_ESQUEMA + "." + TABLA + " \n" +
                 "WHERE 1=1\n";
         
         if(where != null)
@@ -90,7 +91,7 @@ public class UsuarioDAO extends DAO{
             
             BDConexion.cerrar();
         }catch(Exception e){
-            System.out.println("Error en Leer Usuarios: " + e);
+            System.out.println("Error al leer registros de " + Globales.BD_ESQUEMA + "." + TABLA + ": " + e);
         }
         
         return lista;
@@ -105,7 +106,7 @@ public class UsuarioDAO extends DAO{
         
         String consulta = 
                 "SELECT " + select +
-                "FROM usuario \n" +
+                "FROM " + Globales.BD_ESQUEMA + "." + TABLA + " \n" +
                 "WHERE 1=1\n";
         
         if(where != null)
@@ -136,7 +137,7 @@ public class UsuarioDAO extends DAO{
             
             BDConexion.cerrar();
         }catch(Exception e){
-            System.out.println("Error en Leer un Usuario: " + e);
+            System.out.println("Error al leer un registro de " + Globales.BD_ESQUEMA + "." + TABLA + ": " + e);
         }
         
         return dto;

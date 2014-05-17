@@ -60,18 +60,20 @@ public class Globales {
     
     // Acciones de la Base de Datos
     public static enum BD{
-        AGREGAR(1,"agregar"),
-        BUSCAR(2,"buscar"),
-        ELIMINAR(3,"eliminar"),
-        LEER(4,"leer"),
-        MODIFICAR(5,"modificar");
+        AGREGAR(1,"agregar","mostrarInsertado"),
+        BUSCAR(2,"buscar","mostratResultadoFiltrado"),
+        ELIMINAR(3,"eliminar","mostrarSinEliminado"),
+        LEER(4,"leer","mostrarResultado"),
+        MODIFICAR(5,"modificar","abrirEdicion");
         
         private int llave;
         private String valor;
+        private String pagina;
 
-        private BD(int llave, String valor){
+        private BD(int llave, String valor, String pagina){
             this.llave = llave;
             this.valor = valor;
+            this.pagina = pagina;
         }
 
         public int getLlave() {
@@ -80,6 +82,10 @@ public class Globales {
 
         public String getValor() {
             return valor;
+        }
+        
+        public String getPagina() {
+            return pagina;
         }
     };
     
@@ -90,7 +96,7 @@ public class Globales {
     public static final String RES_ERROR    = "error";
     
     // Acciones de Negocio
-    public static final String ACC_LOGIN    = "login";
+    public static final String ACC_LOGIN    = "loginUsuario";
     public static final String ACC_SALIR    = "salir";
     // </editor-fold>
     

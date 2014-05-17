@@ -10,41 +10,10 @@ import nekio.myprp.recursos.utilerias.plantillas.Gestor;
 import nekio.myprp.recursos.utilerias.plantillas.ObjetoNegocio;
 
 public class GestorImagen extends Gestor{
-private final Imagen OBJ_IMAGEN = new Imagen();
-    
-    @Override
-    public void ejecutarControladorNegocio(String negocio){
-        if(Globales.APP_DEBUG)
-            System.out.println("\nEjecutando negocio: " + negocio);
-        
-        String resultado = null;
-        String pagina = null;
-        int modulo = Globales.MOD_IMAGEN;
-        
-        /* ACCIONES DE IMAGEN */
-        if(negocio.equals("agregarImagen")){
-            resultado = obtenerResultado(OBJ_IMAGEN, Globales.BD.AGREGAR.getLlave());
-        }else if(negocio.equals("buscarImagen")){
-            resultado = obtenerResultado(OBJ_IMAGEN, Globales.BD.BUSCAR.getLlave());
-        }else if(negocio.equals("eliminarImagen")){
-            resultado = obtenerResultado(OBJ_IMAGEN, Globales.BD.ELIMINAR.getLlave());
-        }else if(negocio.equals("leerImagen")){
-            resultado = obtenerResultado(OBJ_IMAGEN, Globales.BD.LEER.getLlave());
-            pagina = "mostrarImagen";
-        }else if(negocio.equals("modificarImagen")){
-            resultado = obtenerResultado(OBJ_IMAGEN, Globales.BD.MODIFICAR.getLlave());
-        }
-        
-        /* ERROR DE ACCION*/
-        else{
-            resultado = Globales.RES_ERROR;
-            pagina = null;
-        }
-        
-        if(Globales.APP_DEBUG)
-            System.out.println("\nResultado de [" + negocio +"]: [" + resultado + "] Dirige a: [" + pagina + "]");
-        
-        dirigir(modulo, pagina, resultado);
+private final Imagen OBJETO_NEGOCIO = new Imagen();
+
+    public void ejecutarControladorNegocio(String accion, String entidad){
+        super.ejecutarControladorNegocio(OBJETO_NEGOCIO, accion, entidad);
     }
     
     @Override
