@@ -11,6 +11,8 @@ import nekio.myprp.recursos.utilerias.Idioma;
  * @author Nekio
  */
 public class Inicializacion {
+    private final String entidad = "Usuario";
+    
     private String usuario;
     private String password;
     
@@ -55,7 +57,7 @@ public class Inicializacion {
         Login login = new Login(usuario,password);
         if(login.validar()){            
             gestor.setParametros(login.getIdUsuario());
-            gestor.ejecutarControladorNegocio("leerUsuario");
+            gestor.ejecutarControladorNegocio(Globales.BD.LEER.getValor(), entidad);
             
             mensaje = "Bienvenido "+login.getUsuarioIngresado();
         }else{
@@ -68,13 +70,14 @@ public class Inicializacion {
             else if(!login.isAccesoValido())
                 mensaje += "   Usuario Inactivo\n";
             
-            gestor.ejecutarControladorNegocio("login");
+            gestor.ejecutarControladorNegocio("login",entidad);
         }
         
         return mensaje;
     }
     
-    public String probarImagen(){        
+    public String probarImagen(){ 
+        String entidad1 = "Imagen";
         GestorImagen gestor = new GestorImagen();
         String mensaje = null;
                 
@@ -83,7 +86,8 @@ public class Inicializacion {
         parametros.add("Prueba");
         parametros.add("Esta imagen es una prueba");
         gestor.setParametros(parametros);
-        gestor.ejecutarControladorNegocio("agregarImagen");
+        
+        gestor.ejecutarControladorNegocio(Globales.BD.AGREGAR.getValor(), entidad1);
 
         mensaje = "Prueba de imagen finalizada ";
         

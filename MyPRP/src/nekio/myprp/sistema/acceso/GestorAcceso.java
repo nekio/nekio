@@ -13,16 +13,17 @@ import nekio.myprp.sistema.acceso.negocio.Usuario;
 public class GestorAcceso extends Gestor{
     private final Usuario OBJ_USUARIO = new Usuario();
     
-    @Override
-    public void ejecutarControladorNegocio(String negocio){
+    public void ejecutarControladorNegocio(String accion, String entidad){
+        String negocio = accion + entidad;
+        
         if(Globales.APP_DEBUG)
-            System.out.println("\nEjecutando negocio: " + negocio);
+            System.out.println("\nEjecutando negocio de Acceso: " + negocio);
         
         String resultado = null;
         String pagina = null;
         int modulo = 0;
         
-        /* ACCIONES BASICAS */
+        /* ACCIONES ESPECIALES DE LOGIN */
         modulo = Globales.MOD_ACCESO;
         if(negocio.equals(Globales.ACC_LOGIN)){
             resultado = Globales.RES_OK;
@@ -30,26 +31,9 @@ public class GestorAcceso extends Gestor{
         }else if(negocio.equals(Globales.RES_OK)){
             resultado = Globales.RES_OK;
             pagina = "blank";
-        }
-        
-        /* ACCIONES DE USUARIO */
-        else if(negocio.equals("agregarUsuario")){
-            resultado = obtenerResultado(OBJ_USUARIO, Globales.BD.AGREGAR.getLlave());
-        }else if(negocio.equals("buscarUsuario")){
-            resultado = obtenerResultado(OBJ_USUARIO, Globales.BD.BUSCAR.getLlave());
-        }else if(negocio.equals("eliminarUsuario")){
-            resultado = obtenerResultado(OBJ_USUARIO, Globales.BD.ELIMINAR.getLlave());
-        }else if(negocio.equals("leerUsuario")){
-            resultado = obtenerResultado(OBJ_USUARIO, Globales.BD.LEER.getLlave());
-            pagina = "bienvenida";
-        }else if(negocio.equals("modificarUsuario")){
-            resultado = obtenerResultado(OBJ_USUARIO, Globales.BD.MODIFICAR.getLlave());
-        }
-        
-        /* ERROR DE ACCION*/
-        else{
-            resultado = Globales.RES_ERROR;
-            pagina = null;
+        }else{
+            super.ejecutarControladorNegocio(OBJ_USUARIO, accion, entidad);
+            return; //Si accede al metodo de la clase padre, no debe continuar el flujo de este metodo hijo
         }
         
         if(Globales.APP_DEBUG)
