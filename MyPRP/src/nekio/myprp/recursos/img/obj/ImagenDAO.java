@@ -25,7 +25,8 @@ import nekio.myprp.recursos.utilerias.plantillas.DTO;
 public class ImagenDAO extends DAO{
     private final String TABLA = "imagen";
     private final String TODOS_CAMPOS = "id_imagen, imagen, nombre, descripcion \n";
-    private final Dimension DIMENSION = new Dimension(120, 120);
+    private final int ANCHO = 80;
+    private final int ALTO = 80;
     
     private String rutaImagen;
     private String nombre;
@@ -163,7 +164,7 @@ public class ImagenDAO extends DAO{
         try{
             Connection conexion = BDConexion.getConnection();
             
-            String rutaTemporal = ImagenEnvoltorio.crearImagenTemporal(DIMENSION, rutaImagen);
+            String rutaTemporal = ImagenEnvoltorio.crearImagenTemporal(ANCHO, ALTO, rutaImagen);
             File archivo = new File(rutaTemporal);
             imagen = new FileInputStream(archivo);
                 
@@ -176,8 +177,12 @@ public class ImagenDAO extends DAO{
             conexion.commit();
             BDConexion.cerrar();
             
-            if(!ImagenEnvoltorio.eliminarImagenTemporal())
-                System.out.println("No fue eliminada la imagen temporal");
+            if(Globales.APP_DEBUG){
+                if(ImagenEnvoltorio.eliminarImagenTemporal())
+                    System.out.println("Imagen temporal eliminada satisfactoriamente");
+                else
+                    System.out.println("No fue eliminada la imagen temporal");
+            }
             
             resultado = 0;
         }catch(Exception e){
