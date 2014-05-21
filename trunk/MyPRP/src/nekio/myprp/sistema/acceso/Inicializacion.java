@@ -75,24 +75,6 @@ public class Inicializacion {
         
         return mensaje;
     }
-    
-    public String probarImagen(){ 
-        String entidad1 = "Imagen";
-        GestorImagen gestor = new GestorImagen();
-        String mensaje = null;
-                
-        ArrayList parametros = new ArrayList();
-        parametros.add("C:\\Users\\SITI\\Pictures\\fotos\\DSC00027.JPG");
-        parametros.add("Prueba temporal");
-        parametros.add("una imagen mas");
-        gestor.setParametros(parametros);
-        
-        gestor.ejecutarControladorNegocio(Globales.BD.AGREGAR.getValor(), entidad1);
-
-        mensaje = "Prueba de imagen finalizada ";
-        
-        return mensaje;
-    }
 
     public void setUsuario(String usuario) {
         this.usuario = usuario;

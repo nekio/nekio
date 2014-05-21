@@ -10,7 +10,7 @@ import nekio.myprp.recursos.utilerias.plantillas.Gestor;
 import nekio.myprp.recursos.utilerias.plantillas.ObjetoNegocio;
 
 public class GestorImagen extends Gestor{
-private final Imagen OBJETO_NEGOCIO = new Imagen();
+    private final Imagen OBJETO_NEGOCIO = new Imagen();
 
     public void ejecutarControladorNegocio(String accion, String entidad){
         super.ejecutarControladorNegocio(OBJETO_NEGOCIO, accion, entidad);

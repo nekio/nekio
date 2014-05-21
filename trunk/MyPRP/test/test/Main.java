@@ -1,5 +1,6 @@
 package test;
 
+import nekio.myprp.recursos.utilerias.gui.swing.RecogedorImagen;
 import nekio.myprp.sistema.acceso.Inicializacion;
 
 /**
@@ -9,7 +10,7 @@ import nekio.myprp.sistema.acceso.Inicializacion;
 public class Main {
     public static void main(String[] args) {
         Inicializacion inicio = new Inicializacion("usuario_02","pssword_02");
-        System.out.println(inicio.probarImagen());
+        new RecogedorImagen();
         
         /*ArrayList campos = new ArrayList();
         campos.add("idcampo1");
