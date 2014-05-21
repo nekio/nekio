@@ -166,8 +166,7 @@ public class GUI extends JFrame{
                 registrosNoLlave.add(campo);
                 registrosNoLlaveValor.add(valor);
             }
-        }
-        
+        }  
     }
     
     private void dibujarComponente(Component componente){}

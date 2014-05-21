@@ -59,6 +59,12 @@ public class Globales {
     
     // <editor-fold defaultstate="collapsed" desc="Valores de Objetos de Negocio">  
     
+    // Entidades para gestores
+    public static enum Entidad{
+        Imagen,
+        Usuario
+    }
+    
     // Acciones de la Base de Datos
     public static enum BD{
         AGREGAR(1,"agregar","mostrarInsertado"),

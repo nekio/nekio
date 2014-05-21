@@ -11,8 +11,10 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.imageio.ImageIO;
 import nekio.myprp.recursos.herramientas.ImagenEnvoltorio;
+import nekio.myprp.recursos.utilerias.Fecha;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.bd.BDConexion;
 import nekio.myprp.recursos.utilerias.plantillas.DAO;
@@ -24,19 +26,21 @@ import nekio.myprp.recursos.utilerias.plantillas.DTO;
  */
 public class ImagenDAO extends DAO{
     private final String TABLA = "imagen";
-    private final String TODOS_CAMPOS = "id_imagen, imagen, nombre, descripcion \n";
-    private final int ANCHO = 80;
-    private final int ALTO = 80;
+    private final String TODOS_CAMPOS = "id_imagen, imagen, nombre, tipo, fechaSubida, descripcion \n";
     
     private String rutaImagen;
     private String nombre;
+    private char tipo;
+    private Date fechaSubida;
     private String descripcion;
     
     @Override
     public void asignarParametros(ArrayList parametros) {
         rutaImagen = String.valueOf(parametros.get(0));
         nombre = String.valueOf(parametros.get(1));
-        descripcion = String.valueOf(parametros.get(2));
+        tipo = String.valueOf(parametros.get(2)).charAt(0);
+        fechaSubida = Fecha.obtener(String.valueOf(parametros.get(3)),"dd-MMM-yyyy");
+        descripcion = String.valueOf(parametros.get(4));
         
         if(Globales.APP_DEBUG){
             System.out.println("\nParametros ingresados");
@@ -87,6 +91,8 @@ public class ImagenDAO extends DAO{
                 dto.setIdImagen(resultados.getInt("id_imagen"));
                 dto.setImagen(imagen);
                 dto.setNombre(resultados.getString("nombre"));
+                dto.setTipo(resultados.getString("tipo").charAt(0));
+                dto.setFechaSubida(resultados.getDate("fecha_subida"));
                 dto.setDescripcion(resultados.getString("descripcion"));
 
                 lista.add(dto);
@@ -139,6 +145,8 @@ public class ImagenDAO extends DAO{
                 dto.setIdImagen(resultados.getInt("id_imagen"));
                 dto.setImagen(imagen);
                 dto.setNombre(resultados.getString("nombre"));
+                dto.setTipo(resultados.getString("tipo").charAt(0));
+                dto.setFechaSubida(resultados.getDate("fecha_subida"));
                 dto.setDescripcion(resultados.getString("descripcion"));
             }
             
@@ -155,8 +163,9 @@ public class ImagenDAO extends DAO{
         int resultado = 1;
         
         FileInputStream imagen = null;
+        Dimension dimension = null;
         
-        String procedimiento = super.obtenerProcedimiento(Globales.BD_ESQUEMA, INSERTAR, TABLA, 3);
+        String procedimiento = super.obtenerProcedimiento(Globales.BD_ESQUEMA, INSERTAR, TABLA, 5);
         
         if(Globales.APP_DEBUG)
             System.out.println("\n" + procedimiento + " : " + rutaImagen);
@@ -164,14 +173,28 @@ public class ImagenDAO extends DAO{
         try{
             Connection conexion = BDConexion.getConnection();
             
-            String rutaTemporal = ImagenEnvoltorio.crearImagenTemporal(ANCHO, ALTO, rutaImagen);
+            switch(tipo){
+                case 'H':
+                    dimension = ImagenDTO.TipoImagen.HORIZONTAL.getDimension();
+                break;
+                case 'V': 
+                    dimension = ImagenDTO.TipoImagen.VERTICAL.getDimension();
+                break;
+                case 'A':
+                    dimension = ImagenDTO.TipoImagen.AJUSTADO_CUADRADO.getDimension();
+                break;
+            }
+            
+            String rutaTemporal = ImagenEnvoltorio.crearImagenTemporal(dimension, rutaImagen);
             File archivo = new File(rutaTemporal);
             imagen = new FileInputStream(archivo);
                 
             CallableStatement procInsertarImagen = conexion.prepareCall(procedimiento);
             procInsertarImagen.setBinaryStream(1,imagen,(int)archivo.length());
             procInsertarImagen.setString(2, nombre);
-            procInsertarImagen.setString(3, descripcion);
+            procInsertarImagen.setString(3, String.valueOf(tipo));
+            procInsertarImagen.setTimestamp(4, new java.sql.Timestamp(fechaSubida.getTime()));
+            procInsertarImagen.setString(5, descripcion);
             procInsertarImagen.execute();
 
             conexion.commit();
