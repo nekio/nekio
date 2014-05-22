@@ -8,23 +8,12 @@ import java.util.Date;
  * @author Nekio
  */
 public class Fecha {   
-    public static Date obtener(String cadenaFormateada, String formato){
-        String mensaje = null;
-        Date fecha = null;
-        SimpleDateFormat formateador = new SimpleDateFormat(formato);
- 
-	try{
-            fecha = formateador.parse(cadenaFormateada);
-            mensaje = "Cadena de fecha obtenida correctamente";
-	}catch(Exception e) {
-            mensaje = e.getMessage();
-	}
+    public static String FORMATO = "dd-MM-yyyy";
+    
+    public static String obtenerFechaFormateada(Date fecha, String formato){
+        SimpleDateFormat formateador = new SimpleDateFormat(formato);        
+        String fechaFormateada = formateador.format(fecha);
         
-        if(Globales.APP_DEBUG){
-            System.out.println("\n" + mensaje);
-            System.out.println(fecha + "del formato: "+ formateador.format(fecha));
-        }
-        
-        return fecha;
+        return fechaFormateada;
     }
 }

@@ -1,7 +1,7 @@
 package nekio.myprp.recursos.img.obj;
 
 import java.awt.Dimension;
-import java.awt.image.BufferedImage;
+import java.awt.Image;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.imageio.ImageIO;
 import nekio.myprp.recursos.herramientas.ImagenEnvoltorio;
-import nekio.myprp.recursos.utilerias.Fecha;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.bd.BDConexion;
 import nekio.myprp.recursos.utilerias.plantillas.DAO;
@@ -26,7 +25,7 @@ import nekio.myprp.recursos.utilerias.plantillas.DTO;
  */
 public class ImagenDAO extends DAO{
     private final String TABLA = "imagen";
-    private final String TODOS_CAMPOS = "id_imagen, imagen, nombre, tipo, fechaSubida, descripcion \n";
+    private final String TODOS_CAMPOS = "id_imagen, imagen, nombre, tipo, fecha_subida, descripcion \n";
     
     private String rutaImagen;
     private String nombre;
@@ -35,11 +34,11 @@ public class ImagenDAO extends DAO{
     private String descripcion;
     
     @Override
-    public void asignarParametros(ArrayList parametros) {
+    public void asignarParametros(ArrayList parametros) {        
         rutaImagen = String.valueOf(parametros.get(0));
         nombre = String.valueOf(parametros.get(1));
         tipo = String.valueOf(parametros.get(2)).charAt(0);
-        fechaSubida = Fecha.obtener(String.valueOf(parametros.get(3)),"dd-MMM-yyyy");
+        fechaSubida = (Date) parametros.get(3);
         descripcion = String.valueOf(parametros.get(4));
         
         if(Globales.APP_DEBUG){
@@ -81,7 +80,7 @@ public class ImagenDAO extends DAO{
 
                 Blob blob = resultados.getBlob("imagen");
                 byte[] datos = blob.getBytes(1, (int)blob.length());
-                BufferedImage imagen = null; 
+                Image imagen = null; 
                 try{
                     imagen = ImageIO.read(new ByteArrayInputStream(datos));
                 }catch (IOException e) {
@@ -135,7 +134,7 @@ public class ImagenDAO extends DAO{
             while(resultados.next()){
                 Blob blob = resultados.getBlob("imagen");
                 byte[] datos = blob.getBytes(1, (int)blob.length());
-                BufferedImage imagen = null; 
+                Image imagen = null; 
                 try{
                     imagen = ImageIO.read(new ByteArrayInputStream(datos));
                 }catch (IOException e) {
