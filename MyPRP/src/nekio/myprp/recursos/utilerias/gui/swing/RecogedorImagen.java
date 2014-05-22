@@ -20,6 +20,8 @@ import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -47,13 +49,14 @@ import nekio.myprp.recursos.utilerias.Idioma;
 
 public class RecogedorImagen extends JFrame implements DropTargetListener{
     private static final long serialVersionUID = 1L;
-    private final Dimension DIMENSION = new Dimension(360, 270);
+    private final Dimension DIMENSION = new Dimension(380, 290);
     
     private Container contenedor;
     private JLabel lblTexto;
     private JLabel lblNombreArchivo;
     private JLabel lblImagen;
     private JTextField txtNombreImagen;
+    private JTextField txtDescripcion;
     private JComboBox cmbTipoImagen;
     private JButton btnSubir;
     private JButton btnAceptar;
@@ -63,6 +66,8 @@ public class RecogedorImagen extends JFrame implements DropTargetListener{
     private File archivo;
     private String nombreArchivo;
     private String rutaArchivo;
+    private String nombreImagen;
+    private String descripcionImagen;
     private char tipoImagen;
     private Dimension dimension;
     private DropTarget dragNDrop;
@@ -88,7 +93,7 @@ public class RecogedorImagen extends JFrame implements DropTargetListener{
         lblTexto = new JLabel(Idioma.obtenerTexto(Idioma.PROP_RECOGEDOR_IMAGEN, "textoDefault"));
         lblTexto.setHorizontalAlignment(SwingConstants.CENTER);
         pnlSuperior.add(lblTexto, "North");
-        
+                
         cmbTipoImagen = new JComboBox(ImagenDTO.TipoImagen.values());
         pnlSuperior.add(cmbTipoImagen, "East");
         
@@ -107,9 +112,30 @@ public class RecogedorImagen extends JFrame implements DropTargetListener{
         lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
         pnlImagen.add(lblImagen, "Center");
         
-        txtNombreImagen = new JTextField(Idioma.obtenerTexto(Idioma.PROP_RECOGEDOR_IMAGEN, "nombreImagen"));
+        JPanel pnlTextos = new JPanel(new BorderLayout());
+        JPanel pnlTxtNmb = new JPanel(new BorderLayout());
+
+        JLabel lblNombreImagen = new JLabel(Idioma.obtenerTexto(Idioma.PROP_RECOGEDOR_IMAGEN, "nombreImagen"));
+        lblNombreImagen.setHorizontalAlignment(SwingConstants.CENTER);
+        pnlTxtNmb.add(lblNombreImagen, "West");
+        
+        txtNombreImagen = new JTextField();
         txtNombreImagen.setEnabled(false);
-        pnlImagen.add(txtNombreImagen, "South");
+        pnlTxtNmb.add(txtNombreImagen, "Center");
+        pnlTextos.add(pnlTxtNmb, "North");
+        
+        JPanel pnlTxtDsc = new JPanel(new BorderLayout());
+        
+        JLabel lblDescripcion = new JLabel(Idioma.obtenerTexto(Idioma.PROP_RECOGEDOR_IMAGEN, "descripcion"));
+        lblDescripcion.setHorizontalAlignment(SwingConstants.CENTER);
+        pnlTxtDsc.add(lblDescripcion, "West");
+        
+        txtDescripcion = new JTextField();
+        txtDescripcion.setEnabled(false);
+        pnlTxtDsc.add(txtDescripcion, "Center");
+        pnlTextos.add(pnlTxtDsc, "South");
+        
+        pnlImagen.add(pnlTextos, "South");
         
         contenedor.add(pnlImagen, "Center");
         
@@ -135,6 +161,38 @@ public class RecogedorImagen extends JFrame implements DropTargetListener{
                 habilitarComponentes(leerImagen(archivo));
              }
         });
+        
+        txtNombreImagen.addKeyListener(new KeyAdapter(){
+            @Override
+            public void keyTyped(KeyEvent e){  
+                int longitudMaxima = 30;
+                String texto=txtNombreImagen.getText();
+
+                if(texto.length() >= longitudMaxima){
+                    texto = texto.substring(0, longitudMaxima);
+                    txtNombreImagen.setText(texto);
+                    txtNombreImagen.setForeground(Color.RED);
+                    e.consume();
+                }else
+                    txtNombreImagen.setForeground(Color.BLACK);
+            }; 
+        }); 
+        
+        txtDescripcion.addKeyListener(new KeyAdapter(){
+            @Override
+            public void keyTyped(KeyEvent e){  
+                int longitudMaxima = 80;
+                String texto=txtDescripcion.getText();
+
+                if(texto.length() >= longitudMaxima){
+                    texto = texto.substring(0, longitudMaxima);
+                    txtDescripcion.setText(texto);
+                    txtDescripcion.setForeground(Color.RED);
+                    e.consume();
+                }else
+                    txtDescripcion.setForeground(Color.BLACK);
+            }; 
+        }); 
         
         btnSubir.addActionListener(new ActionListener(){
         @Override
@@ -191,15 +249,16 @@ public class RecogedorImagen extends JFrame implements DropTargetListener{
     private void habilitarComponentes(boolean habilitar){
         btnAceptar.setEnabled(habilitar);
         txtNombreImagen.setEnabled(habilitar);
+        txtDescripcion.setEnabled(habilitar);
         
         if(habilitar){
-            txtNombreImagen.setText("");
             lblNombreArchivo.setText(nombreArchivo);
             
             Icon icono = new ImageIcon(imagen);
             lblImagen.setIcon(icono);
         }else{
-            txtNombreImagen.setText(Idioma.obtenerTexto(Idioma.PROP_RECOGEDOR_IMAGEN, "nombreImagen"));
+            txtNombreImagen.setText("");
+            txtDescripcion.setText("");
             lblNombreArchivo.setText(Idioma.obtenerTexto(Idioma.PROP_RECOGEDOR_IMAGEN, "nombreArchivo"));
             lblImagen.setIcon(null);
         }
@@ -208,7 +267,10 @@ public class RecogedorImagen extends JFrame implements DropTargetListener{
     private boolean aceptar(){
         boolean cerrarVentana = true;
         
-        if(txtNombreImagen.getText().length() == 0){
+        nombreImagen = txtNombreImagen.getText();
+        descripcionImagen = txtDescripcion.getText();
+        
+        if(nombreImagen.length() == 0){
             int resultado = Mensaje.decidir(Idioma.obtenerTexto(
                     Idioma.PROP_RECOGEDOR_IMAGEN, "noNombre"),
                     Idioma.obtenerTexto(Idioma.PROP_ACCIONES, "denegar"),
@@ -259,18 +321,19 @@ public class RecogedorImagen extends JFrame implements DropTargetListener{
     }
     
     private void guardar(){
-        String entidad = Globales.Entidad.Imagen.name();
-        GestorImagen gestor = new GestorImagen();
-                
         ArrayList parametros = new ArrayList();
         parametros.add(rutaArchivo);
-        parametros.add(nombreArchivo);
+        parametros.add(nombreImagen);
         parametros.add(tipoImagen);
         parametros.add(new Date());
-        parametros.add(""/*descripcion*/);
-        gestor.setParametros(parametros);
+        parametros.add(descripcionImagen);
         
+        String entidad = Globales.Entidad.Imagen.name();
+        
+        GestorImagen gestor = new GestorImagen();
+        gestor.setParametros(parametros);
         gestor.ejecutarControladorNegocio(Globales.BD.AGREGAR.getValor(), entidad);
+        
         salir();
     }
     

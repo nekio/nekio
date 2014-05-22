@@ -7,7 +7,7 @@ package nekio.myprp.sistema.acceso.dto;
 
 import nekio.myprp.recursos.utilerias.plantillas.DTO;
 
-public class UsuarioDTO extends DTO{
+public class UsuarioDTO implements DTO{
     private int idUsuario;
     private int idTipoUsuario;
     private String nombre;

@@ -6,15 +6,14 @@ package nekio.myprp.recursos.utilerias.plantillas;
  */
 
 import java.util.ArrayList;
-import java.util.List;
 import nekio.myprp.recursos.utilerias.Globales;
 
 public abstract class ObjetoNegocio {    
-    protected List<DTO> listaDTO;
     protected String busqueda;
     
     public abstract String ejecutar(int metodo, Gestor gestor, ArrayList parametros);
     public abstract DTO obtenerModelo(Gestor gestor);
+    public abstract String consultarId(Gestor gestor);
     public abstract String consultarSeleccion(Gestor gestor);
     public abstract String consultarBusqueda(Gestor gestor);
     
@@ -26,9 +25,9 @@ public abstract class ObjetoNegocio {
         
         if(metodo == Globales.BD.AGREGAR.getLlave())
             resultado = dao.agregar();
-        if(metodo == Globales.BD.ELIMINAR.getLlave())
+        else if(metodo == Globales.BD.ELIMINAR.getLlave())
             resultado = dao.eliminar();
-        if(metodo == Globales.BD.MODIFICAR.getLlave())
+        else if(metodo == Globales.BD.MODIFICAR.getLlave())
             resultado = dao.modificar();
         
         if(resultado == 0)
@@ -43,9 +42,5 @@ public abstract class ObjetoNegocio {
 
     public void setBusqueda(String busqueda) {
         this.busqueda = busqueda;
-    }
-    
-    public List<DTO> getListaDTO() {
-        return listaDTO;
     }
 }

@@ -39,11 +39,26 @@ public class Globales {
     public static final int MOD_SOCIAL = 8;
     // </editor-fold>
         
-    // <editor-fold defaultstate="collapsed" desc="Rutas de archivos">
-    public static final String RUTA_BASE    = "/nekio/" + SIGLAS_APP;
-    public static final String RECURSOS     = RUTA_BASE+"/recursos";
-    public static final String IMG          = RECURSOS+"/img/";
-    public static final String VALORES      = RECURSOS+"/valores";
+    // <editor-fold defaultstate="collapsed" desc="Rutas de recursos">
+    // Valores
+    private static final String RAIZ        = "nekio";
+    private static final String PROYECTO    = SIGLAS_APP;
+    private static final String RECURSOS    = "recursos";
+    private static final String IMAGENES    = "img";
+    private static final String IMG_OBJ     = "obj";
+    private static final String VALORES     = "valores";
+    
+    // Carpetas
+    public static final String RUTA_BASE        = "/"+RAIZ+"/"+PROYECTO;
+    public static final String RUTA_RECURSOS    = RUTA_BASE+"/"+RECURSOS;
+    public static final String RUTA_IMG         = RUTA_RECURSOS+"/"+IMAGENES+"/";
+    public static final String RUTA_VALORES     = RUTA_RECURSOS+"/"+VALORES;
+    
+    // Paquetes
+    public static final String PAQ_BASE     = RAIZ+"."+PROYECTO;
+    public static final String PAQ_RECURSOS = PAQ_BASE+"."+RECURSOS;
+    public static final String PAQ_IMG      = PAQ_RECURSOS+"."+IMAGENES;
+    public static final String PAQ_IMG_OBJ  = PAQ_IMG+"."+IMG_OBJ;
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Conexion a la BD">  
@@ -95,6 +110,10 @@ public class Globales {
             return pagina;
         }
     };
+    
+    // Nombres de DAO y DTO
+    public static final String DAO = "DAO";
+    public static final String DTO = "DTO";
     
     // Resultados
     public static final String RES_OK       = "ok";

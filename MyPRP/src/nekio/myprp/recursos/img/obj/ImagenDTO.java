@@ -10,7 +10,7 @@ import java.awt.Image;
 import java.util.Date;
 import nekio.myprp.recursos.utilerias.plantillas.DTO;
 
-public class ImagenDTO extends DTO{
+public class ImagenDTO implements DTO{   
     public static enum TipoImagen{
         VERTICAL(65, 95, 'V'),
         HORIZONTAL(95, 65, 'H'),
@@ -32,7 +32,7 @@ public class ImagenDTO extends DTO{
             return tipoImagen;
         }
     }
-    
+
     private int idImagen;
     private Image imagen;
     private String nombre;

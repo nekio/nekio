@@ -8,6 +8,7 @@ package nekio.myprp.recursos.img.obj;
 import java.util.ArrayList;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.plantillas.DAO;
+import nekio.myprp.recursos.utilerias.plantillas.DTO;
 import nekio.myprp.recursos.utilerias.plantillas.Gestor;
 import nekio.myprp.recursos.utilerias.plantillas.ObjetoNegocio;
 
@@ -20,14 +21,28 @@ public class Imagen extends ObjetoNegocio{
     }
     
     @Override
-    public String consultarSeleccion(Gestor gestor) {
+    public String consultarId(Gestor gestor) {
         ImagenDAO dao = new ImagenDAO();
 
-        String idImagen = (String) gestor.getParametros().get(0);
-        ImagenDTO imagen = (ImagenDTO) dao.leerUno("id_imagen = " + idImagen);
+        String id = (String) gestor.getParametros().get(0);
+        ImagenDTO dto = (ImagenDTO) dao.leerUno("id_imagen = " + id);
         
-        //Operaciones con el DTO obtenido
-        //....
+        gestor.setListaDTO(new ArrayList<DTO>());
+        gestor.getListaDTO().add(dto);
+        
+        if(Globales.APP_DEBUG)
+            System.out.println("\nDTOs obtenidos al consultar ID: " + gestor.getListaDTO().size());
+        
+        return Globales.RES_OK;
+    }
+    
+    @Override
+    public String consultarSeleccion(Gestor gestor) {
+        ImagenDAO dao = new ImagenDAO();
+        gestor.setListaDTO(dao.leer(null));
+        
+        if(Globales.APP_DEBUG)
+            System.out.println("\nDTOs obtenidos al consultar seleccion: " + gestor.getListaDTO().size());
         
         return Globales.RES_OK;
     }
@@ -36,16 +51,17 @@ public class Imagen extends ObjetoNegocio{
     public String consultarBusqueda(Gestor gestor) {
         String where =" WHERE 1=1 ";
 
-        if(!busqueda.equals("") && getBusqueda() != null)
+        if(!super.busqueda.equals("") && super.busqueda != null)
                 where += "AND (nombre + descripcion) " +
-                          "LIKE '%" +   getBusqueda() + "%'";
-
-        System.out.println("Campo búsqueda:" + getBusqueda());
+                          "LIKE '%" +   super.busqueda + "%'";
 
         DAO dao = new ImagenDAO();
-        //conexion
-
-        listaDTO = dao.leer(where);
+        gestor.setListaDTO(dao.leer(where));
+        
+        if(Globales.APP_DEBUG){
+            System.out.println("Consulta de busqueda:" + where);
+            System.out.println("DTOs obtenidos al consultar Busqueda: " + gestor.getListaDTO().size());
+        }
 
         return Globales.RES_OK; 
     }

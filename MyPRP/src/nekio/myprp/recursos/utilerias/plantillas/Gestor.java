@@ -6,12 +6,14 @@ package nekio.myprp.recursos.utilerias.plantillas;
  */
 
 import java.util.ArrayList;
+import java.util.List;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.Mapeador;
 
 public abstract class Gestor {
     protected ObjetoNegocio objetoNegocio;
     protected ArrayList parametros;
+    private List<DTO> listaDTO;
     
     public void ejecutarControladorNegocio(ObjetoNegocio objetoNegocio, String accion, String entidad){
         this.objetoNegocio = objetoNegocio;
@@ -89,5 +91,13 @@ public abstract class Gestor {
 
     public ObjetoNegocio getObjetoNegocio() {
         return objetoNegocio;
+    }
+    
+    public void setListaDTO(List<DTO> listaDTO) {
+        this.listaDTO = listaDTO;
+    }
+    
+    public List<DTO> getListaDTO() {
+        return listaDTO;
     }
 }
