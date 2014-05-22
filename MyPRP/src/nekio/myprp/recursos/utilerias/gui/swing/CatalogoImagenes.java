@@ -11,7 +11,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -60,11 +59,12 @@ public class CatalogoImagenes extends JFrame{
     
     private void agregarComponentes(){
         obtenerRegistros();
-        generarTabla();
         
-        int filas = listaDTO.size();
+        JPanel pnlContenedor = new JPanel(new BorderLayout());
+        pnlContenedor.add(generarTabla(), "Center");
+        pnlContenedor.add(new BD_Manipulador(), "South");
         
-        JPanel pnlGrid = new JPanel(new GridLayout(filas,5));
+        contenedor.add(pnlContenedor);
     }
     
     private void agregarEscuchadores(){
@@ -88,7 +88,7 @@ public class CatalogoImagenes extends JFrame{
             listaDTO.add((ImagenDTO)dto);
     }
     
-    private void generarTabla(){
+    private JScrollPane generarTabla(){
         final int indiceCampoImg = 1;
         
         ArrayList<String> listaCabeceras = obtenerCabeceras();
@@ -150,7 +150,7 @@ public class CatalogoImagenes extends JFrame{
         tabla.setRowSorter(ordenador);
         JScrollPane scrollPane = new JScrollPane(tabla);
         
-        this.add(scrollPane,"Center");
+        return scrollPane;
     }
     
     private ArrayList<String> obtenerCabeceras(){
