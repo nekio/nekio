@@ -172,17 +172,7 @@ public class ImagenDAO extends DAO{
         try{
             Connection conexion = BDConexion.getConnection();
             
-            switch(tipo){
-                case 'H':
-                    dimension = ImagenDTO.TipoImagen.HORIZONTAL.getDimension();
-                break;
-                case 'V': 
-                    dimension = ImagenDTO.TipoImagen.VERTICAL.getDimension();
-                break;
-                case 'A':
-                    dimension = ImagenDTO.TipoImagen.AJUSTADO_CUADRADO.getDimension();
-                break;
-            }
+            dimension = ImagenDTO.TipoImagen.TipoImagen(tipo).getDimension();
             
             String rutaTemporal = ImagenEnvoltorio.crearImagenTemporal(dimension, rutaImagen);
             File archivo = new File(rutaTemporal);

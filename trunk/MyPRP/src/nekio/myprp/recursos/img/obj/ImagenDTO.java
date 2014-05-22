@@ -12,24 +12,47 @@ import nekio.myprp.recursos.utilerias.plantillas.DTO;
 
 public class ImagenDTO implements DTO{   
     public static enum TipoImagen{
-        VERTICAL(65, 95, 'V'),
-        HORIZONTAL(95, 65, 'H'),
-        AJUSTADO_CUADRADO(80, 80, 'A');
+        VERTICAL(65, 95, 'V', 0),
+        HORIZONTAL(95, 65, 'H', 1),
+        AJUSTADO_CUADRADO(80, 80, 'A', 2);
         
         private Dimension dimension;
-        private char tipoImagen;
+        private char tipo;
+        private int indice;
         
-        private TipoImagen(int ancho, int alto, char tipoImagen){
+        private TipoImagen(int ancho, int alto, char tipo, int indice){
             this.dimension = new Dimension(ancho, alto);
-            this.tipoImagen = tipoImagen;
+            this.tipo = tipo;
+            this.indice = indice;
+        }
+        
+        public static TipoImagen TipoImagen(char tipo){
+            TipoImagen tipoImagen = null;
+            switch(tipo){
+                case 'V': 
+                    tipoImagen = ImagenDTO.TipoImagen.VERTICAL;
+                break;
+                case 'H':
+                    tipoImagen = ImagenDTO.TipoImagen.HORIZONTAL;
+                break;
+                case 'A':
+                    tipoImagen = ImagenDTO.TipoImagen.AJUSTADO_CUADRADO;
+                break;
+            }
+            
+            return tipoImagen;
         }
 
         public Dimension getDimension() {
             return dimension;
         }
 
-        public char getTipoImagen() {
-            return tipoImagen;
+        public char getTipo() {
+            return tipo;
+        }
+
+        public int getIndice() {
+            return indice;
         }
     }
 
