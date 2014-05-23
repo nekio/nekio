@@ -20,7 +20,7 @@ public class Main {
         String entidad = Globales.Entidad.Imagen.name();
         
         GestorImagen gestor = new GestorImagen();
-        gestor.ejecutarControladorNegocio(Globales.BD.LEER.getValor(), entidad);
+        gestor.ejecutarControladorNegocio(Globales.BD.LEER_DESC.getValor(), entidad);
         gestor = null;
         
         //System.out.println(inicio.loggear());

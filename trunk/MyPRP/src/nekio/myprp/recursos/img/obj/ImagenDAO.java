@@ -1,5 +1,10 @@
 package nekio.myprp.recursos.img.obj;
 
+/**
+ *
+ * @author Nekio
+ */
+
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -21,13 +26,11 @@ import nekio.myprp.recursos.utilerias.bd.BDConexion;
 import nekio.myprp.recursos.utilerias.plantillas.DAO;
 import nekio.myprp.recursos.utilerias.plantillas.DTO;
 
-/**
- *
- * @author Nekio
- */
 public class ImagenDAO extends DAO{
     private final String TABLA = "imagen";
-    private final String TODOS_CAMPOS = "id_imagen, imagen, nombre, tipo, fecha_subida, descripcion ";
+    private final String ID = "id_imagen";
+    private final String TODOS_CAMPOS = 
+            ID + ", imagen, nombre, tipo, fecha_subida, descripcion ";
     
     private ImagenDTO dto;
     
@@ -46,6 +49,10 @@ public class ImagenDAO extends DAO{
         return leer(TODOS_CAMPOS, where, null, null);
     }
     
+    @Override
+    public ArrayList<DTO> leerDesc(String where){
+        return leer(TODOS_CAMPOS, where, ID + " DESC", null);
+    }    
     
     public ArrayList<DTO> leer(String select, String where, String orderBy, String groupBy){
         ArrayList<DTO> lista = new ArrayList<DTO>();
@@ -84,7 +91,7 @@ public class ImagenDAO extends DAO{
                 dto.setImagen(imagen);
                 dto.setNombre(resultados.getString("nombre"));
                 dto.setTipo(resultados.getString("tipo").charAt(0));
-                dto.setFechaSubida(resultados.getDate("fecha_subida"));
+                dto.setFechaSubida(resultados.getTimestamp("fecha_subida"));
                 dto.setDescripcion(resultados.getString("descripcion"));
 
                 lista.add(dto);
@@ -138,7 +145,7 @@ public class ImagenDAO extends DAO{
                 dto.setImagen(imagen);
                 dto.setNombre(resultados.getString("nombre"));
                 dto.setTipo(resultados.getString("tipo").charAt(0));
-                dto.setFechaSubida(resultados.getDate("fecha_subida"));
+                dto.setFechaSubida(resultados.getTimestamp("fecha_subida"));
                 dto.setDescripcion(resultados.getString("descripcion"));
             }
             

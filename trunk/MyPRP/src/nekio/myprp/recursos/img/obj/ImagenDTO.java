@@ -25,8 +25,8 @@ public class ImagenDTO implements DTO{
         AJUSTADO_CUADRADO(80, 80, 'A', 2);
         
         private Dimension dimension;
-        private char tipo;
-        private int indice;
+        private Character tipo;
+        private Integer indice;
         
         private TipoImagen(int ancho, int alto, char tipo, int indice){
             this.dimension = new Dimension(ancho, alto);
@@ -64,20 +64,20 @@ public class ImagenDTO implements DTO{
         }
     }
 
-    private int idImagen;
+    private Integer idImagen;
     private Image imagen;
     private String nombre;
-    private char tipo;
+    private Character tipo;
     private Date fechaSubida;
     private String descripcion;
     
     private String rutaImagen; // Atributo artificial
  
-    public int getIdImagen() {
+    public Integer getIdImagen() {
         return idImagen;
     }
 
-    public void setIdImagen(int idImagen) {
+    public void setIdImagen(Integer idImagen) {
         this.idImagen = idImagen;
     }
     
@@ -97,11 +97,11 @@ public class ImagenDTO implements DTO{
         return nombre;
     }
     
-    public char getTipo() {
+    public Character getTipo() {
         return tipo;
     }
 
-    public void setTipo(char tipo) {
+    public void setTipo(Character tipo) {
         this.tipo = tipo;
     }
 

@@ -50,6 +50,17 @@ public class Usuario extends ObjetoNegocio{
         
         return Globales.RES_OK;
     }
+    
+    @Override
+    public String consultarSeleccionDesc(Gestor gestor) {
+        UsuarioDAO dao = new UsuarioDAO();
+        gestor.setListaDTO(dao.leerDesc(null));
+        
+        if(Globales.APP_DEBUG)
+            System.out.println("\nDTOs obtenidos al consultar seleccion: " + gestor.getListaDTO().size());
+        
+        return Globales.RES_OK;
+    }
 
     @Override
     public String consultarBusqueda(Gestor gestor) {

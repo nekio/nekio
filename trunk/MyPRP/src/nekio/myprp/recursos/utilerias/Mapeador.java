@@ -12,11 +12,13 @@ import nekio.myprp.recursos.utilerias.gui.swing.CatalogoImagenes;
 import nekio.myprp.recursos.utilerias.gui.swing.RecogedorImagen;
 import nekio.myprp.recursos.utilerias.plantillas.DTO;
 import nekio.myprp.recursos.utilerias.plantillas.Gestor;
+import nekio.myprp.recursos.utilerias.plantillas.SwingMaestro;
 import nekio.myprp.sistema.acceso.vista.LoginGUI;
 
 public class Mapeador {
     public static void abrir(Gestor gestor){
         String pagina = gestor.getPagina();
+        SwingMaestro guiPadre = gestor.getGui();
         
         if(Globales.APP_DEBUG)
             System.out.println("\n|==========>  Mapeador abriendo la vista: " + pagina + "  <==========|");
@@ -45,7 +47,7 @@ public class Mapeador {
                 List<ImagenDTO> parametros = null;
                 ImagenDTO parametro = null;
                 
-                if(pagina.equals(Globales.BD.LEER.getPagina()+entidad)){
+                if(pagina.equals(Globales.BD.LEER.getPagina()+entidad) || pagina.equals(Globales.BD.LEER_DESC.getPagina()+entidad)){
                     parametros = new ArrayList<ImagenDTO>();
                     for(DTO dto:gestor.getListaDTO())
                         parametros.add((ImagenDTO) dto);
@@ -54,9 +56,15 @@ public class Mapeador {
                 }else if(pagina.equals(Globales.BD.LEER_UNO.getPagina()+entidad)){
                     parametro = (ImagenDTO) gestor.getDTO();
                     
-                    new RecogedorImagen(parametro);
+                    new RecogedorImagen(guiPadre, parametro);
                 }else if(pagina.equals(Globales.BD.NUEVO.getPagina()+entidad)){                    
-                    new RecogedorImagen();
+                    new RecogedorImagen(guiPadre);
+                }else if(pagina.equals(Globales.BD.MODIFICAR.getPagina()+entidad)){                    
+                    gestor.recargarGUI();
+                }else if(pagina.equals(Globales.BD.INSERTAR.getPagina()+entidad)){                    
+                    gestor.recargarGUI();
+                }else if(pagina.equals(Globales.BD.ELIMINAR.getPagina()+entidad)){                    
+                    gestor.recargarGUI();
                 }
                 
                 parametros = null;

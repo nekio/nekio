@@ -24,7 +24,8 @@ public abstract class DAO {
     }
     
     public abstract void asignarParametros(DTO dto);
-    public abstract List<DTO> leer(String where);   
+    public abstract List<DTO> leer(String where);
+    public abstract List<DTO> leerDesc(String where);
     public abstract int agregar();
     public abstract int modificar();
     public abstract int eliminar();

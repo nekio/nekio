@@ -8,14 +8,17 @@ package nekio.myprp.sistema.acceso;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.plantillas.Gestor;
 import nekio.myprp.recursos.utilerias.plantillas.ObjetoNegocio;
+import nekio.myprp.sistema.acceso.dao.UsuarioDAO;
 import nekio.myprp.sistema.acceso.negocio.Usuario;
 
 public class GestorAcceso extends Gestor{
     private final Usuario OBJ_USUARIO = new Usuario();
+    private final UsuarioDAO DAO = new UsuarioDAO();
     private final int MODULO = Globales.MOD_ACCESO;
     
     public GestorAcceso(){
         super.modulo = MODULO;
+        super.dao = DAO;
     }
     
     public void ejecutarControladorNegocio(String accion, String entidad){

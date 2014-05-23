@@ -15,8 +15,9 @@ import nekio.myprp.sistema.acceso.dto.UsuarioDTO;
 
 public class UsuarioDAO extends DAO{
     private final String TABLA = "usuario";
+    private final String  ID = "id_imagen";
     private final String TODOS_CAMPOS = 
-            "id_usuario, id_tipo_usuario, nombre, " + 
+            ID + ", id_tipo_usuario, nombre, " + 
             "apellido_p, apellido_m, contacto, " + 
             "usuario, password, activo \n";
     
@@ -31,6 +32,11 @@ public class UsuarioDAO extends DAO{
     public ArrayList<DTO> leer(String where){
         return leer(TODOS_CAMPOS, where, null, null);
     }
+    
+    @Override
+    public ArrayList<DTO> leerDesc(String where){
+        return leer(TODOS_CAMPOS, where, ID + " DESC", null);
+    }  
     
     public ArrayList<DTO> leer(String select, String where, String orderBy, String groupBy){
         ArrayList<DTO> lista = new ArrayList<DTO>();

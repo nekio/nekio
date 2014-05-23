@@ -88,9 +88,10 @@ public class Globales {
         BUSCAR(2,"buscar","mostrarSeleccionFiltrada"),
         ELIMINAR(3,"eliminar","mostrarSinEliminado"),
         LEER(4,"leer","mostrarSeleccion"),
-        LEER_UNO(5,"leerId","mostrar"),
-        MODIFICAR(6,"modificar","abrirEdicion"),
-        CANCELAR(7,"cancelar","cancelarAccion");;
+        LEER_DESC(5,"leerDesc","mostrarSeleccionDesc"),
+        LEER_UNO(6,"leerId","mostrar"),
+        MODIFICAR(7,"modificar","abrirEdicion"),
+        CANCELAR(8,"cancelar","cancelarAccion");;
         
         private int llave;
         private String valor;
