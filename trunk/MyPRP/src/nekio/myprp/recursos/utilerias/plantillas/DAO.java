@@ -5,7 +5,7 @@ package nekio.myprp.recursos.utilerias.plantillas;
  * @author Nekio
  */
 
-import java.util.ArrayList;
+import java.util.List;
 
 public abstract class DAO {
     private final String SEPARADOR = "_";
@@ -23,9 +23,9 @@ public abstract class DAO {
         return procedimiento;
     }
     
-    public abstract void asignarParametros(ArrayList parametros);
-    public abstract ArrayList<DTO> leer(String where);   
+    public abstract void asignarParametros(DTO dto);
+    public abstract List<DTO> leer(String where);   
     public abstract int agregar();
-    public abstract int eliminar();
     public abstract int modificar();
+    public abstract int eliminar();
 }

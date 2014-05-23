@@ -56,7 +56,7 @@ public class Inicializacion {
         
         Login login = new Login(usuario,password);
         if(login.validar()){            
-            gestor.setParametros(login.getIdUsuario());
+            gestor.setDTO(login.getDTO());
             gestor.ejecutarControladorNegocio(Globales.BD.LEER.getValor(), entidad);
             
             mensaje = "Bienvenido "+login.getUsuarioIngresado();

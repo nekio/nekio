@@ -11,6 +11,14 @@ import java.util.Date;
 import nekio.myprp.recursos.utilerias.plantillas.DTO;
 
 public class ImagenDTO implements DTO{   
+
+    public String getRutaImagen() {
+        return rutaImagen;
+    }
+
+    public void setRutaImagen(String rutaImagen) {
+        this.rutaImagen = rutaImagen;
+    }
     public static enum TipoImagen{
         VERTICAL(65, 95, 'V', 0),
         HORIZONTAL(95, 65, 'H', 1),
@@ -62,6 +70,8 @@ public class ImagenDTO implements DTO{
     private char tipo;
     private Date fechaSubida;
     private String descripcion;
+    
+    private String rutaImagen; // Atributo artificial
  
     public int getIdImagen() {
         return idImagen;

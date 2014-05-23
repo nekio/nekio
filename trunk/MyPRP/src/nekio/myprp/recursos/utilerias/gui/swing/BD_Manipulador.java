@@ -11,12 +11,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import nekio.myprp.recursos.utilerias.Idioma;
-import nekio.myprp.recursos.utilerias.plantillas.ObjetoNegocio;
 
-public class BD_Manipulador extends JPanel{
+public abstract class BD_Manipulador extends JPanel{
     private static final long serialVersionUID = 1L;
-     
-    private ObjetoNegocio objetoNegocio;
     
     private JButton btnNuevo;
     private JButton btnEditar;
@@ -55,36 +52,42 @@ public class BD_Manipulador extends JPanel{
         btnNuevo.addActionListener(new ActionListener(){
         @Override
             public void actionPerformed(ActionEvent evt){
-                //objetoNegocio
+                insertarRegistro();
             }
         });
         
         btnEditar.addActionListener(new ActionListener(){
         @Override
             public void actionPerformed(ActionEvent evt){
-                //objetoNegocio
+                editarRegistro();
             }
         });
         
         btnBorrar.addActionListener(new ActionListener(){
         @Override
             public void actionPerformed(ActionEvent evt){
-                //objetoNegocio
+                borrarRegistro();
             }
         });
         
         btnGuardar.addActionListener(new ActionListener(){
         @Override
             public void actionPerformed(ActionEvent evt){
-                //objetoNegocio
+                guardarEdicion();
             }
         });
         
         btnCancelar.addActionListener(new ActionListener(){
         @Override
             public void actionPerformed(ActionEvent evt){
-                //objetoNegocio
+                cancelarEdicion();
             }
         });
     }
+    
+    public abstract void insertarRegistro();
+    public abstract void editarRegistro();
+    public abstract void borrarRegistro();
+    public abstract void guardarEdicion();
+    public abstract void cancelarEdicion();    
 }

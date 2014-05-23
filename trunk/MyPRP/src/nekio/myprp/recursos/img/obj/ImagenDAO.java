@@ -2,16 +2,18 @@ package nekio.myprp.recursos.img.obj;
 
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Date;
 import javax.imageio.ImageIO;
 import nekio.myprp.recursos.herramientas.ImagenEnvoltorio;
 import nekio.myprp.recursos.utilerias.Globales;
@@ -25,26 +27,17 @@ import nekio.myprp.recursos.utilerias.plantillas.DTO;
  */
 public class ImagenDAO extends DAO{
     private final String TABLA = "imagen";
-    private final String TODOS_CAMPOS = "id_imagen, imagen, nombre, tipo, fecha_subida, descripcion \n";
+    private final String TODOS_CAMPOS = "id_imagen, imagen, nombre, tipo, fecha_subida, descripcion ";
     
-    private String rutaImagen;
-    private String nombre;
-    private char tipo;
-    private Date fechaSubida;
-    private String descripcion;
+    private ImagenDTO dto;
     
+    //@Override
     @Override
-    public void asignarParametros(ArrayList parametros) {        
-        rutaImagen = String.valueOf(parametros.get(0));
-        nombre = String.valueOf(parametros.get(1));
-        tipo = String.valueOf(parametros.get(2)).charAt(0);
-        fechaSubida = (Date) parametros.get(3);
-        descripcion = String.valueOf(parametros.get(4));
+    public void asignarParametros(DTO dto){
+        this.dto = (ImagenDTO) dto;
         
         if(Globales.APP_DEBUG){
             System.out.println("\nParametros ingresados");
-            for(Object parametro:parametros)
-                System.out.println(parametro);
         }
     }
 
@@ -57,7 +50,7 @@ public class ImagenDAO extends DAO{
     public ArrayList<DTO> leer(String select, String where, String orderBy, String groupBy){
         ArrayList<DTO> lista = new ArrayList<DTO>();
         String consulta = 
-                "SELECT " + select +
+                "SELECT " + select + " \n" +
                 "FROM " + Globales.BD_ESQUEMA + "." + TABLA + " \n" +
                 "WHERE 1=1\n";
         
@@ -113,7 +106,7 @@ public class ImagenDAO extends DAO{
         ImagenDTO dto = null;
         
         String consulta = 
-                "SELECT " + select +
+                "SELECT " + select + " \n" +
                 "FROM " + Globales.BD_ESQUEMA + "." + TABLA + " \n" +
                 "WHERE 1=1\n";
         
@@ -161,29 +154,34 @@ public class ImagenDAO extends DAO{
     public int agregar(){
         int resultado = 1;
         
-        FileInputStream imagen = null;
+        String accion = super.INSERTAR;
+        int parametros = 5;
+        String procedimiento = super.obtenerProcedimiento(Globales.BD_ESQUEMA, accion, TABLA, parametros);
+        
         Dimension dimension = null;
         
-        String procedimiento = super.obtenerProcedimiento(Globales.BD_ESQUEMA, INSERTAR, TABLA, 5);
-        
         if(Globales.APP_DEBUG)
-            System.out.println("\n" + procedimiento + " : " + rutaImagen);
+            System.out.println("\n" + procedimiento + " : " + dto.getRutaImagen());
 
         try{
             Connection conexion = BDConexion.getConnection();
             
-            dimension = ImagenDTO.TipoImagen.TipoImagen(tipo).getDimension();
+            dimension = ImagenDTO.TipoImagen.TipoImagen(dto.getTipo()).getDimension();
             
-            String rutaTemporal = ImagenEnvoltorio.crearImagenTemporal(dimension, rutaImagen);
+            InputStream imagen = null;
+            int longitud = 0;
+            
+            String rutaTemporal = ImagenEnvoltorio.crearImagenTemporal(dimension, dto.getRutaImagen());
             File archivo = new File(rutaTemporal);
             imagen = new FileInputStream(archivo);
+            longitud = (int) archivo.length();
                 
             CallableStatement procInsertarImagen = conexion.prepareCall(procedimiento);
-            procInsertarImagen.setBinaryStream(1,imagen,(int)archivo.length());
-            procInsertarImagen.setString(2, nombre);
-            procInsertarImagen.setString(3, String.valueOf(tipo));
-            procInsertarImagen.setTimestamp(4, new java.sql.Timestamp(fechaSubida.getTime()));
-            procInsertarImagen.setString(5, descripcion);
+            procInsertarImagen.setBinaryStream(1,imagen, longitud);
+            procInsertarImagen.setString(2, dto.getNombre());
+            procInsertarImagen.setString(3, String.valueOf(dto.getTipo()));
+            procInsertarImagen.setTimestamp(4, new java.sql.Timestamp(dto.getFechaSubida().getTime()));
+            procInsertarImagen.setString(5, dto.getDescripcion());
             procInsertarImagen.execute();
 
             conexion.commit();
@@ -198,7 +196,66 @@ public class ImagenDAO extends DAO{
             
             resultado = 0;
         }catch(Exception e){
-            System.out.println("No se pudo insertar en la tabla " + Globales.BD_ESQUEMA + "." + TABLA + "\n"+e);
+            System.out.println("No se pudo " + accion + " en la tabla " + Globales.BD_ESQUEMA + "." + TABLA + "\n"+e);
+        }
+
+        return resultado;
+    }
+    
+    @Override
+    public int modificar() {
+        int resultado = 1;
+        
+        String accion = super.ACTUALIZAR;
+        int parametros = 6;
+        String procedimiento = super.obtenerProcedimiento(Globales.BD_ESQUEMA, accion, TABLA, parametros);
+        
+        Dimension dimension = null;
+               
+        if(Globales.APP_DEBUG)
+            System.out.println("\n" + procedimiento + " : " + dto.getRutaImagen());
+
+        try{
+            Connection conexion = BDConexion.getConnection();
+            
+            dimension = ImagenDTO.TipoImagen.TipoImagen(dto.getTipo()).getDimension();
+            
+            InputStream imagen = null;
+            int longitud = 0;
+            try{
+                String rutaTemporal = ImagenEnvoltorio.crearImagenTemporal(dimension, dto.getRutaImagen());
+                File archivo = new File(rutaTemporal);
+                imagen = new FileInputStream(archivo);
+                longitud = (int) archivo.length();
+            }catch(Exception e){
+                ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+                ImageIO .write((BufferedImage) dto.getImagen(), ImagenEnvoltorio.EXTENSION, byteStream);
+                imagen = new ByteArrayInputStream(byteStream .toByteArray());
+                longitud = imagen.available();
+            }
+                
+            CallableStatement procInsertarImagen = conexion.prepareCall(procedimiento);
+            procInsertarImagen.setInt(1, dto.getIdImagen());
+            procInsertarImagen.setBinaryStream(2,imagen, longitud);
+            procInsertarImagen.setString(3, dto.getNombre());
+            procInsertarImagen.setString(4, String.valueOf(dto.getTipo()));
+            procInsertarImagen.setTimestamp(5, new java.sql.Timestamp(dto.getFechaSubida().getTime()));
+            procInsertarImagen.setString(6, dto.getDescripcion());
+            procInsertarImagen.execute();
+
+            conexion.commit();
+            BDConexion.cerrar();
+            
+            if(Globales.APP_DEBUG){
+                if(ImagenEnvoltorio.eliminarImagenTemporal())
+                    System.out.println("Imagen temporal eliminada satisfactoriamente");
+                else
+                    System.out.println("No fue eliminada la imagen temporal");
+            }
+            
+            resultado = 0;
+        }catch(Exception e){
+            System.out.println("No se pudo " + accion + " en la tabla " + Globales.BD_ESQUEMA + "." + TABLA + "\n"+e);
         }
 
         return resultado;
@@ -206,11 +263,30 @@ public class ImagenDAO extends DAO{
 
     @Override
     public int eliminar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+        int resultado = 1;
+        
+        String accion = super.ELIMINAR;
+        int parametros = 1;
+        String procedimiento = super.obtenerProcedimiento(Globales.BD_ESQUEMA, accion, TABLA, parametros);
+        
+        if(Globales.APP_DEBUG)
+            System.out.println("\n" + procedimiento + " : ID - " + dto.getIdImagen());
 
-    @Override
-    public int modificar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try{
+            Connection conexion = BDConexion.getConnection();
+                
+            CallableStatement procEliminarImagen = conexion.prepareCall(procedimiento);
+            procEliminarImagen.setInt(1, dto.getIdImagen());
+            procEliminarImagen.execute();
+
+            conexion.commit();
+            BDConexion.cerrar();
+            
+            resultado = 0;
+        }catch(Exception e){
+            System.out.println("No se pudo " + accion + " en la tabla " + Globales.BD_ESQUEMA + "." + TABLA + "\n"+e);
+        }
+
+        return resultado;
     }
 }

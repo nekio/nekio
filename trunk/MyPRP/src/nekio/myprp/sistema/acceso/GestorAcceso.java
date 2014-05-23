@@ -12,6 +12,11 @@ import nekio.myprp.sistema.acceso.negocio.Usuario;
 
 public class GestorAcceso extends Gestor{
     private final Usuario OBJ_USUARIO = new Usuario();
+    private final int MODULO = Globales.MOD_ACCESO;
+    
+    public GestorAcceso(){
+        super.modulo = MODULO;
+    }
     
     public void ejecutarControladorNegocio(String accion, String entidad){
         String negocio = accion + entidad;
@@ -20,26 +25,23 @@ public class GestorAcceso extends Gestor{
             System.out.println("\nEjecutando negocio de Acceso: " + negocio);
         
         String resultado = null;
-        String pagina = null;
-        int modulo = 0;
         
         /* ACCIONES ESPECIALES DE LOGIN */
-        modulo = Globales.MOD_ACCESO;
         if(negocio.equals(Globales.ACC_LOGIN)){
             resultado = Globales.RES_OK;
-            pagina = "login";
+            super.pagina = "login";
         }else if(negocio.equals(Globales.RES_OK)){
             resultado = Globales.RES_OK;
-            pagina = "blank";
+            super.pagina = "blank";
         }else{
             super.ejecutarControladorNegocio(OBJ_USUARIO, accion, entidad);
             return; //Si accede al metodo de la clase padre, no debe continuar el flujo de este metodo hijo
         }
         
         if(Globales.APP_DEBUG)
-            System.out.println("\nResultado de [" + negocio +"]: [" + resultado + "] Dirige a: [" + pagina + "]");
+            System.out.println("\nResultado de [" + negocio +"]: [" + resultado + "] Dirige a: [" + super.pagina + "]");
         
-        dirigir(modulo, pagina, resultado);
+        dirigir(resultado);
     }
     
     @Override
@@ -47,14 +49,16 @@ public class GestorAcceso extends Gestor{
         String resultado = null;
         
         if(objetoNegocio instanceof Usuario)
-            this.objetoNegocio = (Usuario) objetoNegocio;
+            super.objetoNegocio = (Usuario) objetoNegocio;
         
-        if(metodo == Globales.BD.AGREGAR.getLlave() || metodo == Globales.BD.ELIMINAR.getLlave() || metodo == Globales.BD.MODIFICAR.getLlave())
-            resultado = this.objetoNegocio.ejecutar(metodo, this, parametros);
-        else if(metodo == Globales.BD.LEER.getLlave())
-            resultado = this.objetoNegocio.consultarSeleccion(this);
+        if(metodo == Globales.BD.LEER.getLlave())
+            resultado = super.objetoNegocio.consultarSeleccion(this);
+        else if(metodo == Globales.BD.LEER_UNO.getLlave())
+            resultado = super.objetoNegocio.consultarId(this);
         else if(metodo == Globales.BD.BUSCAR.getLlave())
-            resultado = this.objetoNegocio.consultarBusqueda(this);
+            resultado = super.objetoNegocio.consultarBusqueda(this);
+        else if(metodo == Globales.BD.INSERTAR.getLlave() || metodo == Globales.BD.MODIFICAR.getLlave() || metodo == Globales.BD.ELIMINAR.getLlave())
+            resultado = super.objetoNegocio.ejecutar(metodo, this, super.dto);
                 
         return resultado;
     }
