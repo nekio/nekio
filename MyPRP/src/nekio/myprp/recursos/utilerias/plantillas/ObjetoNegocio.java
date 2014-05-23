@@ -5,25 +5,24 @@ package nekio.myprp.recursos.utilerias.plantillas;
  * @author Nekio
  */
 
-import java.util.ArrayList;
 import nekio.myprp.recursos.utilerias.Globales;
 
 public abstract class ObjetoNegocio {    
     protected String busqueda;
     
-    public abstract String ejecutar(int metodo, Gestor gestor, ArrayList parametros);
+    public abstract String ejecutar(int metodo, Gestor gestor, DTO dto);
     public abstract DTO obtenerModelo(Gestor gestor);
     public abstract String consultarId(Gestor gestor);
     public abstract String consultarSeleccion(Gestor gestor);
     public abstract String consultarBusqueda(Gestor gestor);
     
-    public String consultarAccion(int metodo, DAO dao, ArrayList parametros){
+    public String consultarAccion(int metodo, DAO dao, DTO dto){
         int resultado = 0;
         
-        if(parametros!=null)
-            dao.asignarParametros(parametros);
+        if(dto != null)
+            dao.asignarParametros(dto);
         
-        if(metodo == Globales.BD.AGREGAR.getLlave())
+        if(metodo == Globales.BD.INSERTAR.getLlave())
             resultado = dao.agregar();
         else if(metodo == Globales.BD.ELIMINAR.getLlave())
             resultado = dao.eliminar();

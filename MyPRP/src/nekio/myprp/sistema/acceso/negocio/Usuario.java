@@ -16,8 +16,8 @@ import nekio.myprp.sistema.acceso.dto.UsuarioDTO;
 
 public class Usuario extends ObjetoNegocio{
     @Override
-    public String ejecutar(int metodo, Gestor gestor, ArrayList parametros){
-        String resultado = super.consultarAccion(metodo, new UsuarioDAO(), parametros);
+    public String ejecutar(int metodo, Gestor gestor, DTO dto){
+        String resultado = super.consultarAccion(metodo, new UsuarioDAO(), dto);
         
         return resultado;
     }
@@ -26,11 +26,13 @@ public class Usuario extends ObjetoNegocio{
     public String consultarId(Gestor gestor) {
         UsuarioDAO dao = new UsuarioDAO();
 
-        String id = (String) gestor.getParametros().get(0);
-        UsuarioDTO dto = (UsuarioDTO) dao.leerUno("id_usuario = " + id);
+        UsuarioDTO dto = (UsuarioDTO)gestor.getDTO();
+        String id = String.valueOf(dto.getIdUsuario());
+        
+        UsuarioDTO filtroDTO = (UsuarioDTO) dao.leerUno("id_usuario = " + id);
         
         gestor.setListaDTO(new ArrayList<DTO>());
-        gestor.getListaDTO().add(dto);
+        gestor.getListaDTO().add(filtroDTO);
         
         if(Globales.APP_DEBUG)
             System.out.println("\nDTOs obtenidos al consultar ID: " + gestor.getListaDTO().size());

@@ -25,6 +25,7 @@ public class Globales {
     // <editor-fold defaultstate="collapsed" desc="Valores de App">  
     public static final boolean APP_DEBUG = true;
     public static final boolean APP_DESIGN = true;
+    public static final String OBJ_NEGOCIO_SEPARADOR = "\n--------------------------------------------------------------------";
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Valores de Modulos">  
@@ -82,11 +83,14 @@ public class Globales {
     
     // Acciones de la Base de Datos
     public static enum BD{
-        AGREGAR(1,"agregar","mostrarInsertado"),
-        BUSCAR(2,"buscar","mostratResultadoFiltrado"),
+        NUEVO(0,"agregar","agregarNuevo"),
+        INSERTAR(1,"insertar","mostrarInsertado"),
+        BUSCAR(2,"buscar","mostrarSeleccionFiltrada"),
         ELIMINAR(3,"eliminar","mostrarSinEliminado"),
-        LEER(4,"leer","mostrarResultado"),
-        MODIFICAR(5,"modificar","abrirEdicion");
+        LEER(4,"leer","mostrarSeleccion"),
+        LEER_UNO(5,"leerId","mostrar"),
+        MODIFICAR(6,"modificar","abrirEdicion"),
+        CANCELAR(7,"cancelar","cancelarAccion");;
         
         private int llave;
         private String valor;

@@ -14,7 +14,7 @@ public class Login {
     private String usuarioIngresado;
     private String passwordIngresado;
     
-    private int idUsuario;
+    private UsuarioDTO dto;
     private boolean usuarioValido;
     private boolean passwordValido;
     private boolean accesoValido;
@@ -48,7 +48,7 @@ public class Login {
                     if(accesoValido)
                         valido = true;
                     
-                    idUsuario = usuario.getIdUsuario();
+                    this.dto = (UsuarioDTO) dto;
                     break;
                 }else
                     break;
@@ -82,6 +82,10 @@ public class Login {
         return passwordIngresado;
     }
     
+    public UsuarioDTO getDTO() {
+        return dto;
+    }
+    
     public boolean isUsuarioValido() {
         return usuarioValido;
     }
@@ -92,9 +96,5 @@ public class Login {
 
     public boolean isAccesoValido() {
         return accesoValido;
-    }
-
-    public int getIdUsuario() {
-        return idUsuario;
     }
 }

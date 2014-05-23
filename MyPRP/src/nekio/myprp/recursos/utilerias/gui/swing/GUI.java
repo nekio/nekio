@@ -13,6 +13,7 @@ import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.Box;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,13 +26,13 @@ public class GUI extends JFrame{
     
     private Container contenedor;
     private String titulo;
-    private ArrayList camposBD;
-    private ArrayList valoresBD;
-    private ArrayList<Integer> tiposDatoBD;
-    private ArrayList registrosLlave;
-    private ArrayList registrosNoLlave;
-    private ArrayList registrosLlaveValor;
-    private ArrayList registrosNoLlaveValor;
+    private List camposBD;
+    private List valoresBD;
+    private List<Integer> tiposDatoBD;
+    private List registrosLlave;
+    private List registrosNoLlave;
+    private List registrosLlaveValor;
+    private List registrosNoLlaveValor;
     private Dimension dimension;
     
     public GUI(){
@@ -42,7 +43,7 @@ public class GUI extends JFrame{
         this(titulo, camposBD, valoresBD, tiposDatoBD, new Dimension(640,480));
     }
     
-    public GUI(String titulo, ArrayList camposBD, ArrayList valoresBD, ArrayList<Integer> tiposDatoBD, Dimension dimension){
+    public GUI(String titulo, List camposBD, List valoresBD, List<Integer> tiposDatoBD, Dimension dimension){
         super(Globales.NOMBRE_APP + ": " + titulo);
         
         this.titulo = titulo;

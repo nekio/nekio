@@ -1,21 +1,31 @@
-
 package nekio.myprp.recursos.utilerias;
-
-import nekio.myprp.sistema.acceso.vista.LoginGUI;
 
 /**
  *
  * @author Nekio
  */
+
+import java.util.ArrayList;
+import java.util.List;
+import nekio.myprp.recursos.img.obj.ImagenDTO;
+import nekio.myprp.recursos.utilerias.gui.swing.CatalogoImagenes;
+import nekio.myprp.recursos.utilerias.gui.swing.RecogedorImagen;
+import nekio.myprp.recursos.utilerias.plantillas.DTO;
+import nekio.myprp.recursos.utilerias.plantillas.Gestor;
+import nekio.myprp.sistema.acceso.vista.LoginGUI;
+
 public class Mapeador {
-    public static void abrir(int modulo, String pagina){
+    public static void abrir(Gestor gestor){
+        String pagina = gestor.getPagina();
+        
         if(Globales.APP_DEBUG)
-            System.out.println("\nMapeador abriendo la vista: " + pagina);
+            System.out.println("\n|==========>  Mapeador abriendo la vista: " + pagina + "  <==========|");
         
         if(pagina.equals("login"))
             new LoginGUI();
         
-        switch(modulo){
+        String entidad = null;
+        switch(gestor.getModulo()){
             /*********************************************************/
             /* MODULO DE ACCESO */
             /*********************************************************/
@@ -23,7 +33,7 @@ public class Mapeador {
                 if(pagina.equals("bienvenida")){
                     //new Pagina();
                 }else if(pagina.equals("")){
-                
+                    
                 }
             break;
                 
@@ -31,12 +41,30 @@ public class Mapeador {
             /* MODULO DE IMAGEN*/
             /*********************************************************/
             case Globales.MOD_IMAGEN:
-                if(pagina.equals("mostrarImagen")){
-                    //new Pagina();
-                }else if(pagina.equals("")){
+                entidad = Globales.Entidad.Imagen.name();
+                List<ImagenDTO> parametros = null;
+                ImagenDTO parametro = null;
                 
+                if(pagina.equals(Globales.BD.LEER.getPagina()+entidad)){
+                    parametros = new ArrayList<ImagenDTO>();
+                    for(DTO dto:gestor.getListaDTO())
+                        parametros.add((ImagenDTO) dto);
+                    
+                    new CatalogoImagenes(parametros);
+                }else if(pagina.equals(Globales.BD.LEER_UNO.getPagina()+entidad)){
+                    parametro = (ImagenDTO) gestor.getDTO();
+                    
+                    new RecogedorImagen(parametro);
+                }else if(pagina.equals(Globales.BD.NUEVO.getPagina()+entidad)){                    
+                    new RecogedorImagen();
                 }
+                
+                parametros = null;
+                parametro = null;
             break;
+            default:
+                if(Globales.APP_DEBUG)
+                    System.out.println("\nLa vista indicada no existe");
         }
     }
 }

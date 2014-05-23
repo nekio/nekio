@@ -17,6 +17,10 @@ public class Mensaje {
     public static final int CANCELAR = 0;
     public static final int ACEPTAR = 1;
     
+    public static final int MSJ_INFORMACION = 1;
+    public static final int MSJ_ADVERTENCIA = 2;
+    public static final int MSJ_ERROR = 3;
+    
     // <editor-fold defaultstate="collapsed" desc="Constructores"> 
     public Mensaje(){
         this(null);
@@ -48,8 +52,7 @@ public class Mensaje {
             default:
                 tipo=JOptionPane.PLAIN_MESSAGE;
         }
-        JOptionPane.showMessageDialog(null, mensaje, Globales.NOMBRE_APP, tipo);
-        JOptionPane.showConfirmDialog(null, mensaje, Globales.NOMBRE_APP, tipo, tipo);
+        JOptionPane.showMessageDialog(null, mensaje, Globales.NOMBRE_APP, tipo);        
     }
     // </editor-fold>
     

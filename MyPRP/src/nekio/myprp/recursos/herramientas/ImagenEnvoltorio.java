@@ -7,13 +7,14 @@ package nekio.myprp.recursos.herramientas;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
 import nekio.myprp.recursos.utilerias.Globales;
 
 public class ImagenEnvoltorio {
-    private static final String EXTENSION = "png";
+    public static final String EXTENSION = "png";
     private static final String RUTA_TEMPORAL = System.getProperty("user.home") + File.separator + "." + Globales.SIGLAS_APP;
     private static final String IMAGEN_TEMPORAL = RUTA_TEMPORAL + File.separator + "tmp_img." + EXTENSION ;
 
@@ -32,11 +33,17 @@ public class ImagenEnvoltorio {
         return IMAGEN_TEMPORAL;
     }
     
-    public static BufferedImage obtenerImagen(Dimension dimension, String ruta) throws Exception{
+    public static BufferedImage obtenerImagen(Dimension dimension, String ruta) throws Exception{        
+        return redimensionarImagen(dimension, ImageIO.read(new File(ruta)));
+    }
+    
+    public static BufferedImage obtenerImagen(Dimension dimension, Image imagen) throws Exception{        
+        return redimensionarImagen(dimension, (BufferedImage) imagen);
+    }
+    
+    private static BufferedImage redimensionarImagen(Dimension dimension, BufferedImage imagenOriginal){
         int ancho = dimension.width;
         int alto = dimension.height;
-        
-        BufferedImage imagenOriginal = ImageIO.read(new File(ruta));
         int type = imagenOriginal.getType() == 0? BufferedImage.TYPE_INT_ARGB : imagenOriginal.getType();
         
         BufferedImage imagenRedimensionada = new BufferedImage(ancho, alto, type);

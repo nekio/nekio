@@ -26,30 +26,33 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import nekio.myprp.recursos.img.obj.GestorImagen;
+import nekio.myprp.recursos.herramientas.Mensaje;
 import nekio.myprp.recursos.img.obj.ImagenDTO;
+import nekio.myprp.recursos.img.obj.vista.ImagenBD_M;
 import nekio.myprp.recursos.utilerias.Fecha;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.Idioma;
-import nekio.myprp.recursos.utilerias.plantillas.DTO;
 
 public class CatalogoImagenes extends JFrame{
     private static final long serialVersionUID = 1L;
-    private final Dimension DIMENSION = new Dimension(580, 490);
-    private final int altoFila = 100;
+    private final Dimension DIMENSION = new Dimension(650, 500);
+    private final ImagenBD_M BDM = new ImagenBD_M(this);
+    private final int ALTO_FILA = 100;
     
     private Container contenedor;
     private JTable tabla;
     private DefaultTableModel modelo;
     private List<ImagenDTO> listaDTO;
     
-    public CatalogoImagenes(){
+    public CatalogoImagenes(List<ImagenDTO> listaDTO){
         super(Globales.NOMBRE_APP + " - " + Idioma.obtenerTexto(Idioma.PROP_RECOGEDOR_IMAGEN, "titulo"));
         this.contenedor = this.getContentPane();
         this.setSize(DIMENSION);
         this.setMinimumSize(DIMENSION);
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
+        
+        this.listaDTO = listaDTO;
         
         agregarComponentes();
         agregarEscuchadores();
@@ -58,11 +61,13 @@ public class CatalogoImagenes extends JFrame{
     }
     
     private void agregarComponentes(){
-        obtenerRegistros();
-        
         JPanel pnlContenedor = new JPanel(new BorderLayout());
+        
+        // Tabla de registros
         pnlContenedor.add(generarTabla(), "Center");
-        pnlContenedor.add(new BD_Manipulador(), "South");
+        
+        // Manipulador de la Base de Datos
+        pnlContenedor.add(BDM, "South");
         
         contenedor.add(pnlContenedor);
     }
@@ -76,25 +81,17 @@ public class CatalogoImagenes extends JFrame{
         });
     }
     
-    private void obtenerRegistros(){
-        String entidad = Globales.Entidad.Imagen.name();
-        
-        GestorImagen gestor = new GestorImagen();
-        gestor.ejecutarControladorNegocio(Globales.BD.LEER.getValor(), entidad);
-        
-        listaDTO= new ArrayList<ImagenDTO>();
-        List<DTO> lista = gestor.getListaDTO();
-        for(DTO dto:lista)
-            listaDTO.add((ImagenDTO)dto);
-    }
-    
     private JScrollPane generarTabla(){
         final int indiceCampoImg = 1;
         
         ArrayList<String> listaCabeceras = obtenerCabeceras();
         String[] cabeceras = listaCabeceras.toArray(new String[listaCabeceras.size()]);
         int campos = cabeceras.length;
-        int registros = listaDTO.size();
+        
+        int registros = 0;
+        try{
+            registros = listaDTO.size();
+        }catch(Exception e){}
         
         final Object matriz[][]=new Object[registros][campos];
         for(int i=0;i<registros;i++){
@@ -122,7 +119,7 @@ public class CatalogoImagenes extends JFrame{
         };
         
         tabla = new JTable(modelo);
-        tabla.setRowHeight(altoFila);
+        tabla.setRowHeight(ALTO_FILA);
         tabla.setDefaultRenderer(Object.class, new DefaultTableCellRenderer(){
             private static final long serialVersionUID = 1L;
             
@@ -180,6 +177,19 @@ public class CatalogoImagenes extends JFrame{
         }
         
         return valores;    
+    }
+    
+    public ImagenDTO getParametros(){
+        ImagenDTO parametros = null;
+        int indice = tabla.getSelectedRow();
+        
+        try{
+            parametros = listaDTO.get(indice);
+        }catch(Exception e){
+            new Mensaje(Idioma.obtenerTexto(Idioma.PROP_ACCIONES, "noFilaSeleccionada"), Mensaje.MSJ_ADVERTENCIA);
+        }
+        
+        return parametros;
     }
     
     private void salir(){

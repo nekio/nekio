@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -125,7 +126,7 @@ public class RecogedorImagen extends JFrame implements DropTargetListener{
         pnlSuperior.add(lblTexto, "North");
         
         String id = idImagen == null ? "-" : idImagen.toString();
-        JLabel lblId = new JLabel("ID:"+id);
+        JLabel lblId = new JLabel(" ID : "+id);
         lblId.setHorizontalAlignment(SwingConstants.CENTER);
         pnlSuperior.add(lblId, "West");
                 
@@ -193,8 +194,11 @@ public class RecogedorImagen extends JFrame implements DropTargetListener{
     private void agregarEscuchadores(){
         cmbTipoImagen.addActionListener(new ActionListener(){
             @Override
-            public void actionPerformed( ActionEvent evt){
-                habilitarComponentes(leerImagen(archivo));
+            public void actionPerformed(ActionEvent evt){
+                if(dto == null)
+                    habilitarComponentes(leerImagen(archivo));
+                else
+                    habilitarComponentes(leerImagen());
              }
         });
         
@@ -275,7 +279,7 @@ public class RecogedorImagen extends JFrame implements DropTargetListener{
 
         File archivo=selecciona.getSelectedFile();
         if(archivo==null || archivo.getName().equals(""))
-            new Mensaje("No fue seleccionado ningun archivo",3);
+            new Mensaje("No fue seleccionado ningun archivo", Mensaje.MSJ_ERROR);
         else
             imagenOK = leerImagen(archivo);
         
@@ -287,17 +291,10 @@ public class RecogedorImagen extends JFrame implements DropTargetListener{
         txtNombreImagen.setEnabled(habilitar);
         txtDescripcion.setEnabled(habilitar);
         
-        if(habilitar){
-            lblNombreArchivo.setText(nombreArchivo);
-            
-            Icon icono = new ImageIcon(imagen);
-            lblImagen.setIcon(icono);
-        }else{
-            txtNombreImagen.setText("");
-            txtDescripcion.setText("");
-            lblNombreArchivo.setText(Idioma.obtenerTexto(Idioma.PROP_RECOGEDOR_IMAGEN, "nombreArchivo"));
-            lblImagen.setIcon(null);
-        }
+        txtNombreImagen.setText("");
+        txtDescripcion.setText("");
+        lblNombreArchivo.setText(Idioma.obtenerTexto(Idioma.PROP_RECOGEDOR_IMAGEN, "nombreArchivo"));
+        lblImagen.setIcon(null);
         
         definirValoresComponentes();
     }
@@ -306,6 +303,12 @@ public class RecogedorImagen extends JFrame implements DropTargetListener{
         // Imagen
         if(imagen != null)
             lblImagen.setIcon(new ImageIcon(imagen));
+        
+        // Nombre de archivo
+        if(dto != null){
+            nombreArchivo = "";
+            lblNombreArchivo.setText(nombreArchivo);
+        }
         
         // Nombre Imagen
         txtNombreImagen.setText(nombreImagen);
@@ -340,6 +343,21 @@ public class RecogedorImagen extends JFrame implements DropTargetListener{
         return cerrarVentana;
     }
     
+    private boolean leerImagen(){
+        leerDimension();
+
+        try{
+            imagen = ImagenEnvoltorio.obtenerImagen(dimension, dto.getImagen());
+            nombreArchivo = "";
+
+            return true;
+        }catch(Exception e){
+            new Mensaje(Idioma.obtenerTexto(Idioma.PROP_RECOGEDOR_IMAGEN, "noImagen"), Mensaje.MSJ_ERROR);
+        }
+
+        return false;
+    }
+    
     private boolean leerImagen(File archivo){
         if(archivo == null)
             return false;
@@ -353,9 +371,11 @@ public class RecogedorImagen extends JFrame implements DropTargetListener{
                 rutaArchivo = ruta;
                 this.archivo = archivo;
                 
+                this.lblImagen.setIcon(null);
+                
                 return true;
             }catch(Exception e){
-                new Mensaje(Idioma.obtenerTexto(Idioma.PROP_RECOGEDOR_IMAGEN, "noImagen"),3);
+                new Mensaje(Idioma.obtenerTexto(Idioma.PROP_RECOGEDOR_IMAGEN, "noImagen"), Mensaje.MSJ_ERROR);
             }
 
             return false;
@@ -378,18 +398,22 @@ public class RecogedorImagen extends JFrame implements DropTargetListener{
     }
     
     private void guardar(){
-        ArrayList parametros = new ArrayList();
-        parametros.add(rutaArchivo);
-        parametros.add(nombreImagen);
-        parametros.add(tipoImagen);
-        parametros.add(fechaSubida);
-        parametros.add(descripcionImagen);
+        dto = new ImagenDTO();
+        
+        dto.setIdImagen(idImagen);
+        dto.setImagen(imagen);
+        dto.setNombre(nombreImagen);
+        dto.setTipo(tipoImagen);
+        dto.setFechaSubida(fechaSubida);
+        dto.setDescripcion(descripcionImagen);
+        dto.setRutaImagen(rutaArchivo); //Campo artificial
         
         String entidad = Globales.Entidad.Imagen.name();
         
         GestorImagen gestor = new GestorImagen();
-        gestor.setParametros(parametros);
-        gestor.ejecutarControladorNegocio(Globales.BD.AGREGAR.getValor(), entidad);
+        gestor.setDTO(dto);
+        gestor.ejecutarControladorNegocio(Globales.BD.INSERTAR.getValor(), entidad);
+        gestor = null;
         
         salir();
     }
