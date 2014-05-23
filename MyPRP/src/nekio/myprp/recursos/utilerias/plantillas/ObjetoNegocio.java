@@ -14,6 +14,7 @@ public abstract class ObjetoNegocio {
     public abstract DTO obtenerModelo(Gestor gestor);
     public abstract String consultarId(Gestor gestor);
     public abstract String consultarSeleccion(Gestor gestor);
+    public abstract String consultarSeleccionDesc(Gestor gestor);
     public abstract String consultarBusqueda(Gestor gestor);
     
     public String consultarAccion(int metodo, DAO dao, DTO dto){

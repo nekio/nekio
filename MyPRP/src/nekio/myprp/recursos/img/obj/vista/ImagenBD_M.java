@@ -5,12 +5,12 @@ package nekio.myprp.recursos.img.obj.vista;
  * @author Nekio
  */
 
-import javax.swing.JFrame;
 import nekio.myprp.recursos.img.obj.GestorImagen;
 import nekio.myprp.recursos.img.obj.ImagenDTO;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.gui.swing.BD_Manipulador;
 import nekio.myprp.recursos.utilerias.gui.swing.CatalogoImagenes;
+import nekio.myprp.recursos.utilerias.plantillas.SwingMaestro;
 
 public class ImagenBD_M extends BD_Manipulador{
     private static final long serialVersionUID = 1L;
@@ -19,13 +19,17 @@ public class ImagenBD_M extends BD_Manipulador{
     private GestorImagen gestor;
     private CatalogoImagenes gui;
     
-    public ImagenBD_M(JFrame gui){
+    public ImagenBD_M(SwingMaestro gui){
         this.gui = (CatalogoImagenes)gui;
+        
+        super.ocultarGuardar();
+        super.ocultarCancelar();
     }
     
     @Override
     public void insertarRegistro() {
         gestor = new GestorImagen();
+        gestor.setGui(gui);
         gestor.ejecutarControladorNegocio(Globales.BD.NUEVO.getValor(), ENTIDAD);
         gestor = null;
     }
@@ -37,6 +41,7 @@ public class ImagenBD_M extends BD_Manipulador{
         if(parametros != null){
             gestor = new GestorImagen();
             gestor.setDTO(parametros);
+            gestor.setGui(gui);
             gestor.ejecutarControladorNegocio(Globales.BD.LEER_UNO.getValor(), ENTIDAD);
             gestor = null;
         }else{
@@ -47,16 +52,20 @@ public class ImagenBD_M extends BD_Manipulador{
 
     @Override
     public void borrarRegistro() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ImagenDTO parametros = gui.getParametros();
+        
+        if(parametros != null){
+            gestor = new GestorImagen();
+            gestor.setDTO(parametros);
+            gestor.setGui(gui);
+            gestor.ejecutarControladorNegocio(Globales.BD.ELIMINAR.getValor(), ENTIDAD);
+            gestor = null;
+        }else{
+            if(Globales.APP_DEBUG)
+                System.out.println("\nNo se pudieron leer los parametros para borrar " + ENTIDAD);
+        }
     }
 
-    @Override
-    public void guardarEdicion() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void cancelarEdicion() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    @Override public void guardarEdicion(){}
+    @Override public void cancelarEdicion(){}
 }

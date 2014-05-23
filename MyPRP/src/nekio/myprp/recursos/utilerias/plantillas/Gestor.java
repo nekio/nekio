@@ -12,9 +12,11 @@ import nekio.myprp.recursos.utilerias.Mapeador;
 public abstract class Gestor {
     protected ObjetoNegocio objetoNegocio;
     protected DTO dto;
+    protected DAO dao;
     protected int modulo;
     protected String pagina;
     
+    private SwingMaestro gui;
     private List<DTO> listaDTO;
     
     public void ejecutarControladorNegocio(ObjetoNegocio objetoNegocio, String accion, String entidad){
@@ -33,6 +35,9 @@ public abstract class Gestor {
         if(negocio.equals(Globales.BD.LEER.getValor() + entidad)){
             resultado = obtenerResultado(objetoNegocio, Globales.BD.LEER.getLlave());
             pagina = Globales.BD.LEER.getPagina() + entidad;
+        }else if(negocio.equals(Globales.BD.LEER_DESC.getValor() + entidad)){
+            resultado = obtenerResultado(objetoNegocio, Globales.BD.LEER_DESC.getLlave());
+            pagina = Globales.BD.LEER_DESC.getPagina() + entidad;
         }else if(negocio.equals(Globales.BD.LEER_UNO.getValor() + entidad)){
             resultado = obtenerResultado(objetoNegocio, Globales.BD.LEER_UNO.getLlave());
             pagina = Globales.BD.LEER_UNO.getPagina() + entidad;
@@ -87,6 +92,13 @@ public abstract class Gestor {
         }
     }
     
+    public void recargarGUI(){
+        gui.recargar(dao.leerDesc(null));
+        
+        if(Globales.APP_DEBUG)
+            System.out.println("\nFinalizada la recarga de la vista\n"+gui.getClass().getName());
+    }
+    
     public ObjetoNegocio getObjetoNegocio() {
         return objetoNegocio;
     }
@@ -99,12 +111,24 @@ public abstract class Gestor {
         this.dto = dto;
     }
     
+    public DAO getDao() {
+        return dao;
+    }
+    
     public int getModulo() {
         return modulo;
     }
 
     public String getPagina() {
         return pagina;
+    }
+    
+    public SwingMaestro getGui() {
+        return gui;
+    }
+
+    public void setGui(SwingMaestro gui) {
+        this.gui = gui;
     }
     
     public void setListaDTO(List<DTO> listaDTO) {

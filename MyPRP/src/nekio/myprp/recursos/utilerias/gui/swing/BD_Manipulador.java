@@ -85,6 +85,26 @@ public abstract class BD_Manipulador extends JPanel{
         });
     }
     
+    public void ocultarNuevo(){
+        btnNuevo.setVisible(false);
+    }
+    
+    public void ocultarEditar(){
+        btnEditar.setVisible(false);
+    }
+    
+    public void ocultarBorrar(){
+        btnBorrar.setVisible(false);
+    }
+    
+    public void ocultarGuardar(){
+        btnGuardar.setVisible(false);
+    }
+    
+    public void ocultarCancelar(){
+        btnCancelar.setVisible(false);
+    }
+    
     public abstract void insertarRegistro();
     public abstract void editarRegistro();
     public abstract void borrarRegistro();

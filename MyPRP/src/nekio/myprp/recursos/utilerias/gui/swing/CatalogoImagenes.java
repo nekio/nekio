@@ -1,4 +1,3 @@
-
 package nekio.myprp.recursos.utilerias.gui.swing;
 
 /**
@@ -6,6 +5,7 @@ package nekio.myprp.recursos.utilerias.gui.swing;
  * @author Nekio
  */
 
+import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -17,8 +17,8 @@ import java.awt.image.BufferedImage;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -32,20 +32,29 @@ import nekio.myprp.recursos.img.obj.vista.ImagenBD_M;
 import nekio.myprp.recursos.utilerias.Fecha;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.Idioma;
+import nekio.myprp.recursos.utilerias.plantillas.DTO;
+import nekio.myprp.recursos.utilerias.plantillas.SwingMaestro;
 
-public class CatalogoImagenes extends JFrame{
+public class CatalogoImagenes extends SwingMaestro{
     private static final long serialVersionUID = 1L;
-    private final Dimension DIMENSION = new Dimension(650, 500);
-    private final ImagenBD_M BDM = new ImagenBD_M(this);
+    
+    private final String ENTIDAD = Globales.Entidad.Imagen.name();
+    private final ImagenBD_M BDManipulador = new ImagenBD_M(this);
+    private final BD_Navegador BDNavegador = new BD_Navegador(this);
+    
+    private final Dimension DIMENSION = new Dimension(720, 550);
     private final int ALTO_FILA = 100;
+    private final int INDICE_CAMPO_IMG = 1;
     
     private Container contenedor;
+    private JPanel pnlContenido;
     private JTable tabla;
     private DefaultTableModel modelo;
     private List<ImagenDTO> listaDTO;
     
     public CatalogoImagenes(List<ImagenDTO> listaDTO){
-        super(Globales.NOMBRE_APP + " - " + Idioma.obtenerTexto(Idioma.PROP_RECOGEDOR_IMAGEN, "titulo"));
+        this.setTitle(Globales.NOMBRE_APP + " - " + Idioma.obtenerTexto(Idioma.PROP_RECOGEDOR_IMAGEN, "titulo"));
+        
         this.contenedor = this.getContentPane();
         this.setSize(DIMENSION);
         this.setMinimumSize(DIMENSION);
@@ -61,15 +70,18 @@ public class CatalogoImagenes extends JFrame{
     }
     
     private void agregarComponentes(){
-        JPanel pnlContenedor = new JPanel(new BorderLayout());
+        pnlContenido = new JPanel(new BorderLayout());
         
         // Tabla de registros
-        pnlContenedor.add(generarTabla(), "Center");
+        pnlContenido.add(generarTabla(), "Center");
         
         // Manipulador de la Base de Datos
-        pnlContenedor.add(BDM, "South");
+        pnlContenido.add(BDManipulador, "South");
         
-        contenedor.add(pnlContenedor);
+        // Navegador de la Base de Datos
+        pnlContenido.add(BDNavegador, "North");
+        
+        contenedor.add(pnlContenido);
     }
     
     private void agregarEscuchadores(){
@@ -82,8 +94,6 @@ public class CatalogoImagenes extends JFrame{
     }
     
     private JScrollPane generarTabla(){
-        final int indiceCampoImg = 1;
-        
         ArrayList<String> listaCabeceras = obtenerCabeceras();
         String[] cabeceras = listaCabeceras.toArray(new String[listaCabeceras.size()]);
         int campos = cabeceras.length;
@@ -96,10 +106,10 @@ public class CatalogoImagenes extends JFrame{
         final Object matriz[][]=new Object[registros][campos];
         for(int i=0;i<registros;i++){
             matriz[i][0] = String.valueOf(listaDTO.get(i).getIdImagen());
-            matriz[i][indiceCampoImg] = listaDTO.get(i).getImagen();
+            matriz[i][INDICE_CAMPO_IMG] = listaDTO.get(i).getImagen();
             matriz[i][2] = listaDTO.get(i).getNombre();
             matriz[i][3] = String.valueOf(listaDTO.get(i).getTipo());
-            matriz[i][4] = Fecha.obtenerFechaFormateada(listaDTO.get(i).getFechaSubida(), Fecha.FORMATO);
+            matriz[i][4] = Fecha.obtenerFechaFormateada(listaDTO.get(i).getFechaSubida(), Fecha.FORMATO_COMPLETO);
             matriz[i][5] = listaDTO.get(i).getDescripcion();
         }
         
@@ -111,40 +121,28 @@ public class CatalogoImagenes extends JFrame{
             
             @Override
             public Object getValueAt(int fila, int columna){                
-                if(columna != indiceCampoImg)
+                if(columna != INDICE_CAMPO_IMG)
                     return matriz[fila][columna];
                 else
-                    return new ImageIcon((BufferedImage)matriz[fila][indiceCampoImg]);
+                    return new ImageIcon((BufferedImage)matriz[fila][INDICE_CAMPO_IMG]);
             }
         };
         
         tabla = new JTable(modelo);
         tabla.setRowHeight(ALTO_FILA);
-        tabla.setDefaultRenderer(Object.class, new DefaultTableCellRenderer(){
-            private static final long serialVersionUID = 1L;
-            
-            @Override
-            public Component getTableCellRendererComponent(JTable tabla, Object valor, boolean seleccionado, boolean tieneFocus, int fila, int columna){
-                super.getTableCellRendererComponent (tabla, valor, seleccionado, tieneFocus, fila, columna);
-                if(columna != indiceCampoImg)
-                   this.setBackground(Color.LIGHT_GRAY);
-                else
-                    this.setBackground(Color.WHITE);
-
-                return this;
-             }
-        });
+        tabla.setDefaultRenderer(Object.class, new RenderCeldas());
         
         //tabla.setFillsViewportHeight(true);
         tabla.setShowGrid(false);
         tabla.setOpaque(false);
         
         // Definir columna de imagen
-        tabla.getColumnModel().getColumn(indiceCampoImg).setCellRenderer(tabla.getDefaultRenderer(ImageIcon.class));
+        tabla.getColumnModel().getColumn(INDICE_CAMPO_IMG).setCellRenderer(tabla.getDefaultRenderer(ImageIcon.class));
         
         /*Agregar Scroll a la tabla*/
         TableRowSorter ordenador = new TableRowSorter<TableModel>(modelo);
         tabla.setRowSorter(ordenador);
+        modelo.fireTableDataChanged(); // Para reconocimiento de actualizaciones en la tabla
         JScrollPane scrollPane = new JScrollPane(tabla);
         
         return scrollPane;
@@ -168,7 +166,8 @@ public class CatalogoImagenes extends JFrame{
                 Field field = properties[i];
                 if(!field.getType().isEnum()){
                     cabecera = field.getName();
-                    valores.add(cabecera);
+                    if(cabecera != "rutaImagen") //Este campo es artificial, por eso no se considera
+                        valores.add(cabecera);
                 }
             }
         } catch (ClassNotFoundException e){
@@ -192,7 +191,108 @@ public class CatalogoImagenes extends JFrame{
         return parametros;
     }
     
+    @Override
+    public void navegar(int accion) {
+        int filaSeleccionada = tabla.getSelectedRow();
+        if(filaSeleccionada < 0)
+            filaSeleccionada = 0;
+        
+        int filaFinal = tabla.getRowCount()-1;
+        
+        switch(accion){
+            case BD_Navegador.PRIMERO:
+                tabla.setRowSelectionInterval(0, 0);
+            break;
+            case BD_Navegador.ANTERIOR:
+                int filaAnterior = filaSeleccionada-1;
+                if(filaAnterior == 0){
+                    super.getNavegadorBD().deshabilitarPrimero();
+                    super.getNavegadorBD().deshabilitarAnterior();
+                }
+                
+                tabla.setRowSelectionInterval(filaAnterior, filaAnterior);
+            break;
+            case BD_Navegador.SIGUIENTE:
+                int filaSiguiente = filaSeleccionada+1;
+                if(filaSiguiente == filaFinal){
+                    super.getNavegadorBD().deshabilitarUltimo();
+                    super.getNavegadorBD().deshabilitarSiguiente();
+                }
+                    
+                tabla.setRowSelectionInterval(filaSiguiente, filaSiguiente);
+            break;
+            case BD_Navegador.ULTIMO:                
+                tabla.setRowSelectionInterval(filaFinal, filaFinal);
+            break;
+        }
+    }
+
+    @Override
+    public void buscar(String filtro){ 
+        String registro = null;
+        filtro = filtro.toUpperCase();
+        
+        for(int fila=0; fila<=tabla.getRowCount()-1; fila++) {
+            for(int columna=0; columna<=tabla.getColumnCount()-1; columna++) {
+                if(columna != INDICE_CAMPO_IMG){
+                    registro = String.valueOf(tabla.getValueAt(fila, columna)).toUpperCase();
+                    if(registro.contains(filtro)) {
+                        System.out.println(filtro+" : "+registro);
+                        // Localiza automaticamente la vista del scroll en la ubicacion del valor
+                        tabla.scrollRectToVisible(tabla.getCellRect(fila, 0, true));
+
+                        // Agrega el foco a la fila seleccionada
+                        tabla.setRowSelectionInterval(fila, fila);
+
+                        for(int i=0; i<=tabla.getColumnCount()-1; i++) {
+                            if( i != INDICE_CAMPO_IMG)
+                                tabla.getColumnModel().getColumn(i).setCellRenderer(new RenderCeldas());
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private class RenderCeldas extends DefaultTableCellRenderer{
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public Component getTableCellRendererComponent(JTable tabla, Object valor, boolean seleccionado, boolean tieneFocus, int fila, int columna){
+            super.getTableCellRendererComponent (tabla, valor, seleccionado, tieneFocus, fila, columna);
+            if(columna != INDICE_CAMPO_IMG)
+               this.setBackground(Color.LIGHT_GRAY);
+            else
+                this.setBackground(Color.WHITE);
+            
+            if(fila == tabla.getSelectedRow())
+                setBorder(BorderFactory.createMatteBorder(2, 1, 2, 1, Color.WHITE));
+
+            return this;
+         }
+    }
+    
     private void salir(){
         this.dispose();
     } 
+
+    @Override
+    public void recargar(List<DTO> listaDTO){
+        this.listaDTO = new ArrayList<ImagenDTO>();
+        for(DTO dto:listaDTO)
+            this.listaDTO.add((ImagenDTO) dto);
+        
+        pnlContenido.setVisible(false);
+        pnlContenido= null;
+        
+        agregarComponentes();
+    }
+
+    public List<ImagenDTO> getListaDTO() {
+        return listaDTO;
+    }
+
+    public void setListaDTO(List<ImagenDTO> listaDTO) {
+        this.listaDTO = listaDTO;
+    }
 }

@@ -11,10 +11,12 @@ import nekio.myprp.recursos.utilerias.plantillas.ObjetoNegocio;
 
 public class GestorImagen extends Gestor{
     private final Imagen OBJETO_NEGOCIO = new Imagen();
+    private final ImagenDAO DAO = new ImagenDAO();
     private final int MODULO = Globales.MOD_IMAGEN;
     
     public GestorImagen(){
         super.modulo = MODULO;
+        super.dao = DAO;
     }
 
     public void ejecutarControladorNegocio(String accion, String entidad){
@@ -30,6 +32,8 @@ public class GestorImagen extends Gestor{
         
         if(metodo == Globales.BD.LEER.getLlave())
             resultado = super.objetoNegocio.consultarSeleccion(this);
+        else if(metodo == Globales.BD.LEER_DESC.getLlave())
+            resultado = super.objetoNegocio.consultarSeleccionDesc(this);
         else if(metodo == Globales.BD.LEER_UNO.getLlave())
             resultado = super.objetoNegocio.consultarId(this);
         else if(metodo == Globales.BD.BUSCAR.getLlave())

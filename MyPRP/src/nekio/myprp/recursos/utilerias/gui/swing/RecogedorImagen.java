@@ -9,7 +9,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -31,7 +30,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -47,12 +45,15 @@ import nekio.myprp.recursos.img.obj.GestorImagen;
 import nekio.myprp.recursos.img.obj.ImagenDTO;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.Idioma;
+import nekio.myprp.recursos.utilerias.plantillas.SwingMaestro;
 
 public class RecogedorImagen extends JFrame implements DropTargetListener{
     private static final long serialVersionUID = 1L;
     private final Dimension DIMENSION = new Dimension(380, 290);
     
     private Container contenedor;
+    private SwingMaestro guiPadre;
+    
     private JLabel lblTexto;
     private JLabel lblNombreArchivo;
     private JLabel lblImagen;
@@ -77,26 +78,36 @@ public class RecogedorImagen extends JFrame implements DropTargetListener{
     private Dimension dimension;
     private DropTarget dragNDrop;
     
-    public RecogedorImagen(){
-        this(null);
+    public RecogedorImagen(SwingMaestro guiPadre){
+        this(guiPadre, null);
     }
     
-    public RecogedorImagen(ImagenDTO dto){
+    public RecogedorImagen(SwingMaestro guiPadre, ImagenDTO dto){
         super(Globales.NOMBRE_APP + " - " + Idioma.obtenerTexto(Idioma.PROP_RECOGEDOR_IMAGEN, "titulo"));
         
-        this.contenedor = this.getContentPane();
-        this.dto = dto;
+        this.guiPadre = guiPadre;
         
-        this.setSize(DIMENSION);
-        this.setMinimumSize(DIMENSION);
-        this.setLocationRelativeTo(null);
-        this.setLayout(new BorderLayout());
-        
-        leerDTO();
-        agregarComponentes();
-        agregarEscuchadores();
-        
-        this.setVisible(true);
+        if(guiPadre == null){
+            if(Globales.APP_DEBUG)
+                System.out.println("\nFalta asociar en el Mapeador la Vista padre que invoca a esta Vista");
+            
+            new Mensaje(Idioma.obtenerTexto(Idioma.PROP_ACCIONES, "noVistaPadre"));
+            salir();
+        }else{
+            this.contenedor = this.getContentPane();
+            this.dto = dto;
+
+            this.setSize(DIMENSION);
+            this.setMinimumSize(DIMENSION);
+            this.setLocationRelativeTo(null);
+            this.setLayout(new BorderLayout());
+
+            leerDTO();
+            agregarComponentes();
+            agregarEscuchadores();
+
+            this.setVisible(true);
+        }
     }
     
     private void leerDTO(){
@@ -367,11 +378,12 @@ public class RecogedorImagen extends JFrame implements DropTargetListener{
             String ruta = archivo.toString();
             try{
                 imagen = ImagenEnvoltorio.obtenerImagen(dimension, ruta);
+                if(dto != null)
+                    dto.setImagen(imagen);
+                
                 nombreArchivo = archivo.getName();
                 rutaArchivo = ruta;
                 this.archivo = archivo;
-                
-                this.lblImagen.setIcon(null);
                 
                 return true;
             }catch(Exception e){
@@ -399,7 +411,7 @@ public class RecogedorImagen extends JFrame implements DropTargetListener{
     
     private void guardar(){
         dto = new ImagenDTO();
-        
+
         dto.setIdImagen(idImagen);
         dto.setImagen(imagen);
         dto.setNombre(nombreImagen);
@@ -412,7 +424,13 @@ public class RecogedorImagen extends JFrame implements DropTargetListener{
         
         GestorImagen gestor = new GestorImagen();
         gestor.setDTO(dto);
-        gestor.ejecutarControladorNegocio(Globales.BD.INSERTAR.getValor(), entidad);
+        gestor.setGui(guiPadre);
+ 
+        if(idImagen == null)
+            gestor.ejecutarControladorNegocio(Globales.BD.INSERTAR.getValor(), entidad);
+        else
+            gestor.ejecutarControladorNegocio(Globales.BD.MODIFICAR.getValor(), entidad);
+        
         gestor = null;
         
         salir();
