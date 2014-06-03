@@ -23,12 +23,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Analizador {
-    private final String RUTA_RECURSO = "/recursos/texto-automovil.txt";
-    
-    private Cesar cesar;
     private Alfabeto alfabeto;
     private String textoCifrado;
     private static List<Character> caracteresCifrados;
+    private static List<Character> comodines;
     private static List<Integer> valores;
     private static List<Float> porcentajes;
     private double porcentajeTotal;
@@ -36,32 +34,12 @@ public class Analizador {
     private List<List> frecuenciasProbables;
     private List<List> simbolosProbables;    
     
-    public Analizador(){
-        alfabeto = new Alfabeto();
-        cesar = new Cesar();
-        
-        textoCifrado = cesar.cifrar(leerArchivo(),8);
+    public Analizador(Alfabeto alfabeto, String textoCifrado){
+        this.alfabeto = alfabeto;        
+        this.textoCifrado = textoCifrado;
         
         obtenerEstadisticas();
         ajustarPromedios();
-        //obtenerAproximado();
-        System.out.println(sustituirAproximado());
-    }
-    
-    private String leerArchivo(){
-        String ruta = getClass().getResource(RUTA_RECURSO).getFile();
-        File archivo = new File(ruta);
-        
-        String contenido = "";
-        try{
-            Scanner scan = new Scanner(archivo);
-            while (scan.hasNext())
-                contenido = contenido + scan.nextLine();
-        }catch(Exception ex){
-           System.out.print("Error en lectura del archivo");
-        }
-        
-        return contenido;
     }
     
     private void obtenerEstadisticas(){
@@ -69,7 +47,7 @@ public class Analizador {
         obtenerPorcentajes();
     }
     
-    public void cuentaSimbolos(String txt, Alfabeto a) {
+    private void cuentaSimbolos(String txt, Alfabeto a) {
         valores = new ArrayList<Integer>();
         String filtrado = filtrar(txt, a);
         
@@ -139,6 +117,40 @@ public class Analizador {
         }
     }
     
+    public String sustituirAproximado(){
+        String textoAproximado = textoCifrado;
+        String auxiliar = "";
+        List<Espanol> simbolosProbables = obtenerAproximado();
+        
+        crearComodines();
+        
+        char simboloOriginal = '-';
+        char simboloProbable = '-';
+        char comodin = '-';
+        for(int i=0; i<alfabeto.getTotalSimbolos(); i++){
+            try{
+                simboloOriginal = alfabeto.getLetra(i);
+                simboloProbable = simbolosProbables.get(i).name().charAt(0);
+                comodin = comodines.get(i);
+
+                textoAproximado = textoAproximado.replace(simboloOriginal, comodin);
+                textoAproximado = textoAproximado.replace(simboloProbable, simboloOriginal);
+                //System.out.println(simboloOriginal +"="+simboloProbable);
+            }catch(Exception e){}
+        }
+                    
+        return textoAproximado;
+    }
+    
+    private void crearComodines(){
+        int inicio = 697;
+        comodines = new ArrayList<Character>();
+        
+        Character comodin = null;
+        for(int i=inicio; i<alfabeto.getTotalSimbolos()+inicio; i++)
+            comodines.add((char)i);
+    }
+    
     public List<Espanol> obtenerAproximado(){
         List<Espanol> aproximado = new ArrayList<Espanol>();
         
@@ -166,25 +178,5 @@ public class Analizador {
         }
           
         return aproximado;
-    }
-    
-    private String sustituirAproximado(){
-        String textoAproximado = textoCifrado;
-        List<Espanol> simbolosProbables = obtenerAproximado();
-        
-        char simboloOriginal = '-';
-        char simboloProbable = '-';
-        for(int i=0; i<alfabeto.getTotalSimbolos(); i++){
-            try{
-                //simboloOriginal = caracteresCifrados.get(i);
-                simboloOriginal = alfabeto.getLetra(i);
-                simboloProbable = simbolosProbables.get(i).name().charAt(0);
-
-                System.out.println(simboloOriginal +"="+simboloProbable);
-                //textoAproximado = textoAproximado.replace(simboloOriginal, simboloProbable);
-            }catch(Exception e){}
-        }
-                    
-        return textoAproximado;
     }
 }
