@@ -13,10 +13,10 @@ package main;
  * 
  */
 
-import analizador.Analizador;
+import gui.Ventana;
 
 public class Main {
     public static void main(String[] args) {
-        new Analizador();
+        new Ventana();
     }
 }
