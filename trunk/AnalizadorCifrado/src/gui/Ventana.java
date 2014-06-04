@@ -14,7 +14,7 @@ package gui;
  */
 
 import analizador.Analizador;
-import cesar.Alfabeto;
+import herramientas.Alfabeto;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.GridLayout;
@@ -51,6 +51,9 @@ public class Ventana extends JFrame{
     private JTextArea txtDescifrado;
     private JScrollPane scrollCifrado;
     private JScrollPane scrollDescifrado;
+    private JPanel pnlInferior;
+    
+    private int indiceLlave;
     
     public Ventana(){
         this.contenedor = this.getContentPane();
@@ -59,6 +62,7 @@ public class Ventana extends JFrame{
         this.setLayout(new BorderLayout());
                 
         alfabeto = new Alfabeto();
+        indiceLlave = 0;
         
         agregarComponentes();
         agregarEscuchadores();
@@ -96,6 +100,7 @@ public class Ventana extends JFrame{
         pnlSuperiorAux.add(lblEspacioBlanco);
         
         btnAnalizar = new JButton("Analizar");
+        btnAnalizar.setEnabled(false);
         pnlSuperiorAux.add(btnAnalizar);
         
         pnlSuperior.add(pnlSuperiorAux, "South");
@@ -136,30 +141,13 @@ public class Ventana extends JFrame{
         scrollDescifrado.setOpaque(false);               
         pnlCentralDescifrado.add(scrollDescifrado, "Center");
         
-        btnSiguiente = new JButton();
-        pnlCentralDescifrado.add(btnSiguiente, "South");
-        mostrarBtnCesar();
-        
         pnlCentral.add(pnlCentralCifrado);
         pnlCentral.add(pnlCentralDescifrado);
         
         contenedor.add(pnlCentral, "Center");
         
         // PANEL INFERIOR
-        JPanel pnlInferior = new JPanel();
-        for(int i=0; i<alfabeto.getTotalSimbolos(); i++){
-            JPanel btnBit = new BotonSimbolo().crear(this, i);
-            pnlInferior.add(btnBit,"Center");
-        }
-        contenedor.add(pnlInferior, "South");
-    }
-    
-    private void mostrarBtnCesar(){
-        if(this.cmbCifrado.getSelectedIndex() == 0){
-            btnSiguiente.setText("Siguiente llave ("+1+")");
-            btnSiguiente.setVisible(true);
-        }else
-            btnSiguiente.setVisible(false);
+        definirPanelInferior();
     }
     
     private void agregarEscuchadores(){
@@ -170,10 +158,26 @@ public class Ventana extends JFrame{
             }
         });
         
+        btnSiguiente.addActionListener(new ActionListener(){
+        @Override
+            public void actionPerformed(ActionEvent evt){
+                siguienteLlave();
+            }
+        });
+        
         btnAnalizar.addActionListener(new ActionListener(){
         @Override
             public void actionPerformed(ActionEvent evt){
+                if(btnSiguiente != null)
+                    btnSiguiente.setEnabled(true);
                 analizar();
+            }
+        });
+        
+        cmbCifrado.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent evt){
+                definirPanelInferior();
             }
         });
                 
@@ -200,22 +204,66 @@ public class Ventana extends JFrame{
                 
                 this.txtRuta.setText(archivo.getPath());
                 this.txtCifrado.setText(textoLeido);
+                btnAnalizar.setEnabled(true);
             } catch (Exception ex) {
                JOptionPane.showMessageDialog(null, "No se reconoce el archivo proporcionado", "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE); 
             }
         }
     }
     
+    private void definirPanelInferior(){
+        indiceLlave = 0;
+        
+        if(pnlInferior != null)
+            pnlInferior.setVisible(false);
+        pnlInferior = null;
+        
+        pnlInferior = new JPanel();
+        if(this.cmbCifrado.getSelectedIndex() == 0){
+            btnSiguiente = new JButton();
+            btnSiguiente.setEnabled(false);
+            mostrarBtnCesar();
+            
+            pnlInferior.add(btnSiguiente);
+            siguienteLlave();
+        }else{
+            for(int i=0; i<alfabeto.getTotalSimbolos(); i++){
+                JPanel btnBit = new BotonSimbolo().crear(this, i);
+                pnlInferior.add(btnBit,"Center");
+            }
+        }
+        
+        contenedor.add(pnlInferior, "South");
+    }
+    
+    private void siguienteLlave(){
+        if(indiceLlave < alfabeto.getTotalSimbolos())
+            indiceLlave++;
+        else
+            indiceLlave = 1;
+        
+        mostrarBtnCesar();
+        analizar();
+    }
+    
+    private void mostrarBtnCesar(){
+        btnSiguiente.setText("Siguiente desplazamiento (" + (indiceLlave) + " de "+alfabeto.getTotalSimbolos()+")");
+    }
+    
     private void analizar(){
+        txtDescifrado.setText("");
         int tipoDescifrado = cmbCifrado.getSelectedIndex();
         String textoCifrado = txtCifrado.getText();
         
         Analizador analizador = new Analizador(alfabeto, textoCifrado);
         
+        String resultado = null;
         if(tipoDescifrado == 0)
-            System.out.println(analizador.sustituirAproximado());
+            resultado = analizador.descifrarCesar(indiceLlave-1);
         else
-            analizador.descifrarCesar(1);
+            resultado = analizador.sustituirAproximado();
+        
+        txtDescifrado.setText(resultado);
     }
     
     public void actualizarValores(int indice){

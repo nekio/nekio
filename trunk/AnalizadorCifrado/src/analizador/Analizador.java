@@ -13,20 +13,21 @@ package analizador;
  * 
  */
 
-import cesar.Alfabeto;
-import cesar.Alfabeto.Espanol;
-import cesar.Cesar;
-import static cesar.Utilerias.filtrar;
+import herramientas.Alfabeto;
+import herramientas.Alfabeto.Espanol;
+import herramientas.Cesar;
+import static herramientas.Utilerias.filtrar;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Analizador {
     private Alfabeto alfabeto;
     private String textoCifrado;
-    private static List<Character> caracteresCifrados;
-    private static List<Character> comodines;
-    private static List<Integer> valores;
-    private static List<Float> porcentajes;
+    private List<Character> caracteresCifrados;
+    private List<Character> comodines;
+    private List<Integer> valores;
+    private List<Float> porcentajes;
+    
     private double porcentajeTotal;
     
     private List<List> frecuenciasProbables;
@@ -34,7 +35,7 @@ public class Analizador {
     
     public Analizador(Alfabeto alfabeto, String textoCifrado){
         this.alfabeto = alfabeto;        
-        this.textoCifrado = new Cesar().cifrar(textoCifrado,3);
+        this.textoCifrado = textoCifrado;
         
         obtenerEstadisticas();
         ajustarPromedios();
@@ -277,28 +278,33 @@ public class Analizador {
         return aproximado;
     }
     
-    public String descifrarCesar(int i){
-        String texto = "";
+    public String descifrarCesar(int desplazamiento){
+        Cesar cesar = new Cesar(alfabeto);
         
-        Cesar cesar = new Cesar();
-        texto = cesar.descifrar(texto, i);
+        int distanciaPicos= 4; //posiciones distantes entre A y E (Los picos de la estadistica)
         
-        return texto;
+        int masRepetida = cesar.encontrarMasRepetido(textoCifrado); //generalmente va a ser la que equivale a E
+        int probableA = masRepetida - distanciaPicos; //ajustamos las posiciones para estar en el indice probable de A
+        
+        //int llave = cesar.encontrarLlave(masRepetidaOriginal, masRepetidaCifrada);
+        String contenidoDescifrado = cesar.descifrar(textoCifrado, probableA + desplazamiento);
+        
+        return contenidoDescifrado;
     }
     
-    public static List<Character> getCaracteresCifrados() {
+    public List<Character> getCaracteresCifrados() {
         return caracteresCifrados;
     }
 
-    public static List<Character> getComodines() {
+    public List<Character> getComodines() {
         return comodines;
     }
 
-    public static List<Integer> getValores() {
+    public List<Integer> getValores() {
         return valores;
     }
 
-    public static List<Float> getPorcentajes() {
+    public List<Float> getPorcentajes() {
         return porcentajes;
     }
     

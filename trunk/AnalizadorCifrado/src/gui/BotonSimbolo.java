@@ -1,6 +1,6 @@
 package gui;
 
-import cesar.Alfabeto;
+import herramientas.Alfabeto;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
