@@ -46,6 +46,7 @@ public class Ventana extends JFrame{
     private JButton btnRuta;
     private JComboBox cmbCifrado;
     private JButton btnAnalizar;
+    private JButton btnSiguiente;
     private JTextArea txtCifrado;
     private JTextArea txtDescifrado;
     private JScrollPane scrollCifrado;
@@ -135,6 +136,10 @@ public class Ventana extends JFrame{
         scrollDescifrado.setOpaque(false);               
         pnlCentralDescifrado.add(scrollDescifrado, "Center");
         
+        btnSiguiente = new JButton();
+        pnlCentralDescifrado.add(btnSiguiente, "South");
+        mostrarBtnCesar();
+        
         pnlCentral.add(pnlCentralCifrado);
         pnlCentral.add(pnlCentralDescifrado);
         
@@ -147,6 +152,14 @@ public class Ventana extends JFrame{
             pnlInferior.add(btnBit,"Center");
         }
         contenedor.add(pnlInferior, "South");
+    }
+    
+    private void mostrarBtnCesar(){
+        if(this.cmbCifrado.getSelectedIndex() == 0){
+            btnSiguiente.setText("Siguiente llave ("+1+")");
+            btnSiguiente.setVisible(true);
+        }else
+            btnSiguiente.setVisible(false);
     }
     
     private void agregarEscuchadores(){
@@ -175,7 +188,7 @@ public class Ventana extends JFrame{
     public void leerArchivo(){
         String textoLeido = "";
         
-        JFileChooser fc = new JFileChooser();
+        JFileChooser fc = new JFileChooser("C:\\Users\\SITI\\Documents\\NetBeansProjects\\Collab\\AnalizadorCifrado\\src\\recursos");
         int resultado = fc.showOpenDialog(null);
         if (resultado == JFileChooser.APPROVE_OPTION) {
             File archivo = fc.getSelectedFile();
@@ -194,14 +207,19 @@ public class Ventana extends JFrame{
     }
     
     private void analizar(){
+        int tipoDescifrado = cmbCifrado.getSelectedIndex();
         String textoCifrado = txtCifrado.getText();
         
         Analizador analizador = new Analizador(alfabeto, textoCifrado);
-        System.out.println(analizador.sustituirAproximado());
+        
+        if(tipoDescifrado == 0)
+            System.out.println(analizador.sustituirAproximado());
+        else
+            analizador.descifrarCesar(1);
     }
     
     public void actualizarValores(int indice){
-    
+        mostrarBtnCesar();
     }
     
     public void salir(){
