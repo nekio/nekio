@@ -1,10 +1,12 @@
 package gui;
 
 import herramientas.Alfabeto;
+import herramientas.Alfabeto.Espanol;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -13,18 +15,29 @@ import javax.swing.SwingConstants;
 class BotonSimbolo{
     private Ventana gui;
     private JButton btnSimbolo;
-    private int indice;
+    private List<Espanol> probables;
+    
+    private String textoBoton;
+    private int indiceSimbolo;
+    private int recorredorProbables;
 
-    public JPanel crear(Ventana gui, int indice){
+    public JPanel crear(Ventana gui, List<Espanol> probables, Espanol masProbable, int indiceSimbolo){
         this.gui = gui;
-        this.indice=indice;
+        this.indiceSimbolo=indiceSimbolo;
+        this.probables = probables;
+        this.recorredorProbables = 0;
         
-        String simbolo = Alfabeto.Espanol.values()[indice].name();
+        String simbolo = Alfabeto.Espanol.values()[indiceSimbolo].name();
 
         JPanel pnlBoton = new JPanel(new BorderLayout());
-        setBtnSimbolo(new JButton(" "));
-        getBtnSimbolo().setBackground(Color.WHITE);
-        pnlBoton.add(getBtnSimbolo(),"Center");
+        
+        textoBoton = " ";
+        if(probables != null)
+            textoBoton = masProbable.name();
+
+        btnSimbolo = new JButton(textoBoton);
+        btnSimbolo.setBackground(Color.WHITE);
+        pnlBoton.add(btnSimbolo,"Center");
 
         JLabel lblIndice = new JLabel(simbolo);
         lblIndice.setHorizontalAlignment(SwingConstants.CENTER);
@@ -36,20 +49,19 @@ class BotonSimbolo{
     }
 
     private void escuchador(){
-        getBtnSimbolo().addActionListener(new ActionListener(){
+        btnSimbolo.addActionListener(new ActionListener(){
         @Override
-            public void actionPerformed(ActionEvent evt){                               
-                gui.actualizarValores(indice);
+            public void actionPerformed(ActionEvent evt){
+                if(recorredorProbables < probables.size()-1)
+                    recorredorProbables++;
+                else
+                    recorredorProbables = 0;
+                
+                textoBoton = probables.get(recorredorProbables).name();
+                        
+                btnSimbolo.setText(textoBoton);
             }
         });
-    }
-
-    public JButton getBtnSimbolo() {
-        return btnSimbolo;
-    }
-
-    public void setBtnSimbolo(JButton btnSimbolo) {
-        this.btnSimbolo = btnSimbolo;
     }
 }
 

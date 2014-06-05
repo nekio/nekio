@@ -1,11 +1,16 @@
 package herramientas;
 
-public class Cesar {
+public class Cifrados {
     private Alfabeto alfabeto;
     
-    public Cesar(Alfabeto alfabeto) {
+    public Cifrados(Alfabeto alfabeto) {
         this.alfabeto = alfabeto;
     }
+    
+    
+    /*
+     * METODOS GENERALES
+     */
     
     public boolean esCaracterValido(char letra) {
         boolean ok = false;
@@ -30,7 +35,19 @@ public class Cesar {
         return residuo;
     }
     
-    public char cifrar(char caracterIngresado, int llave) {
+    public int encontrarMasRepetido(String text){
+        char masRepetido = Utilerias.masRepetida(text, alfabeto);
+        int posicion = alfabeto.getIndice(masRepetido);
+        
+        return posicion;
+    }
+    
+    
+    /*
+     * METODOS DE CIFRADO CESAR
+     */
+    
+    public char cifrarCesar(char caracterIngresado, int llave) {
         char caracter = ' ';
         String simbolos= alfabeto.getSimbolos();
         
@@ -41,18 +58,18 @@ public class Cesar {
         return caracter;
     }
     
-    public String cifrar(String mensaje, int llave) {
+    public String cifrarCesar(String mensaje, int llave) {
         char [] caracteres = mensaje.toUpperCase().toCharArray();
         String textoCifrado = "";
         for(char caracter : caracteres) {
             if(this.esCaracterValido(caracter)) {
-                textoCifrado = textoCifrado + cifrar(caracter, llave);
+                textoCifrado = textoCifrado + cifrarCesar(caracter, llave);
             }
         }
         return textoCifrado;
     }
     
-    public char descifrar(char caracterIngresado, int llave) {
+    public char descifrarCesar(char caracterIngresado, int llave) {
         char caracter = ' ';
         String simbolos= alfabeto.getSimbolos();
         
@@ -64,17 +81,17 @@ public class Cesar {
         return caracter;
     }
     
-    public String descifrar(String mensajeCifrado, int llave) {
+    public String descifrarCesar(String mensajeCifrado, int llave) {
         char [] caracteres = mensajeCifrado.toUpperCase().toCharArray();
         String textoDescifrado = "";
         for(char caracter : caracteres) {
             if(this.esCaracterValido(caracter))
-                textoDescifrado = textoDescifrado + descifrar(caracter, llave);
+                textoDescifrado = textoDescifrado + descifrarCesar(caracter, llave);
         }
         return textoDescifrado;
     }
     
-    public int encontrarLlave(int masRepetida_o, int masRepetida_e){
+    public int encontrarLlaveCesar(int masRepetida_o, int masRepetida_e){
         int llave = -1;
         if (masRepetida_e < masRepetida_o){
             int totalSimbolos = alfabeto.getTotalSimbolos();
@@ -85,11 +102,4 @@ public class Cesar {
         
         return Math.abs(llave);
     } 
-    
-    public int encontrarMasRepetido(String text){
-        char masRepetido = Utilerias.masRepetida(text, alfabeto);
-        int posicion = alfabeto.getIndice(masRepetido);
-        
-        return posicion;
-    }
 }

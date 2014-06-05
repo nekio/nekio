@@ -15,6 +15,7 @@ package gui;
 
 import analizador.Analizador;
 import herramientas.Alfabeto;
+import herramientas.Alfabeto.Espanol;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.GridLayout;
@@ -23,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.List;
 import java.util.Scanner;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -54,6 +56,7 @@ public class Ventana extends JFrame{
     private JPanel pnlInferior;
     
     private int indiceLlave;
+    private List<List> simbolosProbables; 
     
     public Ventana(){
         this.contenedor = this.getContentPane();
@@ -214,9 +217,10 @@ public class Ventana extends JFrame{
     private void definirPanelInferior(){
         indiceLlave = 0;
         
-        if(pnlInferior != null)
+        if(pnlInferior != null){
             pnlInferior.setVisible(false);
-        pnlInferior = null;
+            pnlInferior = null;
+        }
         
         pnlInferior = new JPanel();
         if(this.cmbCifrado.getSelectedIndex() == 0){
@@ -226,11 +230,6 @@ public class Ventana extends JFrame{
             
             pnlInferior.add(btnSiguiente);
             siguienteLlave();
-        }else{
-            for(int i=0; i<alfabeto.getTotalSimbolos(); i++){
-                JPanel btnBit = new BotonSimbolo().crear(this, i);
-                pnlInferior.add(btnBit,"Center");
-            }
         }
         
         contenedor.add(pnlInferior, "South");
@@ -261,13 +260,32 @@ public class Ventana extends JFrame{
         if(tipoDescifrado == 0)
             resultado = analizador.descifrarCesar(indiceLlave-1);
         else
-            resultado = analizador.sustituirAproximado();
+            resultado = descifarSustitucion(analizador);
         
         txtDescifrado.setText(resultado);
     }
     
-    public void actualizarValores(int indice){
-        mostrarBtnCesar();
+    public String descifarSustitucion(Analizador analizador){
+        simbolosProbables = analizador.getSimbolosProbables();
+        
+        if(pnlInferior != null){
+            pnlInferior.setVisible(false);
+            pnlInferior = null;
+        }
+        
+        pnlInferior = new JPanel();
+        List<Espanol> masProbable = analizador.obtenerAproximado();
+        
+        int indice = 0;
+        for(Espanol letra:Alfabeto.Espanol.getOrdenFrecuencia()){
+            JPanel btnBit = new BotonSimbolo().crear(this, simbolosProbables.get(indice), masProbable.get(indice), letra.ordinal());
+            pnlInferior.add(btnBit,"Center");
+            
+            indice++;
+        }
+        contenedor.add(pnlInferior, "South");
+        
+        return analizador.sustituirAproximado();
     }
     
     public void salir(){

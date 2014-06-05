@@ -1,6 +1,8 @@
 package herramientas;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Alfabeto {
     public static enum Espanol{
@@ -41,6 +43,40 @@ public class Alfabeto {
         public float getFrecuencia() {
             return frecuencia;
         }
+        
+        public static List<Espanol> getOrdenFrecuencia(){
+            List<Espanol> lista = new ArrayList<Espanol>();
+            
+            lista.add(Espanol.E);
+            lista.add(Espanol.A);
+            lista.add(Espanol.O);
+            lista.add(Espanol.S);
+            lista.add(Espanol.R);
+            lista.add(Espanol.N);
+            lista.add(Espanol.I);
+            lista.add(Espanol.D);
+            lista.add(Espanol.L);
+            lista.add(Espanol.C);
+            lista.add(Espanol.T);
+            lista.add(Espanol.U);
+            lista.add(Espanol.M);
+            lista.add(Espanol.P);
+            lista.add(Espanol.B);
+            lista.add(Espanol.G);
+            lista.add(Espanol.V);
+            lista.add(Espanol.Y);
+            lista.add(Espanol.Q);
+            lista.add(Espanol.H);
+            lista.add(Espanol.F);
+            lista.add(Espanol.Z);
+            lista.add(Espanol.J);
+            lista.add(Espanol.Ñ);
+            lista.add(Espanol.X);
+            lista.add(Espanol.W);
+            lista.add(Espanol.K);
+
+        return lista;
+    }
     };
     
     private int totalSimbolos;
