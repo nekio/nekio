@@ -15,13 +15,16 @@ package analizador;
 
 import herramientas.Alfabeto;
 import herramientas.Alfabeto.Espanol;
-import herramientas.Cesar;
+import herramientas.Cifrados;
 import static herramientas.Utilerias.filtrar;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Analizador {
     private Alfabeto alfabeto;
+    private List<Espanol> frecuenciasEspanol;
+    private List<Espanol> aproximadosPorFrecuencia;
+            
     private String textoCifrado;
     private List<Character> caracteresCifrados;
     private List<Character> comodines;
@@ -36,6 +39,8 @@ public class Analizador {
     public Analizador(Alfabeto alfabeto, String textoCifrado){
         this.alfabeto = alfabeto;        
         this.textoCifrado = textoCifrado;
+        
+        this.frecuenciasEspanol = Alfabeto.Espanol.getOrdenFrecuencia();
         
         obtenerEstadisticas();
         ajustarPromedios();
@@ -95,8 +100,10 @@ public class Analizador {
         
         List<Espanol> letrasCifradas = null;
         List<Float> frecuencias = null;
-        for(int i=0; i<alfabeto.getTotalSimbolos(); i++){
-            simbolo = alfabeto.getInstanciaLetra(i);
+        
+        int indice = 0;
+        for(Espanol letra:Alfabeto.Espanol.getOrdenFrecuencia()){
+            simbolo = alfabeto.getInstanciaLetra(indice);
             frecuenciaSimbolo = simbolo.getFrecuencia();
             
             letrasCifradas = new ArrayList<Espanol>();
@@ -106,17 +113,20 @@ public class Analizador {
                 frecuenciaCifrado = porcentajes.get(j);
                 diferencia = Math.abs(frecuenciaSimbolo - frecuenciaCifrado);
                 
-                if(diferencia < 4 && diferencia > -4){
+                if(diferencia < 5 && diferencia > -5){
                     letrasCifradas.add(simboloAuxiliar);
                     frecuencias.add(diferencia);
                 }
             }
             frecuenciasProbables.add(frecuencias);
             simbolosProbables.add(letrasCifradas);
+            
+            indice++;
         }
     }
     
     public String sustituirAproximado(){
+        System.out.println("-------------------------");
         String textoAproximado = textoCifrado;
         String auxiliar = "";
         List<Espanol> simbolosProbables = obtenerAproximado();
@@ -128,24 +138,26 @@ public class Analizador {
         char comodin = '-';
         
         // Reemplazar todos los simbolos del alfabeto por comodines
+        System.out.println("\nEQUIVALENCIAS DEL ALFABETO A COMODINES");
         for(int i=0; i<alfabeto.getTotalSimbolos(); i++){
             try{
                 simboloOriginal = alfabeto.getLetra(i);
                 comodin = comodines.get(i);
+                
+                System.out.println(simboloOriginal+" = "+comodin);
 
                 textoAproximado = textoAproximado.replace(simboloOriginal, comodin);
             }catch(Exception e){}
         }
         
         // Reemplazar comodines con simbolos probables
+        System.out.println("\nREEMPLAZO DE COMODINES");
         for(int i=0; i<alfabeto.getTotalSimbolos(); i++){
-            try{
-                comodin = comodines.get(simbolosProbables.get(i).ordinal());
-                simboloProbable = simbolosProbables.get(i).name().charAt(0);
+            comodin = comodines.get(i);
+            simboloProbable = simbolosProbables.get(i).name().charAt(0);
 
-                System.out.println(comodin+"="+simboloProbable);
-                textoAproximado = textoAproximado.replace(comodin, simboloProbable);
-            }catch(Exception e){}
+            System.out.println(simboloProbable+" = "+comodin);
+            textoAproximado = textoAproximado.replace(comodin, simboloProbable);
         }
                     
         return textoAproximado;
@@ -161,91 +173,22 @@ public class Analizador {
     }
     
     public List<Espanol> obtenerAproximado(){
-        List<Espanol> aproximados = new ArrayList<Espanol>();
+        aproximadosPorFrecuencia = new ArrayList<Espanol>();
         Espanol simbolo = null;
 
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.E.ordinal(), aproximados);
-        aproximados.add(simbolo);
-          
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.A.ordinal(), aproximados);
-        aproximados.add(simbolo);
-        
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.O.ordinal(), aproximados);
-        aproximados.add(simbolo);
-          
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.S.ordinal(), aproximados);
-        aproximados.add(simbolo);
-        
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.R.ordinal(), aproximados);
-        aproximados.add(simbolo);
-        
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.N.ordinal(), aproximados);
-        aproximados.add(simbolo);
-        
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.I.ordinal(), aproximados);
-        aproximados.add(simbolo);
-        
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.D.ordinal(), aproximados);
-        aproximados.add(simbolo);
-        
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.L.ordinal(), aproximados);
-        aproximados.add(simbolo);
-        
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.C.ordinal(), aproximados);
-        aproximados.add(simbolo);
-        
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.T.ordinal(), aproximados);
-        aproximados.add(simbolo);
-        
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.U.ordinal(), aproximados);
-        aproximados.add(simbolo);
-        
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.M.ordinal(), aproximados);
-        aproximados.add(simbolo);
-        
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.P.ordinal(), aproximados);
-        aproximados.add(simbolo);
-        
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.B.ordinal(), aproximados);
-        aproximados.add(simbolo);
-        
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.G.ordinal(), aproximados);
-        aproximados.add(simbolo);
-        
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.V.ordinal(), aproximados);
-        aproximados.add(simbolo);
-        
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.Y.ordinal(), aproximados);
-        aproximados.add(simbolo);
-        
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.Q.ordinal(), aproximados);
-        aproximados.add(simbolo);
-        
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.H.ordinal(), aproximados);
-        aproximados.add(simbolo);
-        
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.F.ordinal(), aproximados);
-        aproximados.add(simbolo);
-        
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.Z.ordinal(), aproximados);
-        aproximados.add(simbolo);
-        
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.J.ordinal(), aproximados);
-        aproximados.add(simbolo);
-        
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.Ñ.ordinal(), aproximados);
-        aproximados.add(simbolo);
-        
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.X.ordinal(), aproximados);
-        aproximados.add(simbolo);
-        
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.W.ordinal(), aproximados);
-        aproximados.add(simbolo);
-                
-        simbolo = obtenerMasCercano(Alfabeto.Espanol.K.ordinal(), aproximados);
-        aproximados.add(simbolo);
+        int indice = 0;
+        List<Espanol> aproximadosTemp = null;
+        for(Espanol letra:Alfabeto.Espanol.getOrdenFrecuencia()){
+            aproximadosTemp = new ArrayList<Espanol>();
+            for(Object simboloProbable:simbolosProbables.get(indice))
+                aproximadosTemp.add((Espanol)simboloProbable);
+            
+            simbolo = obtenerMasCercano(indice, aproximadosTemp);
+            aproximadosPorFrecuencia.add(simbolo);
+            indice++;
+        }
                  
-        return aproximados;
+        return aproximadosPorFrecuencia;
     }
     
     private Espanol obtenerMasCercano(int indice, List<Espanol> contenidos){
@@ -256,17 +199,15 @@ public class Analizador {
         
         float frecuencia = 0.0f;
         Espanol simboloCifrado = null;
-        Espanol simboloProbable = null;
         
-        System.out.println("\nProbabilidades de "+alfabeto.getLetra(indice)+":");
+        System.out.println("\nProbabilidades de " + frecuenciasEspanol.get(indice).name() + ":");
         for(int j=0; j<frecuenciasProbables.get(indice).size(); j++){
             frecuencia = (float)frecuenciasProbables.get(indice).get(j);
             simboloCifrado = (Espanol)simbolosProbables.get(indice).get(j);
-            simboloProbable = (Espanol)simbolosProbables.get(indice).get(j);
 
-            if(frecuencia<menor && !contenidos.contains((Espanol)simbolosProbables.get(indice).get(j))){
-                System.out.println(simboloCifrado+" "+frecuencia);
-                
+            System.out.println(simboloCifrado+" "+frecuencia);
+
+            if(frecuencia < menor && !aproximadosPorFrecuencia.contains(simboloCifrado)){
                 menor=frecuencia;
                 masCercano=j;
             }
@@ -279,15 +220,15 @@ public class Analizador {
     }
     
     public String descifrarCesar(int desplazamiento){
-        Cesar cesar = new Cesar(alfabeto);
+        Cifrados cesar = new Cifrados(alfabeto);
         
         int distanciaPicos= 4; //posiciones distantes entre A y E (Los picos de la estadistica)
         
         int masRepetida = cesar.encontrarMasRepetido(textoCifrado); //generalmente va a ser la que equivale a E
         int probableA = masRepetida - distanciaPicos; //ajustamos las posiciones para estar en el indice probable de A
         
-        //int llave = cesar.encontrarLlave(masRepetidaOriginal, masRepetidaCifrada);
-        String contenidoDescifrado = cesar.descifrar(textoCifrado, probableA + desplazamiento);
+        //int llave = cesar.encontrarLlaveCesar(masRepetidaOriginal, masRepetidaCifrada);
+        String contenidoDescifrado = cesar.descifrarCesar(textoCifrado, probableA + desplazamiento);
         
         return contenidoDescifrado;
     }
