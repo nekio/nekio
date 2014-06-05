@@ -1,5 +1,18 @@
 package gui;
 
+/**
+ * 07/Jun/2014
+ * LANIA - MRYSI
+ * Seguridad en Redes
+ * 
+ * @author LI. Emiliano Anastasio Landa
+ *         eanastasio@veracruz.gob.mx
+ * 
+ * @author ISC. Sinesio Ivan Carrillo Heredia 
+ *         ivan.carrillo@si-ti.com.mx
+ * 
+ */
+
 import herramientas.Alfabeto;
 import herramientas.Alfabeto.Espanol;
 import java.awt.BorderLayout;

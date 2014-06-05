@@ -5,7 +5,7 @@ package analizador;
  * LANIA - MRYSI
  * Seguridad en Redes
  * 
- * @author LCI. Emiliano Anastasio Landa
+ * @author LI. Emiliano Anastasio Landa
  *         eanastasio@veracruz.gob.mx
  * 
  * @author ISC. Sinesio Ivan Carrillo Heredia 
@@ -113,7 +113,7 @@ public class Analizador {
                 frecuenciaCifrado = porcentajes.get(j);
                 diferencia = Math.abs(frecuenciaSimbolo - frecuenciaCifrado);
                 
-                if(diferencia < 5 && diferencia > -5){
+                if(diferencia < 4 && diferencia > -4){
                     letrasCifradas.add(simboloAuxiliar);
                     frecuencias.add(diferencia);
                 }
@@ -156,6 +156,9 @@ public class Analizador {
             comodin = comodines.get(i);
             simboloProbable = simbolosProbables.get(i).name().charAt(0);
 
+            ////////////////////////////////////////////////
+            // AQUI EN ESTA PARTE ES DONDE DEBE DE VERSE LO DEL REEMPLAZO DE LOS COMODINES POR LOS SIMBOLOS PROBABLES
+            ////////////////////////////////////////////////
             System.out.println(simboloProbable+" = "+comodin);
             textoAproximado = textoAproximado.replace(comodin, simboloProbable);
         }
@@ -207,6 +210,9 @@ public class Analizador {
 
             System.out.println(simboloCifrado+" "+frecuencia);
 
+            ////////////////////////////////////////////////
+            // AQUI EN ESTA PARTE ES DONDE DEBE DE VERSE LO DE NO REPETIR NINGUN SIMBOLO EN LA LISTA DE SIMBOLOS PROBABLES
+            ////////////////////////////////////////////////
             if(frecuencia < menor && !aproximadosPorFrecuencia.contains(simboloCifrado)){
                 menor=frecuencia;
                 masCercano=j;

@@ -5,7 +5,7 @@ package gui;
  * LANIA - MRYSI
  * Seguridad en Redes
  * 
- * @author LCI. Emiliano Anastasio Landa
+ * @author LI. Emiliano Anastasio Landa
  *         eanastasio@veracruz.gob.mx
  * 
  * @author ISC. Sinesio Ivan Carrillo Heredia 
@@ -195,7 +195,7 @@ public class Ventana extends JFrame{
     public void leerArchivo(){
         String textoLeido = "";
         
-        JFileChooser fc = new JFileChooser("C:\\Users\\SITI\\Documents\\NetBeansProjects\\Collab\\AnalizadorCifrado\\src\\recursos");
+        JFileChooser fc = new JFileChooser(getClass().getResource("/recursos").getPath());
         int resultado = fc.showOpenDialog(null);
         if (resultado == JFileChooser.APPROVE_OPTION) {
             File archivo = fc.getSelectedFile();

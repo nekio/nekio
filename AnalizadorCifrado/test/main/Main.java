@@ -1,11 +1,15 @@
 package main;
 
 /**
+ * ANALIZADOR DE TEXTOS CIFRADOS
+ * Auxiliar para desencriptamiento de cifrado Cesar y de Sustitución
+ * 
  * 07/Jun/2014
  * LANIA - MRYSI
  * Seguridad en Redes
  * 
- * @author LCI. Emiliano Anastasio Landa
+ * 
+ * @author LI. Emiliano Anastasio Landa
  *         eanastasio@veracruz.gob.mx
  * 
  * @author ISC. Sinesio Ivan Carrillo Heredia 
