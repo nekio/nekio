@@ -103,17 +103,18 @@ public class Analizador {
         
         int indice = 0;
         for(Espanol letra:Alfabeto.Espanol.getOrdenFrecuencia()){
-            simbolo = alfabeto.getInstanciaLetra(indice);
+            simbolo = Alfabeto.Espanol.getOrdenFrecuencia().get(indice);//alfabeto.getInstanciaLetra(indice);
             frecuenciaSimbolo = simbolo.getFrecuencia();
             
             letrasCifradas = new ArrayList<Espanol>();
             frecuencias = new ArrayList<Float>();
+            
             for(int j=0; j<porcentajes.size(); j++){
                 simboloAuxiliar = alfabeto.getInstanciaLetra(j);
                 frecuenciaCifrado = porcentajes.get(j);
                 diferencia = Math.abs(frecuenciaSimbolo - frecuenciaCifrado);
                 
-                if(diferencia < 4 && diferencia > -4){
+                if(diferencia < 5){
                     letrasCifradas.add(simboloAuxiliar);
                     frecuencias.add(diferencia);
                 }
@@ -126,6 +127,11 @@ public class Analizador {
     }
     
     public String sustituirAproximado(){
+        ////////////////////////////////////////////////
+        // AQUI EN ESTA PARTE ES DONDE DEBE DE VERSE LO DEL REEMPLAZO DE LOS COMODINES POR LOS SIMBOLOS PROBABLES
+        // TE SUGIERO QUE CORRAS LA APLICACION EN MODO DEBUG Y CHECA COMO SE VAN REEMPLAZANDO LOS ARRAYLIST, 
+        //PARA QUE VEAS LOS VALORES QUE AGARRA EN LOS 2 FOR QUE HAY. ESTOY SEGURO QUE AHI ES EL DETALLE.
+        ////////////////////////////////////////////////
         System.out.println("-------------------------");
         String textoAproximado = textoCifrado;
         String auxiliar = "";
@@ -139,15 +145,17 @@ public class Analizador {
         
         // Reemplazar todos los simbolos del alfabeto por comodines
         System.out.println("\nEQUIVALENCIAS DEL ALFABETO A COMODINES");
-        for(int i=0; i<alfabeto.getTotalSimbolos(); i++){
+        int indice = 0;
+        for(Espanol letra:Alfabeto.Espanol.getOrdenFrecuencia()){
             try{
-                simboloOriginal = alfabeto.getLetra(i);
-                comodin = comodines.get(i);
+                simboloOriginal = letra.name().charAt(0);
+                comodin = comodines.get(indice);
                 
                 System.out.println(simboloOriginal+" = "+comodin);
 
                 textoAproximado = textoAproximado.replace(simboloOriginal, comodin);
             }catch(Exception e){}
+            indice++;
         }
         
         // Reemplazar comodines con simbolos probables
@@ -156,9 +164,6 @@ public class Analizador {
             comodin = comodines.get(i);
             simboloProbable = simbolosProbables.get(i).name().charAt(0);
 
-            ////////////////////////////////////////////////
-            // AQUI EN ESTA PARTE ES DONDE DEBE DE VERSE LO DEL REEMPLAZO DE LOS COMODINES POR LOS SIMBOLOS PROBABLES
-            ////////////////////////////////////////////////
             System.out.println(simboloProbable+" = "+comodin);
             textoAproximado = textoAproximado.replace(comodin, simboloProbable);
         }
@@ -176,6 +181,9 @@ public class Analizador {
     }
     
     public List<Espanol> obtenerAproximado(){
+        obtenerEstadisticas();
+        ajustarPromedios();
+        
         aproximadosPorFrecuencia = new ArrayList<Espanol>();
         Espanol simbolo = null;
 
@@ -195,31 +203,47 @@ public class Analizador {
     }
     
     private Espanol obtenerMasCercano(int indice, List<Espanol> contenidos){
+        List<Espanol> listaProbables = simbolosProbables.get(indice);
         Espanol aproximado = null;
         
         double menor = 100.00;
         int masCercano = 0;
         
-        float frecuencia = 0.0f;
-        Espanol simboloCifrado = null;
+        float diferencia = 0.0f;
         
-        System.out.println("\nProbabilidades de " + frecuenciasEspanol.get(indice).name() + ":");
-        for(int j=0; j<frecuenciasProbables.get(indice).size(); j++){
-            frecuencia = (float)frecuenciasProbables.get(indice).get(j);
-            simboloCifrado = (Espanol)simbolosProbables.get(indice).get(j);
+        Espanol simboloCifrado = null;
+        Espanol simboloFrecuencia = frecuenciasEspanol.get(indice);
+        
+        System.out.println("\nProbabilidades de " + simboloFrecuencia.name() + " (" + simboloFrecuencia.getFrecuencia() + "):");
+        boolean agregado=false;
+        for(int i=0; i<frecuenciasProbables.get(indice).size(); i++){
+            diferencia = (float)frecuenciasProbables.get(indice).get(i);
+            simboloCifrado = (Espanol)listaProbables.get(i);
 
-            System.out.println(simboloCifrado+" "+frecuencia);
-
-            ////////////////////////////////////////////////
-            // AQUI EN ESTA PARTE ES DONDE DEBE DE VERSE LO DE NO REPETIR NINGUN SIMBOLO EN LA LISTA DE SIMBOLOS PROBABLES
-            ////////////////////////////////////////////////
-            if(frecuencia < menor && !aproximadosPorFrecuencia.contains(simboloCifrado)){
-                menor=frecuencia;
-                masCercano=j;
+            System.out.println(simboloCifrado+" "+diferencia);
+            
+            if(diferencia < menor && !aproximadosPorFrecuencia.contains(simboloCifrado)){
+                agregado=true;
+                menor=diferencia;
+                masCercano=i;
             }
         }
         
-        aproximado = (Espanol)simbolosProbables.get(indice).get(masCercano);
+        //Si no se agrego con los simbolos probables
+        if(!agregado){
+            //recorrer todo el alfabeto
+            for(int i=0; i<alfabeto.getTotalSimbolos();i++){
+                simboloCifrado = alfabeto.getInstanciaLetra(i);
+                
+                //asignarle el primer simbolo que no haya sido grabado antes
+                if(!aproximadosPorFrecuencia.contains(simboloCifrado)){
+                    aproximado = simboloCifrado;
+                    break;
+                }
+            }
+        }else
+            aproximado = (Espanol)listaProbables.get(masCercano);
+        
         System.out.println("[Escogido por frecuencia mas cercana: " + aproximado + "]");
         
         return aproximado;
