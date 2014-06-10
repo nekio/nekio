@@ -84,7 +84,7 @@ public class Analizador {
         for(float valor: valores){
             porcentaje = (valor / totalSimbolosCifrados) * 100;
             porcentajeTotal = porcentajeTotal + porcentaje;
-            porcentajes.add(porcentaje);
+            getPorcentajes().add(porcentaje);
         }
     }
     
@@ -109,9 +109,9 @@ public class Analizador {
             letrasCifradas = new ArrayList<Espanol>();
             frecuencias = new ArrayList<Float>();
             
-            for(int j=0; j<porcentajes.size(); j++){
+            for(int j=0; j<getPorcentajes().size(); j++){
                 simboloAuxiliar = alfabeto.getInstanciaLetra(j);
-                frecuenciaCifrado = porcentajes.get(j);
+                frecuenciaCifrado = getPorcentajes().get(j);
                 diferencia = Math.abs(frecuenciaSimbolo - frecuenciaCifrado);
                 
                 if(diferencia < 5){
@@ -127,11 +127,6 @@ public class Analizador {
     }
     
     public String sustituirAproximado(){
-        ////////////////////////////////////////////////
-        // AQUI EN ESTA PARTE ES DONDE DEBE DE VERSE LO DEL REEMPLAZO DE LOS COMODINES POR LOS SIMBOLOS PROBABLES
-        // TE SUGIERO QUE CORRAS LA APLICACION EN MODO DEBUG Y CHECA COMO SE VAN REEMPLAZANDO LOS ARRAYLIST, 
-        //PARA QUE VEAS LOS VALORES QUE AGARRA EN LOS 2 FOR QUE HAY. ESTOY SEGURO QUE AHI ES EL DETALLE.
-        ////////////////////////////////////////////////
         System.out.println("-------------------------");
         String textoAproximado = textoCifrado;
         String auxiliar = "";
@@ -139,6 +134,7 @@ public class Analizador {
 
         crearComodines();
         
+        int indiceProbable = 0;
         char simboloOriginal = '-';
         char simboloProbable = '-';
         char comodin = '-';
@@ -161,10 +157,13 @@ public class Analizador {
         // Reemplazar comodines con simbolos probables
         System.out.println("\nREEMPLAZO DE COMODINES");
         for(int i=0; i<alfabeto.getTotalSimbolos(); i++){
-            comodin = comodines.get(i);
-            simboloProbable = simbolosProbables.get(i).name().charAt(0);
-
-            System.out.println(simboloProbable+" = "+comodin);
+            Espanol ordinalLetraProbable = new Alfabeto().getInstanciaLetra(simbolosProbables.get(i).ordinal());
+            indiceProbable = Alfabeto.Espanol.getOrdenFrecuencia().indexOf(ordinalLetraProbable);
+            comodin = comodines.get(indiceProbable);
+            simboloProbable = Alfabeto.Espanol.getOrdenFrecuencia().get(i).name().charAt(0);
+            
+            System.out.println(comodin + " = " +simboloProbable);
+            
             textoAproximado = textoAproximado.replace(comodin, simboloProbable);
         }
                     
@@ -195,11 +194,11 @@ public class Analizador {
                 aproximadosTemp.add((Espanol)simboloProbable);
             
             simbolo = obtenerMasCercano(indice, aproximadosTemp);
-            aproximadosPorFrecuencia.add(simbolo);
+            getAproximadosPorFrecuencia().add(simbolo);
             indice++;
         }
                  
-        return aproximadosPorFrecuencia;
+        return getAproximadosPorFrecuencia();
     }
     
     private Espanol obtenerMasCercano(int indice, List<Espanol> contenidos){
@@ -251,6 +250,7 @@ public class Analizador {
     
     public String descifrarCesar(int desplazamiento){
         Cifrados cesar = new Cifrados(alfabeto);
+        obtenerEstadisticas();
         
         int distanciaPicos= 4; //posiciones distantes entre A y E (Los picos de la estadistica)
         
@@ -289,5 +289,9 @@ public class Analizador {
 
     public List<List> getSimbolosProbables() {
         return simbolosProbables;
+    }
+
+    public List<Espanol> getAproximadosPorFrecuencia() {
+        return aproximadosPorFrecuencia;
     }
 }

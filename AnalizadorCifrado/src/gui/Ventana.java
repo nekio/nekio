@@ -19,11 +19,13 @@ import herramientas.Alfabeto.Espanol;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import javax.swing.JButton;
@@ -49,11 +51,15 @@ public class Ventana extends JFrame{
     private JComboBox cmbCifrado;
     private JButton btnAnalizar;
     private JButton btnSiguiente;
+    private JButton btnGraficar;
     private JTextArea txtCifrado;
     private JTextArea txtDescifrado;
     private JScrollPane scrollCifrado;
     private JScrollPane scrollDescifrado;
     private JPanel pnlInferior;
+    
+    private List<Espanol> simbolos;
+    private List<Float> porcentajes;
     
     private int indiceLlave;
     private List<List> simbolosProbables; 
@@ -105,6 +111,10 @@ public class Ventana extends JFrame{
         btnAnalizar = new JButton("Analizar");
         btnAnalizar.setEnabled(false);
         pnlSuperiorAux.add(btnAnalizar);
+        
+        btnGraficar = new JButton("Graficar");
+        btnGraficar.setEnabled(false);
+        pnlSuperiorAux.add(btnGraficar);
         
         pnlSuperior.add(pnlSuperiorAux, "South");
         contenedor.add(pnlSuperior, "North");
@@ -168,12 +178,20 @@ public class Ventana extends JFrame{
             }
         });
         
+        btnGraficar.addActionListener(new ActionListener(){
+        @Override
+            public void actionPerformed(ActionEvent evt){
+                graficar();
+            }
+        });
+        
         btnAnalizar.addActionListener(new ActionListener(){
         @Override
             public void actionPerformed(ActionEvent evt){
                 if(btnSiguiente != null)
                     btnSiguiente.setEnabled(true);
                 analizar();
+                btnGraficar.setEnabled(true);
             }
         });
         
@@ -262,6 +280,8 @@ public class Ventana extends JFrame{
         else
             resultado = descifarSustitucion(analizador);
         
+        porcentajes = analizador.getPorcentajes();
+        
         txtDescifrado.setText(resultado);
     }
     
@@ -288,7 +308,24 @@ public class Ventana extends JFrame{
         return analizador.sustituirAproximado();
     }
     
+    private void graficar(){
+        List<Float> porcentajesPromedio = new ArrayList<Float>();
+        Point punto = null;
+        
+        simbolos = new ArrayList<Espanol>();
+        for(Espanol simbolo:Alfabeto.Espanol.values()){
+            simbolos.add(simbolo);
+            porcentajesPromedio.add(simbolo.getFrecuencia());
+        }        
+        
+        punto = new Point(250,80);
+        new Graficador(punto, "Frecuencias promedio del Alfabeto Espanol", simbolos, porcentajesPromedio);
+        punto = new Point(250,400);
+        new Graficador(punto, "Analisis de Frecuencia del Texto Cifrado", simbolos, porcentajes);
+    }
+    
     public void salir(){
         this.dispose();
+        System.exit(0);
     } 
 }
