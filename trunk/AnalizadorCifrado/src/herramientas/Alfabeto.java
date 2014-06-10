@@ -88,8 +88,8 @@ public class Alfabeto {
             lista.add(Espanol.W);
             lista.add(Espanol.K);
 
-        return lista;
-    }
+            return lista;
+        }
     };
     
     private int totalSimbolos;
