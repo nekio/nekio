@@ -50,6 +50,7 @@ class BotonSimbolo{
 
         btnSimbolo = new JButton(textoBoton);
         btnSimbolo.setBackground(Color.WHITE);
+        btnSimbolo.setEnabled(false);
         pnlBoton.add(btnSimbolo,"Center");
 
         JLabel lblIndice = new JLabel(simbolo);

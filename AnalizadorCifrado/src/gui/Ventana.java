@@ -192,13 +192,14 @@ public class Ventana extends JFrame{
                     btnSiguiente.setEnabled(true);
                 analizar();
                 btnGraficar.setEnabled(true);
+                btnAnalizar.setEnabled(false);
             }
         });
         
         cmbCifrado.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent evt){
-                definirPanelInferior();
+                escucharCombo();
             }
         });
                 
@@ -230,6 +231,17 @@ public class Ventana extends JFrame{
                JOptionPane.showMessageDialog(null, "No se reconoce el archivo proporcionado", "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE); 
             }
         }
+    }
+    
+    private void escucharCombo(){
+        if(this.txtDescifrado.getText().length() != 0){
+            txtDescifrado.setText("");
+            btnAnalizar.setEnabled(true);
+            btnGraficar.setEnabled(false);
+        }
+        
+        if(this.cmbCifrado.getSelectedIndex() != 0)
+            definirPanelInferior();
     }
     
     private void definirPanelInferior(){
