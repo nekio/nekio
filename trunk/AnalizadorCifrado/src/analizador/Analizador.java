@@ -127,7 +127,7 @@ public class Analizador {
     }
     
     public String sustituirAproximado(){
-        System.out.println("-------------------------");
+        System.out.println("---DESCIFRADO POR SUSTITUCION---");
         String textoAproximado = textoCifrado;
         String auxiliar = "";
         List<Espanol> simbolosProbables = obtenerAproximado();
@@ -249,6 +249,9 @@ public class Analizador {
     }
     
     public String descifrarCesar(int desplazamiento){
+        if(desplazamiento < 0)
+            desplazamiento = 0;
+        
         Cifrados cesar = new Cifrados(alfabeto);
         obtenerEstadisticas();
         

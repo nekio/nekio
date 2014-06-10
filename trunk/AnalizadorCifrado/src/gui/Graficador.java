@@ -17,6 +17,8 @@ import herramientas.Alfabeto.Espanol;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -48,6 +50,7 @@ public class Graficador extends ApplicationFrame{
         ChartPanel panelGrafica = new ChartPanel(grafica);
         panelGrafica.setPreferredSize(new Dimension(850, 270));
         setContentPane(panelGrafica);
+        escuchadorVentana();
         
         this.pack();
         this.setLocation(punto);
@@ -102,5 +105,14 @@ public class Graficador extends ApplicationFrame{
         );
         
         return grafica;
+    }
+    
+    private void escuchadorVentana(){
+        addWindowListener( new WindowAdapter(){
+            @Override
+            public void windowClosing(WindowEvent evt){
+                dispose();
+            }
+        });
     }
 }
