@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import nekio.myprp.recursos.utilerias.plantillas.DTO;
 
-public class GenericoDTO implements DTO{
+public class GenericoDTO extends DTO{
     private List<Object> campo = new ArrayList<Object>();
 
     public List<Object> getCampo() {
@@ -19,4 +19,6 @@ public class GenericoDTO implements DTO{
     public void setCampo(List<Object> campo) {
         this.campo = campo;
     }
+
+    @Override public void confirmarDTO() {}
 }

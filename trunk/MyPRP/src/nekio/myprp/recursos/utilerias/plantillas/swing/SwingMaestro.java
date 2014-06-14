@@ -1,4 +1,4 @@
-package nekio.myprp.recursos.utilerias.plantillas;
+package nekio.myprp.recursos.utilerias.plantillas.swing;
 
 /**
  *
@@ -6,10 +6,10 @@ package nekio.myprp.recursos.utilerias.plantillas;
  */
 
 import java.util.List;
-import javax.swing.JFrame;
 import nekio.myprp.recursos.utilerias.gui.swing.BD_Navegador;
+import nekio.myprp.recursos.utilerias.plantillas.DTO;
 
-public abstract class SwingMaestro extends JFrame{
+public abstract class SwingMaestro extends SwingJFrame{
     private static final long serialVersionUID = 1L;
     
     private BD_Navegador navegadorBD;

@@ -99,7 +99,7 @@ public class ImagenDAO extends DAO{
             
             BDConexion.cerrar();
         }catch(Exception e){
-            System.out.println("Error al leer registros de " + Globales.BD_ESQUEMA + "." + TABLA + ": " + e);
+            System.out.println("DAO: Error al leer registros de " + Globales.BD_ESQUEMA + "." + TABLA + ": " + e);
         }
         
         return lista;
@@ -183,13 +183,13 @@ public class ImagenDAO extends DAO{
             imagen = new FileInputStream(archivo);
             longitud = (int) archivo.length();
                 
-            CallableStatement procInsertarImagen = conexion.prepareCall(procedimiento);
-            procInsertarImagen.setBinaryStream(1,imagen, longitud);
-            procInsertarImagen.setString(2, dto.getNombre());
-            procInsertarImagen.setString(3, String.valueOf(dto.getTipo()));
-            procInsertarImagen.setTimestamp(4, new java.sql.Timestamp(dto.getFechaSubida().getTime()));
-            procInsertarImagen.setString(5, dto.getDescripcion());
-            procInsertarImagen.execute();
+            CallableStatement procInsertar = conexion.prepareCall(procedimiento);
+            procInsertar.setBinaryStream(1,imagen, longitud);
+            procInsertar.setString(2, dto.getNombre());
+            procInsertar.setString(3, String.valueOf(dto.getTipo()));
+            procInsertar.setTimestamp(4, new java.sql.Timestamp(dto.getFechaSubida().getTime()));
+            procInsertar.setString(5, dto.getDescripcion());
+            procInsertar.execute();
 
             conexion.commit();
             BDConexion.cerrar();
@@ -241,14 +241,14 @@ public class ImagenDAO extends DAO{
                 longitud = imagen.available();
             }
                 
-            CallableStatement procInsertarImagen = conexion.prepareCall(procedimiento);
-            procInsertarImagen.setInt(1, dto.getIdImagen());
-            procInsertarImagen.setBinaryStream(2,imagen, longitud);
-            procInsertarImagen.setString(3, dto.getNombre());
-            procInsertarImagen.setString(4, String.valueOf(dto.getTipo()));
-            procInsertarImagen.setTimestamp(5, new java.sql.Timestamp(dto.getFechaSubida().getTime()));
-            procInsertarImagen.setString(6, dto.getDescripcion());
-            procInsertarImagen.execute();
+            CallableStatement procActualizar = conexion.prepareCall(procedimiento);
+            procActualizar.setInt(1, dto.getIdImagen());
+            procActualizar.setBinaryStream(2,imagen, longitud);
+            procActualizar.setString(3, dto.getNombre());
+            procActualizar.setString(4, String.valueOf(dto.getTipo()));
+            procActualizar.setTimestamp(5, new java.sql.Timestamp(dto.getFechaSubida().getTime()));
+            procActualizar.setString(6, dto.getDescripcion());
+            procActualizar.execute();
 
             conexion.commit();
             BDConexion.cerrar();
@@ -282,9 +282,9 @@ public class ImagenDAO extends DAO{
         try{
             Connection conexion = BDConexion.getConnection();
                 
-            CallableStatement procEliminarImagen = conexion.prepareCall(procedimiento);
-            procEliminarImagen.setInt(1, dto.getIdImagen());
-            procEliminarImagen.execute();
+            CallableStatement procEliminar = conexion.prepareCall(procedimiento);
+            procEliminar.setInt(1, dto.getIdImagen());
+            procEliminar.execute();
 
             conexion.commit();
             BDConexion.cerrar();

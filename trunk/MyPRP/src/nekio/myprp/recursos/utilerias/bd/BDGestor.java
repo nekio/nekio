@@ -5,7 +5,7 @@ package nekio.myprp.recursos.utilerias.bd;
  * @author Nekio
  */
 
-public enum Gestor{
+public enum BDGestor{
         ACCESS,
         SQL_SERVER_SPRINTA,
         SQL_SERVER_2005,

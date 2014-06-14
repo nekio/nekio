@@ -5,9 +5,11 @@ package nekio.myprp.sistema.acceso.dto;
  * @author Nekio
  */
 
+import java.util.ArrayList;
+import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.plantillas.DTO;
 
-public class UsuarioDTO implements DTO{
+public class UsuarioDTO extends DTO{
     private int idUsuario;
     private int idTipoUsuario;
     private String nombre;
@@ -17,6 +19,49 @@ public class UsuarioDTO implements DTO{
     private String usuario;
     private String password;
     private boolean activo;
+    
+    @Override
+    public void confirmarDTO(){        
+        campos = new ArrayList<String>();
+        valores = new ArrayList();
+        tipoDatos = new ArrayList<Globales.TipoDato>();
+        
+        super.campos.add("id_usuario");
+        super.valores.add(idUsuario);
+        super.tipoDatos.add(Globales.TipoDato.NUMERO);
+        
+        super.campos.add("id_tipo_usuario");
+        super.valores.add(idTipoUsuario);
+        super.tipoDatos.add(Globales.TipoDato.NUMERO);
+        
+        super.campos.add("nombre");
+        super.valores.add(nombre);
+        super.tipoDatos.add(Globales.TipoDato.TEXTO);
+        
+        super.campos.add("apellido_p");
+        super.valores.add(apellidoP);
+        super.tipoDatos.add(Globales.TipoDato.TEXTO);
+        
+        super.campos.add("apellido_m");
+        super.valores.add(apellidoM);
+        super.tipoDatos.add(Globales.TipoDato.TEXTO);
+        
+        super.campos.add("contacto");
+        super.valores.add(contacto);
+        super.tipoDatos.add(Globales.TipoDato.TEXTO);
+        
+        super.campos.add("usuario");
+        super.valores.add(usuario);
+        super.tipoDatos.add(Globales.TipoDato.TEXTO);
+        
+        super.campos.add("password");
+        super.valores.add(password);
+        super.tipoDatos.add(Globales.TipoDato.TEXTO);
+        
+        super.campos.add("activo");
+        super.valores.add(activo);
+        super.tipoDatos.add(Globales.TipoDato.BOOLEANO);
+    }
 
     public int getIdUsuario() {
         return idUsuario;

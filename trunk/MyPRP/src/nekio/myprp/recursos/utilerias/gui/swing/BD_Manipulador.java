@@ -11,8 +11,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import nekio.myprp.recursos.utilerias.Idioma;
+import nekio.myprp.recursos.utilerias.plantillas.swing.SwingJPanel;
 
-public abstract class BD_Manipulador extends JPanel{
+public abstract class BD_Manipulador extends SwingJPanel{
     private static final long serialVersionUID = 1L;
     
     private JButton btnNuevo;
@@ -30,7 +31,8 @@ public abstract class BD_Manipulador extends JPanel{
         this.setVisible(true);
     }
     
-    private void agregarComponentes(){
+    @Override
+    public void agregarComponentes(){
         JPanel pnlContenedor = new JPanel();
         
         btnNuevo = new JButton(Idioma.obtenerTexto(Idioma.PROP_ACCIONES, "nuevo"));
@@ -48,7 +50,8 @@ public abstract class BD_Manipulador extends JPanel{
         this.add(pnlContenedor,"Center");
     }
     
-    private void agregarEscuchadores(){
+    @Override
+    public void agregarEscuchadores(){
         btnNuevo.addActionListener(new ActionListener(){
         @Override
             public void actionPerformed(ActionEvent evt){

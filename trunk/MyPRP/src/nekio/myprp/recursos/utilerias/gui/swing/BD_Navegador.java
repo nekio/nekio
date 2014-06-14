@@ -13,9 +13,10 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import nekio.myprp.recursos.utilerias.Idioma;
-import nekio.myprp.recursos.utilerias.plantillas.SwingMaestro;
+import nekio.myprp.recursos.utilerias.plantillas.swing.SwingJPanel;
+import nekio.myprp.recursos.utilerias.plantillas.swing.SwingMaestro;
 
-public class BD_Navegador extends JPanel{
+public class BD_Navegador extends SwingJPanel{
     private static final long serialVersionUID = 1L;
     public static final int PRIMERO = 1;
     public static final int ANTERIOR = 2;
@@ -41,7 +42,8 @@ public class BD_Navegador extends JPanel{
         this.setVisible(true);
     }
     
-    private void agregarComponentes(){  
+    @Override
+    public void agregarComponentes(){  
         this.setLayout(new BorderLayout());
         
         JPanel pnlAtras = new JPanel();
@@ -64,7 +66,8 @@ public class BD_Navegador extends JPanel{
         this.add(pnlAdelante, "East");
     }
     
-    private void agregarEscuchadores(){
+    @Override
+    public void agregarEscuchadores(){
         btnPrimero.addActionListener(new ActionListener(){
         @Override
             public void actionPerformed(ActionEvent evt){
@@ -124,6 +127,13 @@ public class BD_Navegador extends JPanel{
         txtBuscar.setEnabled(false);
     }
     
+    public void habilitarTodo(boolean habilitar){
+        btnPrimero.setEnabled(habilitar);
+        btnAnterior.setEnabled(habilitar);
+        btnSiguiente.setEnabled(habilitar);
+        btnUltimo.setEnabled(habilitar);
+        txtBuscar.setEnabled(habilitar);
+    }
 
     public void irPrimero() {
         btnPrimero.setEnabled(false);

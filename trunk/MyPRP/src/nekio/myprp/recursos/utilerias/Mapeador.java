@@ -8,12 +8,15 @@ package nekio.myprp.recursos.utilerias;
 import java.util.ArrayList;
 import java.util.List;
 import nekio.myprp.recursos.img.obj.ImagenDTO;
-import nekio.myprp.recursos.utilerias.gui.swing.CatalogoImagenes;
-import nekio.myprp.recursos.utilerias.gui.swing.RecogedorImagen;
+import nekio.myprp.recursos.img.obj.vista.CatalogoImagenes;
+import nekio.myprp.recursos.img.obj.vista.RecogedorImagen;
 import nekio.myprp.recursos.utilerias.plantillas.DTO;
 import nekio.myprp.recursos.utilerias.plantillas.Gestor;
-import nekio.myprp.recursos.utilerias.plantillas.SwingMaestro;
+import nekio.myprp.recursos.utilerias.plantillas.swing.SwingMaestro;
 import nekio.myprp.sistema.acceso.vista.LoginGUI;
+import nekio.myprp.sistema.acceso.vista.Menu;
+import nekio.myprp.sistema.modulos.series.dto.MensajePrivadoDTO;
+import nekio.myprp.sistema.modulos.series.vista.MensajesPrivados;
 
 public class Mapeador {
     public static void abrir(Gestor gestor){
@@ -33,7 +36,7 @@ public class Mapeador {
             /*********************************************************/
             case Globales.MOD_ACCESO:
                 if(pagina.equals("bienvenida")){
-                    //new Pagina();
+                    new Menu();
                 }else if(pagina.equals("")){
                     
                 }
@@ -44,19 +47,19 @@ public class Mapeador {
             /*********************************************************/
             case Globales.MOD_IMAGEN:
                 entidad = Globales.Entidad.Imagen.name();
-                List<ImagenDTO> parametros = null;
-                ImagenDTO parametro = null;
+                List<ImagenDTO> parametrosImg = null;
+                ImagenDTO parametroImg = null;
                 
                 if(pagina.equals(Globales.BD.LEER.getPagina()+entidad) || pagina.equals(Globales.BD.LEER_DESC.getPagina()+entidad)){
-                    parametros = new ArrayList<ImagenDTO>();
+                    parametrosImg = new ArrayList<ImagenDTO>();
                     for(DTO dto:gestor.getListaDTO())
-                        parametros.add((ImagenDTO) dto);
+                        parametrosImg.add((ImagenDTO) dto);
                     
-                    new CatalogoImagenes(parametros);
+                    new CatalogoImagenes(parametrosImg);
                 }else if(pagina.equals(Globales.BD.LEER_UNO.getPagina()+entidad)){
-                    parametro = (ImagenDTO) gestor.getDTO();
+                    parametroImg = (ImagenDTO) gestor.getDTO();
                     
-                    new RecogedorImagen(guiPadre, parametro);
+                    new RecogedorImagen(guiPadre, parametroImg);
                 }else if(pagina.equals(Globales.BD.NUEVO.getPagina()+entidad)){                    
                     new RecogedorImagen(guiPadre);
                 }else if(pagina.equals(Globales.BD.MODIFICAR.getPagina()+entidad)){                    
@@ -67,8 +70,28 @@ public class Mapeador {
                     gestor.recargarGUI();
                 }
                 
-                parametros = null;
-                parametro = null;
+                parametrosImg = null;
+                parametroImg = null;
+            break;
+                
+            /*********************************************************/
+            /* MODULO DE SERIES*/
+            /*********************************************************/
+            case Globales.MOD_SERIES:
+                entidad = Globales.Entidad.MensajePrivado.name();
+                List<MensajePrivadoDTO> parametrosMP = null;
+                MensajePrivadoDTO parametroMP = null;
+                
+                if(pagina.equals(Globales.BD.LEER.getPagina()+entidad) || pagina.equals(Globales.BD.LEER_DESC.getPagina()+entidad)){
+                    parametrosMP = new ArrayList<MensajePrivadoDTO>();
+                    for(DTO dto:gestor.getListaDTO())
+                        parametrosMP.add((MensajePrivadoDTO) dto);
+                    
+                    new MensajesPrivados(parametrosMP);
+                }
+                
+                parametrosMP = null;
+                parametroMP = null;
             break;
             default:
                 if(Globales.APP_DEBUG)

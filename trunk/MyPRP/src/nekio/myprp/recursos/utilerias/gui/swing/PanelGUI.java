@@ -6,60 +6,42 @@ package nekio.myprp.recursos.utilerias.gui.swing;
  */
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Box;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import nekio.myprp.recursos.utilerias.Globales;
+import nekio.myprp.recursos.utilerias.plantillas.swing.SwingJPanel;
 
-public class GUI extends JFrame{
+public class PanelGUI extends SwingJPanel{
     private static final long serialVersionUID = 1L;
     
     private Container contenedor;
-    private String titulo;
-    private List camposBD;
+    private List<String> camposBD;
     private List valoresBD;
-    private List<Integer> tiposDatoBD;
+    private List<Globales.TipoDato> tiposDatoBD;
     private List registrosLlave;
     private List registrosNoLlave;
     private List registrosLlaveValor;
     private List registrosNoLlaveValor;
-    private Dimension dimension;
     
-    public GUI(){
-        this("Swing GUI", null, null, null);
+    public PanelGUI(){
+        this(null, null, null);
     }
     
-    public GUI(String titulo, ArrayList camposBD, ArrayList valoresBD, ArrayList<Integer> tiposDatoBD){
-        this(titulo, camposBD, valoresBD, tiposDatoBD, new Dimension(640,480));
-    }
-    
-    public GUI(String titulo, List camposBD, List valoresBD, List<Integer> tiposDatoBD, Dimension dimension){
-        super(Globales.NOMBRE_APP + ": " + titulo);
-        
-        this.titulo = titulo;
+    public PanelGUI(List<String> camposBD, List valoresBD, List<Globales.TipoDato> tiposDatoBD){
         this.camposBD = camposBD;
         this.valoresBD = valoresBD;
         this.tiposDatoBD = tiposDatoBD;
-        this.dimension = dimension;
         
-        inicializarGUI();
+        inicializarPanel();
     }
     
-    private void inicializarGUI(){        
-        this.contenedor = this.getContentPane();
-        this.setSize(dimension);
-        this.setMinimumSize(dimension);
-        this.setLocationRelativeTo(null);
+    private void inicializarPanel(){
         this.setLayout(null);
         
         identificarRegistros();
@@ -69,7 +51,8 @@ public class GUI extends JFrame{
         this.setVisible(true);
     }
     
-    private void agregarComponentes(){
+    @Override
+    public void agregarComponentes(){
         /* PANEL DE LLAVES*/
         JPanel pnlLlaves = new JPanel(new BorderLayout());
         pnlLlaves.setBounds(10, 10, 350, 150);
@@ -82,23 +65,17 @@ public class GUI extends JFrame{
         pnlCampos.add(new JLabel("  Campos:"),"North");
         pnlCampos.add(agregarCampos());
         contenedor.add(pnlCampos);
-        
-        agregarDMLs();
-        agregarNavegacion();
     }
-    private void agregarEscuchadores(){
-        addWindowListener( new WindowAdapter(){
-            @Override
-            public void windowClosing(WindowEvent evt){
-                salir();
-            }
-        });
+    
+    @Override
+    public void agregarEscuchadores() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     private Box agregarLlaves(){       
         String campo = null;
         Object valor = null;
-        int tipoDato = 0;
+        Globales.TipoDato tipoDato = null;
         int campos = registrosLlave.size();
         
         JPanel pnlLlaves = new JPanel(new GridLayout(campos+1,1)); 
@@ -109,7 +86,7 @@ public class GUI extends JFrame{
         for(int i=0; i<campos; i++){
             campo = String.valueOf(registrosLlave.get(i));
             valor = registrosLlaveValor.get(i);
-            tipoDato = Integer.valueOf(String.valueOf(tiposDatoBD.get(i)));
+            tipoDato = tiposDatoBD.get(i);
             
             pnlLlave = new PanelCampo().crear(campo, valor, tipoDato, true);
 
@@ -122,7 +99,7 @@ public class GUI extends JFrame{
     private Box agregarCampos(){
         String campo = null;
         Object valor = null;
-        int tipoDato = 0;
+        Globales.TipoDato tipoDato = null;
 
         int campos = this.registrosNoLlave.size();
         
@@ -134,7 +111,7 @@ public class GUI extends JFrame{
         for(int i=0; i<campos; i++){
             campo = String.valueOf(registrosNoLlave.get(i));
             valor = registrosNoLlaveValor.get(i);
-            tipoDato = Integer.valueOf(String.valueOf(tiposDatoBD.get(i)));
+            tipoDato = tiposDatoBD.get(i);
             
             pnlCampo = new PanelCampo().crear(campo, valor, tipoDato, false);
 
@@ -143,9 +120,6 @@ public class GUI extends JFrame{
         
         return caja;
     }
-    
-    private void agregarDMLs(){}
-    private void agregarNavegacion(){}
     
     private void identificarRegistros(){        
         String campo = null;
@@ -157,7 +131,7 @@ public class GUI extends JFrame{
         registrosNoLlaveValor = new ArrayList();
         
         for(int i=0; i<camposBD.size(); i++){
-            campo = String.valueOf(camposBD.get(i));
+            campo = camposBD.get(i);
             valor = valoresBD.get(i);
             
             if(campo.toUpperCase().startsWith("ID_")){
@@ -169,11 +143,4 @@ public class GUI extends JFrame{
             }
         }  
     }
-    
-    private void dibujarComponente(Component componente){}
-    private void asociarLOV(){}
-    
-    private void salir(){
-        this.dispose();
-    }   
 }
