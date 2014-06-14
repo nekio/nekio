@@ -7,18 +7,50 @@ package nekio.myprp.recursos.img.obj;
 
 import java.awt.Dimension;
 import java.awt.Image;
+import java.util.ArrayList;
 import java.util.Date;
+import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.plantillas.DTO;
 
-public class ImagenDTO implements DTO{   
-
-    public String getRutaImagen() {
-        return rutaImagen;
+public class ImagenDTO extends DTO{
+    private Integer idImagen;
+    private Image imagen;
+    private String nombre;
+    private Character tipo;
+    private Date fechaSubida;
+    private String descripcion;
+    
+    @Override
+    public void confirmarDTO(){        
+        campos = new ArrayList<String>();
+        valores = new ArrayList();
+        tipoDatos = new ArrayList<Globales.TipoDato>();
+        
+        super.campos.add("id_imagen");
+        super.valores.add(idImagen);
+        super.tipoDatos.add(Globales.TipoDato.NUMERO);
+        
+        super.campos.add("imagen");
+        super.valores.add(imagen);
+        super.tipoDatos.add(Globales.TipoDato.BLOB);
+        
+        super.campos.add("nombre");
+        super.valores.add(nombre);
+        super.tipoDatos.add(Globales.TipoDato.TEXTO);
+        
+        super.campos.add("tipo");
+        super.valores.add(tipo);
+        super.tipoDatos.add(Globales.TipoDato.TEXTO);
+        
+        super.campos.add("fecha_subida");
+        super.valores.add(fechaSubida);
+        super.tipoDatos.add(Globales.TipoDato.FECHA);
+        
+        super.campos.add("descripcion");
+        super.valores.add(descripcion); 
+        super.tipoDatos.add(Globales.TipoDato.TEXTO);
     }
-
-    public void setRutaImagen(String rutaImagen) {
-        this.rutaImagen = rutaImagen;
-    }
+    
     public static enum TipoImagen{
         VERTICAL(65, 95, 'V', 0),
         HORIZONTAL(95, 65, 'H', 1),
@@ -63,15 +95,6 @@ public class ImagenDTO implements DTO{
             return indice;
         }
     }
-
-    private Integer idImagen;
-    private Image imagen;
-    private String nombre;
-    private Character tipo;
-    private Date fechaSubida;
-    private String descripcion;
-    
-    private String rutaImagen; // Atributo artificial
  
     public Integer getIdImagen() {
         return idImagen;
@@ -119,5 +142,17 @@ public class ImagenDTO implements DTO{
     
     public String getDescripcion() {
         return descripcion;
+    }
+    
+    /* Atributo artificial */
+    
+    private String rutaImagen;
+    
+    public String getRutaImagen() {
+        return rutaImagen;
+    }
+
+    public void setRutaImagen(String rutaImagen) {
+        this.rutaImagen = rutaImagen;
     }
 }

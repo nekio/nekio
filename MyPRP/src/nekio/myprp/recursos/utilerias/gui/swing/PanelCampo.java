@@ -16,14 +16,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import nekio.myprp.recursos.utilerias.Globales;
 
 // <editor-fold defaultstate="collapsed" desc="Panel Campo">
 class PanelCampo{
-    public static final int TEXTO = 0;
-    public static final int NUMERO = 1;
-    public static final int FECHA = 2;
-    public static final int TEXTO_LARGO = 3;
-    public static final int BLOB = 4;
     private static final String TEXTO_VACIO = "                   ";
 
     private JTextField txtCampo;
@@ -33,10 +29,10 @@ class PanelCampo{
     private JButton btnFecha;
 
     public JPanel crear(String campo, Object valor, boolean llave){
-        return crear(campo, valor, TEXTO, llave);
+        return crear(campo, valor, Globales.TipoDato.TEXTO, llave);
     }
 
-    public JPanel crear(String campo, Object valor, int tipoCampo, boolean llave){
+    public JPanel crear(String campo, Object valor, Globales.TipoDato tipoCampo, boolean llave){
         JPanel pnlCampo = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         JLabel lblCampo = new JLabel(campo + ":");
@@ -53,11 +49,11 @@ class PanelCampo{
             pnlCampo.add(btnLOV);
         }
 
-        if(!llave && tipoCampo == FECHA){
+        if(!llave && tipoCampo == Globales.TipoDato.FECHA){
             txtCampo.setEnabled(false);
             btnFecha = new JButton("...");
             pnlCampo.add(btnFecha);
-        }else if(!llave && tipoCampo == BLOB){
+        }else if(!llave && tipoCampo == Globales.TipoDato.BLOB){
             txtCampo.setVisible(false);
 
             ImageIcon icon = new ImageIcon(BufferedImage.class.cast(valor)); 

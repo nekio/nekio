@@ -9,8 +9,7 @@ import nekio.myprp.recursos.img.obj.GestorImagen;
 import nekio.myprp.recursos.img.obj.ImagenDTO;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.gui.swing.BD_Manipulador;
-import nekio.myprp.recursos.utilerias.gui.swing.CatalogoImagenes;
-import nekio.myprp.recursos.utilerias.plantillas.SwingMaestro;
+import nekio.myprp.recursos.utilerias.plantillas.swing.SwingMaestro;
 
 public class ImagenBD_M extends BD_Manipulador{
     private static final long serialVersionUID = 1L;

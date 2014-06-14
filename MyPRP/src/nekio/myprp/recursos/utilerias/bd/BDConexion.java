@@ -32,11 +32,11 @@ public class BDConexion {
         this(null, null, null, null, null, null);
     }
  
-    public BDConexion(Gestor gestor, String usuario, String password, String host, String puerto, String db) {
+    public BDConexion(BDGestor gestor, String usuario, String password, String host, String puerto, String db) {
         this(gestor, usuario, password, host, puerto, db, 20, 2);
     }
  
-    public BDConexion(Gestor gestor, String usuario, String password, String host, String puerto, String db, int maxActivos, int maxIdle) {
+    public BDConexion(BDGestor gestor, String usuario, String password, String host, String puerto, String db, int maxActivos, int maxIdle) {
         String driver = null;
         String url = null;
  

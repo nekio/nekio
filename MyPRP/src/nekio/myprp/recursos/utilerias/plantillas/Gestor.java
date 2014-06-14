@@ -5,6 +5,7 @@ package nekio.myprp.recursos.utilerias.plantillas;
  * @author Nekio
  */
 
+import nekio.myprp.recursos.utilerias.plantillas.swing.SwingMaestro;
 import java.util.List;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.Mapeador;
@@ -19,8 +20,7 @@ public abstract class Gestor {
     private SwingMaestro gui;
     private List<DTO> listaDTO;
     
-    public void ejecutarControladorNegocio(ObjetoNegocio objetoNegocio, String accion, String entidad){
-        this.objetoNegocio = objetoNegocio;
+    public void ejecutarControladorNegocio(String accion, String entidad){
         String negocio = accion + entidad;
         
         if(Globales.APP_DEBUG)
@@ -33,25 +33,25 @@ public abstract class Gestor {
         
         /* ACCIONES DE ENTIDAD */
         if(negocio.equals(Globales.BD.LEER.getValor() + entidad)){
-            resultado = obtenerResultado(objetoNegocio, Globales.BD.LEER.getLlave());
+            resultado = obtenerResultado(Globales.BD.LEER.getLlave());
             pagina = Globales.BD.LEER.getPagina() + entidad;
         }else if(negocio.equals(Globales.BD.LEER_DESC.getValor() + entidad)){
-            resultado = obtenerResultado(objetoNegocio, Globales.BD.LEER_DESC.getLlave());
+            resultado = obtenerResultado(Globales.BD.LEER_DESC.getLlave());
             pagina = Globales.BD.LEER_DESC.getPagina() + entidad;
         }else if(negocio.equals(Globales.BD.LEER_UNO.getValor() + entidad)){
-            resultado = obtenerResultado(objetoNegocio, Globales.BD.LEER_UNO.getLlave());
+            resultado = obtenerResultado(Globales.BD.LEER_UNO.getLlave());
             pagina = Globales.BD.LEER_UNO.getPagina() + entidad;
         }else if(negocio.equals(Globales.BD.BUSCAR.getValor() + entidad)){
-            resultado = obtenerResultado(objetoNegocio, Globales.BD.BUSCAR.getLlave());
+            resultado = obtenerResultado(Globales.BD.BUSCAR.getLlave());
             pagina = Globales.BD.BUSCAR.getPagina() + entidad;
         }else if(negocio.equals(Globales.BD.INSERTAR.getValor() + entidad)){
-            resultado = obtenerResultado(objetoNegocio, Globales.BD.INSERTAR.getLlave());
+            resultado = obtenerResultado(Globales.BD.INSERTAR.getLlave());
             pagina = Globales.BD.INSERTAR.getPagina() + entidad;
         }else if(negocio.equals(Globales.BD.MODIFICAR.getValor() + entidad)){
-            resultado = obtenerResultado(objetoNegocio, Globales.BD.MODIFICAR.getLlave());
+            resultado = obtenerResultado(Globales.BD.MODIFICAR.getLlave());
             pagina = Globales.BD.MODIFICAR.getPagina() + entidad;
         }else if(negocio.equals(Globales.BD.ELIMINAR.getValor() + entidad)){
-            resultado = obtenerResultado(objetoNegocio, Globales.BD.ELIMINAR.getLlave());
+            resultado = obtenerResultado(Globales.BD.ELIMINAR.getLlave());
             pagina = Globales.BD.ELIMINAR.getPagina() + entidad;
         }
         
@@ -77,7 +77,7 @@ public abstract class Gestor {
         dirigir(resultado);
     }
         
-    public abstract String obtenerResultado(ObjetoNegocio objetoNegocio,int metodo);
+    public abstract String obtenerResultado(int metodo);
     
     public void dirigir(String resultado){
         if(Globales.APP_DEBUG)

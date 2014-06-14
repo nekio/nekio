@@ -1,10 +1,11 @@
-package nekio.myprp.recursos.utilerias.gui.swing;
+package nekio.myprp.recursos.img.obj.vista;
 
 /**
  *
  * @author Nekio
  */
 
+import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -34,7 +35,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -45,9 +45,10 @@ import nekio.myprp.recursos.img.obj.GestorImagen;
 import nekio.myprp.recursos.img.obj.ImagenDTO;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.Idioma;
-import nekio.myprp.recursos.utilerias.plantillas.SwingMaestro;
+import nekio.myprp.recursos.utilerias.plantillas.swing.SwingJFrame;
+import nekio.myprp.recursos.utilerias.plantillas.swing.SwingMaestro;
 
-public class RecogedorImagen extends JFrame implements DropTargetListener{
+public class RecogedorImagen extends SwingJFrame implements DropTargetListener{
     private static final long serialVersionUID = 1L;
     private final Dimension DIMENSION = new Dimension(380, 290);
     
@@ -83,7 +84,7 @@ public class RecogedorImagen extends JFrame implements DropTargetListener{
     }
     
     public RecogedorImagen(SwingMaestro guiPadre, ImagenDTO dto){
-        super(Globales.NOMBRE_APP + " - " + Idioma.obtenerTexto(Idioma.PROP_RECOGEDOR_IMAGEN, "titulo"));
+        this.setTitle(Globales.NOMBRE_APP + " - " + Idioma.obtenerTexto(Idioma.PROP_RECOGEDOR_IMAGEN, "titulo"));
         
         this.guiPadre = guiPadre;
         
@@ -128,7 +129,8 @@ public class RecogedorImagen extends JFrame implements DropTargetListener{
         }
     }
     
-    private void agregarComponentes(){
+    @Override
+    public void agregarComponentes(){
         // Texto default del Titulo
         JPanel pnlSuperior = new JPanel(new BorderLayout());
         
@@ -202,7 +204,8 @@ public class RecogedorImagen extends JFrame implements DropTargetListener{
         dragNDrop=new DropTarget(this,this);
     }
     
-    private void agregarEscuchadores(){
+    @Override
+    public void agregarEscuchadores(){
         cmbTipoImagen.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent evt){
@@ -470,8 +473,4 @@ public class RecogedorImagen extends JFrame implements DropTargetListener{
         }
     }
     // </editor-fold>
-    
-    private void salir(){
-        this.dispose();
-    } 
 }

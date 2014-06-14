@@ -7,18 +7,18 @@ package nekio.myprp.sistema.acceso;
 
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.plantillas.Gestor;
-import nekio.myprp.recursos.utilerias.plantillas.ObjetoNegocio;
 import nekio.myprp.sistema.acceso.dao.UsuarioDAO;
 import nekio.myprp.sistema.acceso.negocio.Usuario;
 
 public class GestorAcceso extends Gestor{
-    private final Usuario OBJ_USUARIO = new Usuario();
+    private final Usuario OBJETO_NEGOCIO = new Usuario();
     private final UsuarioDAO DAO = new UsuarioDAO();
     private final int MODULO = Globales.MOD_ACCESO;
     
     public GestorAcceso(){
-        super.modulo = MODULO;
+        super.objetoNegocio = OBJETO_NEGOCIO;
         super.dao = DAO;
+        super.modulo = MODULO;
     }
     
     public void ejecutarControladorNegocio(String accion, String entidad){
@@ -37,7 +37,7 @@ public class GestorAcceso extends Gestor{
             resultado = Globales.RES_OK;
             super.pagina = "blank";
         }else{
-            super.ejecutarControladorNegocio(OBJ_USUARIO, accion, entidad);
+            super.ejecutarControladorNegocio(accion, entidad);
             return; //Si accede al metodo de la clase padre, no debe continuar el flujo de este metodo hijo
         }
         
@@ -48,14 +48,13 @@ public class GestorAcceso extends Gestor{
     }
     
     @Override
-    public String obtenerResultado(ObjetoNegocio objetoNegocio,int metodo){
+    public String obtenerResultado(int metodo){
         String resultado = null;
-        
-        if(objetoNegocio instanceof Usuario)
-            super.objetoNegocio = (Usuario) objetoNegocio;
         
         if(metodo == Globales.BD.LEER.getLlave())
             resultado = super.objetoNegocio.consultarSeleccion(this);
+        else if(metodo == Globales.BD.LEER_DESC.getLlave())
+            resultado = super.objetoNegocio.consultarSeleccionDesc(this);
         else if(metodo == Globales.BD.LEER_UNO.getLlave())
             resultado = super.objetoNegocio.consultarId(this);
         else if(metodo == Globales.BD.BUSCAR.getLlave())

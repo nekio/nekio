@@ -1,4 +1,4 @@
-package nekio.myprp.recursos.utilerias.gui.swing;
+package nekio.myprp.recursos.img.obj.vista;
 
 /**
  *
@@ -32,13 +32,13 @@ import nekio.myprp.recursos.img.obj.vista.ImagenBD_M;
 import nekio.myprp.recursos.utilerias.Fecha;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.Idioma;
+import nekio.myprp.recursos.utilerias.gui.swing.BD_Navegador;
 import nekio.myprp.recursos.utilerias.plantillas.DTO;
-import nekio.myprp.recursos.utilerias.plantillas.SwingMaestro;
+import nekio.myprp.recursos.utilerias.plantillas.swing.SwingMaestro;
 
 public class CatalogoImagenes extends SwingMaestro{
     private static final long serialVersionUID = 1L;
     
-    private final String ENTIDAD = Globales.Entidad.Imagen.name();
     private final ImagenBD_M BDManipulador = new ImagenBD_M(this);
     private final BD_Navegador BDNavegador = new BD_Navegador(this);
     
@@ -69,7 +69,8 @@ public class CatalogoImagenes extends SwingMaestro{
         this.setVisible(true);
     }
     
-    private void agregarComponentes(){
+    @Override
+    public void agregarComponentes(){
         pnlContenido = new JPanel(new BorderLayout());
         
         // Tabla de registros
@@ -84,7 +85,8 @@ public class CatalogoImagenes extends SwingMaestro{
         contenedor.add(pnlContenido);
     }
     
-    private void agregarEscuchadores(){
+    @Override
+    public void agregarEscuchadores(){
         addWindowListener( new WindowAdapter(){
             @Override
             public void windowClosing(WindowEvent evt){
@@ -193,37 +195,41 @@ public class CatalogoImagenes extends SwingMaestro{
     
     @Override
     public void navegar(int accion) {
-        int filaSeleccionada = tabla.getSelectedRow();
-        if(filaSeleccionada < 0)
-            filaSeleccionada = 0;
-        
-        int filaFinal = tabla.getRowCount()-1;
-        
-        switch(accion){
-            case BD_Navegador.PRIMERO:
-                tabla.setRowSelectionInterval(0, 0);
-            break;
-            case BD_Navegador.ANTERIOR:
-                int filaAnterior = filaSeleccionada-1;
-                if(filaAnterior == 0){
-                    super.getNavegadorBD().deshabilitarPrimero();
-                    super.getNavegadorBD().deshabilitarAnterior();
-                }
-                
-                tabla.setRowSelectionInterval(filaAnterior, filaAnterior);
-            break;
-            case BD_Navegador.SIGUIENTE:
-                int filaSiguiente = filaSeleccionada+1;
-                if(filaSiguiente == filaFinal){
-                    super.getNavegadorBD().deshabilitarUltimo();
-                    super.getNavegadorBD().deshabilitarSiguiente();
-                }
-                    
-                tabla.setRowSelectionInterval(filaSiguiente, filaSiguiente);
-            break;
-            case BD_Navegador.ULTIMO:                
-                tabla.setRowSelectionInterval(filaFinal, filaFinal);
-            break;
+        try{
+            int filaSeleccionada = tabla.getSelectedRow();
+            if(filaSeleccionada < 0)
+                filaSeleccionada = 0;
+
+            int filaFinal = tabla.getRowCount()-1;
+
+            switch(accion){
+                case BD_Navegador.PRIMERO:
+                    tabla.setRowSelectionInterval(0, 0);
+                break;
+                case BD_Navegador.ANTERIOR:
+                    int filaAnterior = filaSeleccionada-1;
+                    if(filaAnterior == 0){
+                        super.getNavegadorBD().deshabilitarPrimero();
+                        super.getNavegadorBD().deshabilitarAnterior();
+                    }
+
+                    tabla.setRowSelectionInterval(filaAnterior, filaAnterior);
+                break;
+                case BD_Navegador.SIGUIENTE:
+                    int filaSiguiente = filaSeleccionada+1;
+                    if(filaSiguiente == filaFinal){
+                        super.getNavegadorBD().deshabilitarUltimo();
+                        super.getNavegadorBD().deshabilitarSiguiente();
+                    }
+
+                    tabla.setRowSelectionInterval(filaSiguiente, filaSiguiente);
+                break;
+                case BD_Navegador.ULTIMO:                
+                    tabla.setRowSelectionInterval(filaFinal, filaFinal);
+                break;
+            }
+        }catch(Exception e){
+            BDNavegador.habilitarTodo(false);
         }
     }
 
@@ -271,10 +277,6 @@ public class CatalogoImagenes extends SwingMaestro{
             return this;
          }
     }
-    
-    private void salir(){
-        this.dispose();
-    } 
 
     @Override
     public void recargar(List<DTO> listaDTO){

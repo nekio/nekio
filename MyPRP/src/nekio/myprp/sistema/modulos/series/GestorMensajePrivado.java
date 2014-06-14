@@ -1,4 +1,4 @@
-package nekio.myprp.recursos.img.obj;
+package nekio.myprp.sistema.modulos.series;
 
 /**
  *
@@ -7,13 +7,15 @@ package nekio.myprp.recursos.img.obj;
 
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.plantillas.Gestor;
+import nekio.myprp.sistema.modulos.series.dao.MensajePrivadoDAO;
+import nekio.myprp.sistema.modulos.series.negocio.MensajePrivado;
 
-public class GestorImagen extends Gestor{
-    private final Imagen OBJETO_NEGOCIO = new Imagen();
-    private final ImagenDAO DAO = new ImagenDAO();
-    private final int MODULO = Globales.MOD_IMAGEN;
+public class GestorMensajePrivado extends Gestor{
+    private final MensajePrivado OBJETO_NEGOCIO = new MensajePrivado();
+    private final MensajePrivadoDAO DAO = new MensajePrivadoDAO();
+    private final int MODULO = Globales.MOD_SERIES;
     
-    public GestorImagen(){
+    public GestorMensajePrivado(){
         super.objetoNegocio = OBJETO_NEGOCIO;
         super.dao = DAO;
         super.modulo = MODULO;
@@ -41,4 +43,3 @@ public class GestorImagen extends Gestor{
         return resultado;
     }
 }
-

@@ -50,6 +50,7 @@ public class Inicializacion {
         String mensaje = null;
         
         if(usuario == null){
+            System.out.println("--- LOGGEANDO CON CREDENCIALES ANONIMAS ---");
             setUsuario(Idioma.obtenerTexto(Idioma.PROP_ACC_USR_ANONIMO, "usuario"));
             setPassword(Idioma.obtenerTexto(Idioma.PROP_ACC_USR_ANONIMO, "password"));
         }

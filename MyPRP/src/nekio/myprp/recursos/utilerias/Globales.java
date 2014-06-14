@@ -1,6 +1,6 @@
 package nekio.myprp.recursos.utilerias;
 
-import nekio.myprp.recursos.utilerias.bd.Gestor;
+import nekio.myprp.recursos.utilerias.bd.BDGestor;
 
 /**
  *
@@ -28,7 +28,7 @@ public class Globales {
     public static final String OBJ_NEGOCIO_SEPARADOR = "\n--------------------------------------------------------------------";
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Valores de Modulos">  
+    // <editor-fold defaultstate="collapsed" desc="Valores de Modulos">
     public static final int MOD_ACCESO = 0;
     public static final int MOD_IMAGEN = 1;
     public static final int MOD_ACADEMICO = 2;
@@ -38,6 +38,7 @@ public class Globales {
     public static final int MOD_LABORAL = 6;
     public static final int MOD_SALUD = 7;
     public static final int MOD_SOCIAL = 8;
+    public static final int MOD_SERIES = 9;
     // </editor-fold>
         
     // <editor-fold defaultstate="collapsed" desc="Rutas de recursos">
@@ -63,7 +64,7 @@ public class Globales {
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Conexion a la BD">  
-    public static final Gestor BD_GESTOR    = Gestor.MY_SQL;
+    public static final BDGestor BD_GESTOR    = BDGestor.MY_SQL;
     public static final String BD_USUARIO   = "lania";
     public static final String BD_PASSWORD  = "lania";
     public static final String BD_HOST      = "localhost";
@@ -73,12 +74,25 @@ public class Globales {
     public static final int BD_MAX_IDLE     = 2;
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Valores de Objetos de Negocio">  
+    // <editor-fold defaultstate="collapsed" desc="Valores de Objetos de Negocio"> 
+    
+    // Tipos de Datos
+    public static enum TipoDato{
+        TEXTO,
+        NUMERO,
+        FECHA,
+        TEXTO_LARGO,
+        BOOLEANO,
+        BLOB;
+    }
     
     // Entidades para gestores
     public static enum Entidad{
         Imagen,
-        Usuario
+        Usuario,
+        
+        //SERIES
+        MensajePrivado;
     }
     
     // Acciones de la Base de Datos
@@ -91,7 +105,7 @@ public class Globales {
         LEER_DESC(5,"leerDesc","mostrarSeleccionDesc"),
         LEER_UNO(6,"leerId","mostrar"),
         MODIFICAR(7,"modificar","abrirEdicion"),
-        CANCELAR(8,"cancelar","cancelarAccion");;
+        CANCELAR(8,"cancelar","cancelarAccion");
         
         private int llave;
         private String valor;
