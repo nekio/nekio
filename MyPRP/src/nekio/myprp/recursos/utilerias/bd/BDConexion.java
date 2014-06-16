@@ -153,6 +153,7 @@ public class BDConexion {
     
     private static void monitorearRS(String consulta){
         String registro = null;
+        int cadenaMaxima = 28;
         try{
             ResultSetMetaData mdata = resultado.getMetaData();
             int campos = mdata.getColumnCount();
@@ -166,15 +167,19 @@ public class BDConexion {
             
             Statement instruccion = conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = instruccion.executeQuery(consulta);
+            int contador = 0;
             while (rs.next()) {
+                contador++;
+                System.out.print("[" + contador + "]   ");
                 for (int i = 1; i <= campos; i++) {
                     registro = String.valueOf(rs.getObject(i));
 
                     if (registro.equals("null") || registro.equals("") || registro == null || registro.isEmpty()) {
                         registro = "-";
-                    }
+                    }else if(registro.length() > cadenaMaxima)
+                        registro = registro.substring(0, cadenaMaxima-1)+"...";
 
-                    System.out.print(registro + "\t");
+                    System.out.print(registro.replace("\n", " ") + "\t");
                 }
                 System.out.println();
             }

@@ -21,7 +21,7 @@ public class MensajePrivadoDAO extends DAO{
     private final String ID = "id_mensaje_privado";
     private final String TODOS_CAMPOS = 
             ID + ", id_tipo_mensaje, id_mp_relacionado, id_web"
-            + ", id_colaborador, mensaje, fecha, recibido_enviado ";
+            + ", id_colaborador, mensaje, fecha, recibido_enviado, atendido ";
     
     private MensajePrivadoDTO dto;
     
@@ -77,6 +77,7 @@ public class MensajePrivadoDAO extends DAO{
                 dto.setMensaje(resultados.getString("mensaje"));
                 dto.setFecha(resultados.getTimestamp("fecha"));
                 dto.setRecibidoEnviado(resultados.getInt("recibido_enviado")==1?true:false);
+                dto.setAtendido(resultados.getInt("atendido")==1?true:false);
 
                 lista.add(dto);
             }
@@ -124,6 +125,7 @@ public class MensajePrivadoDAO extends DAO{
                 dto.setMensaje(resultados.getString("mensaje"));
                 dto.setFecha(resultados.getTimestamp("fecha"));
                 dto.setRecibidoEnviado(resultados.getInt("recibido_enviado")==1?true:false);
+                dto.setAtendido(resultados.getInt("atendido")==1?true:false);
             }
             
             BDConexion.cerrar();

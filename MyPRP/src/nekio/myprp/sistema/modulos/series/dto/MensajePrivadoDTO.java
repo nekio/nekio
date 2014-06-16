@@ -49,7 +49,7 @@ public class MensajePrivadoDTO extends DTO{
         
         super.campos.add("mensaje");
         super.valores.add(mensaje);
-        super.tipoDatos.add(Globales.TipoDato.TEXTO);
+        super.tipoDatos.add(Globales.TipoDato.TEXTO_LARGO);
         
         super.campos.add("fecha");
         super.valores.add(fecha);
