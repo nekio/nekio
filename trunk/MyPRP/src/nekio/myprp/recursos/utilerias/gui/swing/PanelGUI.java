@@ -6,7 +6,6 @@ package nekio.myprp.recursos.utilerias.gui.swing;
  */
 
 import java.awt.BorderLayout;
-import java.awt.Container;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,6 @@ import nekio.myprp.recursos.utilerias.plantillas.swing.SwingJPanel;
 public class PanelGUI extends SwingJPanel{
     private static final long serialVersionUID = 1L;
     
-    private Container contenedor;
     private List<String> camposBD;
     private List valoresBD;
     private List<Globales.TipoDato> tiposDatoBD;
@@ -44,9 +42,11 @@ public class PanelGUI extends SwingJPanel{
     private void inicializarPanel(){
         this.setLayout(null);
         
-        identificarRegistros();
-        agregarComponentes();
-        agregarEscuchadores();
+        if(camposBD != null){
+            identificarRegistros();
+            agregarComponentes();
+            agregarEscuchadores();
+        }
         
         this.setVisible(true);
     }
@@ -55,21 +55,21 @@ public class PanelGUI extends SwingJPanel{
     public void agregarComponentes(){
         /* PANEL DE LLAVES*/
         JPanel pnlLlaves = new JPanel(new BorderLayout());
-        pnlLlaves.setBounds(10, 10, 350, 150);
+        pnlLlaves.setBounds(10, 10, 760, 160);
         pnlLlaves.add(new JLabel("  Llaves:"),"North");
         pnlLlaves.add(agregarLlaves(),"Center");
-        contenedor.add(pnlLlaves);
+        this.add(pnlLlaves);
 
         JPanel pnlCampos = new JPanel(new BorderLayout());
-        pnlCampos.setBounds(10, 180, 450, 250);
+        pnlCampos.setBounds(10, 180, 760, 300);
         pnlCampos.add(new JLabel("  Campos:"),"North");
         pnlCampos.add(agregarCampos());
-        contenedor.add(pnlCampos);
+        this.add(pnlCampos);
     }
     
     @Override
     public void agregarEscuchadores() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
     
     private Box agregarLlaves(){       
@@ -101,6 +101,7 @@ public class PanelGUI extends SwingJPanel{
         Object valor = null;
         Globales.TipoDato tipoDato = null;
 
+        int llaves = this.registrosLlave.size();
         int campos = this.registrosNoLlave.size();
         
         JPanel pnlCampos = new JPanel(new GridLayout(campos,1)); 
@@ -111,7 +112,7 @@ public class PanelGUI extends SwingJPanel{
         for(int i=0; i<campos; i++){
             campo = String.valueOf(registrosNoLlave.get(i));
             valor = registrosNoLlaveValor.get(i);
-            tipoDato = tiposDatoBD.get(i);
+            tipoDato = tiposDatoBD.get(llaves+i);
             
             pnlCampo = new PanelCampo().crear(campo, valor, tipoDato, false);
 

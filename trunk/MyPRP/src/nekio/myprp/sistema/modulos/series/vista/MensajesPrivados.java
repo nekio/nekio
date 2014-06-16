@@ -15,6 +15,7 @@ import java.util.List;
 import javax.swing.JPanel;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.Idioma;
+import nekio.myprp.recursos.utilerias.gui.swing.BD_Navegador;
 import nekio.myprp.recursos.utilerias.gui.swing.PanelGUI;
 import nekio.myprp.recursos.utilerias.plantillas.DTO;
 import nekio.myprp.recursos.utilerias.plantillas.swing.SwingMaestro;
@@ -23,14 +24,18 @@ import nekio.myprp.sistema.modulos.series.dto.MensajePrivadoDTO;
 public class MensajesPrivados extends SwingMaestro{
     private static final long serialVersionUID = 1L;
     
-    private final Dimension DIMENSION = new Dimension(720, 550);
+    private final BD_Navegador BDNavegador = new BD_Navegador(this);
+    
+    private final Dimension DIMENSION = new Dimension(800, 680);
     
     private Container contenedor;
     private JPanel pnlContenido;
     private List<MensajePrivadoDTO> listaDTO;
+    private MensajePrivadoDTO dto;
+    private int indiceDTO;
     
     public MensajesPrivados(List<MensajePrivadoDTO> listaDTO){
-        this.setTitle(Globales.NOMBRE_APP + " - " + Idioma.obtenerTexto(Idioma.PROP_RECOGEDOR_IMAGEN, "titulo"));
+        this.setTitle(Globales.NOMBRE_APP + " - " + Idioma.obtenerTexto(Idioma.PROP_MENU, "mensajePrivado"));
         
         this.contenedor = this.getContentPane();
         this.setSize(DIMENSION);
@@ -40,7 +45,7 @@ public class MensajesPrivados extends SwingMaestro{
         
         this.listaDTO = listaDTO;
         
-        agregarComponentes();
+        agregarComponentes(); 
         agregarEscuchadores();
         
         this.setVisible(true);
@@ -48,25 +53,10 @@ public class MensajesPrivados extends SwingMaestro{
 
     @Override
     public void agregarComponentes() {
-        pnlContenido = new JPanel(new BorderLayout());
-                
-        List<String> camposBD = null;
-        List valoresBD = null;
-        List<Globales.TipoDato> tiposDatoBD = null;
-        if(listaDTO != null){
-            if(listaDTO.size() != 0){
-                MensajePrivadoDTO dto = listaDTO.get(0); // Tomar el primer registro
-                dto.confirmarDTO();
-
-                camposBD = dto.getCampos();
-                valoresBD = dto.getValores();
-                tiposDatoBD = dto.getTipoDatos();
-            }
-        }
+        this.indiceDTO = 0; // Para cargar el primer registro del DTO
+        cargarDTO();
         
-        pnlContenido.add(new PanelGUI(camposBD, valoresBD, tiposDatoBD), "North");
-        
-        contenedor.add(pnlContenido);
+        contenedor.add(BDNavegador, "North");
     }
 
     @Override
@@ -93,7 +83,77 @@ public class MensajesPrivados extends SwingMaestro{
 
     @Override
     public void navegar(int accion) {
+        int DTOsTotales=listaDTO.size();
         
+        // Tener en cuenta que los DTOs se obtienen con orden DESC
+        // Por lo que el primer DTO sera el ultimo registro
+        // Y el ultimo DTO sera un registro mas antiguo
+        // por tanto, la navegacion entre los DTOs, sera en sentido invertido
+        switch(accion){
+            case BD_Navegador.PRIMERO:
+                indiceDTO = DTOsTotales-1; //el registro mas antiguo
+                cargarDTO();
+            break;
+            case BD_Navegador.ANTERIOR:
+                indiceDTO++;
+                
+                if(indiceDTO < DTOsTotales)
+                    cargarDTO();
+                else
+                    indiceDTO--;
+            break;
+            case BD_Navegador.SIGUIENTE:
+                indiceDTO--;
+                
+                if(indiceDTO > 0)
+                    cargarDTO();
+                else
+                    indiceDTO++;
+            break;
+            case BD_Navegador.ULTIMO:    
+                indiceDTO = 0;
+                cargarDTO();
+            break;
+        }
+        identificarDeshabilitados();
+    }
+    
+    private void identificarDeshabilitados(){
+        int DTOsTotales=listaDTO.size();
+        
+        if(indiceDTO >= DTOsTotales-1){
+            super.getNavegadorBD().deshabilitarPrimero();
+            super.getNavegadorBD().deshabilitarAnterior();
+        }else if(indiceDTO <= 0){
+            super.getNavegadorBD().deshabilitarUltimo();
+            super.getNavegadorBD().deshabilitarSiguiente();
+        }
+    }
+    
+    private void cargarDTO(){
+        if(pnlContenido != null){
+            pnlContenido.setVisible(false);
+            pnlContenido = null;
+        }
+        pnlContenido = new JPanel(new BorderLayout());
+                
+        List<String> camposBD = null;
+        List valoresBD = null;
+        List<Globales.TipoDato> tiposDatoBD = null;
+        if(listaDTO != null){
+            if(listaDTO.size() != 0){
+                dto = listaDTO.get(indiceDTO);
+                dto.confirmarDTO();
+
+                camposBD = dto.getCampos();
+                valoresBD = dto.getValores();
+                tiposDatoBD = dto.getTipoDatos();
+            }else{
+                BDNavegador.habilitarTodo(false);
+            }
+        }
+        pnlContenido.add(new PanelGUI(camposBD, valoresBD, tiposDatoBD), "Center");
+        contenedor.add(pnlContenido, "Center");
     }
 
     @Override

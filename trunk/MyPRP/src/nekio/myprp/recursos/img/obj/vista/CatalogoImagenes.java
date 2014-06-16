@@ -28,7 +28,6 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import nekio.myprp.recursos.herramientas.Mensaje;
 import nekio.myprp.recursos.img.obj.ImagenDTO;
-import nekio.myprp.recursos.img.obj.vista.ImagenBD_M;
 import nekio.myprp.recursos.utilerias.Fecha;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.Idioma;
