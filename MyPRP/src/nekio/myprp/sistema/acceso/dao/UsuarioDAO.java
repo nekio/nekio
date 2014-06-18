@@ -15,7 +15,7 @@ import nekio.myprp.sistema.acceso.dto.UsuarioDTO;
 
 public class UsuarioDAO extends DAO{
     private final String TABLA = "usuario";
-    private final String  ID = "id_imagen";
+    private final String ID = Globales.BD_TABLA_ID + TABLA;
     private final String TODOS_CAMPOS = 
             ID + ", id_tipo_usuario, nombre, " + 
             "apellido_p, apellido_m, contacto, " + 

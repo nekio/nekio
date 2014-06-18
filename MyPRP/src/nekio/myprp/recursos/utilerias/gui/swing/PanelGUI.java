@@ -18,23 +18,26 @@ import nekio.myprp.recursos.utilerias.plantillas.swing.SwingJPanel;
 
 public class PanelGUI extends SwingJPanel{
     private static final long serialVersionUID = 1L;
-    
+
     private List<String> camposBD;
     private List valoresBD;
     private List<Globales.TipoDato> tiposDatoBD;
+    private List<String> valoresLOV;
+    
     private List registrosLlave;
     private List registrosNoLlave;
     private List registrosLlaveValor;
     private List registrosNoLlaveValor;
     
     public PanelGUI(){
-        this(null, null, null);
+        this(null, null, null, null);
     }
     
-    public PanelGUI(List<String> camposBD, List valoresBD, List<Globales.TipoDato> tiposDatoBD){
+    public PanelGUI(List<String> camposBD, List valoresBD, List<Globales.TipoDato> tiposDatoBD, List<String> valoresLOV){
         this.camposBD = camposBD;
         this.valoresBD = valoresBD;
         this.tiposDatoBD = tiposDatoBD;
+        this.valoresLOV = valoresLOV;
         
         inicializarPanel();
     }
@@ -55,13 +58,13 @@ public class PanelGUI extends SwingJPanel{
     public void agregarComponentes(){
         /* PANEL DE LLAVES*/
         JPanel pnlLlaves = new JPanel(new BorderLayout());
-        pnlLlaves.setBounds(10, 10, 760, 160);
+        pnlLlaves.setBounds(10, 10, 760, 190);
         pnlLlaves.add(new JLabel("  Llaves:"),"North");
         pnlLlaves.add(agregarLlaves(),"Center");
         this.add(pnlLlaves);
 
         JPanel pnlCampos = new JPanel(new BorderLayout());
-        pnlCampos.setBounds(10, 180, 760, 300);
+        pnlCampos.setBounds(10, 210, 760, 330);
         pnlCampos.add(new JLabel("  Campos:"),"North");
         pnlCampos.add(agregarCampos());
         this.add(pnlCampos);
@@ -76,6 +79,8 @@ public class PanelGUI extends SwingJPanel{
         String campo = null;
         Object valor = null;
         Globales.TipoDato tipoDato = null;
+        String valorLOV = null;
+        
         int campos = registrosLlave.size();
         
         JPanel pnlLlaves = new JPanel(new GridLayout(campos+1,1)); 
@@ -88,7 +93,12 @@ public class PanelGUI extends SwingJPanel{
             valor = registrosLlaveValor.get(i);
             tipoDato = tiposDatoBD.get(i);
             
-            pnlLlave = new PanelCampo().crear(campo, valor, tipoDato, true);
+            // El indice de los valores LOV esta desfazado en una posicion
+            // respecto del indice en los registros de Llaves
+            if(i!=0)
+                valorLOV = valoresLOV.get(i-1); 
+            
+            pnlLlave = new PanelCampo().crear(campo, valor, tipoDato, true, valorLOV);
 
             pnlLlaves.add(pnlLlave);
         }        
@@ -135,7 +145,7 @@ public class PanelGUI extends SwingJPanel{
             campo = camposBD.get(i);
             valor = valoresBD.get(i);
             
-            if(campo.toUpperCase().startsWith("ID_")){
+            if(campo.toUpperCase().startsWith(Globales.BD_TABLA_ID.toUpperCase())){
                 registrosLlave.add(campo);
                 registrosLlaveValor.add(valor);
             }else{

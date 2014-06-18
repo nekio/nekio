@@ -26,6 +26,7 @@ public class MensajePrivadoDTO extends DTO{
         campos = new ArrayList<String>();
         valores = new ArrayList();
         tipoDatos = new ArrayList<Globales.TipoDato>();
+        LOVValores = new ArrayList<String>();
         
         super.campos.add("id_mensaje_privado");
         super.valores.add(idMensajePrivado);
@@ -34,18 +35,22 @@ public class MensajePrivadoDTO extends DTO{
         super.campos.add("id_tipo_mensaje");
         super.valores.add(idTipoMensaje);
         super.tipoDatos.add(Globales.TipoDato.NUMERO);
+        super.LOVValores.add(Globales.BD_TABLA_DESC);
         
         super.campos.add("id_mp_relacionado");
         super.valores.add(idMpRelacionado);
         super.tipoDatos.add(Globales.TipoDato.NUMERO);
+        super.LOVValores.add("mensaje");
         
         super.campos.add("id_web");
         super.valores.add(idWeb);
         super.tipoDatos.add(Globales.TipoDato.NUMERO);
+        super.LOVValores.add("titulo");
         
         super.campos.add("id_colaborador");
         super.valores.add(idColaborador);
         super.tipoDatos.add(Globales.TipoDato.NUMERO);
+        super.LOVValores.add(Globales.BD_TABLA_DESC);
         
         super.campos.add("mensaje");
         super.valores.add(mensaje);

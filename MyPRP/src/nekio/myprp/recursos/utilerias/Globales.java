@@ -93,6 +93,20 @@ public class Globales {
         
         //SERIES
         MensajePrivado;
+        
+        public static String obtenerNombreTabla(Entidad entidad){
+            String nombre = entidad.name();
+            StringBuilder tabla = new StringBuilder();
+            
+            for (int i=0; i<nombre.length(); i++){
+                if(i != 0 && Character.isUpperCase(nombre.charAt(i)))
+                   tabla.append("_");
+                
+                tabla.append(Character.toLowerCase(nombre.charAt(i)));
+            }
+            
+            return tabla.toString();
+        }
     }
     
     // Acciones de la Base de Datos
@@ -129,6 +143,10 @@ public class Globales {
             return pagina;
         }
     };
+    
+    // Convencion de identificadores para Listas de Valores
+    public static final String BD_TABLA_ID = "id_";
+    public static final String BD_TABLA_DESC = "descripcion";
     
     // Nombres de DAO y DTO
     public static final String DAO = "DAO";

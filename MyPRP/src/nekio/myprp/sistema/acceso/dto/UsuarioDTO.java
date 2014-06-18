@@ -36,7 +36,6 @@ public class UsuarioDTO extends DTO{
         
         super.campos.add("nombre");
         super.valores.add(nombre);
-        super.tipoDatos.add(Globales.TipoDato.TEXTO);
         
         super.campos.add("apellido_p");
         super.valores.add(apellidoP);

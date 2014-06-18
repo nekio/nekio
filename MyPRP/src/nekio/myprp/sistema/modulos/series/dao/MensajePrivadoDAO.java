@@ -18,7 +18,7 @@ import nekio.myprp.sistema.modulos.series.dto.MensajePrivadoDTO;
 
 public class MensajePrivadoDAO extends DAO{
     private final String TABLA = "mensaje_privado";
-    private final String ID = "id_mensaje_privado";
+    private final String ID = Globales.BD_TABLA_ID + TABLA;
     private final String TODOS_CAMPOS = 
             ID + ", id_tipo_mensaje, id_mp_relacionado, id_web"
             + ", id_colaborador, mensaje, fecha, recibido_enviado, atendido ";

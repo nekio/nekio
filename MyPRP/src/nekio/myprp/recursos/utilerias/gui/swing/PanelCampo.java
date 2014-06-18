@@ -6,11 +6,12 @@ package nekio.myprp.recursos.utilerias.gui.swing;
  */
 
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -19,11 +20,21 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.text.JTextComponent;
+import nekio.herramientas.listadevalores.dto.Elementos;
+import nekio.herramientas.listadevalores.gui.SwingLOV;
+import nekio.myprp.recursos.herramientas.Calendario;
+import nekio.myprp.recursos.utilerias.Fecha;
 import nekio.myprp.recursos.utilerias.Globales;
+import nekio.myprp.recursos.utilerias.bd.BDConexion;
 
 // <editor-fold defaultstate="collapsed" desc="Panel Campo">
 class PanelCampo{
-    private static final String TEXTO_VACIO = "                                            ";
+    private final int TEXTO_ID = 4;
+    private final int TEXTO_CAMPO = 15;
+    
+    private String campo;
+    private String valorLOV;
 
     private JTextField txtCampo;
     private JTextField txtCampoExtra;
@@ -39,6 +50,13 @@ class PanelCampo{
     }
 
     public JPanel crear(String campo, Object valor, Globales.TipoDato tipoCampo, boolean llave){
+        return crear(campo, valor, tipoCampo, llave, null);
+    }
+    
+    public JPanel crear(String campo, Object valor, Globales.TipoDato tipoCampo, boolean llave, String valorLOV){
+        this.campo = campo;
+        this.valorLOV = valorLOV;
+        
         JPanel pnlCampo = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         JLabel lblCampo = new JLabel(campo + ":");
@@ -46,11 +64,15 @@ class PanelCampo{
 
         // Aunque no todos sean JTextField, se necesita instanciar siempre
         // para obtener el valor del campo
-        txtCampo = new JTextField(String.valueOf(valor));
+        txtCampo = new JTextField(TEXTO_CAMPO);
+        txtCampo.setText(String.valueOf(valor));
+        txtCampo.setEditable(false);
         pnlCampo.add(txtCampo);
 
-        if(llave){
-            txtCampoExtra = new JTextField(TEXTO_VACIO);
+        if(llave && valorLOV!=null){
+            txtCampo.setColumns(TEXTO_ID);
+            
+            txtCampoExtra = new JTextField(TEXTO_CAMPO);
             txtCampoExtra.setEditable(false);
             pnlCampo.add(txtCampoExtra);
 
@@ -58,8 +80,8 @@ class PanelCampo{
             pnlCampo.add(btnLOV);
         }
 
-        if(!llave && tipoCampo == Globales.TipoDato.FECHA){
-            txtCampo.setEnabled(false);
+        if(!llave && tipoCampo == Globales.TipoDato.FECHA){            
+            txtCampo.setText(formatearFecha((Date)valor));
             
             btnFecha = new JButton("...");
             pnlCampo.add(btnFecha);
@@ -82,6 +104,7 @@ class PanelCampo{
             txtCaja = new JTextArea(String.valueOf(valor),5,58);
             txtCaja.setWrapStyleWord(true);
             txtCaja.setLineWrap(true);
+            txtCaja.setEditable(false);
             
             scrollCaja = new JScrollPane(txtCaja);
             scrollCaja.setOpaque(false);
@@ -95,19 +118,29 @@ class PanelCampo{
 
     private void escuchadores(){
         if(btnLOV != null){
-            btnLOV.addActionListener(new ActionListener(){
-            @Override
-                public void actionPerformed(ActionEvent evt){
-                    abrirListaDeValores();
+            btnLOV.addMouseListener(new MouseAdapter(){
+                @Override
+                public void mouseClicked(MouseEvent mouse){
+                    int x=mouse.getXOnScreen();
+                    int y=mouse.getYOnScreen();
+
+                    Point punto = new Point(x,y);
+
+                    llamarListaDeValores(punto);
                 }
             });
         }
 
         if(btnFecha != null){
-            btnFecha.addActionListener(new ActionListener(){
-            @Override
-                public void actionPerformed(ActionEvent evt){
-                    manejadorDeFechas();
+            btnFecha.addMouseListener(new MouseAdapter(){
+                @Override
+                public void mouseClicked(MouseEvent mouse){
+                    int x=mouse.getXOnScreen();
+                    int y=mouse.getYOnScreen();
+
+                    Point punto = new Point(x,y);
+
+                    new Calendario(campo, txtCampo, punto);
                 }
             });
         }
@@ -124,14 +157,41 @@ class PanelCampo{
         }
     }
     
-    private void abrirListaDeValores(){
-        String campo = txtCampo.getText();
-        String campoExtra = txtCampoExtra.getText();
+    private void llamarListaDeValores(Point punto){
+        try{
+            String tabla = campo.replace(Globales.BD_TABLA_ID, "");
+            String llaveLOV = campo;
+            
+            Elementos elementos = new Elementos();
 
-        System.out.println(campo + ": " + campoExtra);
+            elementos.setConexion(BDConexion.getConnection());
+            elementos.setLlave(llaveLOV);
+            elementos.setValor(valorLOV);
+            //elementos.setCamposExtras(camposExtrasLOV);
+            elementos.setTabla(tabla);
+            elementos.setOrdendoPorLlave(true);
+            
+            ArrayList<JTextComponent> componentesTxt = new ArrayList<JTextComponent>();
+            componentesTxt.add(txtCampo);
+            componentesTxt.add(txtCampoExtra);
+            
+            String titulo = tabla;
+
+            try{
+                new SwingLOV(elementos, componentesTxt, titulo, punto);
+            }catch(Exception e){
+                txtCampoExtra.setVisible(false);
+                btnLOV.setVisible(false);
+            }
+        }catch(Exception e){
+            System.out.println("Fallo en los valores de conexion a la BD");
+        }
     }
     
-    private void manejadorDeFechas(){}
+    private String formatearFecha(Date fecha){
+        return Fecha.obtenerFechaFormateada(fecha, Fecha.FORMATO_COMPLETO);
+    }
+    
     private void seleccionarImagen(){}
 }
 // </editor-fold>
