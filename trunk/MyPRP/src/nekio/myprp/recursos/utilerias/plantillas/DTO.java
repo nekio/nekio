@@ -12,6 +12,7 @@ public abstract class DTO {
     protected List<String> campos;
     protected List valores;
     protected List<Globales.TipoDato> tipoDatos;
+    protected List<String> LOVValores;
     
     public List<String> getCampos() {        
         return campos;
@@ -24,6 +25,10 @@ public abstract class DTO {
     public List<Globales.TipoDato> getTipoDatos(){
         return tipoDatos;
     }
+
+    public List<String> getLOVValores() {
+        return LOVValores;
+    }
     
-    public abstract void confirmarDTO(); //Metodo para inicializar las listas de clase
+    public abstract void confirmarDTO(); //Metodo para inicializar las listas de clas
 }

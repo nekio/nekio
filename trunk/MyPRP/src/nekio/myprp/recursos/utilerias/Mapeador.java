@@ -16,7 +16,7 @@ import nekio.myprp.recursos.utilerias.plantillas.swing.SwingMaestro;
 import nekio.myprp.sistema.acceso.vista.LoginGUI;
 import nekio.myprp.sistema.acceso.vista.Menu;
 import nekio.myprp.sistema.modulos.series.dto.MensajePrivadoDTO;
-import nekio.myprp.sistema.modulos.series.vista.MensajesPrivados;
+import nekio.myprp.sistema.modulos.series.vista.MensajePrivadoSwing;
 
 public class Mapeador {
     public static void abrir(Gestor gestor){
@@ -87,7 +87,7 @@ public class Mapeador {
                     for(DTO dto:gestor.getListaDTO())
                         parametrosMP.add((MensajePrivadoDTO) dto);
                     
-                    new MensajesPrivados(parametrosMP);
+                    new MensajePrivadoSwing(parametrosMP);
                 }
                 
                 parametrosMP = null;

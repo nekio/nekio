@@ -1,7 +1,6 @@
 package test;
 
 import nekio.myprp.sistema.acceso.Inicializacion;
-import nekio.myprp.sistema.acceso.vista.Menu;
 
 /**
  *

@@ -21,7 +21,7 @@ import nekio.myprp.recursos.utilerias.plantillas.DTO;
 import nekio.myprp.recursos.utilerias.plantillas.swing.SwingMaestro;
 import nekio.myprp.sistema.modulos.series.dto.MensajePrivadoDTO;
 
-public class MensajesPrivados extends SwingMaestro{
+public class MensajePrivadoSwing extends SwingMaestro{
     private static final long serialVersionUID = 1L;
     
     private final BD_Navegador BDNavegador = new BD_Navegador(this);
@@ -34,7 +34,7 @@ public class MensajesPrivados extends SwingMaestro{
     private MensajePrivadoDTO dto;
     private int indiceDTO;
     
-    public MensajesPrivados(List<MensajePrivadoDTO> listaDTO){
+    public MensajePrivadoSwing(List<MensajePrivadoDTO> listaDTO){
         this.setTitle(Globales.NOMBRE_APP + " - " + Idioma.obtenerTexto(Idioma.PROP_MENU, "mensajePrivado"));
         
         this.contenedor = this.getContentPane();
@@ -140,6 +140,7 @@ public class MensajesPrivados extends SwingMaestro{
         List<String> camposBD = null;
         List valoresBD = null;
         List<Globales.TipoDato> tiposDatoBD = null;
+        List<String> valorLOV = null;
         if(listaDTO != null){
             if(listaDTO.size() != 0){
                 dto = listaDTO.get(indiceDTO);
@@ -148,11 +149,12 @@ public class MensajesPrivados extends SwingMaestro{
                 camposBD = dto.getCampos();
                 valoresBD = dto.getValores();
                 tiposDatoBD = dto.getTipoDatos();
+                valorLOV = dto.getLOVValores();
             }else{
                 BDNavegador.habilitarTodo(false);
             }
         }
-        pnlContenido.add(new PanelGUI(camposBD, valoresBD, tiposDatoBD), "Center");
+        pnlContenido.add(new PanelGUI(camposBD, valoresBD, tiposDatoBD, valorLOV), "Center");
         contenedor.add(pnlContenido, "Center");
     }
 

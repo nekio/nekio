@@ -51,9 +51,8 @@ public class MenuBoton extends JButton{
     private void agregarEscuchadores(){
         this.addActionListener(new ActionListener(){
             @Override
-            public void actionPerformed( ActionEvent evt){        
+            public void actionPerformed( ActionEvent evt){      
                 gestor.ejecutarControladorNegocio(accion, entidad);
-                gestor = null;
             }
         });
     }

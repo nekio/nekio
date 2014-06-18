@@ -28,7 +28,7 @@ import nekio.myprp.recursos.utilerias.plantillas.DTO;
 
 public class ImagenDAO extends DAO{
     private final String TABLA = "imagen";
-    private final String ID = "id_imagen";
+    private final String ID = Globales.BD_TABLA_ID + TABLA;
     private final String TODOS_CAMPOS = 
             ID + ", imagen, nombre, tipo, fecha_subida, descripcion ";
     
