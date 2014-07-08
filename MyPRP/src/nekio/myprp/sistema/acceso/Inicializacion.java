@@ -1,6 +1,7 @@
 package nekio.myprp.sistema.acceso;
 
 import java.util.ArrayList;
+import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.img.obj.GestorImagen;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.bd.BDConexion;
@@ -29,6 +30,7 @@ public class Inicializacion {
         this.password = password;
         
         Idioma.IDIOMA_DEFINIDO = idioma;
+        
         conectarBD();
     }
     
@@ -50,7 +52,7 @@ public class Inicializacion {
         String mensaje = null;
         
         if(usuario == null){
-            System.out.println("--- LOGGEANDO CON CREDENCIALES ANONIMAS ---");
+            ConsolaDebug.agregarTexto("--- LOGGEANDO CON CREDENCIALES ANONIMAS ---", ConsolaDebug.MAPEO);
             setUsuario(Idioma.obtenerTexto(Idioma.PROP_ACC_USR_ANONIMO, "usuario"));
             setPassword(Idioma.obtenerTexto(Idioma.PROP_ACC_USR_ANONIMO, "password"));
         }

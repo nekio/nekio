@@ -5,6 +5,7 @@ package nekio.myprp.recursos.img.obj.vista;
  * @author Nekio
  */
 
+import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.img.obj.GestorImagen;
 import nekio.myprp.recursos.img.obj.ImagenDTO;
 import nekio.myprp.recursos.utilerias.Globales;
@@ -45,7 +46,7 @@ public class ImagenBD_M extends BD_Manipulador{
             gestor = null;
         }else{
             if(Globales.APP_DEBUG)
-                System.out.println("\nNo se pudieron leer los parametros para editar " + ENTIDAD);
+                ConsolaDebug.agregarTexto("No se pudieron leer los parametros para editar " + ENTIDAD, ConsolaDebug.ERROR);
         }
     }
 
@@ -61,7 +62,7 @@ public class ImagenBD_M extends BD_Manipulador{
             gestor = null;
         }else{
             if(Globales.APP_DEBUG)
-                System.out.println("\nNo se pudieron leer los parametros para borrar " + ENTIDAD);
+                ConsolaDebug.agregarTexto("No se pudieron leer los parametros para borrar " + ENTIDAD, ConsolaDebug.ERROR);
         }
     }
 

@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import javax.sql.DataSource;
+import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.utilerias.Globales;
 import org.apache.commons.dbcp.BasicDataSource;
  
@@ -96,7 +97,7 @@ public class BDConexion {
         }
         
         if(Globales.APP_DEBUG)
-            System.out.println(url);
+            ConsolaDebug.agregarTexto(url, ConsolaDebug.SQL);
  
         BDConexion.driver = driver;
         BDConexion.usuario = usuario;
@@ -123,7 +124,7 @@ public class BDConexion {
         try {
             return getDataSource().getConnection();
         } catch (SQLException e) {
-            System.out.println("Ha ocurrido un error en la conexion, verifique sus credenciales\n"+e);
+            ConsolaDebug.agregarTexto("Ha ocurrido un error en la conexion, verifique sus credenciales\n"+e, ConsolaDebug.ERROR);
             return null;
         }
     }
@@ -158,19 +159,19 @@ public class BDConexion {
             ResultSetMetaData mdata = resultado.getMetaData();
             int campos = mdata.getColumnCount();
         
-            System.out.println("\nCABECERAS DE TABLA:");
+            ConsolaDebug.agregarTexto("CABECERAS DE TABLA:", ConsolaDebug.SQL, false);
             for(String cabecera:obtenerNombresColumnas()){
-                System.out.println("   " + cabecera);
+                ConsolaDebug.agregarTexto("   " + cabecera, ConsolaDebug.SQL, false);
             }
             
-            System.out.println("\nREGISTROS DE TABLA:");
+            ConsolaDebug.agregarTexto("\n\nREGISTROS DE TABLA:\n", ConsolaDebug.SQL, false);
             
             Statement instruccion = conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = instruccion.executeQuery(consulta);
             int contador = 0;
             while (rs.next()) {
                 contador++;
-                System.out.print("[" + contador + "]   ");
+                ConsolaDebug.agregarTexto("[" + contador + "]   ", ConsolaDebug.SQL, false);
                 for (int i = 1; i <= campos; i++) {
                     registro = String.valueOf(rs.getObject(i));
 
@@ -179,10 +180,11 @@ public class BDConexion {
                     }else if(registro.length() > cadenaMaxima)
                         registro = registro.substring(0, cadenaMaxima-1)+"...";
 
-                    System.out.print(registro.replace("\n", " ") + "\t");
+                    ConsolaDebug.agregarTexto(registro.replace("\n", " ") + "\t", ConsolaDebug.SQL, false);
                 }
-                System.out.println();
+                ConsolaDebug.agregarTexto("\n", ConsolaDebug.OCULTO, false);
             }
+            ConsolaDebug.agregarTexto("\n", ConsolaDebug.OCULTO, false);
         }catch(Exception e){
             e.printStackTrace();
         }

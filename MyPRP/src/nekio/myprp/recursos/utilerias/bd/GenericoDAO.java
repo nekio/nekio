@@ -8,6 +8,7 @@ package nekio.myprp.recursos.utilerias.bd;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.utilerias.Globales;
 
 public class GenericoDAO {
@@ -35,7 +36,7 @@ public class GenericoDAO {
             consulta += "GROUP BY "+ groupBy + "\n";
         
         if(Globales.APP_DEBUG)
-            System.out.println("\n"+consulta);
+            ConsolaDebug.agregarTexto(consulta, ConsolaDebug.SQL);
         
         try{
             ResultSet resultados = BDConexion.consultar(consulta);
@@ -59,7 +60,7 @@ public class GenericoDAO {
             
             BDConexion.cerrar();
         }catch(Exception e){
-            System.out.println("Error en DAO Generico, Leer: "+e);
+            ConsolaDebug.agregarTexto("Error en DAO Generico, Leer: "+e, ConsolaDebug.ERROR);
         }
         
         return listaDTO;

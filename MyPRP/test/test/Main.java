@@ -1,5 +1,7 @@
 package test;
 
+import nekio.myprp.recursos.herramientas.ConsolaDebug;
+import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.sistema.acceso.Inicializacion;
 
 /**
@@ -7,9 +9,11 @@ import nekio.myprp.sistema.acceso.Inicializacion;
  * @author Nekio
  */
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) {     
+        Globales.CONSOLA.setVisible(true);
         Inicializacion inicio = new Inicializacion("usuario_02","pssword_02");
         inicio.loggear();
+        
         /*String entidad = Globales.Entidad.Imagen.name();
         
         GestorImagen gestor = new GestorImagen();

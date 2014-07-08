@@ -5,6 +5,7 @@ package nekio.myprp.recursos.herramientas;
  * @author Nekio
  */
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -23,7 +24,7 @@ public class ImagenEnvoltorio {
         int alto = dimension.height;
         
         if(Globales.APP_DEBUG)
-            System.out.println("\nCreando imagen temporal: " + IMAGEN_TEMPORAL);
+            ConsolaDebug.agregarTexto("Creando imagen temporal: " + IMAGEN_TEMPORAL, ConsolaDebug.PROCESO);
         
         checarRutaTemporal();
         BufferedImage imagen = obtenerImagen(dimension, ruta);
@@ -56,7 +57,7 @@ public class ImagenEnvoltorio {
     
     public static boolean eliminarImagenTemporal(){
         if(Globales.APP_DEBUG)
-            System.out.println("\nEliminando imagen temporal: " + IMAGEN_TEMPORAL);
+            ConsolaDebug.agregarTexto("Eliminando imagen temporal: " + IMAGEN_TEMPORAL, ConsolaDebug.PROCESO);
         
         boolean archivoBorrado;
         

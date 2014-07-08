@@ -24,6 +24,7 @@ import javax.swing.text.JTextComponent;
 import nekio.herramientas.listadevalores.dto.Elementos;
 import nekio.herramientas.listadevalores.gui.SwingLOV;
 import nekio.myprp.recursos.herramientas.Calendario;
+import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.utilerias.Fecha;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.bd.BDConexion;
@@ -184,7 +185,7 @@ class PanelCampo{
                 btnLOV.setVisible(false);
             }
         }catch(Exception e){
-            System.out.println("Fallo en los valores de conexion a la BD");
+            ConsolaDebug.agregarTexto("Fallo en los valores de conexion a la BD", ConsolaDebug.ERROR);
         }
     }
     

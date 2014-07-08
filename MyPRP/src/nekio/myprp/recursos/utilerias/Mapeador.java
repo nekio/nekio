@@ -7,6 +7,7 @@ package nekio.myprp.recursos.utilerias;
 
 import java.util.ArrayList;
 import java.util.List;
+import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.img.obj.ImagenDTO;
 import nekio.myprp.recursos.img.obj.vista.CatalogoImagenes;
 import nekio.myprp.recursos.img.obj.vista.RecogedorImagen;
@@ -24,7 +25,7 @@ public class Mapeador {
         SwingMaestro guiPadre = gestor.getGui();
         
         if(Globales.APP_DEBUG)
-            System.out.println("\n|==========>  Mapeador abriendo la vista: " + pagina + "  <==========|");
+            ConsolaDebug.agregarTexto("|==========>  Mapeador abriendo la vista: " + pagina + "  <==========|", ConsolaDebug.VISTA);
         
         if(pagina.equals("login"))
             new LoginGUI();
@@ -95,7 +96,7 @@ public class Mapeador {
             break;
             default:
                 if(Globales.APP_DEBUG)
-                    System.out.println("\nLa vista indicada no existe");
+                    ConsolaDebug.agregarTexto("La vista indicada no existe" + pagina + "  <==========|", ConsolaDebug.ERROR);
         }
     }
 }
