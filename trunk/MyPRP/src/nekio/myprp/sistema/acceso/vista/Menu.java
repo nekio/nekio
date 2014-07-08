@@ -17,6 +17,7 @@ import java.util.List;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import nekio.myprp.recursos.img.obj.GestorImagen;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.Idioma;
 import nekio.myprp.recursos.utilerias.gui.swing.MenuModulo;
@@ -31,6 +32,7 @@ public class Menu extends SwingJFrame{
     
     private JMenuBar mnuBarra;
     private JMenu mnuArchivo;
+    private JMenuItem mnItImagen;
     private JMenu mnuModulos;
     private JMenuItem mnItAcademico;
     private JMenuItem mnItDeportes;
@@ -42,6 +44,7 @@ public class Menu extends SwingJFrame{
     private JMenuItem mnItSeries;
     private JMenu mnuAyuda;
     private JMenuItem mnItVersion;
+    private JMenuItem mnItDebug;
     private JMenuItem mnItAcercaDe;
     
     
@@ -71,6 +74,8 @@ public class Menu extends SwingJFrame{
         /*Archivo*/
         mnuArchivo=new JMenu(Idioma.obtenerTexto(Idioma.PROP_MENU, "archivo"));
         mnuArchivo.setMnemonic('a');
+            mnItImagen=new JMenuItem(Idioma.obtenerTexto(Idioma.PROP_MENU, "imagen"));
+            mnuArchivo.add(mnItImagen);
         
         /*Modulos*/
         mnuModulos = new JMenu(Idioma.obtenerTexto(Idioma.PROP_MENU, "modulos"));
@@ -105,6 +110,9 @@ public class Menu extends SwingJFrame{
             mnItVersion=new JMenuItem(Idioma.obtenerTexto(Idioma.PROP_MENU, "version"));
             mnuAyuda.add(mnItVersion);
             
+            mnItDebug=new JMenuItem(Idioma.obtenerTexto(Idioma.PROP_MENU, "consola"));
+            mnuAyuda.add(mnItDebug);
+            
             mnItAcercaDe=new JMenuItem(Idioma.obtenerTexto(Idioma.PROP_MENU, "acercaDe"));
             mnuAyuda.add(mnItAcercaDe);
             
@@ -116,6 +124,15 @@ public class Menu extends SwingJFrame{
 
     @Override
     public void agregarEscuchadores() {
+        mnItImagen.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed( ActionEvent evt){       
+                GestorImagen gestor = new GestorImagen();
+                gestor.ejecutarControladorNegocio(Globales.BD.LEER_DESC.getValor(), Globales.Entidad.Imagen.name());
+                gestor = null;
+            }
+        });
+                
         mnItSeries.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed( ActionEvent evt){       
@@ -134,11 +151,25 @@ public class Menu extends SwingJFrame{
             }
         });
         
+        mnItDebug.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed( ActionEvent evt){                       
+                Globales.CONSOLA.setVisible(true);
+            }
+        });
+        
         addWindowListener( new WindowAdapter(){
             @Override
             public void windowClosing(WindowEvent evt){
-                salir();
+                cerrarAplicacion();                
             }
         });
+    }
+    
+    private void cerrarAplicacion(){
+        Globales.CONSOLA.setVisible(false);
+        Globales.CONSOLA.dispose();
+        
+        salir();
     }
 }

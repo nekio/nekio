@@ -8,11 +8,11 @@ package nekio.myprp.recursos.utilerias.gui.swing;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
 import javax.swing.JPanel;
+import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.plantillas.Gestor;
 import nekio.myprp.recursos.utilerias.plantillas.swing.SwingJFrame;
@@ -39,7 +39,7 @@ public class MenuModulo extends SwingJFrame{
         this.iconos = iconos;
         
         if(Globales.APP_DEBUG)
-            System.out.println("\nMenuModulo: reconocido el modulo de " + modulo);
+            ConsolaDebug.agregarTexto("MenuModulo: reconocido el modulo de " + modulo, ConsolaDebug.PROCESO);
         
         inicializar();
         

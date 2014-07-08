@@ -1,5 +1,7 @@
 package nekio.myprp.recursos.utilerias;
 
+import javax.swing.JFrame;
+import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.utilerias.bd.BDGestor;
 
 /**
@@ -23,9 +25,11 @@ public class Globales {
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Valores de App">  
+    public static final JFrame CONSOLA = new ConsolaDebug();
+    
     public static final boolean APP_DEBUG = true;
     public static final boolean APP_DESIGN = true;
-    public static final String OBJ_NEGOCIO_SEPARADOR = "\n--------------------------------------------------------------------";
+    public static final String OBJ_NEGOCIO_SEPARADOR = "--------------------------------------------------------------------";
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Valores de Modulos">

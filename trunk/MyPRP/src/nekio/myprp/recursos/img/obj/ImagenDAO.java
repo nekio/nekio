@@ -20,6 +20,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.herramientas.ImagenEnvoltorio;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.bd.BDConexion;
@@ -39,9 +40,8 @@ public class ImagenDAO extends DAO{
     public void asignarParametros(DTO dto){
         this.dto = (ImagenDTO) dto;
         
-        if(Globales.APP_DEBUG){
-            System.out.println("\nParametros ingresados");
-        }
+        if(Globales.APP_DEBUG)
+            ConsolaDebug.agregarTexto("Parametros ingresados", ConsolaDebug.PROCESO);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class ImagenDAO extends DAO{
             consulta += "GROUP BY "+ groupBy + "\n";
         
         if(Globales.APP_DEBUG)
-            System.out.println("\n"+consulta);
+            ConsolaDebug.agregarTexto(consulta, ConsolaDebug.SQL);
         
         try{
             ImagenDTO dto = null;
@@ -84,7 +84,7 @@ public class ImagenDAO extends DAO{
                 try{
                     imagen = ImageIO.read(new ByteArrayInputStream(datos));
                 }catch (IOException e) {
-                    System.out.println("No se pudo leer el stream de la imagen: "+e);
+                    ConsolaDebug.agregarTexto("No se pudo leer el stream de la imagen: "+e, ConsolaDebug.ERROR);
                 }
 
                 dto.setIdImagen(resultados.getInt("id_imagen"));
@@ -99,7 +99,7 @@ public class ImagenDAO extends DAO{
             
             BDConexion.cerrar();
         }catch(Exception e){
-            System.out.println("DAO: Error al leer registros de " + Globales.BD_ESQUEMA + "." + TABLA + ": " + e);
+            ConsolaDebug.agregarTexto("DAO: Error al leer registros de " + Globales.BD_ESQUEMA + "." + TABLA + ": " + e, ConsolaDebug.ERROR);
         }
         
         return lista;
@@ -125,7 +125,7 @@ public class ImagenDAO extends DAO{
             consulta += "GROUP BY "+ groupBy + "\n";
         
         if(Globales.APP_DEBUG)
-            System.out.println("\n"+consulta);
+            ConsolaDebug.agregarTexto(consulta, ConsolaDebug.SQL);
         
         try{
             ResultSet resultados = BDConexion.consultar(consulta);
@@ -138,7 +138,7 @@ public class ImagenDAO extends DAO{
                 try{
                     imagen = ImageIO.read(new ByteArrayInputStream(datos));
                 }catch (IOException e) {
-                    System.out.println("No se pudo leer el stream de la imagen: "+e);
+                    ConsolaDebug.agregarTexto("No se pudo leer el stream de la imagen: "+e, ConsolaDebug.ERROR);
                 }
 
                 dto.setIdImagen(resultados.getInt("id_imagen"));
@@ -151,7 +151,7 @@ public class ImagenDAO extends DAO{
             
             BDConexion.cerrar();
         }catch(Exception e){
-            System.out.println("Error al leer un registro de " + Globales.BD_ESQUEMA + "." + TABLA + ": " + e);
+            ConsolaDebug.agregarTexto("Error al leer un registro de " + Globales.BD_ESQUEMA + "." + TABLA + ": " + e, ConsolaDebug.ERROR);
         }
         
         return dto;
@@ -168,7 +168,7 @@ public class ImagenDAO extends DAO{
         Dimension dimension = null;
         
         if(Globales.APP_DEBUG)
-            System.out.println("\n" + procedimiento + " : " + dto.getRutaImagen());
+            ConsolaDebug.agregarTexto(procedimiento + " : " + dto.getRutaImagen(), ConsolaDebug.PROCESO);
 
         try{
             Connection conexion = BDConexion.getConnection();
@@ -196,14 +196,14 @@ public class ImagenDAO extends DAO{
             
             if(Globales.APP_DEBUG){
                 if(ImagenEnvoltorio.eliminarImagenTemporal())
-                    System.out.println("Imagen temporal eliminada satisfactoriamente");
+                    ConsolaDebug.agregarTexto("Imagen temporal eliminada satisfactoriamente", ConsolaDebug.PROCESO);
                 else
-                    System.out.println("No fue eliminada la imagen temporal");
+                    ConsolaDebug.agregarTexto("No fue eliminada la imagen temporal", ConsolaDebug.ERROR);
             }
             
             resultado = 0;
         }catch(Exception e){
-            System.out.println("No se pudo " + accion + " en la tabla " + Globales.BD_ESQUEMA + "." + TABLA + "\n"+e);
+            ConsolaDebug.agregarTexto("No se pudo " + accion + " en la tabla " + Globales.BD_ESQUEMA + "." + TABLA + "\n"+e, ConsolaDebug.ERROR);
         }
 
         return resultado;
@@ -220,7 +220,7 @@ public class ImagenDAO extends DAO{
         Dimension dimension = null;
                
         if(Globales.APP_DEBUG)
-            System.out.println("\n" + procedimiento + " : " + dto.getRutaImagen());
+            ConsolaDebug.agregarTexto(procedimiento + " : " + dto.getRutaImagen(), ConsolaDebug.PROCESO);
 
         try{
             Connection conexion = BDConexion.getConnection();
@@ -255,14 +255,14 @@ public class ImagenDAO extends DAO{
             
             if(Globales.APP_DEBUG){
                 if(ImagenEnvoltorio.eliminarImagenTemporal())
-                    System.out.println("Imagen temporal eliminada satisfactoriamente");
+                    ConsolaDebug.agregarTexto("Imagen temporal eliminada satisfactoriamente", ConsolaDebug.PROCESO);
                 else
-                    System.out.println("No fue eliminada la imagen temporal");
+                    ConsolaDebug.agregarTexto("No fue eliminada la imagen temporal", ConsolaDebug.ERROR);
             }
             
             resultado = 0;
         }catch(Exception e){
-            System.out.println("No se pudo " + accion + " en la tabla " + Globales.BD_ESQUEMA + "." + TABLA + "\n"+e);
+            ConsolaDebug.agregarTexto("No se pudo " + accion + " en la tabla " + Globales.BD_ESQUEMA + "." + TABLA + "\n"+e, ConsolaDebug.ERROR);
         }
 
         return resultado;
@@ -277,7 +277,7 @@ public class ImagenDAO extends DAO{
         String procedimiento = super.obtenerProcedimiento(Globales.BD_ESQUEMA, accion, TABLA, parametros);
         
         if(Globales.APP_DEBUG)
-            System.out.println("\n" + procedimiento + " : ID - " + dto.getIdImagen());
+            ConsolaDebug.agregarTexto(procedimiento + " : ID - " + dto.getIdImagen(), ConsolaDebug.PROCESO);
 
         try{
             Connection conexion = BDConexion.getConnection();
@@ -291,7 +291,7 @@ public class ImagenDAO extends DAO{
             
             resultado = 0;
         }catch(Exception e){
-            System.out.println("No se pudo " + accion + " en la tabla " + Globales.BD_ESQUEMA + "." + TABLA + "\n"+e);
+            ConsolaDebug.agregarTexto("No se pudo " + accion + " en la tabla " + Globales.BD_ESQUEMA + "." + TABLA + "\n"+e, ConsolaDebug.ERROR);
         }
 
         return resultado;

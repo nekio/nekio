@@ -5,6 +5,7 @@ package nekio.myprp.sistema.acceso;
  * @author Nekio
  */
 
+import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.plantillas.Gestor;
 import nekio.myprp.sistema.acceso.dao.UsuarioDAO;
@@ -25,7 +26,7 @@ public class GestorAcceso extends Gestor{
         String negocio = accion + entidad;
         
         if(Globales.APP_DEBUG)
-            System.out.println("\nEjecutando negocio de Acceso: " + negocio);
+            ConsolaDebug.agregarTexto("Ejecutando negocio de Acceso: " + negocio, ConsolaDebug.MAPEO);
         
         String resultado = null;
         
@@ -42,7 +43,7 @@ public class GestorAcceso extends Gestor{
         }
         
         if(Globales.APP_DEBUG)
-            System.out.println("\nResultado de [" + negocio +"]: [" + resultado + "] Dirige a: [" + super.pagina + "]");
+            ConsolaDebug.agregarTexto("Resultado de [" + negocio +"]: [" + resultado + "] Dirige a: [" + super.pagina + "]", ConsolaDebug.MAPEO);
         
         dirigir(resultado);
     }

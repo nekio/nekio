@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.plantillas.Gestor;
 
@@ -29,7 +30,7 @@ public class MenuBoton extends JButton{
         this.icono = icono;
         
         if(Globales.APP_DEBUG)
-            System.out.println("   MenuBoton: reconocida la entrada " + entrada);
+            ConsolaDebug.agregarTexto("   MenuBoton: reconocida la entrada " + entrada, ConsolaDebug.PROCESO);
         
         agregarComponentes();
         agregarEscuchadores();

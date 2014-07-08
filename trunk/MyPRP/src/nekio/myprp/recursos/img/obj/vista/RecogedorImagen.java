@@ -39,6 +39,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.herramientas.ImagenEnvoltorio;
 import nekio.myprp.recursos.herramientas.Mensaje;
 import nekio.myprp.recursos.img.obj.GestorImagen;
@@ -90,7 +91,7 @@ public class RecogedorImagen extends SwingJFrame implements DropTargetListener{
         
         if(guiPadre == null){
             if(Globales.APP_DEBUG)
-                System.out.println("\nFalta asociar en el Mapeador la Vista padre que invoca a esta Vista");
+                ConsolaDebug.agregarTexto("Falta asociar en el Mapeador la Vista padre que invoca a esta Vista", ConsolaDebug.ERROR);
             
             new Mensaje(Idioma.obtenerTexto(Idioma.PROP_ACCIONES, "noVistaPadre"));
             salir();

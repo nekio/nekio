@@ -6,6 +6,7 @@ package nekio.myprp.recursos.img.obj;
  */
 
 import java.util.ArrayList;
+import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.plantillas.DAO;
 import nekio.myprp.recursos.utilerias.plantillas.DTO;
@@ -33,7 +34,7 @@ public class Imagen extends ObjetoNegocio{
         gestor.getListaDTO().add(filtroDTO);
         
         if(Globales.APP_DEBUG)
-            System.out.println("\nDTOs obtenidos al consultar ID: " + gestor.getListaDTO().size());
+            ConsolaDebug.agregarTexto("DTOs obtenidos al consultar ID: " + gestor.getListaDTO().size(), ConsolaDebug.PROCESO);
         
         return Globales.RES_OK;
     }
@@ -44,7 +45,7 @@ public class Imagen extends ObjetoNegocio{
         gestor.setListaDTO(dao.leer(null));
         
         if(Globales.APP_DEBUG)
-            System.out.println("\nDTOs obtenidos al consultar seleccion: " + gestor.getListaDTO().size());
+            ConsolaDebug.agregarTexto("DTOs obtenidos al consultar seleccion: " + gestor.getListaDTO().size(), ConsolaDebug.PROCESO);
         
         return Globales.RES_OK;
     }
@@ -55,7 +56,7 @@ public class Imagen extends ObjetoNegocio{
         gestor.setListaDTO(dao.leerDesc(null));
         
         if(Globales.APP_DEBUG)
-            System.out.println("\nDTOs obtenidos al consultar seleccion: " + gestor.getListaDTO().size());
+            ConsolaDebug.agregarTexto("DTOs obtenidos al consultar seleccion: " + gestor.getListaDTO().size(), ConsolaDebug.PROCESO);
         
         return Globales.RES_OK;
     }
@@ -72,8 +73,8 @@ public class Imagen extends ObjetoNegocio{
         gestor.setListaDTO(dao.leer(where));
         
         if(Globales.APP_DEBUG){
-            System.out.println("Consulta de busqueda:" + where);
-            System.out.println("DTOs obtenidos al consultar Busqueda: " + gestor.getListaDTO().size());
+            ConsolaDebug.agregarTexto("Consulta de busqueda:" + where, ConsolaDebug.SQL);
+            ConsolaDebug.agregarTexto("DTOs obtenidos al consultar Busqueda: " + gestor.getListaDTO().size(), ConsolaDebug.PROCESO);
         }
 
         return Globales.RES_OK; 

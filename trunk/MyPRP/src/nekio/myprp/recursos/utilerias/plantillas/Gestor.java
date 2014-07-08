@@ -7,6 +7,7 @@ package nekio.myprp.recursos.utilerias.plantillas;
 
 import nekio.myprp.recursos.utilerias.plantillas.swing.SwingMaestro;
 import java.util.List;
+import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.Mapeador;
 
@@ -24,10 +25,10 @@ public abstract class Gestor {
         String negocio = accion + entidad;
         
         if(Globales.APP_DEBUG)
-            System.out.println("\n"+
-                    Globales.OBJ_NEGOCIO_SEPARADOR +  
-                    "\n|     Ejecutando negocio: " + negocio +
-                    Globales.OBJ_NEGOCIO_SEPARADOR);
+            ConsolaDebug.agregarTexto(Globales.OBJ_NEGOCIO_SEPARADOR +  
+                    "\n|     Ejecutando negocio: " + negocio + "\n" +
+                    Globales.OBJ_NEGOCIO_SEPARADOR,
+                    ConsolaDebug.MAPEO);
         
         String resultado = null;
         
@@ -70,9 +71,10 @@ public abstract class Gestor {
         }
         
         if(Globales.APP_DEBUG)
-            System.out.println(
-                    "\nResultado de [" + negocio +"]: [" + resultado + "]"+
-                    "\nDirige a: [" + pagina + "]");
+            ConsolaDebug.agregarTexto(
+                "Resultado de [" + negocio +"]: [" + resultado + "]"+
+                "\nDirige a: [" + pagina + "]",
+                ConsolaDebug.MAPEO);
         
         dirigir(resultado);
     }
@@ -81,7 +83,7 @@ public abstract class Gestor {
     
     public void dirigir(String resultado){
         if(Globales.APP_DEBUG)
-            System.out.println("Pagina: "+ getPagina() + "[" + resultado + "]");
+            ConsolaDebug.agregarTexto("Pagina: "+ getPagina() + "[" + resultado + "]", ConsolaDebug.MAPEO);
         
         /* ASIGNACION DE FLUJOS */
         if(resultado.equals(Globales.RES_OK)){
@@ -96,7 +98,7 @@ public abstract class Gestor {
         gui.recargar(dao.leerDesc(null));
         
         if(Globales.APP_DEBUG)
-            System.out.println("\nFinalizada la recarga de la vista\n"+gui.getClass().getName());
+            ConsolaDebug.agregarTexto("Finalizada la recarga de la vista\n"+gui.getClass().getName(), ConsolaDebug.VISTA);
     }
     
     public ObjetoNegocio getObjetoNegocio() {

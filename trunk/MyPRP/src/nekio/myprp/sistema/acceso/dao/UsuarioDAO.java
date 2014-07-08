@@ -7,6 +7,7 @@ package nekio.myprp.sistema.acceso.dao;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.bd.BDConexion;
 import nekio.myprp.recursos.utilerias.plantillas.DAO;
@@ -26,6 +27,10 @@ public class UsuarioDAO extends DAO{
     @Override
     public void asignarParametros(DTO dto) {
         this.dto = (UsuarioDTO) dto;
+        
+        if(Globales.APP_DEBUG){
+            ConsolaDebug.agregarTexto("Parametros ingresados", ConsolaDebug.PROCESO);
+        }
     }
     
     @Override
@@ -53,7 +58,7 @@ public class UsuarioDAO extends DAO{
             consulta += "GROUP BY "+ groupBy + "\n";
         
         if(Globales.APP_DEBUG)
-            System.out.println("\n"+consulta);
+            ConsolaDebug.agregarTexto(consulta, ConsolaDebug.SQL);
         
         try{
             UsuarioDTO dto = null;
@@ -77,7 +82,7 @@ public class UsuarioDAO extends DAO{
             
             BDConexion.cerrar();
         }catch(Exception e){
-            System.out.println("Error al leer registros de " + Globales.BD_ESQUEMA + "." + TABLA + ": " + e);
+            ConsolaDebug.agregarTexto("Error al leer registros de " + Globales.BD_ESQUEMA + "." + TABLA + ": " + e, ConsolaDebug.ERROR);
         }
         
         return lista;
@@ -103,7 +108,7 @@ public class UsuarioDAO extends DAO{
             consulta += "GROUP BY "+ groupBy + "\n";
         
         if(Globales.APP_DEBUG)
-            System.out.println("\n"+consulta);
+            ConsolaDebug.agregarTexto(consulta, ConsolaDebug.SQL);
         
         try{
             ResultSet resultados = BDConexion.consultar(consulta);
@@ -123,7 +128,7 @@ public class UsuarioDAO extends DAO{
             
             BDConexion.cerrar();
         }catch(Exception e){
-            System.out.println("Error al leer un registro de " + Globales.BD_ESQUEMA + "." + TABLA + ": " + e);
+            ConsolaDebug.agregarTexto("Error al leer un registro de " + Globales.BD_ESQUEMA + "." + TABLA + ": " + e, ConsolaDebug.ERROR);
         }
         
         return dto;

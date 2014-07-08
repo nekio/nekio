@@ -26,6 +26,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.herramientas.Mensaje;
 import nekio.myprp.recursos.img.obj.ImagenDTO;
 import nekio.myprp.recursos.utilerias.Fecha;
@@ -154,7 +155,7 @@ public class CatalogoImagenes extends SwingMaestro{
         
         String ubicacionClase = Globales.PAQ_IMG_OBJ+"."+Globales.Entidad.Imagen.name()+Globales.DTO;
         if(Globales.APP_DEBUG)
-            System.out.println("\nObteniendo atributos de la clase: "+ubicacionClase);
+            ConsolaDebug.agregarTexto("Obteniendo atributos de la clase: " + ubicacionClase, ConsolaDebug.PROCESO);
                 
         try {
             Class<?> clase = Class.forName(ubicacionClase);
@@ -173,7 +174,7 @@ public class CatalogoImagenes extends SwingMaestro{
             }
         } catch (ClassNotFoundException e){
             if(Globales.APP_DEBUG)
-                System.out.println("\nNo fue posible cargar los atributos de la clase\n"+e);
+                ConsolaDebug.agregarTexto("No fue posible cargar los atributos de la clase\n" + e, ConsolaDebug.ERROR);
         }
         
         return valores;    
@@ -242,7 +243,7 @@ public class CatalogoImagenes extends SwingMaestro{
                 if(columna != INDICE_CAMPO_IMG){
                     registro = String.valueOf(tabla.getValueAt(fila, columna)).toUpperCase();
                     if(registro.contains(filtro)) {
-                        System.out.println(filtro+" : "+registro);
+                        ConsolaDebug.agregarTexto(filtro+" : "+registro, ConsolaDebug.COMODIN);
                         // Localiza automaticamente la vista del scroll en la ubicacion del valor
                         tabla.scrollRectToVisible(tabla.getCellRect(fila, 0, true));
 
