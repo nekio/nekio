@@ -22,6 +22,9 @@ public class Globales {
     public static final String ACTUALIZACION    = "0";
     public static final String FECHA_LIBERACION = "30/04/2014";
     public static final String MSJ_MANTTO       = "Espera la proxima actualizacion.\nProceso en construccion";
+    
+    public static final int ID_SISTEMA = 1;
+    public static final int ID_USUARIO = 0;
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Valores de App">  
@@ -74,6 +77,7 @@ public class Globales {
     public static final String BD_HOST      = "localhost";
     public static final String BD_PUERTO    = "3306";
     public static final String BD_ESQUEMA   = "catalogador_series"; //Database
+    public static final String BD_TOOLS     = "nekio_herramientas"; //Base de datos de herramientas
     public static final int BD_MAX_ACTIVOS  = 20;
     public static final int BD_MAX_IDLE     = 2;
     // </editor-fold>

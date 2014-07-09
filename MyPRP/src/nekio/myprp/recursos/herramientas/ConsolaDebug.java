@@ -33,10 +33,11 @@ public class ConsolaDebug extends JFrame{
     private static boolean activa;
     
     public static Color SQL = Color.WHITE;
-    public static Color PROCESO = Color.LIGHT_GRAY;
+    public static Color PROCESO = Color.CYAN;
     public static Color MAPEO = Color.BLUE;  
     public static Color VISTA = Color.YELLOW;
     public static Color COMODIN = Color.GREEN;
+    public static Color BITACORA = Color.MAGENTA;
     
     public static Color OCULTO = Color.BLACK;
     public static Color ERROR = Color.RED;
