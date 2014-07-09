@@ -32,7 +32,7 @@ public class MensajePrivadoDAO extends DAO{
         this.dto = (MensajePrivadoDTO) dto;
         
         if(Globales.APP_DEBUG){
-            ConsolaDebug.agregarTexto("Parametros ingresados", ConsolaDebug.PROCESO);
+            ConsolaDebug.agregarTexto("DAO " + TABLA + ": Parametros ingresados", ConsolaDebug.PROCESO);
         }
     }
 

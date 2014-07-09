@@ -29,7 +29,7 @@ public class UsuarioDAO extends DAO{
         this.dto = (UsuarioDTO) dto;
         
         if(Globales.APP_DEBUG){
-            ConsolaDebug.agregarTexto("Parametros ingresados", ConsolaDebug.PROCESO);
+            ConsolaDebug.agregarTexto("DAO " + TABLA + ": Parametros ingresados", ConsolaDebug.PROCESO);
         }
     }
     

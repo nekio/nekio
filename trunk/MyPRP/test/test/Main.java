@@ -1,6 +1,5 @@
 package test;
 
-import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.sistema.acceso.Inicializacion;
 

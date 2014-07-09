@@ -35,13 +35,12 @@ public class ImagenDAO extends DAO{
     
     private ImagenDTO dto;
     
-    //@Override
     @Override
     public void asignarParametros(DTO dto){
         this.dto = (ImagenDTO) dto;
         
         if(Globales.APP_DEBUG)
-            ConsolaDebug.agregarTexto("Parametros ingresados", ConsolaDebug.PROCESO);
+            ConsolaDebug.agregarTexto("DAO " + TABLA + ": Parametros ingresados", ConsolaDebug.PROCESO);
     }
 
     @Override
@@ -171,28 +170,37 @@ public class ImagenDAO extends DAO{
             ConsolaDebug.agregarTexto(procedimiento + " : " + dto.getRutaImagen(), ConsolaDebug.PROCESO);
 
         try{
-            Connection conexion = BDConexion.getConnection();
+//            Connection conexion = BDConexion.getConnection();
+//            
+//            dimension = ImagenDTO.TipoImagen.TipoImagen(dto.getTipo()).getDimension();
+//            
+//            InputStream imagen = null;
+//            int longitud = 0;
+//            
+//            String rutaTemporal = ImagenEnvoltorio.crearImagenTemporal(dimension, dto.getRutaImagen());
+//            File archivo = new File(rutaTemporal);
+//            imagen = new FileInputStream(archivo);
+//            longitud = (int) archivo.length();
+//                
+//            CallableStatement procInsertar = conexion.prepareCall(procedimiento);
+//            procInsertar.setBinaryStream(1,imagen, longitud);
+//            procInsertar.setString(2, dto.getNombre());
+//            procInsertar.setString(3, String.valueOf(dto.getTipo()));
+//            procInsertar.setTimestamp(4, new java.sql.Timestamp(dto.getFechaSubida().getTime()));
+//            procInsertar.setString(5, dto.getDescripcion());
+//            procInsertar.execute();
+//
+//            conexion.commit();
+//            BDConexion.cerrar();
             
-            dimension = ImagenDTO.TipoImagen.TipoImagen(dto.getTipo()).getDimension();
-            
-            InputStream imagen = null;
-            int longitud = 0;
-            
-            String rutaTemporal = ImagenEnvoltorio.crearImagenTemporal(dimension, dto.getRutaImagen());
-            File archivo = new File(rutaTemporal);
-            imagen = new FileInputStream(archivo);
-            longitud = (int) archivo.length();
-                
-            CallableStatement procInsertar = conexion.prepareCall(procedimiento);
-            procInsertar.setBinaryStream(1,imagen, longitud);
-            procInsertar.setString(2, dto.getNombre());
-            procInsertar.setString(3, String.valueOf(dto.getTipo()));
-            procInsertar.setTimestamp(4, new java.sql.Timestamp(dto.getFechaSubida().getTime()));
-            procInsertar.setString(5, dto.getDescripcion());
-            procInsertar.execute();
-
-            conexion.commit();
-            BDConexion.cerrar();
+            super.insertarBitacora(
+                    TABLA,
+                    TODOS_CAMPOS.replace(ID + ", imagen, ",""),
+                        formatearValor(dto.getNombre()) + ", " +
+                        formatearValor(dto.getTipo()) +", " +
+                        formatearValor(new java.sql.Timestamp(dto.getFechaSubida().getTime())) + ", " +
+                        formatearValor(dto.getDescripcion())
+            );
             
             if(Globales.APP_DEBUG){
                 if(ImagenEnvoltorio.eliminarImagenTemporal())
