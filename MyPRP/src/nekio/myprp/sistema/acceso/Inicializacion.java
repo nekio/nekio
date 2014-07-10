@@ -1,9 +1,8 @@
 package nekio.myprp.sistema.acceso;
 
-import java.util.ArrayList;
 import nekio.myprp.recursos.herramientas.ConsolaDebug;
-import nekio.myprp.recursos.img.obj.GestorImagen;
 import nekio.myprp.recursos.utilerias.Globales;
+import static nekio.myprp.recursos.utilerias.Globales.BD_TOOLS;
 import nekio.myprp.recursos.utilerias.bd.BDConexion;
 import nekio.myprp.recursos.utilerias.Idioma;
 
@@ -41,7 +40,7 @@ public class Inicializacion {
                 Globales.BD_PASSWORD,
                 Globales.BD_HOST,
                 Globales.BD_PUERTO,
-                Globales.BD_ESQUEMA,
+                Globales.BD_TOOLS,
                 Globales.BD_MAX_ACTIVOS,
                 Globales.BD_MAX_IDLE
         );
@@ -59,6 +58,7 @@ public class Inicializacion {
         
         Login login = new Login(usuario,password);
         if(login.validar()){            
+            gestor.setEsquemaBD(BD_TOOLS);
             gestor.setDTO(login.getDTO());
             gestor.ejecutarControladorNegocio(Globales.BD.LEER.getValor(), entidad);
             

@@ -22,61 +22,65 @@ public abstract class Gestor {
     private List<DTO> listaDTO;
     
     public void ejecutarControladorNegocio(String accion, String entidad){
-        String negocio = accion + entidad;
-        
-        if(Globales.APP_DEBUG)
-            ConsolaDebug.agregarTexto(Globales.OBJ_NEGOCIO_SEPARADOR +  
-                    "\n|     Ejecutando negocio: " + negocio + "\n" +
-                    Globales.OBJ_NEGOCIO_SEPARADOR,
-                    ConsolaDebug.MAPEO);
-        
-        String resultado = null;
-        
-        /* ACCIONES DE ENTIDAD */
-        if(negocio.equals(Globales.BD.LEER.getValor() + entidad)){
-            resultado = obtenerResultado(Globales.BD.LEER.getLlave());
-            pagina = Globales.BD.LEER.getPagina() + entidad;
-        }else if(negocio.equals(Globales.BD.LEER_DESC.getValor() + entidad)){
-            resultado = obtenerResultado(Globales.BD.LEER_DESC.getLlave());
-            pagina = Globales.BD.LEER_DESC.getPagina() + entidad;
-        }else if(negocio.equals(Globales.BD.LEER_UNO.getValor() + entidad)){
-            resultado = obtenerResultado(Globales.BD.LEER_UNO.getLlave());
-            pagina = Globales.BD.LEER_UNO.getPagina() + entidad;
-        }else if(negocio.equals(Globales.BD.BUSCAR.getValor() + entidad)){
-            resultado = obtenerResultado(Globales.BD.BUSCAR.getLlave());
-            pagina = Globales.BD.BUSCAR.getPagina() + entidad;
-        }else if(negocio.equals(Globales.BD.INSERTAR.getValor() + entidad)){
-            resultado = obtenerResultado(Globales.BD.INSERTAR.getLlave());
-            pagina = Globales.BD.INSERTAR.getPagina() + entidad;
-        }else if(negocio.equals(Globales.BD.MODIFICAR.getValor() + entidad)){
-            resultado = obtenerResultado(Globales.BD.MODIFICAR.getLlave());
-            pagina = Globales.BD.MODIFICAR.getPagina() + entidad;
-        }else if(negocio.equals(Globales.BD.ELIMINAR.getValor() + entidad)){
-            resultado = obtenerResultado(Globales.BD.ELIMINAR.getLlave());
-            pagina = Globales.BD.ELIMINAR.getPagina() + entidad;
-        }
-        
-        else if(negocio.equals(Globales.BD.NUEVO.getValor() + entidad)){
-            resultado = Globales.RES_OK;
-            pagina = Globales.BD.NUEVO.getPagina() + entidad;
-        }else if(negocio.equals(Globales.BD.CANCELAR.getValor() + entidad)){
-            resultado = Globales.RES_OK;
-            pagina = Globales.BD.CANCELAR.getPagina() + entidad;
-        }
-        
-        /* ERROR DE ACCION*/
+        if(Globales.BD_ESQUEMA == null)
+            ConsolaDebug.agregarTexto("... Falta asociar un esquema de Base de Datos al Gestor" + entidad, ConsolaDebug.ERROR);
         else{
-            resultado = Globales.RES_ERROR;
-            pagina = null;
+            String negocio = accion + entidad;
+
+            if(Globales.APP_DEBUG)
+                ConsolaDebug.agregarTexto(Globales.OBJ_NEGOCIO_SEPARADOR +  
+                        "\n|     Ejecutando negocio: " + negocio + "\n" +
+                        Globales.OBJ_NEGOCIO_SEPARADOR,
+                        ConsolaDebug.MAPEO);
+
+            String resultado = null;
+
+            /* ACCIONES DE ENTIDAD */
+            if(negocio.equals(Globales.BD.LEER.getValor() + entidad)){
+                resultado = obtenerResultado(Globales.BD.LEER.getLlave());
+                pagina = Globales.BD.LEER.getPagina() + entidad;
+            }else if(negocio.equals(Globales.BD.LEER_DESC.getValor() + entidad)){
+                resultado = obtenerResultado(Globales.BD.LEER_DESC.getLlave());
+                pagina = Globales.BD.LEER_DESC.getPagina() + entidad;
+            }else if(negocio.equals(Globales.BD.LEER_UNO.getValor() + entidad)){
+                resultado = obtenerResultado(Globales.BD.LEER_UNO.getLlave());
+                pagina = Globales.BD.LEER_UNO.getPagina() + entidad;
+            }else if(negocio.equals(Globales.BD.BUSCAR.getValor() + entidad)){
+                resultado = obtenerResultado(Globales.BD.BUSCAR.getLlave());
+                pagina = Globales.BD.BUSCAR.getPagina() + entidad;
+            }else if(negocio.equals(Globales.BD.INSERTAR.getValor() + entidad)){
+                resultado = obtenerResultado(Globales.BD.INSERTAR.getLlave());
+                pagina = Globales.BD.INSERTAR.getPagina() + entidad;
+            }else if(negocio.equals(Globales.BD.MODIFICAR.getValor() + entidad)){
+                resultado = obtenerResultado(Globales.BD.MODIFICAR.getLlave());
+                pagina = Globales.BD.MODIFICAR.getPagina() + entidad;
+            }else if(negocio.equals(Globales.BD.ELIMINAR.getValor() + entidad)){
+                resultado = obtenerResultado(Globales.BD.ELIMINAR.getLlave());
+                pagina = Globales.BD.ELIMINAR.getPagina() + entidad;
+            }
+
+            else if(negocio.equals(Globales.BD.NUEVO.getValor() + entidad)){
+                resultado = Globales.RES_OK;
+                pagina = Globales.BD.NUEVO.getPagina() + entidad;
+            }else if(negocio.equals(Globales.BD.CANCELAR.getValor() + entidad)){
+                resultado = Globales.RES_OK;
+                pagina = Globales.BD.CANCELAR.getPagina() + entidad;
+            }
+
+            /* ERROR DE ACCION*/
+            else{
+                resultado = Globales.RES_ERROR;
+                pagina = null;
+            }
+
+            if(Globales.APP_DEBUG)
+                ConsolaDebug.agregarTexto(
+                    "Resultado de [" + negocio +"]: [" + resultado + "]"+
+                    "\nDirige a: [" + pagina + "]",
+                    ConsolaDebug.MAPEO);
+
+            dirigir(resultado);
         }
-        
-        if(Globales.APP_DEBUG)
-            ConsolaDebug.agregarTexto(
-                "Resultado de [" + negocio +"]: [" + resultado + "]"+
-                "\nDirige a: [" + pagina + "]",
-                ConsolaDebug.MAPEO);
-        
-        dirigir(resultado);
     }
         
     public abstract String obtenerResultado(int metodo);
@@ -139,5 +143,9 @@ public abstract class Gestor {
     
     public List<DTO> getListaDTO() {
         return listaDTO;
+    }
+
+    public void setEsquemaBD(String esquemaBD) {
+        Globales.BD_ESQUEMA = esquemaBD;
     }
 }

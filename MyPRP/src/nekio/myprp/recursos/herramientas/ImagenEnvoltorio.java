@@ -5,7 +5,7 @@ package nekio.myprp.recursos.herramientas;
  * @author Nekio
  */
 
-import java.awt.Color;
+// <editor-fold defaultstate="collapsed" desc="Librerias">
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -13,12 +13,18 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
 import nekio.myprp.recursos.utilerias.Globales;
+// </editor-fold>
 
 public class ImagenEnvoltorio {
+    // <editor-fold defaultstate="collapsed" desc="Atributos">
     public static final String EXTENSION = "png";
     private static final String RUTA_TEMPORAL = System.getProperty("user.home") + File.separator + "." + Globales.SIGLAS_APP;
     private static final String IMAGEN_TEMPORAL = RUTA_TEMPORAL + File.separator + "tmp_img." + EXTENSION ;
+    // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Metodos">
+    
+    // <editor-fold defaultstate="collapsed" desc="Crear Imagen Temporal">
     public static String crearImagenTemporal(Dimension dimension, String ruta) throws Exception{
         int ancho = dimension.width;
         int alto = dimension.height;
@@ -33,7 +39,9 @@ public class ImagenEnvoltorio {
         
         return IMAGEN_TEMPORAL;
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Obtener Imagen">
     public static BufferedImage obtenerImagen(Dimension dimension, String ruta) throws Exception{        
         return redimensionarImagen(dimension, ImageIO.read(new File(ruta)));
     }
@@ -41,7 +49,9 @@ public class ImagenEnvoltorio {
     public static BufferedImage obtenerImagen(Dimension dimension, Image imagen) throws Exception{        
         return redimensionarImagen(dimension, (BufferedImage) imagen);
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Redimensionar Imagen">
     private static BufferedImage redimensionarImagen(Dimension dimension, BufferedImage imagenOriginal){
         int ancho = dimension.width;
         int alto = dimension.height;
@@ -54,7 +64,9 @@ public class ImagenEnvoltorio {
         
         return imagenRedimensionada;
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Eliminar Imagen Temporal">
     public static boolean eliminarImagenTemporal(){
         if(Globales.APP_DEBUG)
             ConsolaDebug.agregarTexto("Eliminando imagen temporal: " + IMAGEN_TEMPORAL, ConsolaDebug.PROCESO);
@@ -66,10 +78,15 @@ public class ImagenEnvoltorio {
         
         return archivoBorrado;
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Checar ruta temporal">
     private static void checarRutaTemporal(){
         File rutaTemporal = new File(RUTA_TEMPORAL);
         if (!rutaTemporal.isDirectory())
             rutaTemporal.mkdir();
     }
+    // </editor-fold>
+    
+    // </editor-fold>
 }

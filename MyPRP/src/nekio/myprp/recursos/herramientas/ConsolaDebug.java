@@ -5,6 +5,7 @@ package nekio.myprp.recursos.herramientas;
  * @author Nekio
  */
 
+// <editor-fold defaultstate="collapsed" desc="Librerias">
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -24,8 +25,10 @@ import javax.swing.text.StyleContext;
 import nekio.myprp.recursos.utilerias.Fecha;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.Idioma;
+// </editor-fold>
 
 public class ConsolaDebug extends JFrame{
+    // <editor-fold defaultstate="collapsed" desc="Atributos">
     private static final long serialVersionUID = 1L;
     
     private static JTextPane txtConsola;
@@ -42,7 +45,9 @@ public class ConsolaDebug extends JFrame{
     public static Color OCULTO = Color.BLACK;
     public static Color ERROR = Color.RED;
     public static Color ADVERTENCIA = Color.ORANGE;
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Constructor">
     static{
         activa = false;
     }
@@ -55,7 +60,9 @@ public class ConsolaDebug extends JFrame{
             agregarEscuchadores();
         }
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Agregar Componentes">
     private void agregarComponentes(){
         this.setTitle(Globales.NOMBRE_APP);
         this.setLayout(new BorderLayout());
@@ -75,7 +82,9 @@ public class ConsolaDebug extends JFrame{
         this.add(scrollCaja, "Center");
         this.add(chkFrente, "South");
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Agregar Escuchadores">
     private void agregarEscuchadores(){
         chkFrente.addItemListener(new ItemListener() {
             @Override
@@ -91,7 +100,11 @@ public class ConsolaDebug extends JFrame{
             }
         });
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Metodos">
+    
+    // <editor-fold defaultstate="collapsed" desc="Agregar Texto">
     public static void agregarTexto(String texto){
         agregarTexto(texto, COMODIN);
     }
@@ -124,11 +137,16 @@ public class ConsolaDebug extends JFrame{
         txtConsola.replaceSelection(fecha + texto + salto);
         txtConsola.setEditable(false);
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Siempre al frente">
     private void siempreAlFrente(boolean siempre){
         this.setAlwaysOnTop(siempre);
         
         if(!siempre)
             this.toBack();
     }
+    // </editor-fold>
+    
+    // </editor-fold>
 }

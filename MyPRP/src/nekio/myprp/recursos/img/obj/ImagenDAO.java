@@ -31,7 +31,7 @@ public class ImagenDAO extends DAO{
     private final String TABLA = "imagen";
     private final String ID = Globales.BD_TABLA_ID + TABLA;
     private final String TODOS_CAMPOS = 
-            ID + ", imagen, nombre, tipo, fecha_subida, descripcion ";
+            ID + ", imagen, nombre, tipo, fecha_subida, descripcion, id_sistema ";
     
     private ImagenDTO dto;
     
@@ -161,7 +161,7 @@ public class ImagenDAO extends DAO{
         int resultado = 1;
         
         String accion = super.INSERTAR;
-        int parametros = 5;
+        int parametros = 6;
         String procedimiento = super.obtenerProcedimiento(Globales.BD_ESQUEMA, accion, TABLA, parametros);
         
         Dimension dimension = null;
@@ -188,6 +188,7 @@ public class ImagenDAO extends DAO{
 //            procInsertar.setString(3, String.valueOf(dto.getTipo()));
 //            procInsertar.setTimestamp(4, new java.sql.Timestamp(dto.getFechaSubida().getTime()));
 //            procInsertar.setString(5, dto.getDescripcion());
+//            procInsertar.setInt(6, dto.getIdSistema());
 //            procInsertar.execute();
 //
 //            conexion.commit();
@@ -197,9 +198,10 @@ public class ImagenDAO extends DAO{
                     TABLA,
                     TODOS_CAMPOS.replace(ID + ", imagen, ",""),
                         formatearValor(dto.getNombre()) + ", " +
-                        formatearValor(dto.getTipo()) +", " +
+                        formatearValor(dto.getTipo()) + ", " +
                         formatearValor(new java.sql.Timestamp(dto.getFechaSubida().getTime())) + ", " +
-                        formatearValor(dto.getDescripcion())
+                        formatearValor(dto.getDescripcion()) + ", " +
+                        dto.getIdSistema()
             );
             
             if(Globales.APP_DEBUG){
@@ -222,7 +224,7 @@ public class ImagenDAO extends DAO{
         int resultado = 1;
         
         String accion = super.ACTUALIZAR;
-        int parametros = 6;
+        int parametros = 7;
         String procedimiento = super.obtenerProcedimiento(Globales.BD_ESQUEMA, accion, TABLA, parametros);
         
         Dimension dimension = null;
@@ -256,6 +258,7 @@ public class ImagenDAO extends DAO{
             procActualizar.setString(4, String.valueOf(dto.getTipo()));
             procActualizar.setTimestamp(5, new java.sql.Timestamp(dto.getFechaSubida().getTime()));
             procActualizar.setString(6, dto.getDescripcion());
+            procActualizar.setInt(7, dto.getIdSistema());
             procActualizar.execute();
 
             conexion.commit();

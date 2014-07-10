@@ -113,6 +113,7 @@ public class CatalogoImagenes extends SwingMaestro{
             matriz[i][3] = String.valueOf(listaDTO.get(i).getTipo());
             matriz[i][4] = Fecha.obtenerFechaFormateada(listaDTO.get(i).getFechaSubida(), Fecha.FORMATO_COMPLETO);
             matriz[i][5] = listaDTO.get(i).getDescripcion();
+            matriz[i][6] = String.valueOf(listaDTO.get(i).getIdSistema());
         }
         
         modelo = new DefaultTableModel(matriz,cabeceras){            
