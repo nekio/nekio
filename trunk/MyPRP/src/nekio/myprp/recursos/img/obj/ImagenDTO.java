@@ -19,6 +19,7 @@ public class ImagenDTO extends DTO{
     private Character tipo;
     private Date fechaSubida;
     private String descripcion;
+    private Integer idSistema;
     
     @Override
     public void confirmarDTO(){        
@@ -49,6 +50,10 @@ public class ImagenDTO extends DTO{
         super.campos.add("descripcion");
         super.valores.add(descripcion); 
         super.tipoDatos.add(Globales.TipoDato.TEXTO);
+        
+        super.campos.add("id_sistema");
+        super.valores.add(idSistema);
+        super.tipoDatos.add(Globales.TipoDato.NUMERO);
     }
     
     public static enum TipoImagen{
@@ -154,5 +159,13 @@ public class ImagenDTO extends DTO{
 
     public void setRutaImagen(String rutaImagen) {
         this.rutaImagen = rutaImagen;
+    }
+    
+    public Integer getIdSistema() {
+        return idSistema;
+    }
+
+    public void setIdSistema(Integer idSistema) {
+        this.idSistema = idSistema;
     }
 }

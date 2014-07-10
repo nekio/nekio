@@ -73,6 +73,7 @@ public class RecogedorImagen extends SwingJFrame implements DropTargetListener{
     private Character tipoImagen;
     private Date fechaSubida;
     private String descripcionImagen;
+    private Integer idSistema;
     
     private File archivo;
     private String nombreArchivo;
@@ -120,6 +121,7 @@ public class RecogedorImagen extends SwingJFrame implements DropTargetListener{
             tipoImagen = null;
             fechaSubida = null;
             descripcionImagen = null;
+            idSistema = null;
         }else{
             idImagen = dto.getIdImagen();
             imagen = (BufferedImage)dto.getImagen();
@@ -127,6 +129,7 @@ public class RecogedorImagen extends SwingJFrame implements DropTargetListener{
             tipoImagen = dto.getTipo();
             fechaSubida = dto.getFechaSubida();
             descripcionImagen = dto.getDescripcion();
+            idSistema = dto.getIdSistema();
         }
     }
     

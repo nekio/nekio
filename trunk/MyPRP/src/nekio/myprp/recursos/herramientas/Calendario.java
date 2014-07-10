@@ -5,6 +5,7 @@ package nekio.myprp.recursos.herramientas;
  * @author Nekio
  */
 
+// <editor-fold defaultstate="collapsed" desc="Librerias">
 import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 import java.awt.*;
 import java.awt.event.*;
@@ -17,15 +18,19 @@ import jcalendar.JCalendar;
 import nekio.myprp.recursos.utilerias.Fecha;
 import nekio.myprp.recursos.utilerias.Idioma;
 import nekio.myprp.recursos.utilerias.plantillas.swing.SwingJFrame;
+// </editor-fold>
 
 public class Calendario extends SwingJFrame{
+    // <editor-fold defaultstate="collapsed" desc="Atributos">
     private static final long serialVersionUID = 1L;
     
     private JCalendar calendario;
     private JButton btnAceptar;
     private JTextComponent componente;
     private Date fecha;
+    // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Constructor">
     public Calendario(String titulo, JTextComponent componente, Point ubicacion){       
         this.componente = componente;
         
@@ -44,7 +49,9 @@ public class Calendario extends SwingJFrame{
 
         setVisible(true);
     }
+    // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Agregar Componentes">
     @Override
     public void agregarComponentes(){
         fecha=null;
@@ -55,7 +62,9 @@ public class Calendario extends SwingJFrame{
         btnAceptar = new JButton(Idioma.obtenerTexto(Idioma.PROP_ACCIONES, "aceptar"));
         getContentPane().add(btnAceptar,BorderLayout.SOUTH);
     }
+    // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Agregar Escuchadores">
     @Override
     public void agregarEscuchadores(){
         calendario.addDateListener(new DateListener(){
@@ -91,4 +100,5 @@ public class Calendario extends SwingJFrame{
             }
         });
     }
+    // </editor-fold>
 }

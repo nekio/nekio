@@ -6,13 +6,12 @@ package nekio.myprp.recursos.herramientas;
  */
 
 // <editor-fold defaultstate="collapsed" desc="Librerias"> 
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import nekio.myprp.recursos.utilerias.Globales;
 // </editor-fold>
 
 public class Mensaje {
+    // <editor-fold defaultstate="collapsed" desc="Atributos"> 
     public static final int CERRAR = -1;
     public static final int CANCELAR = 0;
     public static final int ACEPTAR = 1;
@@ -20,6 +19,9 @@ public class Mensaje {
     public static final int MSJ_INFORMACION = 1;
     public static final int MSJ_ADVERTENCIA = 2;
     public static final int MSJ_ERROR = 3;
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Metodos"> 
     
     // <editor-fold defaultstate="collapsed" desc="Constructores"> 
     public Mensaje(){
@@ -56,6 +58,7 @@ public class Mensaje {
     }
     // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Decidir"> 
     public static int decidir(String mensaje, String cancelar, String aceptar){        
         Object[] opciones = new String[2];
         opciones[0] = cancelar;
@@ -73,4 +76,7 @@ public class Mensaje {
         
         return respuesta;
     }
+    // </editor-fold>
+    
+    // </editor-fold>
 }

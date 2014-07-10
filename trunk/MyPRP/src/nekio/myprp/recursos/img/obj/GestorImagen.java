@@ -19,6 +19,7 @@ public class GestorImagen extends Gestor{
         super.modulo = MODULO;
     }
 
+    @Override
     public void ejecutarControladorNegocio(String accion, String entidad){
         super.ejecutarControladorNegocio(accion, entidad);
     }

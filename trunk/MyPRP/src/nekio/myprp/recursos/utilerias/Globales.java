@@ -1,5 +1,8 @@
 package nekio.myprp.recursos.utilerias;
 
+import java.util.Enumeration;
+import java.util.Properties;
+import java.util.ResourceBundle;
 import javax.swing.JFrame;
 import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.utilerias.bd.BDGestor;
@@ -26,6 +29,60 @@ public class Globales {
     public static final int ID_SISTEMA = 1;
     public static final int ID_USUARIO = 0;
     // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Conexion a la BD">  
+    private static final String CONEXIONES      = "nekio.myprp.recursos.valores.conexiones.";
+    private static final String HERRAMIENTAS    = CONEXIONES + "Herramientas";
+    private static final String ESQUEMAS        = CONEXIONES + "_Esquemas";
+    
+    public static final BDGestor BD_GESTOR;
+    public static final String BD_USUARIO;
+    public static final String BD_PASSWORD;
+    public static final String BD_HOST;
+    public static final String BD_PUERTO;
+    public static final String BD_TOOLS; //Base de datos fija
+    public static final int BD_MAX_ACTIVOS;
+    public static final int BD_MAX_IDLE;
+    
+    public static String BD_ESQUEMA; //Database variable
+    public static String BD_ESQUEMA_ID; //Database variable
+    public static final String BD_ESQUEMA_SERIES;
+    public static final int BD_ESQUEMA_SERIES_ID;
+    
+    static{
+        Properties propiedades = obtenerPropiedades(HERRAMIENTAS);
+        
+        BD_GESTOR = BDGestor.valueOf(propiedades.getProperty("gestor"));
+        BD_USUARIO = propiedades.getProperty("usuario");
+        BD_PASSWORD = propiedades.getProperty("password");
+        BD_HOST = propiedades.getProperty("host");
+        BD_PUERTO = propiedades.getProperty("puerto");
+        BD_TOOLS = propiedades.getProperty("esquema");
+        BD_MAX_ACTIVOS = Integer.valueOf(propiedades.getProperty("maxActivos"));
+        BD_MAX_IDLE = Integer.valueOf(propiedades.getProperty("maxIdle"));
+        propiedades = null;
+        
+        propiedades = obtenerPropiedades(ESQUEMAS);
+        
+        BD_ESQUEMA_SERIES = propiedades.getProperty("series");
+        BD_ESQUEMA_SERIES_ID = Integer.valueOf(propiedades.getProperty("idSeries"));
+        propiedades = null;
+    }
+    
+    public static Properties obtenerPropiedades(String recurso){
+        Properties propiedades = new Properties();
+        ResourceBundle paqueteHerramientas =  ResourceBundle.getBundle(recurso);
+        
+        Enumeration llaves = paqueteHerramientas.getKeys();
+        String llave = null;
+        while(llaves.hasMoreElements()){
+            llave=(String)llaves.nextElement();
+            propiedades.put(llave, paqueteHerramientas.getObject(llave));
+        }
+        
+        return propiedades;
+    }
+    // </editor-fold>  
     
     // <editor-fold defaultstate="collapsed" desc="Valores de App">  
     public static final JFrame CONSOLA = new ConsolaDebug();
@@ -68,18 +125,6 @@ public class Globales {
     public static final String PAQ_RECURSOS = PAQ_BASE+"."+RECURSOS;
     public static final String PAQ_IMG      = PAQ_RECURSOS+"."+IMAGENES;
     public static final String PAQ_IMG_OBJ  = PAQ_IMG+"."+IMG_OBJ;
-    // </editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="Conexion a la BD">  
-    public static final BDGestor BD_GESTOR    = BDGestor.MY_SQL;
-    public static final String BD_USUARIO   = "lania";
-    public static final String BD_PASSWORD  = "lania";
-    public static final String BD_HOST      = "localhost";
-    public static final String BD_PUERTO    = "3306";
-    public static final String BD_ESQUEMA   = "catalogador_series"; //Database
-    public static final String BD_TOOLS     = "nekio_herramientas"; //Base de datos de herramientas
-    public static final int BD_MAX_ACTIVOS  = 20;
-    public static final int BD_MAX_IDLE     = 2;
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Valores de Objetos de Negocio"> 
@@ -169,7 +214,7 @@ public class Globales {
     // Acciones de Negocio
     public static final String ACC_LOGIN    = "loginUsuario";
     public static final String ACC_SALIR    = "salir";
-    // </editor-fold>
+    // </editor-fold> 
     
     /* VARIABLES */
 }
