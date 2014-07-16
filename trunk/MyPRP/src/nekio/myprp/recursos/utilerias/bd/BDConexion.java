@@ -6,16 +6,21 @@ package nekio.myprp.recursos.utilerias.bd;
  */
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javax.sql.DataSource;
 import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.utilerias.Globales;
+import nekio.myprp.recursos.utilerias.Globales.TipoDato;
 import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.derby.client.am.Types;
  
 public class BDConexion {    
     private static Connection conexion;
@@ -140,7 +145,7 @@ public class BDConexion {
         return resultado;
     }
     
-    public static ArrayList<String> obtenerNombresColumnas()throws Exception{           
+    private static ArrayList<String> obtenerNombresColumnas()throws Exception{           
         ArrayList<String> nombresColumnas = new ArrayList<String>();
         ResultSetMetaData mdata = resultado.getMetaData();
         int columnas = mdata.getColumnCount();
@@ -188,6 +193,193 @@ public class BDConexion {
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+    
+    public static List<String> obtenerTablas(String usuario, String esquema){
+        List<String> tablas;
+        
+        try {
+            String table = "%";
+            String[] types = {"TABLE", "VIEW"};
+
+            conexion = BDConexion.getConnection();
+            DatabaseMetaData dbm = conexion.getMetaData();
+            ResultSet rsT = dbm.getTables(usuario, esquema, table, types);
+                    
+            if (rsT.next() == false) {
+                rsT = dbm.getTables(usuario, esquema.toUpperCase(), table, types);
+                if (rsT.next() == false) {
+                    ConsolaDebug.agregarTexto("NO SE HA ENCONTRADO EL ESQUEMA EN LA BASE DE DATOS", ConsolaDebug.ERROR);
+                    return null;
+                }
+            }
+
+            tablas = new ArrayList<String>();
+
+            tablas.add(rsT.getString("TABLE_NAME"));
+            while (rsT.next()) {
+                tablas.add(rsT.getString("TABLE_NAME"));
+            }
+
+            rsT.close();
+            conexion.close();
+
+            rsT=null;
+            conexion=null;
+        } catch (Exception ex) {
+            tablas = null;
+        }
+        
+        return tablas;
+    }
+    
+    public static List<List> obtenerDetalles(String usuario, String esquema, String tabla) {
+        List<List> detalles = new ArrayList<List>();
+        
+        List<List> llaves;
+        List<String> nombres;
+        List<Integer> tamanos;
+        List<TipoDato> tipos;
+        List<Boolean> opcionales;
+        
+        try {            
+            conexion = BDConexion.getConnection();
+            
+            String catalogo = conexion.getCatalog();
+            String consulta = "SELECT * FROM " + catalogo + "." + tabla;
+            
+            Statement instruccion = conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = instruccion.executeQuery(consulta);
+            
+            ConsolaDebug.agregarTexto(consulta, ConsolaDebug.SQL);
+            
+            // Inicializaciones
+            llaves = new ArrayList<List>();
+            nombres = new ArrayList<String>();
+            tamanos = new ArrayList<Integer>();
+            tipos = new ArrayList<TipoDato>();
+            opcionales = new ArrayList<Boolean>();
+                        
+            DatabaseMetaData dbm = conexion.getMetaData();
+            
+            // Obtencion de llaves primarias
+            ResultSet rsPk = dbm.getPrimaryKeys(usuario, esquema, tabla);
+            
+            List<String> pks = new ArrayList<String>();
+            String pk = null;
+            ConsolaDebug.agregarTexto("Obteniendo Llaves Primarias\n", ConsolaDebug.PROCESO, false);
+            while(rsPk.next()){
+                pk = rsPk.getString("COLUMN_NAME");
+                if(!pks.contains(pk))
+                    pks.add(pk);
+                ConsolaDebug.agregarTexto(pk + "\n", ConsolaDebug.COMODIN, false);
+            }
+            
+            llaves.add(pks);
+            
+            //Obtencion de llaves foraneas
+            ResultSet rsFk = dbm.getImportedKeys(usuario, esquema, tabla);
+            
+            List<String> fks = new ArrayList<String>();
+            List<String> fTablas = new ArrayList<String>();
+            String fk = null;
+            String fTabla = null;
+            ConsolaDebug.agregarTexto("\nObteniendo Llaves Foraneas\n", ConsolaDebug.PROCESO, false);
+            while(rsFk.next()){                
+                fk = rsFk.getString("PKCOLUMN_NAME");
+                if(!fks.contains(fk))
+                    fks.add(fk);
+              
+                fTabla = rsFk.getString("PKTABLE_NAME");
+                if(!fTablas.contains(fTabla))
+                    fTablas.add(fTabla);
+                
+                ConsolaDebug.agregarTexto(fk + "(" + rsFk.getString("PKTABLE_CAT") + "." + fTabla + ")\n", ConsolaDebug.COMODIN, false);
+            }
+
+            llaves.add(fks);
+            llaves.add(fTablas);
+            
+            // Obtencion de detalles de campos
+            ResultSetMetaData mdata = rs.getMetaData();
+            
+            String nombre = null;
+            int precision = 0;
+            TipoDato tipo = null;
+            boolean opcional = false;
+            
+            ConsolaDebug.agregarTexto("\nObteniendo Detalles de campos\n", ConsolaDebug.PROCESO, false);
+            for (int i = 1; i <= mdata.getColumnCount(); i++) {
+                nombre = mdata.getColumnLabel(i);
+                precision = mdata.getPrecision(i);
+                tipo = identificarTipoColumna(mdata.getColumnType(i));
+                opcional = mdata.isNullable(i)==1?true:false;
+                
+                nombres.add(nombre);
+                tamanos.add(precision);
+                tipos.add(tipo);
+                opcionales.add(opcional);
+                
+                ConsolaDebug.agregarTexto(
+                        "   " + nombre +
+                        " " + tipo.name() +
+                        "(" + precision + ")" +
+                        " Opcional=" + opcional+ "\n",
+                        ConsolaDebug.COMODIN, false);
+            }            
+
+            // Limpieza de objetos
+            rs.close();
+            instruccion.close();
+            conexion.close();
+
+            rs=null;
+            instruccion=null;
+            conexion=null;
+            
+            // Asignacion de los detalles
+            detalles.add(llaves);
+            detalles.add(nombres);
+            detalles.add(tamanos);
+            detalles.add(tipos);
+            detalles.add(opcionales);
+            
+            ConsolaDebug.agregarTexto("\n" + catalogo + "." + tabla + ": [OK]\n", ConsolaDebug.MAPEO, false);
+        } catch (Exception ex) {
+            ConsolaDebug.agregarTexto("ERROR AL OBTENER LOS DATOS DE : " + tabla, ConsolaDebug.ERROR);
+            detalles = null;
+        }
+        
+        return detalles;
+    }
+    
+    private static TipoDato identificarTipoColumna(int identificador){
+        TipoDato tipo = null;
+        
+        switch(identificador){
+            case Types.BLOB:
+                tipo = Globales.TipoDato.BLOB;
+            break;
+            case Types.VARCHAR:
+            case Types.CHAR:
+                tipo = Globales.TipoDato.TEXTO;
+            break;
+            case Types.INTEGER:
+                tipo = Globales.TipoDato.NUMERO;
+            break;
+            case Types.LONGVARCHAR:
+                tipo = Globales.TipoDato.TEXTO_LARGO;
+            break;
+            case Types.BOOLEAN:
+                tipo = Globales.TipoDato.BOOLEANO;
+            break;
+            case Types.DATE:
+            case Types.TIMESTAMP:
+                tipo = Globales.TipoDato.FECHA;
+            break;
+        }
+        
+        return tipo;
     }
     
     public static void cerrar(){
