@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListEstadosTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListEstadosEmpty}" rendered="#{estadosController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{estadosController.items.rowCount > 0}">
+                    <h:outputText value="#{estadosController.pagination.pageFirstItem + 1}..#{estadosController.pagination.pageLastItem + 1}/#{estadosController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{estadosController.previous}" value="#{bundle.Previous} #{estadosController.pagination.pageSize}" rendered="#{estadosController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{estadosController.next}" value="#{bundle.Next} #{estadosController.pagination.pageSize}" rendered="#{estadosController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{estadosController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstadosTitle_idestado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idestado}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstadosTitle_nombre}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nombre}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{estadosController.prepareView}" value="#{bundle.ListEstadosViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{estadosController.prepareEdit}" value="#{bundle.ListEstadosEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{estadosController.destroy}" value="#{bundle.ListEstadosDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{estadosController.prepareCreate}" value="#{bundle.ListEstadosCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListEstadosIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

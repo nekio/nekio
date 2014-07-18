@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListTerminalesTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListTerminalesEmpty}" rendered="#{terminalesController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{terminalesController.items.rowCount > 0}">
+                    <h:outputText value="#{terminalesController.pagination.pageFirstItem + 1}..#{terminalesController.pagination.pageLastItem + 1}/#{terminalesController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{terminalesController.previous}" value="#{bundle.Previous} #{terminalesController.pagination.pageSize}" rendered="#{terminalesController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{terminalesController.next}" value="#{bundle.Next} #{terminalesController.pagination.pageSize}" rendered="#{terminalesController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{terminalesController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTerminalesTitle_idterminal}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idterminal}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTerminalesTitle_nombre}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nombre}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTerminalesTitle_codigoterminal}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.codigoterminal}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTerminalesTitle_idciudad}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idciudad}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{terminalesController.prepareView}" value="#{bundle.ListTerminalesViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{terminalesController.prepareEdit}" value="#{bundle.ListTerminalesEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{terminalesController.destroy}" value="#{bundle.ListTerminalesDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{terminalesController.prepareCreate}" value="#{bundle.ListTerminalesCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListTerminalesIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditEstadosTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditEstadosLabel_idestado}" for="idestado" />
+                    <h:inputText id="idestado" value="#{estadosController.selected.idestado}" title="#{bundle.EditEstadosTitle_idestado}" required="true" requiredMessage="#{bundle.EditEstadosRequiredMessage_idestado}"/>
+                    <h:outputLabel value="#{bundle.EditEstadosLabel_nombre}" for="nombre" />
+                    <h:inputText id="nombre" value="#{estadosController.selected.nombre}" title="#{bundle.EditEstadosTitle_nombre}" />
+                </h:panelGrid>
+                <h:commandLink action="#{estadosController.update}" value="#{bundle.EditEstadosSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditEstadosViewLink}"/>
+                <br />
+                <h:commandLink action="#{estadosController.prepareList}" value="#{bundle.EditEstadosShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditEstadosIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

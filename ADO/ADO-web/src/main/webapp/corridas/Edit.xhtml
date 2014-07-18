@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditCorridasTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditCorridasLabel_folio}" for="folio" />
+                    <h:inputText id="folio" value="#{corridasController.selected.folio}" title="#{bundle.EditCorridasTitle_folio}" required="true" requiredMessage="#{bundle.EditCorridasRequiredMessage_folio}"/>
+                    <h:outputLabel value="#{bundle.EditCorridasLabel_fecha}" for="fecha" />
+                    <h:inputText id="fecha" value="#{corridasController.selected.fecha}" title="#{bundle.EditCorridasTitle_fecha}" required="true" requiredMessage="#{bundle.EditCorridasRequiredMessage_fecha}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditCorridasLabel_servicio}" for="servicio" />
+                    <h:inputText id="servicio" value="#{corridasController.selected.servicio}" title="#{bundle.EditCorridasTitle_servicio}" required="true" requiredMessage="#{bundle.EditCorridasRequiredMessage_servicio}"/>
+                    <h:outputLabel value="#{bundle.EditCorridasLabel_estatus}" for="estatus" />
+                    <h:inputText id="estatus" value="#{corridasController.selected.estatus}" title="#{bundle.EditCorridasTitle_estatus}" required="true" requiredMessage="#{bundle.EditCorridasRequiredMessage_estatus}"/>
+                    <h:outputLabel value="#{bundle.EditCorridasLabel_precio}" for="precio" />
+                    <h:inputText id="precio" value="#{corridasController.selected.precio}" title="#{bundle.EditCorridasTitle_precio}" required="true" requiredMessage="#{bundle.EditCorridasRequiredMessage_precio}"/>
+                    <h:outputLabel value="#{bundle.EditCorridasLabel_iva}" for="iva" />
+                    <h:inputText id="iva" value="#{corridasController.selected.iva}" title="#{bundle.EditCorridasTitle_iva}" required="true" requiredMessage="#{bundle.EditCorridasRequiredMessage_iva}"/>
+                    <h:outputLabel value="#{bundle.EditCorridasLabel_total}" for="total" />
+                    <h:inputText id="total" value="#{corridasController.selected.total}" title="#{bundle.EditCorridasTitle_total}" required="true" requiredMessage="#{bundle.EditCorridasRequiredMessage_total}"/>
+                    <h:outputLabel value="#{bundle.EditCorridasLabel_disponibles}" for="disponibles" />
+                    <h:inputText id="disponibles" value="#{corridasController.selected.disponibles}" title="#{bundle.EditCorridasTitle_disponibles}" required="true" requiredMessage="#{bundle.EditCorridasRequiredMessage_disponibles}"/>
+                    <h:outputLabel value="#{bundle.EditCorridasLabel_itinerario}" for="itinerario" />
+                    <h:selectOneMenu id="itinerario" value="#{corridasController.selected.itinerario}" title="#{bundle.EditCorridasTitle_itinerario}" required="true" requiredMessage="#{bundle.EditCorridasRequiredMessage_itinerario}">
+                        <f:selectItems value="#{itinerariosController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{corridasController.update}" value="#{bundle.EditCorridasSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditCorridasViewLink}"/>
+                <br />
+                <h:commandLink action="#{corridasController.prepareList}" value="#{bundle.EditCorridasShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditCorridasIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

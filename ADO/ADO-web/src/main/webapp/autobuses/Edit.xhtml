@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditAutobusesTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditAutobusesLabel_codigo}" for="codigo" />
+                    <h:inputText id="codigo" value="#{autobusesController.selected.codigo}" title="#{bundle.EditAutobusesTitle_codigo}" required="true" requiredMessage="#{bundle.EditAutobusesRequiredMessage_codigo}"/>
+                    <h:outputLabel value="#{bundle.EditAutobusesLabel_linea}" for="linea" />
+                    <h:inputText id="linea" value="#{autobusesController.selected.linea}" title="#{bundle.EditAutobusesTitle_linea}" required="true" requiredMessage="#{bundle.EditAutobusesRequiredMessage_linea}"/>
+                    <h:outputLabel value="#{bundle.EditAutobusesLabel_estatus}" for="estatus" />
+                    <h:inputText id="estatus" value="#{autobusesController.selected.estatus}" title="#{bundle.EditAutobusesTitle_estatus}" required="true" requiredMessage="#{bundle.EditAutobusesRequiredMessage_estatus}"/>
+                    <h:outputLabel value="#{bundle.EditAutobusesLabel_capacidad}" for="capacidad" />
+                    <h:inputText id="capacidad" value="#{autobusesController.selected.capacidad}" title="#{bundle.EditAutobusesTitle_capacidad}" required="true" requiredMessage="#{bundle.EditAutobusesRequiredMessage_capacidad}"/>
+                </h:panelGrid>
+                <h:commandLink action="#{autobusesController.update}" value="#{bundle.EditAutobusesSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditAutobusesViewLink}"/>
+                <br />
+                <h:commandLink action="#{autobusesController.prepareList}" value="#{bundle.EditAutobusesShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditAutobusesIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

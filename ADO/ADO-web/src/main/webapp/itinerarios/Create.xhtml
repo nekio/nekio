@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateItinerariosTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateItinerariosLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{itinerariosController.selected.id}" title="#{bundle.CreateItinerariosTitle_id}" required="true" requiredMessage="#{bundle.CreateItinerariosRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.CreateItinerariosLabel_horasalida}" for="horasalida" />
+                    <h:inputText id="horasalida" value="#{itinerariosController.selected.horasalida}" title="#{bundle.CreateItinerariosTitle_horasalida}" >
+                        <f:convertDateTime pattern="HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateItinerariosLabel_estimadohrs}" for="estimadohrs" />
+                    <h:inputText id="estimadohrs" value="#{itinerariosController.selected.estimadohrs}" title="#{bundle.CreateItinerariosTitle_estimadohrs}" />
+                    <h:outputLabel value="#{bundle.CreateItinerariosLabel_estimadomins}" for="estimadomins" />
+                    <h:inputText id="estimadomins" value="#{itinerariosController.selected.estimadomins}" title="#{bundle.CreateItinerariosTitle_estimadomins}" />
+                    <h:outputLabel value="#{bundle.CreateItinerariosLabel_origen}" for="origen" />
+                    <h:selectOneMenu id="origen" value="#{itinerariosController.selected.origen}" title="#{bundle.CreateItinerariosTitle_origen}" required="true" requiredMessage="#{bundle.CreateItinerariosRequiredMessage_origen}">
+                        <f:selectItems value="#{terminalesController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateItinerariosLabel_destino}" for="destino" />
+                    <h:selectOneMenu id="destino" value="#{itinerariosController.selected.destino}" title="#{bundle.CreateItinerariosTitle_destino}" required="true" requiredMessage="#{bundle.CreateItinerariosRequiredMessage_destino}">
+                        <f:selectItems value="#{terminalesController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{itinerariosController.create}" value="#{bundle.CreateItinerariosSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{itinerariosController.prepareList}" value="#{bundle.CreateItinerariosShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateItinerariosIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
