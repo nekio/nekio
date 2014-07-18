@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewBoletosTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewBoletosLabel_folio}"/>
+                    <h:outputText value="#{boletosController.selected.folio}" title="#{bundle.ViewBoletosTitle_folio}"/>
+                    <h:outputText value="#{bundle.ViewBoletosLabel_tipoboleto}"/>
+                    <h:outputText value="#{boletosController.selected.tipoboleto}" title="#{bundle.ViewBoletosTitle_tipoboleto}"/>
+                    <h:outputText value="#{bundle.ViewBoletosLabel_pasajero}"/>
+                    <h:outputText value="#{boletosController.selected.pasajero}" title="#{bundle.ViewBoletosTitle_pasajero}"/>
+                    <h:outputText value="#{bundle.ViewBoletosLabel_asiento}"/>
+                    <h:outputText value="#{boletosController.selected.asiento}" title="#{bundle.ViewBoletosTitle_asiento}"/>
+                    <h:outputText value="#{bundle.ViewBoletosLabel_precio}"/>
+                    <h:outputText value="#{boletosController.selected.precio}" title="#{bundle.ViewBoletosTitle_precio}"/>
+                    <h:outputText value="#{bundle.ViewBoletosLabel_iva}"/>
+                    <h:outputText value="#{boletosController.selected.iva}" title="#{bundle.ViewBoletosTitle_iva}"/>
+                    <h:outputText value="#{bundle.ViewBoletosLabel_estatus}"/>
+                    <h:outputText value="#{boletosController.selected.estatus}" title="#{bundle.ViewBoletosTitle_estatus}"/>
+                    <h:outputText value="#{bundle.ViewBoletosLabel_corrida}"/>
+                    <h:outputText value="#{boletosController.selected.corrida}" title="#{bundle.ViewBoletosTitle_corrida}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{boletosController.destroyAndView}" value="#{bundle.ViewBoletosDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewBoletosEditLink}"/>
+                <br />
+                <h:commandLink action="#{boletosController.prepareCreate}" value="#{bundle.ViewBoletosCreateLink}" />
+                <br />
+                <h:commandLink action="#{boletosController.prepareList}" value="#{bundle.ViewBoletosShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewBoletosIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

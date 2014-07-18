@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateBoletosTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateBoletosLabel_folio}" for="folio" />
+                    <h:inputText id="folio" value="#{boletosController.selected.folio}" title="#{bundle.CreateBoletosTitle_folio}" required="true" requiredMessage="#{bundle.CreateBoletosRequiredMessage_folio}"/>
+                    <h:outputLabel value="#{bundle.CreateBoletosLabel_tipoboleto}" for="tipoboleto" />
+                    <h:inputText id="tipoboleto" value="#{boletosController.selected.tipoboleto}" title="#{bundle.CreateBoletosTitle_tipoboleto}" required="true" requiredMessage="#{bundle.CreateBoletosRequiredMessage_tipoboleto}"/>
+                    <h:outputLabel value="#{bundle.CreateBoletosLabel_pasajero}" for="pasajero" />
+                    <h:inputText id="pasajero" value="#{boletosController.selected.pasajero}" title="#{bundle.CreateBoletosTitle_pasajero}" />
+                    <h:outputLabel value="#{bundle.CreateBoletosLabel_asiento}" for="asiento" />
+                    <h:inputText id="asiento" value="#{boletosController.selected.asiento}" title="#{bundle.CreateBoletosTitle_asiento}" required="true" requiredMessage="#{bundle.CreateBoletosRequiredMessage_asiento}"/>
+                    <h:outputLabel value="#{bundle.CreateBoletosLabel_precio}" for="precio" />
+                    <h:inputText id="precio" value="#{boletosController.selected.precio}" title="#{bundle.CreateBoletosTitle_precio}" required="true" requiredMessage="#{bundle.CreateBoletosRequiredMessage_precio}"/>
+                    <h:outputLabel value="#{bundle.CreateBoletosLabel_iva}" for="iva" />
+                    <h:inputText id="iva" value="#{boletosController.selected.iva}" title="#{bundle.CreateBoletosTitle_iva}" required="true" requiredMessage="#{bundle.CreateBoletosRequiredMessage_iva}"/>
+                    <h:outputLabel value="#{bundle.CreateBoletosLabel_estatus}" for="estatus" />
+                    <h:inputText id="estatus" value="#{boletosController.selected.estatus}" title="#{bundle.CreateBoletosTitle_estatus}" required="true" requiredMessage="#{bundle.CreateBoletosRequiredMessage_estatus}"/>
+                    <h:outputLabel value="#{bundle.CreateBoletosLabel_corrida}" for="corrida" />
+                    <h:selectOneMenu id="corrida" value="#{boletosController.selected.corrida}" title="#{bundle.CreateBoletosTitle_corrida}" >
+                        <f:selectItems value="#{corridasController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{boletosController.create}" value="#{bundle.CreateBoletosSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{boletosController.prepareList}" value="#{bundle.CreateBoletosShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateBoletosIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

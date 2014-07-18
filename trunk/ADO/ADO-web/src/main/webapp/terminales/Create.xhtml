@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateTerminalesTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateTerminalesLabel_idterminal}" for="idterminal" />
+                    <h:inputText id="idterminal" value="#{terminalesController.selected.idterminal}" title="#{bundle.CreateTerminalesTitle_idterminal}" required="true" requiredMessage="#{bundle.CreateTerminalesRequiredMessage_idterminal}"/>
+                    <h:outputLabel value="#{bundle.CreateTerminalesLabel_nombre}" for="nombre" />
+                    <h:inputText id="nombre" value="#{terminalesController.selected.nombre}" title="#{bundle.CreateTerminalesTitle_nombre}" required="true" requiredMessage="#{bundle.CreateTerminalesRequiredMessage_nombre}"/>
+                    <h:outputLabel value="#{bundle.CreateTerminalesLabel_codigoterminal}" for="codigoterminal" />
+                    <h:inputText id="codigoterminal" value="#{terminalesController.selected.codigoterminal}" title="#{bundle.CreateTerminalesTitle_codigoterminal}" />
+                    <h:outputLabel value="#{bundle.CreateTerminalesLabel_idciudad}" for="idciudad" />
+                    <h:selectOneMenu id="idciudad" value="#{terminalesController.selected.idciudad}" title="#{bundle.CreateTerminalesTitle_idciudad}" required="true" requiredMessage="#{bundle.CreateTerminalesRequiredMessage_idciudad}">
+                        <f:selectItems value="#{ciudadesController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{terminalesController.create}" value="#{bundle.CreateTerminalesSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{terminalesController.prepareList}" value="#{bundle.CreateTerminalesShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateTerminalesIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

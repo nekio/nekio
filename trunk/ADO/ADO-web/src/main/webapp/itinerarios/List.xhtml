@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListItinerariosTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListItinerariosEmpty}" rendered="#{itinerariosController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{itinerariosController.items.rowCount > 0}">
+                    <h:outputText value="#{itinerariosController.pagination.pageFirstItem + 1}..#{itinerariosController.pagination.pageLastItem + 1}/#{itinerariosController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{itinerariosController.previous}" value="#{bundle.Previous} #{itinerariosController.pagination.pageSize}" rendered="#{itinerariosController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{itinerariosController.next}" value="#{bundle.Next} #{itinerariosController.pagination.pageSize}" rendered="#{itinerariosController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{itinerariosController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListItinerariosTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListItinerariosTitle_horasalida}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horasalida}">
+                                <f:convertDateTime pattern="HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListItinerariosTitle_estimadohrs}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estimadohrs}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListItinerariosTitle_estimadomins}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estimadomins}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListItinerariosTitle_origen}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.origen}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListItinerariosTitle_destino}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.destino}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{itinerariosController.prepareView}" value="#{bundle.ListItinerariosViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{itinerariosController.prepareEdit}" value="#{bundle.ListItinerariosEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{itinerariosController.destroy}" value="#{bundle.ListItinerariosDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{itinerariosController.prepareCreate}" value="#{bundle.ListItinerariosCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListItinerariosIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewItinerariosTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewItinerariosLabel_id}"/>
+                    <h:outputText value="#{itinerariosController.selected.id}" title="#{bundle.ViewItinerariosTitle_id}"/>
+                    <h:outputText value="#{bundle.ViewItinerariosLabel_horasalida}"/>
+                    <h:outputText value="#{itinerariosController.selected.horasalida}" title="#{bundle.ViewItinerariosTitle_horasalida}">
+                        <f:convertDateTime pattern="HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewItinerariosLabel_estimadohrs}"/>
+                    <h:outputText value="#{itinerariosController.selected.estimadohrs}" title="#{bundle.ViewItinerariosTitle_estimadohrs}"/>
+                    <h:outputText value="#{bundle.ViewItinerariosLabel_estimadomins}"/>
+                    <h:outputText value="#{itinerariosController.selected.estimadomins}" title="#{bundle.ViewItinerariosTitle_estimadomins}"/>
+                    <h:outputText value="#{bundle.ViewItinerariosLabel_origen}"/>
+                    <h:outputText value="#{itinerariosController.selected.origen}" title="#{bundle.ViewItinerariosTitle_origen}"/>
+                    <h:outputText value="#{bundle.ViewItinerariosLabel_destino}"/>
+                    <h:outputText value="#{itinerariosController.selected.destino}" title="#{bundle.ViewItinerariosTitle_destino}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{itinerariosController.destroyAndView}" value="#{bundle.ViewItinerariosDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewItinerariosEditLink}"/>
+                <br />
+                <h:commandLink action="#{itinerariosController.prepareCreate}" value="#{bundle.ViewItinerariosCreateLink}" />
+                <br />
+                <h:commandLink action="#{itinerariosController.prepareList}" value="#{bundle.ViewItinerariosShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewItinerariosIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
