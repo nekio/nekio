@@ -28,9 +28,9 @@ public abstract class Gestor {
             String negocio = accion + entidad;
 
             if(Globales.APP_DEBUG)
-                ConsolaDebug.agregarTexto(Globales.OBJ_NEGOCIO_SEPARADOR +  
+                ConsolaDebug.agregarTexto(Globales.APP_SEPARADOR +  
                         "\n|     Ejecutando negocio: " + negocio + "\n" +
-                        Globales.OBJ_NEGOCIO_SEPARADOR,
+                        Globales.APP_SEPARADOR,
                         ConsolaDebug.MAPEO);
 
             String resultado = null;

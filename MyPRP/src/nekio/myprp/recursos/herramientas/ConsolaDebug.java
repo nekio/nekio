@@ -9,6 +9,8 @@ package nekio.myprp.recursos.herramientas;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
@@ -16,6 +18,9 @@ import java.awt.event.WindowEvent;
 import java.util.Date;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
@@ -30,6 +35,10 @@ import nekio.myprp.recursos.utilerias.Idioma;
 public class ConsolaDebug extends JFrame{
     // <editor-fold defaultstate="collapsed" desc="Atributos">
     private static final long serialVersionUID = 1L;
+    
+    private JMenuBar mnuBarra;
+    private static JMenu mnSistema;
+    private JMenuItem mnItCerrarSistema;
     
     private static JTextPane txtConsola;
     private static JCheckBox chkFrente;
@@ -56,9 +65,23 @@ public class ConsolaDebug extends JFrame{
         if(!activa){
             activa = true;
             
+            agregarMenu();
             agregarComponentes();
             agregarEscuchadores();
         }
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Agregar Menu">
+    private void agregarMenu(){
+        mnuBarra=new JMenuBar();
+        mnSistema=new JMenu(Idioma.obtenerTexto(Idioma.PROP_MENU, "opciones"));
+        mnSistema.setMnemonic('x');
+            mnItCerrarSistema=new JMenuItem(Idioma.obtenerTexto(Idioma.PROP_MENU, "cerrarSistema"));
+            mnSistema.add(mnItCerrarSistema);
+            
+        mnuBarra.add(mnSistema);
+        this.setJMenuBar(mnuBarra);
     }
     // </editor-fold>
     
@@ -86,6 +109,13 @@ public class ConsolaDebug extends JFrame{
     
     // <editor-fold defaultstate="collapsed" desc="Agregar Escuchadores">
     private void agregarEscuchadores(){
+        mnItCerrarSistema.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed( ActionEvent evt){       
+                System.exit(0);
+            }
+        });
+        
         chkFrente.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -105,6 +135,10 @@ public class ConsolaDebug extends JFrame{
     // <editor-fold defaultstate="collapsed" desc="Metodos">
     
     // <editor-fold defaultstate="collapsed" desc="Agregar Texto">
+    public static void agregarTexto(){
+        agregarTexto("\n", Color.BLACK, false);
+    }
+    
     public static void agregarTexto(String texto){
         agregarTexto(texto, COMODIN);
     }

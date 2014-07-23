@@ -85,11 +85,11 @@ public class Globales {
     // </editor-fold>  
     
     // <editor-fold defaultstate="collapsed" desc="Valores de App">  
-    public static final JFrame CONSOLA = new ConsolaDebug();
+    public static final JFrame CONSOLA          = new ConsolaDebug();
     
-    public static final boolean APP_DEBUG = true;
-    public static final boolean APP_DESIGN = true;
-    public static final String OBJ_NEGOCIO_SEPARADOR = "--------------------------------------------------------------------";
+    public static final boolean APP_DEBUG       = true;
+    public static final boolean APP_DESIGN      = true;
+    public static final String APP_SEPARADOR    = "--------------------------------------------------------------------";
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Valores de Modulos">
