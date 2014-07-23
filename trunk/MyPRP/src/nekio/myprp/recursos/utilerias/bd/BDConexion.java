@@ -13,7 +13,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.sql.DataSource;
 import nekio.myprp.recursos.herramientas.ConsolaDebug;
@@ -23,6 +22,8 @@ import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.derby.client.am.Types;
  
 public class BDConexion {    
+    private static final String SANGRIA = "    ";
+            
     private static Connection conexion;
     private static PreparedStatement clausula;
     private static ResultSet resultado;
@@ -216,10 +217,16 @@ public class BDConexion {
 
             tablas = new ArrayList<String>();
 
+            ConsolaDebug.agregarTexto("Tablas detectadas:", ConsolaDebug.PROCESO, false);
             tablas.add(rsT.getString("TABLE_NAME"));
+            String tabla = "";
+            ConsolaDebug.agregarTexto("\n" + SANGRIA + rsT.getString("TABLE_NAME"), ConsolaDebug.COMODIN, false);
             while (rsT.next()) {
-                tablas.add(rsT.getString("TABLE_NAME"));
+                tabla = rsT.getString("TABLE_NAME");
+                tablas.add(tabla);
+                ConsolaDebug.agregarTexto("\n" + SANGRIA + tabla, ConsolaDebug.COMODIN, false);
             }
+            ConsolaDebug.agregarTexto("\n" + tablas.size() + " Tablas\n", ConsolaDebug.PROCESO, false);
 
             rsT.close();
             conexion.close();
@@ -251,6 +258,12 @@ public class BDConexion {
             Statement instruccion = conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = instruccion.executeQuery(consulta);
             
+            ConsolaDebug.agregarTexto(
+                    "\n\n" + Globales.APP_SEPARADOR + 
+                    "\n" + catalogo + "." + tabla +
+                    "\n"+Globales.APP_SEPARADOR + "\n\n",
+                    ConsolaDebug.MAPEO, false
+            );
             ConsolaDebug.agregarTexto(consulta, ConsolaDebug.SQL);
             
             // Inicializaciones
@@ -272,7 +285,7 @@ public class BDConexion {
                 pk = rsPk.getString("COLUMN_NAME");
                 if(!pks.contains(pk))
                     pks.add(pk);
-                ConsolaDebug.agregarTexto(pk + "\n", ConsolaDebug.COMODIN, false);
+                ConsolaDebug.agregarTexto(SANGRIA + pk + "\n", ConsolaDebug.COMODIN, false);
             }
             
             llaves.add(pks);
@@ -294,7 +307,7 @@ public class BDConexion {
                 if(!fTablas.contains(fTabla))
                     fTablas.add(fTabla);
                 
-                ConsolaDebug.agregarTexto(fk + "(" + rsFk.getString("PKTABLE_CAT") + "." + fTabla + ")\n", ConsolaDebug.COMODIN, false);
+                ConsolaDebug.agregarTexto(SANGRIA + fk + "(" + rsFk.getString("PKTABLE_CAT") + "." + fTabla + ")\n", ConsolaDebug.COMODIN, false);
             }
 
             llaves.add(fks);
@@ -309,23 +322,28 @@ public class BDConexion {
             boolean opcional = false;
             
             ConsolaDebug.agregarTexto("\nObteniendo Detalles de campos\n", ConsolaDebug.PROCESO, false);
+            String campo = null;
             for (int i = 1; i <= mdata.getColumnCount(); i++) {
-                nombre = mdata.getColumnLabel(i);
-                precision = mdata.getPrecision(i);
-                tipo = identificarTipoColumna(mdata.getColumnType(i));
-                opcional = mdata.isNullable(i)==1?true:false;
-                
-                nombres.add(nombre);
-                tamanos.add(precision);
-                tipos.add(tipo);
-                opcionales.add(opcional);
-                
-                ConsolaDebug.agregarTexto(
-                        "   " + nombre +
-                        " " + tipo.name() +
-                        "(" + precision + ")" +
-                        " Opcional=" + opcional+ "\n",
-                        ConsolaDebug.COMODIN, false);
+                try{
+                    nombre = mdata.getColumnLabel(i);
+                    precision = mdata.getPrecision(i);
+                    tipo = identificarTipoColumna(mdata.getColumnType(i));
+                    opcional = mdata.isNullable(i)==1?true:false;
+
+                    nombres.add(nombre);
+                    tamanos.add(precision);
+                    tipos.add(tipo);
+                    opcionales.add(opcional);
+                    
+                    campo = SANGRIA + nombre + " " + tipo.name();
+                    if(!(tipo == TipoDato.BLOB || tipo == TipoDato.FECHA))
+                        campo += "(" + precision + ")";
+                    campo += " Opcional=" + opcional;
+                    
+                    ConsolaDebug.agregarTexto(campo + "\n", ConsolaDebug.COMODIN, false);
+                }catch(Exception e){
+                    System.out.println("PRUEBA " + e);
+                }
             }            
 
             // Limpieza de objetos
@@ -344,9 +362,9 @@ public class BDConexion {
             detalles.add(tipos);
             detalles.add(opcionales);
             
-            ConsolaDebug.agregarTexto("\n" + catalogo + "." + tabla + ": [OK]\n", ConsolaDebug.MAPEO, false);
+            ConsolaDebug.agregarTexto("\n" + catalogo + "." + tabla + ": [OK]\n", ConsolaDebug.BITACORA, false);
         } catch (Exception ex) {
-            ConsolaDebug.agregarTexto("ERROR AL OBTENER LOS DATOS DE : " + tabla, ConsolaDebug.ERROR);
+            ConsolaDebug.agregarTexto("\nERROR AL OBTENER LOS DATOS DE : " + tabla + "\n", ConsolaDebug.ERROR, false);
             detalles = null;
         }
         
@@ -358,6 +376,7 @@ public class BDConexion {
         
         switch(identificador){
             case Types.BLOB:
+            case Types.LONGVARBINARY:
                 tipo = Globales.TipoDato.BLOB;
             break;
             case Types.VARCHAR:
