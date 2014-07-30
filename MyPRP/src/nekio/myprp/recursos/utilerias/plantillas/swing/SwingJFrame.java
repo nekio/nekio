@@ -10,6 +10,14 @@ import javax.swing.JFrame;
 public abstract class SwingJFrame extends JFrame{
     private static final long serialVersionUID = 1L;
     
+    public SwingJFrame(){
+        this(null);
+    }
+    
+    public SwingJFrame(String mensaje){
+        super(mensaje);
+    }
+    
     public void salir(){
         this.dispose();
     } 

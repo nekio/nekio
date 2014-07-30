@@ -1,0 +1,28 @@
+public class #0DTO extends DTO{
+    ~0
+    private #2;
+    ~1
+    @Override
+    public void confirmarDTO(){        
+        campos = new ArrayList<String>();
+        valores = new ArrayList();
+        tipoDatos = new ArrayList<Globales.TipoDato>();
+        ~2
+        super.campos.add("#1");super.valores.add(#2);super.tipoDatos.add(Globales.TipoDato.#5);
+    }
+    ~3
+    public void set#3(#4 #2){ this.#2 = #2; }     public #4 get#3(){ return #2; }
+}
+$ Mapeo de parametros
+
+#0. nombre de la clase
+#1. nombre del campo en la base de datos
+#2. nombre del atributo camelCase
+#3. nombre del atributo PascalCase
+#4. tipo de dato Java
+#5. tipo de dato Enum TipoDato
+
+~0. atributos
+~1. metodo de confirmarDTO
+~2. obtencion de campos para confirmar
+~3. pares de setters y getters

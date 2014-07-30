@@ -39,8 +39,7 @@ public class Main {
         
         // Realizar las generaciones de codigos
         ConsolaDebug.agregarTexto();
-        Generador generador = new Generador(tablasBD, detallesTablasBD); 
-        generador.crearCapasDesdeEsquema();     
+        new GeneradorGUI(new ControladorGenerador(tablasBD, detallesTablasBD, false));
     }
     
     private void conexion(){
@@ -54,5 +53,26 @@ public class Main {
                 Globales.BD_MAX_ACTIVOS,
                 Globales.BD_MAX_IDLE
         );
+    }
+    
+    private String convertirCamel(String texto){
+        StringBuilder camelCase = new StringBuilder(texto);
+        
+        char letra = '-';
+        int indiceAux = 0;
+        for(int i=0; i<texto.length(); i++){
+            letra = texto.charAt(i);
+            
+            if(letra == '_'){
+                char letraSiguiente = texto.charAt(i+1);
+                camelCase.delete(indiceAux+i, indiceAux+i+1);
+                camelCase.replace(indiceAux+i+1, indiceAux+i+1, String.valueOf(letraSiguiente).toUpperCase());
+                camelCase.delete(indiceAux+i, indiceAux+i+1);
+                
+                indiceAux--;
+            }
+        }
+        
+        return camelCase.toString();
     }
 }

@@ -131,12 +131,29 @@ public class Globales {
     
     // Tipos de Datos
     public static enum TipoDato{
-        TEXTO,
-        NUMERO,
-        FECHA,
-        TEXTO_LARGO,
-        BOOLEANO,
-        BLOB;
+        CARACTER("Character","String"),
+        TEXTO("String", "String"),
+        NUMERO("Integer", "Int"),
+        FECHA("Date", "Timestamp"),
+        TEXTO_LARGO("String", "String"),
+        BOOLEANO("Boolean", "Int"),
+        BLOB("Image", "BinaryStream");
+        
+        String tipoJava;
+        String encapsulado;
+        
+        private TipoDato(String tipoJava, String encapsulado){
+            this.tipoJava = tipoJava;
+            this.encapsulado = encapsulado;
+        }
+        
+        public String getTipoJava(){
+            return tipoJava;
+        }
+        
+        public String getEncapsulado(){
+            return encapsulado;
+        }
     }
     
     // Entidades para gestores
