@@ -240,6 +240,25 @@ public class BDConexion {
         return tablas;
     }
     
+    /* Estructura de contenidos de Lista
+     *
+     * 0 - Llaves
+     *   0 - PKs
+     *   1 - FKs
+     *   2 - Tablas relacionadas
+     * 1 - Nombres de campos
+     * 2 - Tamanos de campos
+     * 3 - Tipos de datos de los campos
+     * 4 - Campos Opcionales
+     */
+    public static enum Detalles{
+        LLAVES,
+        NOMBRE_CAMPOS,
+        TAMANO_CAMPOS,
+        TIPO_DATOS,
+        OPCIONALES
+    }
+    
     public static List<List> obtenerDetalles(String usuario, String esquema, String tabla) {
         List<List> detalles = new ArrayList<List>();
         
@@ -327,7 +346,13 @@ public class BDConexion {
                 try{
                     nombre = mdata.getColumnLabel(i);
                     precision = mdata.getPrecision(i);
+                    
                     tipo = identificarTipoColumna(mdata.getColumnType(i));
+                    if(tipo == TipoDato.TEXTO && precision == 1)
+                        tipo = TipoDato.CARACTER;
+                    else if(tipo == TipoDato.NUMERO && precision == 1)
+                        tipo = TipoDato.BOOLEANO;
+                    
                     opcional = mdata.isNullable(i)==1?true:false;
 
                     nombres.add(nombre);
@@ -342,7 +367,7 @@ public class BDConexion {
                     
                     ConsolaDebug.agregarTexto(campo + "\n", ConsolaDebug.COMODIN, false);
                 }catch(Exception e){
-                    System.out.println("PRUEBA " + e);
+                    //System.out.println(e);
                 }
             }            
 
@@ -356,11 +381,11 @@ public class BDConexion {
             conexion=null;
             
             // Asignacion de los detalles
-            detalles.add(llaves);
-            detalles.add(nombres);
-            detalles.add(tamanos);
-            detalles.add(tipos);
-            detalles.add(opcionales);
+            detalles.add(Detalles.LLAVES.ordinal(), llaves);
+            detalles.add(Detalles.NOMBRE_CAMPOS.ordinal(), nombres);
+            detalles.add(Detalles.TAMANO_CAMPOS.ordinal(), tamanos);
+            detalles.add(Detalles.TIPO_DATOS.ordinal(), tipos);
+            detalles.add(Detalles.OPCIONALES.ordinal(), opcionales);
             
             ConsolaDebug.agregarTexto("\n" + catalogo + "." + tabla + ": [OK]\n", ConsolaDebug.BITACORA, false);
         } catch (Exception ex) {

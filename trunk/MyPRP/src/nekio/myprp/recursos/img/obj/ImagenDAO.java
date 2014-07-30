@@ -110,7 +110,7 @@ public class ImagenDAO extends DAO{
     
     public DTO leerUno(String select, String where, String orderBy, String groupBy){
         ImagenDTO dto = null;
-        
+                
         String consulta = 
                 "SELECT " + select + " \n" +
                 "FROM " + Globales.BD_ESQUEMA + "." + TABLA + " \n" +
