@@ -168,5 +168,10 @@ public class GPlantillas extends Generador{
     }
     // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Vista">
+    @Override
+    public void crearVista(){}
+    // </editor-fold>
+    
     // </editor-fold>
 }

@@ -7,6 +7,7 @@ package nekio.myprp.recursos.generador;
 
 // <editor-fold defaultstate="collapsed" desc="Librerias">
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.utilerias.Globales;
@@ -15,10 +16,13 @@ import nekio.myprp.recursos.utilerias.bd.BDConexion;
 // </editor-fold>
 
 public class ControladorGenerador {
-    // <editor-fold defaultstate="collapsed" desc="Atributos">   
+    // <editor-fold defaultstate="collapsed" desc="Atributos">
+    private String catalogo;
+    
     private List<String> tablasBD;
     private List<List> detallesTablasBD;
     protected Generador generador;
+    private boolean estandar;
     
     protected String comentarios = 
             "/* Es necesario realizar un \"Fix Imports\" en el IDE para incluir las librerias necesarias, " +
@@ -33,9 +37,16 @@ public class ControladorGenerador {
     }
     
     public ControladorGenerador(List<String> tablasBD, List<List> detallesTablasBD, boolean estandar){
+        try{
+            this.catalogo = BDConexion.getConnection().getCatalog();
+        }catch(Exception e){
+            this.catalogo = "ERROR_EN_CATALOGO";
+        }
+        
         this.tablasBD = tablasBD;
         this.detallesTablasBD = detallesTablasBD;
         this.generador = new GHardcode(estandar);
+        this.estandar = estandar;
         
         ConsolaDebug.agregarTexto(
                 Globales.APP_SEPARADOR + "\n" +
@@ -69,7 +80,7 @@ public class ControladorGenerador {
             generador.crearObjetoNegocio();
             generador.crearGestor();
         }catch(Exception e){
-            ConsolaDebug.agregarTexto("\nHa ocurrido un error en la creacion de capas para la tabla " + tabla, ConsolaDebug.ERROR, false);
+            ConsolaDebug.agregarTexto("\nHa ocurrido un error en la creacion de capas para la tabla " + tabla + "\n[" + e + "]\n", ConsolaDebug.ERROR, false);
         }
     }
     // </editor-fold>
@@ -104,14 +115,54 @@ public class ControladorGenerador {
         return camelCase.toString();
     }
     // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Obtener Archivos de las Capas">
+    public List<String> obtenerArchivos(int indiceTabla){
+        List<String> archivos = new ArrayList<String>();
+        
+        String archivoDAO = getArchivo(Generador.Capas.DAO, indiceTabla);
+        String archivoDTO = getArchivo(Generador.Capas.DTO, indiceTabla);
+        String archivoObjetoNegocio = getArchivo(Generador.Capas.OBJETO_NEGOCIO, indiceTabla);
+        String archivoGestor = getArchivo(Generador.Capas.GESTOR, indiceTabla);
+        String archivoVista = getArchivo(Generador.Capas.VISTA, indiceTabla);
 
-    // <editor-fold defaultstate="collapsed" desc="Getters">
+        archivos.add(archivoDAO);
+        archivos.add(archivoDTO);
+        archivos.add(archivoObjetoNegocio);
+        archivos.add(archivoGestor);
+        archivos.add(archivoVista);
+        
+        return archivos;
+    }
+    
+    private String getArchivo(Generador.Capas capa, int indiceTabla){
+        String ruta = Globales.RUTA_MODULOS + "/" + catalogo;
+        String tabla = tablasBD.get(indiceTabla);
+        String archivo = ruta + "/" + capa.getPaquete() + convertirPascal(tabla) + capa.getPostfijo() + Generador.EXTENSION;
+
+        return archivo;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Getters y Setters">
     public List<String> getTablasBD() {
         return tablasBD;
     }
     
     public List getDetallesTablaBD(int indice) {
         return detallesTablasBD.get(indice);
+    }
+    
+    public void setTipos(int tabla, List<Globales.TipoDato> tipos){
+        ConsolaDebug.agregarTexto("\n\n" + Globales.APP_SEPARADOR, ConsolaDebug.BITACORA, false);
+        ConsolaDebug.agregarTexto("\n" + "Recreando capas ...\n", ConsolaDebug.BITACORA, false);
+        ConsolaDebug.agregarTexto(Globales.APP_SEPARADOR + "\n\n", ConsolaDebug.BITACORA, false);
+
+        detallesTablasBD.get(tabla).set(BDConexion.Detalles.TIPO_DATOS.ordinal(), tipos);
+        
+        this.generador = null;
+        this.generador = new GHardcode(estandar);
+        crearCapasDesdeEsquema();
     }
     
     public Generador getGenerador() {

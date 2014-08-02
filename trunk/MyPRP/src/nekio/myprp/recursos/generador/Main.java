@@ -12,6 +12,9 @@ import nekio.myprp.recursos.utilerias.bd.BDConexion;
  * @author Nekio
  */
 public class Main {
+    //private final String esquemaBD = Globales.BD_TOOLS;
+    private final String esquemaBD = Globales.BD_ESQUEMA_SERIES;
+    
     public static void main(String[] args) {
         // Iniciar la consola
         Globales.CONSOLA.setVisible(true);
@@ -19,14 +22,27 @@ public class Main {
         // Hacer conexion a la BD
         Main m = new Main();
         m.conexion();
+    }
+    
+    private void conexion(){
+        BDConexion bd = new BDConexion(
+                Globales.BD_GESTOR,
+                Globales.BD_USUARIO,
+                Globales.BD_PASSWORD,
+                Globales.BD_HOST,
+                Globales.BD_PUERTO,
+                esquemaBD,
+                Globales.BD_MAX_ACTIVOS,
+                Globales.BD_MAX_IDLE
+        );
         
         // Obtener todos los detalles de todas las tablas de la BD
-        List<String> tablasBD = BDConexion.obtenerTablas(Globales.BD_TOOLS, Globales.BD_USUARIO);
+        List<String> tablasBD = BDConexion.obtenerTablas(esquemaBD, Globales.BD_USUARIO);
         
         List<List> detallesTablasBD = new ArrayList<List>();
         List<List> detallesTablaBD = null;
         for(String tabla : tablasBD){
-            detallesTablaBD = BDConexion.obtenerDetalles(Globales.BD_TOOLS, Globales.BD_USUARIO, tabla);
+            detallesTablaBD = BDConexion.obtenerDetalles(esquemaBD, Globales.BD_USUARIO, tabla);
             detallesTablasBD.add(detallesTablaBD);
         }
         
@@ -40,19 +56,6 @@ public class Main {
         // Realizar las generaciones de codigos
         ConsolaDebug.agregarTexto();
         new GeneradorGUI(new ControladorGenerador(tablasBD, detallesTablasBD, false));
-    }
-    
-    private void conexion(){
-        BDConexion bd = new BDConexion(
-                Globales.BD_GESTOR,
-                Globales.BD_USUARIO,
-                Globales.BD_PASSWORD,
-                Globales.BD_HOST,
-                Globales.BD_PUERTO,
-                Globales.BD_TOOLS,
-                Globales.BD_MAX_ACTIVOS,
-                Globales.BD_MAX_IDLE
-        );
     }
     
     private String convertirCamel(String texto){
