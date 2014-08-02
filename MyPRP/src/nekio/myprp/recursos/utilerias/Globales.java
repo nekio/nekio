@@ -109,6 +109,7 @@ public class Globales {
     // Valores
     private static final String RAIZ        = "nekio";
     private static final String PROYECTO    = SIGLAS_APP;
+    private static final String MODULOS     = "sistema/modulos";
     private static final String RECURSOS    = "recursos";
     private static final String IMAGENES    = "img";
     private static final String IMG_OBJ     = "obj";
@@ -116,6 +117,7 @@ public class Globales {
     
     // Carpetas
     public static final String RUTA_BASE        = "/"+RAIZ+"/"+PROYECTO;
+    public static final String RUTA_MODULOS     = RUTA_BASE+"/"+MODULOS;
     public static final String RUTA_RECURSOS    = RUTA_BASE+"/"+RECURSOS;
     public static final String RUTA_IMG         = RUTA_RECURSOS+"/"+IMAGENES+"/";
     public static final String RUTA_VALORES     = RUTA_RECURSOS+"/"+VALORES;
@@ -134,6 +136,7 @@ public class Globales {
         CARACTER("Character","String"),
         TEXTO("String", "String"),
         NUMERO("Integer", "Int"),
+        DECIMAL("Double", "Double"),
         FECHA("Date", "Timestamp"),
         TEXTO_LARGO("String", "String"),
         BOOLEANO("Boolean", "Int"),

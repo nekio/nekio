@@ -411,6 +411,10 @@ public class BDConexion {
             case Types.INTEGER:
                 tipo = Globales.TipoDato.NUMERO;
             break;
+            case Types.DECIMAL:
+            case Types.DOUBLE:
+                tipo = Globales.TipoDato.DECIMAL;
+            break;
             case Types.LONGVARCHAR:
                 tipo = Globales.TipoDato.TEXTO_LARGO;
             break;

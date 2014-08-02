@@ -12,6 +12,32 @@ import nekio.myprp.recursos.utilerias.Globales;
 
 public abstract class Generador {
     // <editor-fold defaultstate="collapsed" desc="Atributos">
+    public static final String EXTENSION = ".java";
+    
+    public static enum Capas{
+        DAO("DAO", "dao/"),
+        DTO("DTO", "dto/"),
+        OBJETO_NEGOCIO("", "negocio/"),
+        GESTOR("Gestor",""),
+        VISTA("Swing", "vista/");
+        
+        private String postfijo;
+        private String paquete;
+        
+        private Capas(String postfijo, String paquete){
+            this.postfijo = postfijo;
+            this.paquete = paquete;
+        }
+
+        public String getPostfijo() {
+            return postfijo;
+        }
+
+        public String getPaquete() {
+            return paquete;
+        }
+    }
+    
     protected List<String> codigoDTO;
     protected List<String> codigoDAO;
     protected List<String> codigoObjetoNegocio;
@@ -25,6 +51,7 @@ public abstract class Generador {
     protected abstract void crearDAO(String tabla, List<List> llaves, List<String> campos, List<Globales.TipoDato> tipos);
     protected abstract void crearObjetoNegocio();
     protected abstract void crearGestor();
+    protected abstract void crearVista();
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Setters y Getters">

@@ -13,7 +13,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.Date;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -23,7 +26,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.utilerias.Fecha;
+import nekio.myprp.recursos.utilerias.Globales;
+import nekio.myprp.recursos.utilerias.bd.BDConexion;
 import nekio.myprp.recursos.utilerias.plantillas.swing.SwingJFrame;
 
 public class GeneradorGUI extends SwingJFrame{
@@ -43,7 +49,8 @@ public class GeneradorGUI extends SwingJFrame{
     private JCheckBox chkEditar;
     private JButton btnGenerar;
     private JButton btnEditar;
-    private JButton btnExportar;
+    private JButton btnExportarActual;
+    private JButton btnExportarTodo;
             
     public GeneradorGUI(ControladorGenerador generador){
         super("Generador de Capas del Sistema");
@@ -77,16 +84,16 @@ public class GeneradorGUI extends SwingJFrame{
         pnlSuperior.add(lblTablas);
         pnlSuperior.add(cmbTablas);
         
-        JLabel lblCapas = new JLabel("         Capa: ");
+        btnEditar = new JButton("Editar");
+        pnlSuperior.add(btnEditar);
+        
+        JLabel lblCapas = new JLabel("           Capa: ");
         cmbCapas = new JComboBox(Capas.values());
         pnlSuperior.add(lblCapas);
         pnlSuperior.add(cmbCapas);
         
         btnGenerar = new JButton("Generar");
         pnlSuperior.add(btnGenerar);
-        
-        btnEditar = new JButton("Editar");
-        pnlSuperior.add(btnEditar);
         
         this.add(pnlSuperior, "North");
         
@@ -105,8 +112,15 @@ public class GeneradorGUI extends SwingJFrame{
         chkEditar = new JCheckBox("Editar texto");
         pnlInferior.add(chkEditar, "West");
         
-        btnExportar = new JButton("Exportar");
-        pnlInferior.add(btnExportar, "East");
+        JPanel pnlBotones = new JPanel(new FlowLayout());
+        
+        btnExportarActual = new JButton("Exportar capas de la tabla seleccionada");
+        pnlBotones.add(btnExportarActual);
+        
+        btnExportarTodo = new JButton("Exportar capas de todas las tablas");
+        pnlBotones.add(btnExportarTodo);
+        
+        pnlInferior.add(pnlBotones, "East");
         
         this.add(pnlInferior, "South");
     }
@@ -116,7 +130,7 @@ public class GeneradorGUI extends SwingJFrame{
         btnEditar.addActionListener(new ActionListener(){
         @Override
             public void actionPerformed(ActionEvent evt){
-                //
+                editarEntidad();
             }
         });
         
@@ -124,6 +138,20 @@ public class GeneradorGUI extends SwingJFrame{
         @Override
             public void actionPerformed(ActionEvent evt){
                 verCodigo();
+            }
+        });
+        
+        btnExportarActual.addActionListener(new ActionListener(){
+        @Override
+            public void actionPerformed(ActionEvent evt){
+                exportar(false);
+            }
+        });
+        
+        btnExportarTodo.addActionListener(new ActionListener(){
+        @Override
+            public void actionPerformed(ActionEvent evt){
+                exportar(true);
             }
         });
         
@@ -179,5 +207,47 @@ public class GeneradorGUI extends SwingJFrame{
         }
 
         txtContenido.setText(controlador.getComentarios() + autor + codigo);
+    }
+    
+    private void editarEntidad(){
+        int tablaSeleccionada = this.cmbTablas.getSelectedIndex();
+        
+        String tabla = controlador.getTablasBD().get(tablaSeleccionada);
+        List<String> atributos = (List<String>) controlador.getDetallesTablaBD(tablaSeleccionada).get(BDConexion.Detalles.NOMBRE_CAMPOS.ordinal());
+        List<Globales.TipoDato> tipos = (List<Globales.TipoDato>) controlador.getDetallesTablaBD(tablaSeleccionada).get(BDConexion.Detalles.TIPO_DATOS.ordinal());
+        
+        new GEditor(controlador, tablaSeleccionada, tabla, atributos, tipos);
+    }
+    
+    private void exportar(boolean todo){
+        if(todo){
+            List<String> archivos = null;
+            for(int i=0; i<controlador.getTablasBD().size(); i++){
+                archivos = controlador.obtenerArchivos(i);
+                crearCapas(archivos, i);
+            }
+        }else{
+            int tablaSeleccionada = cmbTablas.getSelectedIndex();
+            List<String> archivos = controlador.obtenerArchivos(tablaSeleccionada);
+            crearCapas(archivos, tablaSeleccionada);
+        }
+    }
+    
+    private void crearCapas(List<String> archivos, int tablaSeleccionada){
+        ConsolaDebug.agregarTexto("\n\nGenerando capas para " + controlador.getTablasBD().get(tablaSeleccionada) + "\n", ConsolaDebug.SQL, false);
+        String texto=null; 
+        for(String archivo:archivos){
+            ConsolaDebug.agregarTexto("\n" + archivo, ConsolaDebug.MAPEO, false);
+            texto = controlador.getGenerador().codigoDAO.get(tablaSeleccionada);
+            
+            try{                
+                FileWriter archivoNuevo = new FileWriter(archivo);
+                archivoNuevo.write(texto);
+                archivoNuevo.close();
+                archivoNuevo = null;
+            }catch(Exception e){}
+        }
+
+        ConsolaDebug.agregarTexto();
     }
 }

@@ -304,6 +304,7 @@ public class GHardcode extends Generador{
             case TEXTO_LARGO:
             case TEXTO:
             case NUMERO:
+            case DECIMAL:
             case FECHA:
                 codigo = "dto.set"+ campoPascal +"(resultados.get" + tipo.getEncapsulado() + "(\"" + campo + "\"));";
             break;
@@ -340,6 +341,11 @@ public class GHardcode extends Generador{
     // <editor-fold defaultstate="collapsed" desc="Gestor">
     @Override
     public void crearGestor(){}
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Vista">
+    @Override
+    public void crearVista(){}
     // </editor-fold>
     
     // </editor-fold>
