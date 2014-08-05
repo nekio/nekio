@@ -145,8 +145,6 @@ public class MensajePrivadoDAO extends DAO{
         int parametros = 8;
         String procedimiento = super.obtenerProcedimiento(Globales.BD_ESQUEMA, accion, TABLA, parametros);
         
-        Dimension dimension = null;
-        
         if(Globales.APP_DEBUG)
             ConsolaDebug.agregarTexto(procedimiento, ConsolaDebug.PROCESO);
 
@@ -182,8 +180,6 @@ public class MensajePrivadoDAO extends DAO{
         String accion = super.ACTUALIZAR;
         int parametros = 9;
         String procedimiento = super.obtenerProcedimiento(Globales.BD_ESQUEMA, accion, TABLA, parametros);
-        
-        Dimension dimension = null;
                
         if(Globales.APP_DEBUG)
             ConsolaDebug.agregarTexto(procedimiento, ConsolaDebug.PROCESO);

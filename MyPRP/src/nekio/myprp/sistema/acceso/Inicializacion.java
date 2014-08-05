@@ -47,7 +47,7 @@ public class Inicializacion {
     }
     
     public String loggear(){        
-        GestorAcceso gestor = new GestorAcceso();
+        AccesoGestor gestor = new AccesoGestor();
         String mensaje = null;
         
         if(usuario == null){

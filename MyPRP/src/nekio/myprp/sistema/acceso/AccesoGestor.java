@@ -11,12 +11,12 @@ import nekio.myprp.recursos.utilerias.plantillas.Gestor;
 import nekio.myprp.sistema.acceso.dao.UsuarioDAO;
 import nekio.myprp.sistema.acceso.negocio.Usuario;
 
-public class GestorAcceso extends Gestor{
+public class AccesoGestor extends Gestor{
     private final Usuario OBJETO_NEGOCIO = new Usuario();
     private final UsuarioDAO DAO = new UsuarioDAO();
     private final int MODULO = Globales.MOD_ACCESO;
     
-    public GestorAcceso(){
+    public AccesoGestor(){
         super.objetoNegocio = OBJETO_NEGOCIO;
         super.dao = DAO;
         super.modulo = MODULO;
@@ -47,23 +47,5 @@ public class GestorAcceso extends Gestor{
             ConsolaDebug.agregarTexto("Resultado de [" + negocio +"]: [" + resultado + "] Dirige a: [" + super.pagina + "]", ConsolaDebug.MAPEO);
         
         dirigir(resultado);
-    }
-    
-    @Override
-    public String obtenerResultado(int metodo){
-        String resultado = null;
-        
-        if(metodo == Globales.BD.LEER.getLlave())
-            resultado = super.objetoNegocio.consultarSeleccion(this);
-        else if(metodo == Globales.BD.LEER_DESC.getLlave())
-            resultado = super.objetoNegocio.consultarSeleccionDesc(this);
-        else if(metodo == Globales.BD.LEER_UNO.getLlave())
-            resultado = super.objetoNegocio.consultarId(this);
-        else if(metodo == Globales.BD.BUSCAR.getLlave())
-            resultado = super.objetoNegocio.consultarBusqueda(this);
-        else if(metodo == Globales.BD.INSERTAR.getLlave() || metodo == Globales.BD.MODIFICAR.getLlave() || metodo == Globales.BD.ELIMINAR.getLlave())
-            resultado = super.objetoNegocio.ejecutar(metodo, this, super.dto);
-                
-        return resultado;
     }
 }

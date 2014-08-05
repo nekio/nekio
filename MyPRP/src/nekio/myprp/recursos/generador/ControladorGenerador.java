@@ -77,8 +77,8 @@ public class ControladorGenerador {
 
             generador.crearDTO(tabla, atributos, tipos);
             generador.crearDAO(tabla, llaves, atributos, tipos);
-            generador.crearObjetoNegocio();
-            generador.crearGestor();
+            generador.crearObjetoNegocio(tabla);
+            generador.crearGestor(tabla, catalogo);
         }catch(Exception e){
             ConsolaDebug.agregarTexto("\nHa ocurrido un error en la creacion de capas para la tabla " + tabla + "\n[" + e + "]\n", ConsolaDebug.ERROR, false);
         }

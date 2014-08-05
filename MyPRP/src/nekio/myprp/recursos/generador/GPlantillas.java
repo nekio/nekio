@@ -156,14 +156,14 @@ public class GPlantillas extends Generador{
 
     // <editor-fold defaultstate="collapsed" desc="Objeto de Negocio">
     @Override
-    protected void crearObjetoNegocio() {
+    protected void crearObjetoNegocio(String tabla) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Gestor">
     @Override
-    protected void crearGestor() {
+    protected void crearGestor(String tabla, String catalogo) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     // </editor-fold>

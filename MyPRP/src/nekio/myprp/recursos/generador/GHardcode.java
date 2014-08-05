@@ -14,6 +14,12 @@ import nekio.myprp.recursos.utilerias.Globales.TipoDato;
 // </editor-fold>
 
 public class GHardcode extends Generador{
+    // <editor-fold defaultstate="collapsed" desc="Atributos">
+    private String tablaPascal;
+    private String tablaCamel;
+    private String setDTOs;
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Constructores">
     public GHardcode(){
         this(true);
@@ -129,8 +135,8 @@ public class GHardcode extends Generador{
     public void crearDAO(String tabla, List<List> llaves, List<String> campos, List<TipoDato> tipos){
          StringBuilder codigoDAO = new StringBuilder();
         
-         String tablaPascal = convertirPascal(tabla);
-         String tablaCamel = convertirCamel(tabla);
+         tablaPascal = convertirPascal(tabla);
+         tablaCamel = convertirCamel(tabla);
          String PKs = "";
          String FKs = "";
          //String foraneas = "";
@@ -210,9 +216,7 @@ public class GHardcode extends Generador{
             codigoDAO.append(asignarParametros);
         }
         
-        // Crear metodo sobrecargado leer
-        
-        String setDTOs = "";
+        setDTOs = "";
         String campo = null;
         TipoDato tipo = null;
         for(int i=0; i<indiceFinal; i++){
@@ -222,76 +226,12 @@ public class GHardcode extends Generador{
             setDTOs += "\n\t\t\t\t" + formatearSetDTO(campo, tipo);
          }
         
-        String leer =
-            "\n\n\t@Override" +
-            "\n\tpublic ArrayList<DTO> leer(String where){" +
-            "\n\t\treturn leer(TODOS_CAMPOS, where, null, null);" +
-            "\n\t}" +
-            "\n\n\t@Override" +
-            "\n\tpublic ArrayList<DTO> leerDesc(String where){" +
-            "\n\t\treturn leer(TODOS_CAMPOS, where, ID + \" DESC\", null);" +
-            "\n\t}" +
-            "\n\n\tpublic ArrayList<DTO> leer(String select, String where, String orderBy, String groupBy){" +
-            "\n\t\tArrayList<DTO> lista = new ArrayList<DTO>();" +
-            "\n\t\tString consulta = " +
-            "\n\t\t\t\"SELECT \" + select + \" \\n\" +" +
-            "\n\t\t\t\"FROM \" + Globales.BD_ESQUEMA + \".\" + TABLA + \" \\n\" +" +
-            "\n\t\t\t\"WHERE 1=1\\n\";" +
-            "\n\n\t\tif(where != null)" +
-            "\n\t\t\tconsulta += \"AND \"+ where + \"\\n\";" +
-            "\n\t\tif(orderBy != null)" +
-            "\n\t\t\tconsulta += \"ORDER BY \"+ orderBy + \"\\n\";" +
-            "\n\t\tif(groupBy != null)" +
-            "\n\t\t\tconsulta += \"GROUP BY \"+ groupBy + \"\\n\";" +
-            "\n\n\t\tif(Globales.APP_DEBUG)" +
-            "\n\t\t\tConsolaDebug.agregarTexto(consulta, ConsolaDebug.SQL);" +
-            "\n\n\t\ttry{"+
-            "\n\t\t\t" + tablaPascal + "DTO dto = null;" +
-            "\n\t\t\tResultSet resultados = BDConexion.consultar(consulta);" +
-            "\n\n\t\t\twhile(resultados.next()){" +
-            "\n\t\t\t\tdto = new " + tablaPascal + "DTO();" +
-            "\n" + setDTOs +
-            "\n\n\t\t\t\tlista.add(dto);" +
-            "\n\t\t\t}" +
-            "\n\t\t\tBDConexion.cerrar();" +
-            "\n\t\t}catch(Exception e){" +
-            "\n\t\t\tConsolaDebug.agregarTexto(\"DAO: Error al leer registros de \" + Globales.BD_ESQUEMA + \".\" + TABLA + \": \" + e, ConsolaDebug.ERROR);" +
-            "\n\t\t}" +
-            "\n\n\t\treturn lista;" +
-            "\n\t}";
-        codigoDAO.append(leer);
-        
-        String leerUno = 
-            "\n\n\tpublic DTO leerUno(String where){" +
-            "\n\t\treturn leerUno(TODOS_CAMPOS, where, null, null);" +
-            "\n\t}" +
-            "\n\n\tpublic DTO leerUno(String select, String where, String orderBy, String groupBy){" +
-            "\n\t\t" + tablaPascal + "DTO dto = null;" +
-            "\n\n\t\tString consulta = " +
-            "\n\t\t\t\"SELECT \" + select + \" \\n\"" +
-            "\n\t\t\t\"FROM \" + Globales.BD_ESQUEMA + \".\" + TABLA + \" \\n\" +" +
-            "\n\t\t\t\"WHERE 1=1\\n\";" +
-            "\n\n\t\tif(where != null)" +
-            "\n\t\t\tconsulta += \"AND \"+ where + \"\\n\";" +
-            "\n\t\tif(orderBy != null)" +
-            "\n\t\t\tconsulta += \"ORDER BY \"+ orderBy + \"\\n\";" +
-            "\n\t\tif(groupBy != null)" +
-            "\n\t\t\tconsulta += \"GROUP BY \"+ groupBy + \"\\n\";" +
-            "\n\n\t\tif(Globales.APP_DEBUG)" +
-            "\n\t\t\tConsolaDebug.agregarTexto(consulta, ConsolaDebug.SQL);" +
-            "\n\n\t\ttry{" + 
-            "\n\t\t\tResultSet resultados = BDConexion.consultar(consulta);" +
-            "\n\t\t\tdto = new " + tablaPascal + "DTO();" +
-            "\n\n\t\t\twhile(resultados.next()){" +
-            setDTOs +
-            "\n\t\t\t}" +
-            "\n\n\t\t\tBDConexion.cerrar();" +
-            "\n\t\t}catch(Exception e){" +
-            "\n\t\t\tConsolaDebug.agregarTexto(\"Error al leer un registro de \" + Globales.BD_ESQUEMA + \".\" + TABLA + \": \" + e, ConsolaDebug.ERROR);" +
-            "\n\t\t}" +
-            "\n\n\t\treturn dto;" +
-            "\n\t}";
-        codigoDAO.append(leerUno);
+        codigoDAO.append(leerDAO(campos, tipos));
+        codigoDAO.append(leerUnoDAO(campos, tipos));
+        codigoDAO.append(agregarDAO(campos, tipos));
+        codigoDAO.append(modificarDAO(campos, tipos));
+        codigoDAO.append(eliminarDAO(campos, tipos));
+        codigoDAO.append("\n}");
         
         super.codigoDAO.add(codigoDAO.toString());
     }
@@ -331,16 +271,360 @@ public class GHardcode extends Generador{
         return codigo;
     }
     
+    private String leerDAO(List<String> campos, List<TipoDato> tipos){
+        String codigo = null;
+        
+        codigo =
+            "\n\n\t@Override" +
+            "\n\tpublic ArrayList<DTO> leer(String where){" +
+            "\n\t\treturn leer(TODOS_CAMPOS, where, null, null);" +
+            "\n\t}" +
+            "\n\n\t@Override" +
+            "\n\tpublic ArrayList<DTO> leerDesc(String where){" +
+            "\n\t\treturn leer(TODOS_CAMPOS, where, ID + \" DESC\", null);" +
+            "\n\t}" +
+            "\n\n\tpublic ArrayList<DTO> leer(String select, String where, String orderBy, String groupBy){" +
+            "\n\t\tArrayList<DTO> lista = new ArrayList<DTO>();" +
+            "\n\t\tString consulta = " +
+            "\n\t\t\t\"SELECT \" + select + \" \\n\" +" +
+            "\n\t\t\t\"FROM \" + Globales.BD_ESQUEMA + \".\" + TABLA + \" \\n\" +" +
+            "\n\t\t\t\"WHERE 1=1\\n\";" +
+            "\n\n\t\tif(where != null)" +
+            "\n\t\t\tconsulta += \"AND \"+ where + \"\\n\";" +
+            "\n\t\tif(orderBy != null)" +
+            "\n\t\t\tconsulta += \"ORDER BY \"+ orderBy + \"\\n\";" +
+            "\n\t\tif(groupBy != null)" +
+            "\n\t\t\tconsulta += \"GROUP BY \"+ groupBy + \"\\n\";" +
+            "\n\n\t\tif(Globales.APP_DEBUG)" +
+            "\n\t\t\tConsolaDebug.agregarTexto(consulta, ConsolaDebug.SQL);" +
+            "\n\n\t\ttry{"+
+            "\n\t\t\t" + tablaPascal + "DTO dto = null;" +
+            "\n\t\t\tResultSet resultados = BDConexion.consultar(consulta);" +
+            "\n\n\t\t\twhile(resultados.next()){" +
+            "\n\t\t\t\tdto = new " + tablaPascal + "DTO();" +
+            "\n" + setDTOs +
+            "\n\n\t\t\t\tlista.add(dto);" +
+            "\n\t\t\t}" +
+            "\n\t\t\tBDConexion.cerrar();" +
+            "\n\t\t}catch(Exception e){" +
+            "\n\t\t\tConsolaDebug.agregarTexto(\"DAO: Error al leer registros de \" + Globales.BD_ESQUEMA + \".\" + TABLA + \": \" + e, ConsolaDebug.ERROR);" +
+            "\n\t\t}" +
+            "\n\n\t\treturn lista;" +
+            "\n\t}";
+        
+        return codigo;
+    }
+    
+    private String leerUnoDAO(List<String> campos, List<TipoDato> tipos){
+        String codigo = null;
+        
+        codigo = 
+            "\n\n\tpublic DTO leerUno(String where){" +
+            "\n\t\treturn leerUno(TODOS_CAMPOS, where, null, null);" +
+            "\n\t}" +
+            "\n\n\tpublic DTO leerUno(String select, String where, String orderBy, String groupBy){" +
+            "\n\t\t" + tablaPascal + "DTO dto = null;" +
+            "\n\n\t\tString consulta = " +
+            "\n\t\t\t\"SELECT \" + select + \" \\n\" +" +
+            "\n\t\t\t\"FROM \" + Globales.BD_ESQUEMA + \".\" + TABLA + \" \\n\" +" +
+            "\n\t\t\t\"WHERE 1=1\\n\";" +
+            "\n\n\t\tif(where != null)" +
+            "\n\t\t\tconsulta += \"AND \"+ where + \"\\n\";" +
+            "\n\t\tif(orderBy != null)" +
+            "\n\t\t\tconsulta += \"ORDER BY \"+ orderBy + \"\\n\";" +
+            "\n\t\tif(groupBy != null)" +
+            "\n\t\t\tconsulta += \"GROUP BY \"+ groupBy + \"\\n\";" +
+            "\n\n\t\tif(Globales.APP_DEBUG)" +
+            "\n\t\t\tConsolaDebug.agregarTexto(consulta, ConsolaDebug.SQL);" +
+            "\n\n\t\ttry{" + 
+            "\n\t\t\tResultSet resultados = BDConexion.consultar(consulta);" +
+            "\n\t\t\tdto = new " + tablaPascal + "DTO();" +
+            "\n\n\t\t\twhile(resultados.next()){" +
+            setDTOs +
+            "\n\t\t\t}" +
+            "\n\n\t\t\tBDConexion.cerrar();" +
+            "\n\t\t}catch(Exception e){" +
+            "\n\t\t\tConsolaDebug.agregarTexto(\"Error al leer un registro de \" + Globales.BD_ESQUEMA + \".\" + TABLA + \": \" + e, ConsolaDebug.ERROR);" +
+            "\n\t\t}" +
+            "\n\n\t\treturn dto;" +
+            "\n\t}";
+        
+        return codigo;
+    }
+    
+    private String agregarDAO(List<String> campos, List<TipoDato> tipos){
+        String codigo = null;
+        
+        String inserciones = "";
+        String campo = null;
+        TipoDato tipo = null;
+        for(int i=0; i<campos.size(); i++){
+            campo = campos.get(i);
+            tipo = tipos.get(i);
+            
+            if(i!=0) //No insertar el ID
+                inserciones += "\n\t\t\t" + formatearInsertar(i, campo, tipo, true);
+        }
+        
+        codigo =
+            "\n\n\t@Override" +
+            "\n\tpublic int agregar(){" +
+            "\n\t\tint resultado = 1;" +
+            "\n\n\t\tString accion = super.INSERTAR;" +
+            "\n\t\tint parametros = " + (campos.size()-1) + ";" + //No considera el ID, por eso se resta 1
+            "\n\t\tString procedimiento = super.obtenerProcedimiento(Globales.BD_ESQUEMA, accion, TABLA, parametros);" +
+            "\n\n\t\tif(Globales.APP_DEBUG)" +
+            "\n\t\t\tConsolaDebug.agregarTexto(procedimiento, ConsolaDebug.PROCESO);" +
+            "\n\n\t\ttry{" +
+            "\n\t\t\tConnection conexion = BDConexion.getConnection();" +
+            "\n\n\t\t\tCallableStatement procInsertar = conexion.prepareCall(procedimiento);" +
+            inserciones +
+            "\n\t\t\tprocInsertar.execute();" +
+            "\n\n\t\t\tconexion.commit();" +
+            "\n\t\t\tBDConexion.cerrar();" +
+            "\n\n\t\t\tresultado = 0;" +
+            "\n\t\t}catch(Exception e){" +
+            "\n\t\t\tConsolaDebug.agregarTexto(\"No se pudo \" + accion + \" en la tabla \" + Globales.BD_ESQUEMA + \".\" + TABLA + \"\\n\"+e, ConsolaDebug.ERROR);" +
+            "\n\t\t}" +
+            "\n\n\t\treturn resultado;" +
+            "\n\t}";
+        
+        return codigo;
+    }
+    
+    private String formatearInsertar(int indice, String campo, TipoDato tipo, boolean insertar){
+        String codigo = null;
+        String campoPascal = convertirPascal(campo);
+        
+        String accion = null;
+        if(insertar)
+            accion = "Insertar";
+        else
+            accion = "Actualizar";
+        
+        String instruccion = "proc" + accion + ".set" + tipo.getEncapsulado() +"(" + indice + ", ";
+        
+        switch(tipo){
+            case TEXTO_LARGO:
+            case TEXTO:
+            case NUMERO:
+            case DECIMAL:
+                codigo = instruccion  + "dto.get" + campoPascal + "());";
+            break;
+            case FECHA:
+                codigo = instruccion + "new java.sql.Timestamp(dto.get" + campoPascal + "().getTime()));";
+            break;
+            case BOOLEANO:
+                codigo = instruccion + "dto.is" + campoPascal + "()==true?1:0);";
+            break;
+            case CARACTER:
+                codigo = instruccion + "String.valueOf(dto.get" + campoPascal + "()));";
+            break;
+            case BLOB:
+                codigo = "/* INSERCION DE IMAGEN EN DESARROLLO */";
+                    /*"\n\t\t\t\tdimension = ImagenDTO.TipoImagen.TipoImagen(dto.getTipo()).getDimension();" +
+                    "\n\n\t\t\t\tInputStream imagen = null;" +
+                    "\n\t\t\t\tint longitud = 0;" +
+                    "\n\n\t\t\t\tString rutaTemporal = ImagenEnvoltorio.crearImagenTemporal(dimension, dto.getRutaImagen());" +
+                    "\n\t\t\t\tFile archivo = new File(rutaTemporal);" +
+                    "\n\t\t\t\timagen = new FileInputStream(archivo);" +
+                    "\n\t\t\t\tlongitud = (int) archivo.length();" +
+                    "\n\n\t\t\t\tprocInsertar.setBinaryStream(" + indice + ", imagen, longitud);\n";*/
+            break;
+        }
+        
+        return codigo;
+    }
+    
+    private String modificarDAO(List<String> campos, List<TipoDato> tipos){
+        String codigo = null;
+        
+        String actualizaciones = "";
+        String campo = null;
+        TipoDato tipo = null;
+        for(int i=0; i<campos.size(); i++){
+            campo = campos.get(i);
+            tipo = tipos.get(i);
+            
+            actualizaciones += "\n\t\t\t" + formatearInsertar(i+1, campo, tipo, false);
+        }
+        
+        codigo =
+            "\n\n\t@Override" +
+            "\n\tpublic int modificar() {" +
+            "\n\t\tint resultado = 1;" +
+            "\n\t\tString accion = super.ACTUALIZAR;" +
+            "\n\t\tint parametros = " + campos.size() + ";" +
+            "\n\t\tString procedimiento = super.obtenerProcedimiento(Globales.BD_ESQUEMA, accion, TABLA, parametros);" +
+            "\n\n\t\tif(Globales.APP_DEBUG)" +
+            "\n\t\t\tConsolaDebug.agregarTexto(procedimiento, ConsolaDebug.PROCESO);" +
+            "\n\n\t\ttry{" +
+            "\n\t\t\tConnection conexion = BDConexion.getConnection();" +
+            "\n\n\t\t\tCallableStatement procActualizar = conexion.prepareCall(procedimiento);" +
+            actualizaciones +
+            "\n\t\t\tprocActualizar.execute();" +
+            "\n\n\t\t\tconexion.commit();" +
+            "\n\t\t\tBDConexion.cerrar();" +
+            "\n\n\t\t\tresultado = 0;" +
+            "\n\t\t}catch(Exception e){" +
+            "\n\t\t\tConsolaDebug.agregarTexto(\"No se pudo \" + accion + \" en la tabla \" + Globales.BD_ESQUEMA + \".\" + TABLA + \"\\n\"+e, ConsolaDebug.ERROR);" +
+            "\n\t\t}" +
+            "\n\n\t\treturn resultado;" +
+            "\n\t}";
+        
+        return codigo;
+    }
+    
+    private String eliminarDAO(List<String> campos, List<TipoDato> tipos){
+        String codigo = null;
+        
+        codigo =
+            "\n\n\t@Override" +
+            "\n\tpublic int eliminar() {" +
+            "\n\t\tint resultado = 1;" +
+            "\n\n\t\tString accion = super.ELIMINAR;" +
+            "\n\t\tint parametros = 1;" +
+            "\n\t\tString procedimiento = super.obtenerProcedimiento(Globales.BD_ESQUEMA, accion, TABLA, parametros);" +
+            "\n\n\t\tif(Globales.APP_DEBUG)" +
+            "\n\t\t\tConsolaDebug.agregarTexto(procedimiento + \" : ID - \" + dto.getId" + tablaPascal + "(), ConsolaDebug.PROCESO);" +
+            "\n\n\t\ttry{" +
+            "\n\t\t\tConnection conexion = BDConexion.getConnection();" +
+            "\n\n\t\t\tCallableStatement procEliminar = conexion.prepareCall(procedimiento);" +
+            "\n\t\t\tprocEliminar.setInt(1, dto.getId" + tablaPascal + "());" +
+            "\n\t\t\tprocEliminar.execute();" +
+            "\n\n\t\t\tconexion.commit();" +
+            "\n\t\t\tBDConexion.cerrar();" +
+            "\n\n\t\t\tresultado = 0;" +
+            "\n\t\t}catch(Exception e){" +
+            "\n\t\t\tConsolaDebug.agregarTexto(\"No se pudo \" + accion + \" en la tabla \" + Globales.BD_ESQUEMA + \".\" + TABLA + \"\\n\"+e, ConsolaDebug.ERROR);" +
+            "\n\t\t}" +
+            "\n\t\treturn resultado;\n" +
+            "\n\t}";
+        
+        return codigo;
+    }
+    
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Objeto de Negocio">
     @Override
-    public void crearObjetoNegocio(){}
+    public void crearObjetoNegocio(String tabla){
+        StringBuilder codigoObjetoNegocio = new StringBuilder();
+        
+        tablaPascal = convertirPascal(tabla);
+        tablaCamel = convertirCamel(tabla);
+         
+        String abrirClase = "public class " + tablaPascal + " extends ObjetoNegocio{";
+        codigoObjetoNegocio.append(abrirClase);
+        
+        String ejecutar = 
+            "\n\t@Override" +
+            "\n\tpublic String ejecutar(int metodo, Gestor gestor, DTO dto){" +
+            "\n\t\tString resultado = super.consultarAccion(metodo, new " + tablaPascal + "DAO(), dto);" +
+            "\n\n\t\treturn resultado;" +
+            "\n\t}";
+        
+        String consultarId =
+            "\n\n\t@Override" +
+            "\n\tpublic String consultarId(Gestor gestor) {" +
+            "\n\t\t" + tablaPascal + "DAO dao = new " + tablaPascal + "DAO();" +
+            "\n\t\t" + tablaPascal + "DTO dto = (" + tablaPascal + "DTO)gestor.getDTO();" +
+            "\n\t\tString id = String.valueOf(dto.getId" + tablaPascal + "());" +
+            "\n\n\t\t" + tablaPascal + "DTO filtroDTO = (" + tablaPascal + "DTO) dao.leerUno(\"id_" + tabla + " = \" + id);" +
+            "\n\n\t\tgestor.setListaDTO(new ArrayList<DTO>());" +
+            "\n\t\tgestor.getListaDTO().add(filtroDTO);" +
+            "\n\n\t\tif(Globales.APP_DEBUG)" +
+            "\n\t\t\tConsolaDebug.agregarTexto(\"DTOs obtenidos al consultar ID: \" + gestor.getListaDTO().size(), ConsolaDebug.PROCESO);" +
+            "\n\n\t\treturn Globales.RES_OK;" +
+            "\n\t}";
+        
+        String consultarSeleccion = 
+            "\n\n\t@Override" +
+            "\n\tpublic String consultarSeleccion(Gestor gestor) {" +
+            "\n\t\t" + tablaPascal + "DAO dao = new " + tablaPascal + "DAO();" +
+            "\n\t\tgestor.setListaDTO(dao.leer(null));" +
+            "\n\n\t\tif(Globales.APP_DEBUG)" +
+            "\n\t\t\tConsolaDebug.agregarTexto(\"DTOs obtenidos al consultar seleccion: \" + gestor.getListaDTO().size(), ConsolaDebug.PROCESO);" +
+            "\n\n\t\treturn Globales.RES_OK;" +
+            "\n\t}";
+        
+        String consultarSeleccionDesc = 
+            "\n\n\t@Override" +
+            "\n\tpublic String consultarSeleccionDesc(Gestor gestor) {" +
+            "\n\t\t" + tablaPascal + "DAO dao = new " + tablaPascal + "DAO();" +
+            "\n\t\tgestor.setListaDTO(dao.leerDesc(null));" +
+            "\n\n\t\tif(Globales.APP_DEBUG)" +
+            "\n\t\t\tConsolaDebug.agregarTexto(\"DTOs obtenidos al consultar seleccion: \" + gestor.getListaDTO().size(), ConsolaDebug.PROCESO);" +
+            "\n\n\t\treturn Globales.RES_OK;" +
+            "\n\t}";
+        
+        String consultarBusqueda = 
+            "\n\n\t@Override" +
+            "\n\tpublic String consultarBusqueda(Gestor gestor) {" +
+            "\n\t\tString where =\" WHERE 1=1 \";" +
+            "\n\n\t\tif(!super.busqueda.equals(\"\") && super.busqueda != null)" +
+            "\n\t\t\twhere += \"AND (descripcion) \" +" +
+            "\n\t\t\t\t\"LIKE '%\" +   super.busqueda + \"%'\";" +
+            "\n\n\t\tDAO dao = new " + tablaPascal + "DAO();" +
+            "\n\t\tgestor.setListaDTO(dao.leer(where));" +
+            "\n\n\t\tif(Globales.APP_DEBUG){" +
+            "\n\t\t\tConsolaDebug.agregarTexto(\"Consulta de busqueda:\" + where, ConsolaDebug.SQL);" +
+            "\n\t\t\tConsolaDebug.agregarTexto(\"DTOs obtenidos al consultar Busqueda: \" + gestor.getListaDTO().size(), ConsolaDebug.PROCESO);" +
+            "\n\t\t}" +
+            "\n\n\t\treturn Globales.RES_OK;" +
+            "\n\t}";
+        
+        String obtenerModelo = 
+            "\n\n\t@Override" +
+            "\n\tpublic " + tablaPascal + "DTO obtenerModelo(Gestor gestor){" +
+            "\n\t\t" + tablaPascal + "DTO dto = new " + tablaPascal + "DTO();" +
+            "\n\n\t\treturn dto;" +
+            "\n\t}";
+        
+        codigoObjetoNegocio.append(ejecutar);
+        codigoObjetoNegocio.append(consultarId);
+        codigoObjetoNegocio.append(consultarSeleccion);
+        codigoObjetoNegocio.append(consultarSeleccionDesc);
+        codigoObjetoNegocio.append(consultarBusqueda);
+        codigoObjetoNegocio.append(obtenerModelo);
+        codigoObjetoNegocio.append("\n}");
+        
+        super.codigoObjetoNegocio.add(codigoObjetoNegocio.toString());
+    }
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Gestor">
     @Override
-    public void crearGestor(){}
+    public void crearGestor(String tabla, String catalogo){
+        StringBuilder codigoGestor = new StringBuilder();
+        
+        tablaPascal = convertirPascal(tabla);
+        tablaCamel = convertirCamel(tabla);
+        
+        String abrirClase = "public class " + tablaPascal + "Gestor extends Gestor{";
+        codigoGestor.append(abrirClase);
+        
+        String atributos = 
+            "\n\tprivate final Gestor GESTOR = this;" +
+            "\n\tprivate final " + tablaPascal + " OBJETO_NEGOCIO = new " + tablaPascal + "();" +
+            "\n\tprivate final " + tablaPascal + "DAO DAO = new " + tablaPascal + "DAO();" +
+            "\n\tprivate final int MODULO = Globales.MOD_" + catalogo.toUpperCase() + ";";
+        
+        String constructor = 
+            "\n\n\tpublic Gestor" + tablaPascal + "(){" +
+            "\n\t\tsuper.gestor = GESTOR;" +
+            "\n\t\tsuper.objetoNegocio = OBJETO_NEGOCIO;" +
+            "\n\t\tsuper.dao = DAO;" +
+            "\n\t\tsuper.modulo = MODULO;" +
+            "\n\t}";
+        
+        
+        codigoGestor.append(atributos);
+        codigoGestor.append(constructor);
+        codigoGestor.append("\n}");
+        
+        super.codigoGestor.add(codigoGestor.toString());
+    }
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Vista">

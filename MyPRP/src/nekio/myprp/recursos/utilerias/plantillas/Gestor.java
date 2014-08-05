@@ -12,6 +12,7 @@ import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.Mapeador;
 
 public abstract class Gestor {
+    protected Gestor gestor;
     protected ObjetoNegocio objetoNegocio;
     protected DTO dto;
     protected DAO dao;
@@ -23,7 +24,7 @@ public abstract class Gestor {
     
     public void ejecutarControladorNegocio(String accion, String entidad){
         if(Globales.BD_ESQUEMA == null)
-            ConsolaDebug.agregarTexto("... Falta asociar un esquema de Base de Datos al Gestor" + entidad, ConsolaDebug.ERROR);
+            ConsolaDebug.agregarTexto("... Falta asociar un esquema de Base de Datos al " + entidad + "Gestor", ConsolaDebug.ERROR);
         else{
             String negocio = accion + entidad;
 
@@ -83,7 +84,22 @@ public abstract class Gestor {
         }
     }
         
-    public abstract String obtenerResultado(int metodo);
+    public String obtenerResultado(int metodo){
+        String resultado = null;
+        
+        if(metodo == Globales.BD.LEER.getLlave())
+            resultado = objetoNegocio.consultarSeleccion(gestor);
+        else if(metodo == Globales.BD.LEER_DESC.getLlave())
+            resultado = objetoNegocio.consultarSeleccionDesc(gestor);
+        else if(metodo == Globales.BD.LEER_UNO.getLlave())
+            resultado = objetoNegocio.consultarId(gestor);
+        else if(metodo == Globales.BD.BUSCAR.getLlave())
+            resultado = objetoNegocio.consultarBusqueda(gestor);
+        else if(metodo == Globales.BD.INSERTAR.getLlave() || metodo == Globales.BD.MODIFICAR.getLlave() || metodo == Globales.BD.ELIMINAR.getLlave())
+            resultado = objetoNegocio.ejecutar(metodo, gestor, dto);
+                
+        return resultado;
+    }
     
     public void dirigir(String resultado){
         if(Globales.APP_DEBUG)

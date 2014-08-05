@@ -17,12 +17,13 @@ import java.util.List;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import nekio.myprp.recursos.img.obj.GestorImagen;
+import nekio.myprp.recursos.img.obj.ImagenGestor;
 import nekio.myprp.recursos.utilerias.Globales;
+import static nekio.myprp.recursos.utilerias.Globales.BD_ESQUEMA_SERIES;
 import nekio.myprp.recursos.utilerias.Idioma;
 import nekio.myprp.recursos.utilerias.gui.swing.MenuModulo;
 import nekio.myprp.recursos.utilerias.plantillas.swing.SwingJFrame;
-import nekio.myprp.sistema.modulos.series.GestorMensajePrivado;
+import nekio.myprp.sistema.modulos.series.MensajePrivadoGestor;
 
 public class Menu extends SwingJFrame{
     private static final long serialVersionUID = 1L;
@@ -127,7 +128,7 @@ public class Menu extends SwingJFrame{
         mnItImagen.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed( ActionEvent evt){       
-                GestorImagen gestor = new GestorImagen();
+                ImagenGestor gestor = new ImagenGestor();
                 gestor.setEsquemaBD(Globales.BD_ESQUEMA_SERIES);
                 gestor.ejecutarControladorNegocio(Globales.BD.LEER_DESC.getValor(), Globales.Entidad.Imagen.name());
                 gestor = null;
@@ -138,7 +139,9 @@ public class Menu extends SwingJFrame{
             @Override
             public void actionPerformed( ActionEvent evt){       
                 String modulo = Idioma.obtenerTexto(Idioma.PROP_MENU, "series");
-                GestorMensajePrivado gestor = new GestorMensajePrivado();
+                
+                MensajePrivadoGestor gestor = new MensajePrivadoGestor();
+                gestor.setEsquemaBD(BD_ESQUEMA_SERIES);
                 
                 List<String> entradas = new ArrayList<String>();
                 List<String> acciones = new ArrayList<String>();

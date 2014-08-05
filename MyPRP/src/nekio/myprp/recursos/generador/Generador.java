@@ -49,8 +49,8 @@ public abstract class Generador {
     // <editor-fold defaultstate="collapsed" desc="Metodos Abstractos">
     protected abstract void crearDTO(String tabla, List<String> atributos, List<Globales.TipoDato> tipos);
     protected abstract void crearDAO(String tabla, List<List> llaves, List<String> campos, List<Globales.TipoDato> tipos);
-    protected abstract void crearObjetoNegocio();
-    protected abstract void crearGestor();
+    protected abstract void crearObjetoNegocio(String tabla);
+    protected abstract void crearGestor(String tabla, String catalogo);
     protected abstract void crearVista();
     // </editor-fold>
     

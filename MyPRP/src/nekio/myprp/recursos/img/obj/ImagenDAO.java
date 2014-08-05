@@ -172,15 +172,15 @@ public class ImagenDAO extends DAO{
         try{
 //            Connection conexion = BDConexion.getConnection();
 //            
-//            dimension = ImagenDTO.TipoImagen.TipoImagen(dto.getTipo()).getDimension();
-//            
-//            InputStream imagen = null;
-//            int longitud = 0;
-//            
-//            String rutaTemporal = ImagenEnvoltorio.crearImagenTemporal(dimension, dto.getRutaImagen());
-//            File archivo = new File(rutaTemporal);
-//            imagen = new FileInputStream(archivo);
-//            longitud = (int) archivo.length();
+            dimension = ImagenDTO.TipoImagen.TipoImagen(dto.getTipo()).getDimension();
+            
+            InputStream imagen = null;
+            int longitud = 0;
+            
+            String rutaTemporal = ImagenEnvoltorio.crearImagenTemporal(dimension, dto.getRutaImagen());
+            File archivo = new File(rutaTemporal);
+            imagen = new FileInputStream(archivo);
+            longitud = (int) archivo.length();
 //                
 //            CallableStatement procInsertar = conexion.prepareCall(procedimiento);
 //            procInsertar.setBinaryStream(1,imagen, longitud);
