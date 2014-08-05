@@ -24,6 +24,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
+import javax.swing.text.DefaultCaret;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
@@ -98,6 +99,7 @@ public class ConsolaDebug extends JFrame{
         
         JScrollPane scrollCaja = new JScrollPane(txtConsola);
         scrollCaja.setOpaque(false);
+        
         
         chkFrente = new JCheckBox(Idioma.obtenerTexto(Idioma.PROP_ACCIONES, "frente"), true);
         

@@ -6,7 +6,7 @@ package nekio.myprp.recursos.img.obj.vista;
  */
 
 import nekio.myprp.recursos.herramientas.ConsolaDebug;
-import nekio.myprp.recursos.img.obj.GestorImagen;
+import nekio.myprp.recursos.img.obj.ImagenGestor;
 import nekio.myprp.recursos.img.obj.ImagenDTO;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.gui.swing.BD_Manipulador;
@@ -16,7 +16,7 @@ public class ImagenBD_M extends BD_Manipulador{
     private static final long serialVersionUID = 1L;
     private final String ENTIDAD = Globales.Entidad.Imagen.name();
     
-    private GestorImagen gestor;
+    private ImagenGestor gestor;
     private CatalogoImagenes gui;
     
     public ImagenBD_M(SwingMaestro gui){
@@ -28,7 +28,7 @@ public class ImagenBD_M extends BD_Manipulador{
     
     @Override
     public void insertarRegistro() {
-        gestor = new GestorImagen();
+        gestor = new ImagenGestor();
         gestor.setGui(gui);
         gestor.ejecutarControladorNegocio(Globales.BD.NUEVO.getValor(), ENTIDAD);
         gestor = null;
@@ -39,7 +39,7 @@ public class ImagenBD_M extends BD_Manipulador{
         ImagenDTO parametros = gui.getParametros();
         
         if(parametros != null){
-            gestor = new GestorImagen();
+            gestor = new ImagenGestor();
             gestor.setDTO(parametros);
             gestor.setGui(gui);
             gestor.ejecutarControladorNegocio(Globales.BD.LEER_UNO.getValor(), ENTIDAD);
@@ -55,7 +55,7 @@ public class ImagenBD_M extends BD_Manipulador{
         ImagenDTO parametros = gui.getParametros();
         
         if(parametros != null){
-            gestor = new GestorImagen();
+            gestor = new ImagenGestor();
             gestor.setDTO(parametros);
             gestor.setGui(gui);
             gestor.ejecutarControladorNegocio(Globales.BD.ELIMINAR.getValor(), ENTIDAD);

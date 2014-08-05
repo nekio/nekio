@@ -42,7 +42,7 @@ import javax.swing.SwingConstants;
 import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.herramientas.ImagenEnvoltorio;
 import nekio.myprp.recursos.herramientas.Mensaje;
-import nekio.myprp.recursos.img.obj.GestorImagen;
+import nekio.myprp.recursos.img.obj.ImagenGestor;
 import nekio.myprp.recursos.img.obj.ImagenDTO;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.Idioma;
@@ -429,7 +429,7 @@ public class RecogedorImagen extends SwingJFrame implements DropTargetListener{
         
         String entidad = Globales.Entidad.Imagen.name();
         
-        GestorImagen gestor = new GestorImagen();
+        ImagenGestor gestor = new ImagenGestor();
         gestor.setDTO(dto);
         gestor.setGui(guiPadre);
  

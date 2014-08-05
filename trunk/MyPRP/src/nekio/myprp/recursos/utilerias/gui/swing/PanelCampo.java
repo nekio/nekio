@@ -29,8 +29,8 @@ import nekio.myprp.recursos.utilerias.Fecha;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.bd.BDConexion;
 
-// <editor-fold defaultstate="collapsed" desc="Panel Campo">
-class PanelCampo{
+public class PanelCampo{
+    // <editor-fold defaultstate="collapsed" desc="Atributos">
     private final int TEXTO_ID = 4;
     private final int TEXTO_CAMPO = 15;
     
@@ -45,7 +45,9 @@ class PanelCampo{
     private JButton btnLOV;
     private JButton btnFecha;
     private JCheckBox chkValor;
+    // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Crear">
     public JPanel crear(String campo, Object valor, boolean llave){
         return crear(campo, valor, Globales.TipoDato.TEXTO, llave);
     }
@@ -116,7 +118,9 @@ class PanelCampo{
 
         return pnlCampo;
     }
+    // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Escuchadores">
     private void escuchadores(){
         if(btnLOV != null){
             btnLOV.addMouseListener(new MouseAdapter(){
@@ -157,7 +161,9 @@ class PanelCampo{
             });
         }
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Llamar Lista De Valores">
     private void llamarListaDeValores(Point punto){
         try{
             String tabla = campo.replace(Globales.BD_TABLA_ID, "");
@@ -188,11 +194,13 @@ class PanelCampo{
             ConsolaDebug.agregarTexto("Fallo en los valores de conexion a la BD", ConsolaDebug.ERROR);
         }
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Formatear Fecha">
     private String formatearFecha(Date fecha){
         return Fecha.obtenerFechaFormateada(fecha, Fecha.FORMATO_COMPLETO);
     }
+    // </editor-fold>
     
     private void seleccionarImagen(){}
 }
-// </editor-fold>
