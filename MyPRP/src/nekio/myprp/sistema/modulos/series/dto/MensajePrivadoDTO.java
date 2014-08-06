@@ -7,6 +7,7 @@ package nekio.myprp.sistema.modulos.series.dto;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.plantillas.DTO;
 
@@ -24,9 +25,11 @@ public class MensajePrivadoDTO extends DTO{
     @Override
     public void confirmarDTO(){        
         campos = new ArrayList<String>();
+        tablasForaneas = new ArrayList<String>();
         valores = new ArrayList();
         tipoDatos = new ArrayList<Globales.TipoDato>();
-        LOVValores = new ArrayList<String>();
+        valoresLOV = new ArrayList<String>();
+        camposExtrasLOV = new ArrayList<List>();
         
         super.campos.add("id_mensaje_privado");
         super.valores.add(idMensajePrivado);
@@ -35,22 +38,30 @@ public class MensajePrivadoDTO extends DTO{
         super.campos.add("id_tipo_mensaje");
         super.valores.add(idTipoMensaje);
         super.tipoDatos.add(Globales.TipoDato.NUMERO);
-        super.LOVValores.add(Globales.BD_TABLA_DESC);
+        super.valoresLOV.add(Globales.BD_TABLA_DESC);
+        super.camposExtrasLOV.add(null);
+        super.tablasForaneas.add(null);
         
         super.campos.add("id_mp_relacionado");
         super.valores.add(idMpRelacionado);
         super.tipoDatos.add(Globales.TipoDato.NUMERO);
-        super.LOVValores.add("mensaje");
+        super.valoresLOV.add("mensaje");
+        super.camposExtrasLOV.add(null);
+        super.tablasForaneas.add("mensaje_privado");
         
         super.campos.add("id_web");
         super.valores.add(idWeb);
         super.tipoDatos.add(Globales.TipoDato.NUMERO);
-        super.LOVValores.add("titulo");
+        super.valoresLOV.add("titulo");
+        super.camposExtrasLOV.add(new ArrayList<String>() {{add("siglas"); add("pagina");}});
+        super.tablasForaneas.add(null);
         
         super.campos.add("id_colaborador");
         super.valores.add(idColaborador);
         super.tipoDatos.add(Globales.TipoDato.NUMERO);
-        super.LOVValores.add(Globales.BD_TABLA_DESC);
+        super.valoresLOV.add(Globales.BD_TABLA_DESC);
+        super.camposExtrasLOV.add(null);
+        super.tablasForaneas.add(null);
         
         super.campos.add("mensaje");
         super.valores.add(mensaje);

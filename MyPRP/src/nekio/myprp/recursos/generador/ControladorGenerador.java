@@ -71,11 +71,12 @@ public class ControladorGenerador {
         ConsolaDebug.agregarTexto("\nCreando capas para la tabla " + tabla, ConsolaDebug.PROCESO, false);
         
         try{
+            List<String> tablasForaneas = (List<String>)detallesTablaBD.get(BDConexion.Detalles.LLAVES.ordinal()).get(2);
             List<String> atributos = detallesTablaBD.get(BDConexion.Detalles.NOMBRE_CAMPOS.ordinal());
             List<TipoDato> tipos = detallesTablaBD.get(BDConexion.Detalles.TIPO_DATOS.ordinal());
             List<List> llaves = detallesTablaBD.get(BDConexion.Detalles.LLAVES.ordinal());
 
-            generador.crearDTO(tabla, atributos, tipos);
+            generador.crearDTO(tabla, tablasForaneas, atributos, tipos);
             generador.crearDAO(tabla, llaves, atributos, tipos);
             generador.crearObjetoNegocio(tabla);
             generador.crearGestor(tabla, catalogo);

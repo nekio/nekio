@@ -40,7 +40,7 @@ public class GPlantillas extends Generador{
     
     // <editor-fold defaultstate="collapsed" desc="DTO">
     @Override
-    public void crearDTO(String tabla, List<String> atributos, List<Globales.TipoDato> tipos){
+    public void crearDTO(String tabla, List<String> tablasForaneas, List<String> atributos, List<Globales.TipoDato> tipos){
         StringBuilder codigoDTO = new StringBuilder();
         
         StringBuilder contenido = new StringBuilder();

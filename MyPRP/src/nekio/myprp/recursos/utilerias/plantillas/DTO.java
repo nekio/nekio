@@ -10,12 +10,18 @@ import nekio.myprp.recursos.utilerias.Globales;
 
 public abstract class DTO {
     protected List<String> campos;
+    protected List<String> tablasForaneas;
     protected List valores;
     protected List<Globales.TipoDato> tipoDatos;
-    protected List<String> LOVValores;
+    protected List<String> valoresLOV;
+    protected List<List> camposExtrasLOV;
     
     public List<String> getCampos() {        
         return campos;
+    }
+    
+    public List<String> getTablasForaneas() {
+        return tablasForaneas;
     }
     
     public List getValores(){
@@ -27,8 +33,12 @@ public abstract class DTO {
     }
 
     public List<String> getLOVValores() {
-        return LOVValores;
+        return valoresLOV;
     }
     
-    public abstract void confirmarDTO(); //Metodo para inicializar las listas de clas
+    public List<List> getCamposExtrasLOV() {
+        return camposExtrasLOV;
+    }
+    
+    public abstract void confirmarDTO(); //Metodo para inicializar las listas de clase
 }

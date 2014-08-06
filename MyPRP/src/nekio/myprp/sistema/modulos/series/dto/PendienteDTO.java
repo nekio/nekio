@@ -25,7 +25,7 @@ public class PendienteDTO extends DTO{
         campos = new ArrayList<String>();
         valores = new ArrayList();
         tipoDatos = new ArrayList<Globales.TipoDato>();
-        LOVValores = new ArrayList<String>();
+        valoresLOV = new ArrayList<String>();
         
         super.campos.add("id_pendiente");
         super.valores.add(idPendiente);

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import static nekio.myprp.recursos.generador.ControladorGenerador.convertirCamel;
 import static nekio.myprp.recursos.generador.ControladorGenerador.convertirPascal;
+import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.Globales.TipoDato;
 // </editor-fold>
 
@@ -39,7 +40,7 @@ public class GHardcode extends Generador{
     
     // <editor-fold defaultstate="collapsed" desc="DTO">
     @Override
-    public void crearDTO(String tabla, List<String> atributos, List<TipoDato> tipos){
+    public void crearDTO(String tabla, List<String> tablasForaneas, List<String> atributos, List<TipoDato> tipos){
         StringBuilder codigoDTO = new StringBuilder();
         
         StringBuilder contenido = new StringBuilder();
@@ -72,12 +73,21 @@ public class GHardcode extends Generador{
                     "\n\t@Override" +
                     "\n\tpublic void confirmarDTO(){ " +
                     "\n\t\tcampos = new ArrayList<String>();" +
+                    "\n\t\ttablasForaneas = new ArrayList<String>();" +
                     "\n\t\tvalores = new ArrayList();" +
-                    "\n\t\ttipoDatos = new ArrayList<Globales.TipoDato>();";
+                    "\n\t\ttipoDatos = new ArrayList<Globales.TipoDato>();" +
+                    "\n\t\tvaloresLOV = new ArrayList<String>();" +
+                    "\n\t\tcamposExtrasLOV = new ArrayList<List>();";
 
             codigoDTO.append("\n" + confirmarDTO);
+            
             for(int i=0; i<atributos.size(); i++){
-                String bloque = formatearConfirmarDTO(tipos.get(i), atributos.get(i));
+                String tablaForanea = null;
+                try{
+                    tablaForanea = tablasForaneas.get(i);
+                }catch(Exception e){}
+                
+                String bloque = formatearConfirmarDTO(tipos.get(i), atributos.get(i), i, tablaForanea);
 
                 codigoDTO.append("\n" + bloque);
             }
@@ -96,13 +106,21 @@ public class GHardcode extends Generador{
         this.codigoDTO.add(codigoDTO.toString());
     }
     
-    private String formatearConfirmarDTO(TipoDato tipo, String campo){
+    private String formatearConfirmarDTO(TipoDato tipo, String campo, int indice, String tablaForanea){
         String codigo = null;
         
         codigo = 
                 "\n\t\tsuper.campos.add(\"" + campo + "\");" +
                 "\n\t\tsuper.valores.add(" + convertirCamel(campo) + ");" +
                 "\n\t\tsuper.tipoDatos.add(Globales.TipoDato."+ tipo.name() +");";
+        
+        if( (indice != 0) && (campo.startsWith(Globales.BD_TABLA_ID)) ){
+            codigo += 
+                "\n\t\t//super.valoresLOV.add(" + Globales.BD_TABLA_DESC + ");" +
+                "\n\t\t//super.camposExtrasLOV.add(new ArrayList<String>() {{add(\"\"); add(\"\");}});" + 
+                //"\n\t\tsuper.tablasForaneas.add(\"" + tablaForanea + "\");";
+                    "\n\t\tsuper.tablasForaneas.add(\"null\");";
+        }
         
         return codigo;
     }
