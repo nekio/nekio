@@ -139,8 +139,10 @@ public class MensajePrivadoSwing extends SwingMaestro{
                 
         List<String> camposBD = null;
         List valoresBD = null;
+        List<String> tablasForaneas = null;
         List<Globales.TipoDato> tiposDatoBD = null;
         List<String> valorLOV = null;
+        List<List> camposExtrasLOV = null;
         if(listaDTO != null){
             if(listaDTO.size() != 0){
                 dto = listaDTO.get(indiceDTO);
@@ -148,13 +150,15 @@ public class MensajePrivadoSwing extends SwingMaestro{
 
                 camposBD = dto.getCampos();
                 valoresBD = dto.getValores();
+                tablasForaneas = dto.getTablasForaneas();
                 tiposDatoBD = dto.getTipoDatos();
                 valorLOV = dto.getLOVValores();
+                camposExtrasLOV = dto.getCamposExtrasLOV();
             }else{
                 BDNavegador.habilitarTodo(false);
             }
         }
-        pnlContenido.add(new PanelGUI(camposBD, valoresBD, tiposDatoBD, valorLOV), "Center");
+        pnlContenido.add(new PanelGUI(tablasForaneas, camposBD, valoresBD, tiposDatoBD, valorLOV, camposExtrasLOV, Globales.BD_ESQUEMA), "Center");
         contenedor.add(pnlContenido, "Center");
     }
 

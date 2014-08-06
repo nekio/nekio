@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -34,8 +35,11 @@ public class PanelCampo{
     private final int TEXTO_ID = 4;
     private final int TEXTO_CAMPO = 15;
     
+    private String esquemaBD;
+    private String tablaForanea;
     private String campo;
     private String valorLOV;
+    private List<String> camposExtrasLOV;
 
     private JTextField txtCampo;
     private JTextField txtCampoExtra;
@@ -57,8 +61,19 @@ public class PanelCampo{
     }
     
     public JPanel crear(String campo, Object valor, Globales.TipoDato tipoCampo, boolean llave, String valorLOV){
+        return crear(campo, valor, tipoCampo, llave, valorLOV, null);
+    }
+    
+    public JPanel crear(String campo, Object valor, Globales.TipoDato tipoCampo, boolean llave, String valorLOV, String esquemaBD){
+        return crear(null, campo, valor, tipoCampo, llave, valorLOV, esquemaBD, null);
+    }
+    
+    public JPanel crear(String tablaForanea, String campo, Object valor, Globales.TipoDato tipoCampo, boolean llave, String valorLOV, String esquemaBD, List<String> camposExtrasLOV){
+        this.esquemaBD = esquemaBD;
+        this.tablaForanea = tablaForanea;
         this.campo = campo;
         this.valorLOV = valorLOV;
+        this.camposExtrasLOV = camposExtrasLOV;
         
         JPanel pnlCampo = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
@@ -166,7 +181,12 @@ public class PanelCampo{
     // <editor-fold defaultstate="collapsed" desc="Llamar Lista De Valores">
     private void llamarListaDeValores(Point punto){
         try{
-            String tabla = campo.replace(Globales.BD_TABLA_ID, "");
+            String tabla = null;
+            if(tablaForanea == null)
+                tabla = campo.replace(Globales.BD_TABLA_ID, "");
+            else
+                tabla = tablaForanea;
+            
             String llaveLOV = campo;
             
             Elementos elementos = new Elementos();
@@ -174,7 +194,7 @@ public class PanelCampo{
             elementos.setConexion(BDConexion.getConnection());
             elementos.setLlave(llaveLOV);
             elementos.setValor(valorLOV);
-            //elementos.setCamposExtras(camposExtrasLOV);
+            elementos.setCamposExtras(camposExtrasLOV);
             elementos.setTabla(tabla);
             elementos.setOrdendoPorLlave(true);
             
@@ -185,7 +205,7 @@ public class PanelCampo{
             String titulo = tabla;
 
             try{
-                new SwingLOV(elementos, componentesTxt, titulo, punto);
+                new SwingLOV(elementos, componentesTxt, titulo, punto, esquemaBD);
             }catch(Exception e){
                 txtCampoExtra.setVisible(false);
                 btnLOV.setVisible(false);
