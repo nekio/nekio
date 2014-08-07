@@ -50,7 +50,7 @@ public class MensajePrivadoDAO extends DAO{
         ArrayList<DTO> lista = new ArrayList<DTO>();
         String consulta = 
                 "SELECT " + select + " \n" +
-                "FROM " + Globales.BD_ESQUEMA + "." + TABLA + " \n" +
+                "FROM " + Globales.BD_DESC_ESQUEMA + "." + TABLA + " \n" +
                 "WHERE 1=1\n";
         
         if(where != null)
@@ -85,7 +85,7 @@ public class MensajePrivadoDAO extends DAO{
             
             BDConexion.cerrar();
         }catch(Exception e){
-            ConsolaDebug.agregarTexto("DAO: Error al leer registros de " + Globales.BD_ESQUEMA + "." + TABLA + ": " + e, ConsolaDebug.ERROR);
+            ConsolaDebug.agregarTexto("DAO: Error al leer registros de " + Globales.BD_DESC_ESQUEMA + "." + TABLA + ": " + e, ConsolaDebug.ERROR);
         }
         
         return lista;
@@ -100,7 +100,7 @@ public class MensajePrivadoDAO extends DAO{
         
         String consulta = 
                 "SELECT " + select + " \n" +
-                "FROM " + Globales.BD_ESQUEMA + "." + TABLA + " \n" +
+                "FROM " + Globales.BD_DESC_ESQUEMA + "." + TABLA + " \n" +
                 "WHERE 1=1\n";
         
         if(where != null)
@@ -131,7 +131,7 @@ public class MensajePrivadoDAO extends DAO{
             
             BDConexion.cerrar();
         }catch(Exception e){
-            ConsolaDebug.agregarTexto("Error al leer un registro de " + Globales.BD_ESQUEMA + "." + TABLA + ": " + e, ConsolaDebug.ERROR);
+            ConsolaDebug.agregarTexto("Error al leer un registro de " + Globales.BD_DESC_ESQUEMA + "." + TABLA + ": " + e, ConsolaDebug.ERROR);
         }
         
         return dto;
@@ -143,7 +143,7 @@ public class MensajePrivadoDAO extends DAO{
         
         String accion = super.INSERTAR;
         int parametros = 8;
-        String procedimiento = super.obtenerProcedimiento(Globales.BD_ESQUEMA, accion, TABLA, parametros);
+        String procedimiento = super.obtenerProcedimiento(Globales.BD_DESC_ESQUEMA, accion, TABLA, parametros);
         
         if(Globales.APP_DEBUG)
             ConsolaDebug.agregarTexto(procedimiento, ConsolaDebug.PROCESO);
@@ -167,7 +167,7 @@ public class MensajePrivadoDAO extends DAO{
             
             resultado = 0;
         }catch(Exception e){
-            ConsolaDebug.agregarTexto("No se pudo " + accion + " en la tabla " + Globales.BD_ESQUEMA + "." + TABLA + "\n"+e, ConsolaDebug.ERROR);
+            ConsolaDebug.agregarTexto("No se pudo " + accion + " en la tabla " + Globales.BD_DESC_ESQUEMA + "." + TABLA + "\n"+e, ConsolaDebug.ERROR);
         }
 
         return resultado;
@@ -179,7 +179,7 @@ public class MensajePrivadoDAO extends DAO{
         
         String accion = super.ACTUALIZAR;
         int parametros = 9;
-        String procedimiento = super.obtenerProcedimiento(Globales.BD_ESQUEMA, accion, TABLA, parametros);
+        String procedimiento = super.obtenerProcedimiento(Globales.BD_DESC_ESQUEMA, accion, TABLA, parametros);
                
         if(Globales.APP_DEBUG)
             ConsolaDebug.agregarTexto(procedimiento, ConsolaDebug.PROCESO);
@@ -204,7 +204,7 @@ public class MensajePrivadoDAO extends DAO{
             
             resultado = 0;
         }catch(Exception e){
-            ConsolaDebug.agregarTexto("No se pudo " + accion + " en la tabla " + Globales.BD_ESQUEMA + "." + TABLA + "\n"+e, ConsolaDebug.ERROR);
+            ConsolaDebug.agregarTexto("No se pudo " + accion + " en la tabla " + Globales.BD_DESC_ESQUEMA + "." + TABLA + "\n"+e, ConsolaDebug.ERROR);
         }
 
         return resultado;
@@ -216,7 +216,7 @@ public class MensajePrivadoDAO extends DAO{
         
         String accion = super.ELIMINAR;
         int parametros = 1;
-        String procedimiento = super.obtenerProcedimiento(Globales.BD_ESQUEMA, accion, TABLA, parametros);
+        String procedimiento = super.obtenerProcedimiento(Globales.BD_DESC_ESQUEMA, accion, TABLA, parametros);
         
         if(Globales.APP_DEBUG)
             ConsolaDebug.agregarTexto("\n" + procedimiento + " : ID - " + dto.getIdMensajePrivado(), ConsolaDebug.PROCESO);
@@ -233,7 +233,7 @@ public class MensajePrivadoDAO extends DAO{
             
             resultado = 0;
         }catch(Exception e){
-            ConsolaDebug.agregarTexto("No se pudo " + accion + " en la tabla " + Globales.BD_ESQUEMA + "." + TABLA + "\n"+e, ConsolaDebug.ERROR);
+            ConsolaDebug.agregarTexto("No se pudo " + accion + " en la tabla " + Globales.BD_DESC_ESQUEMA + "." + TABLA + "\n"+e, ConsolaDebug.ERROR);
         }
 
         return resultado;

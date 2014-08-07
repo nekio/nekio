@@ -58,7 +58,7 @@ public class BitacoraDAO extends DAO{
             ConsolaDebug.agregarTexto("Evento registrado en la bitacora satisfactoriamente", ConsolaDebug.BITACORA);
             resultado = 0;
         }catch(Exception e){
-            ConsolaDebug.agregarTexto("No se pudo " + accion + " en la tabla " + Globales.BD_ESQUEMA + "." + TABLA + "\n"+e, ConsolaDebug.BITACORA);
+            ConsolaDebug.agregarTexto("No se pudo " + accion + " en la tabla " + Globales.BD_DESC_ESQUEMA + "." + TABLA + "\n"+e, ConsolaDebug.BITACORA);
         }
         
         return resultado;

@@ -47,7 +47,7 @@ public class UsuarioDAO extends DAO{
         ArrayList<DTO> lista = new ArrayList<DTO>();
         String consulta = 
                 "SELECT " + select +
-                "FROM " + Globales.BD_ESQUEMA + "." + TABLA + " \n" +
+                "FROM " + Globales.BD_DESC_ESQUEMA + "." + TABLA + " \n" +
                 "WHERE 1=1\n";
         
         if(where != null)
@@ -82,7 +82,7 @@ public class UsuarioDAO extends DAO{
             
             BDConexion.cerrar();
         }catch(Exception e){
-            ConsolaDebug.agregarTexto("Error al leer registros de " + Globales.BD_ESQUEMA + "." + TABLA + ": " + e, ConsolaDebug.ERROR);
+            ConsolaDebug.agregarTexto("Error al leer registros de " + Globales.BD_DESC_ESQUEMA + "." + TABLA + ": " + e, ConsolaDebug.ERROR);
         }
         
         return lista;
@@ -97,7 +97,7 @@ public class UsuarioDAO extends DAO{
         
         String consulta = 
                 "SELECT " + select +
-                "FROM " + Globales.BD_ESQUEMA + "." + TABLA + " \n" +
+                "FROM " + Globales.BD_DESC_ESQUEMA + "." + TABLA + " \n" +
                 "WHERE 1=1\n";
         
         if(where != null)
@@ -128,7 +128,7 @@ public class UsuarioDAO extends DAO{
             
             BDConexion.cerrar();
         }catch(Exception e){
-            ConsolaDebug.agregarTexto("Error al leer un registro de " + Globales.BD_ESQUEMA + "." + TABLA + ": " + e, ConsolaDebug.ERROR);
+            ConsolaDebug.agregarTexto("Error al leer un registro de " + Globales.BD_DESC_ESQUEMA + "." + TABLA + ": " + e, ConsolaDebug.ERROR);
         }
         
         return dto;

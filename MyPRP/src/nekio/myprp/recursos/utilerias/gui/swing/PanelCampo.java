@@ -119,7 +119,7 @@ public class PanelCampo{
         }else if(!llave && tipoCampo == Globales.TipoDato.TEXTO_LARGO){
             txtCampo.setVisible(false);
             
-            txtCaja = new JTextArea(String.valueOf(valor),5,58);
+            txtCaja = new JTextArea(String.valueOf(valor),10,55);
             txtCaja.setWrapStyleWord(true);
             txtCaja.setLineWrap(true);
             txtCaja.setEditable(false);
