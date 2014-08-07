@@ -23,7 +23,7 @@ public abstract class Gestor {
     private List<DTO> listaDTO;
     
     public void ejecutarControladorNegocio(String accion, String entidad){
-        if(Globales.BD_ESQUEMA == null)
+        if(Globales.BD_DESC_ESQUEMA == null)
             ConsolaDebug.agregarTexto("... Falta asociar un esquema de Base de Datos al " + entidad + "Gestor", ConsolaDebug.ERROR);
         else{
             String negocio = accion + entidad;
@@ -162,6 +162,6 @@ public abstract class Gestor {
     }
 
     public void setEsquemaBD(String esquemaBD) {
-        Globales.BD_ESQUEMA = esquemaBD;
+        Globales.BD_DESC_ESQUEMA = esquemaBD;
     }
 }

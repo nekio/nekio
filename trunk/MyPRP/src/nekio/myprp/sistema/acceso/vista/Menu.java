@@ -129,7 +129,7 @@ public class Menu extends SwingJFrame{
             @Override
             public void actionPerformed( ActionEvent evt){       
                 ImagenGestor gestor = new ImagenGestor();
-                gestor.setEsquemaBD(Globales.BD_ESQUEMA_SERIES);
+                gestor.setEsquemaBD(Globales.BD_TOOLS);
                 gestor.ejecutarControladorNegocio(Globales.BD.LEER_DESC.getValor(), Globales.Entidad.Imagen.name());
                 gestor = null;
             }

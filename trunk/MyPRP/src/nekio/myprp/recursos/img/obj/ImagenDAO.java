@@ -57,7 +57,7 @@ public class ImagenDAO extends DAO{
         ArrayList<DTO> lista = new ArrayList<DTO>();
         String consulta = 
                 "SELECT " + select + " \n" +
-                "FROM " + Globales.BD_ESQUEMA + "." + TABLA + " \n" +
+                "FROM " + Globales.BD_DESC_ESQUEMA + "." + TABLA + " \n" +
                 "WHERE 1=1\n";
         
         if(where != null)
@@ -98,7 +98,7 @@ public class ImagenDAO extends DAO{
             
             BDConexion.cerrar();
         }catch(Exception e){
-            ConsolaDebug.agregarTexto("DAO: Error al leer registros de " + Globales.BD_ESQUEMA + "." + TABLA + ": " + e, ConsolaDebug.ERROR);
+            ConsolaDebug.agregarTexto("DAO: Error al leer registros de " + Globales.BD_DESC_ESQUEMA + "." + TABLA + ": " + e, ConsolaDebug.ERROR);
         }
         
         return lista;
@@ -113,7 +113,7 @@ public class ImagenDAO extends DAO{
                 
         String consulta = 
                 "SELECT " + select + " \n" +
-                "FROM " + Globales.BD_ESQUEMA + "." + TABLA + " \n" +
+                "FROM " + Globales.BD_DESC_ESQUEMA + "." + TABLA + " \n" +
                 "WHERE 1=1\n";
         
         if(where != null)
@@ -150,7 +150,7 @@ public class ImagenDAO extends DAO{
             
             BDConexion.cerrar();
         }catch(Exception e){
-            ConsolaDebug.agregarTexto("Error al leer un registro de " + Globales.BD_ESQUEMA + "." + TABLA + ": " + e, ConsolaDebug.ERROR);
+            ConsolaDebug.agregarTexto("Error al leer un registro de " + Globales.BD_DESC_ESQUEMA + "." + TABLA + ": " + e, ConsolaDebug.ERROR);
         }
         
         return dto;
@@ -162,7 +162,7 @@ public class ImagenDAO extends DAO{
         
         String accion = super.INSERTAR;
         int parametros = 6;
-        String procedimiento = super.obtenerProcedimiento(Globales.BD_ESQUEMA, accion, TABLA, parametros);
+        String procedimiento = super.obtenerProcedimiento(Globales.BD_DESC_ESQUEMA, accion, TABLA, parametros);
         
         Dimension dimension = null;
         
@@ -170,8 +170,8 @@ public class ImagenDAO extends DAO{
             ConsolaDebug.agregarTexto(procedimiento + " : " + dto.getRutaImagen(), ConsolaDebug.PROCESO);
 
         try{
-//            Connection conexion = BDConexion.getConnection();
-//            
+            Connection conexion = BDConexion.getConnection();
+            
             dimension = ImagenDTO.TipoImagen.TipoImagen(dto.getTipo()).getDimension();
             
             InputStream imagen = null;
@@ -181,28 +181,29 @@ public class ImagenDAO extends DAO{
             File archivo = new File(rutaTemporal);
             imagen = new FileInputStream(archivo);
             longitud = (int) archivo.length();
-//                
-//            CallableStatement procInsertar = conexion.prepareCall(procedimiento);
-//            procInsertar.setBinaryStream(1,imagen, longitud);
-//            procInsertar.setString(2, dto.getNombre());
-//            procInsertar.setString(3, String.valueOf(dto.getTipo()));
-//            procInsertar.setTimestamp(4, new java.sql.Timestamp(dto.getFechaSubida().getTime()));
-//            procInsertar.setString(5, dto.getDescripcion());
-//            procInsertar.setInt(6, dto.getIdSistema());
-//            procInsertar.execute();
-//
-//            conexion.commit();
-//            BDConexion.cerrar();
+                
+            CallableStatement procInsertar = conexion.prepareCall(procedimiento);
+            procInsertar.setBinaryStream(1,imagen, longitud);
+            procInsertar.setString(2, dto.getNombre());
+            procInsertar.setString(3, String.valueOf(dto.getTipo()));
+            procInsertar.setTimestamp(4, new java.sql.Timestamp(dto.getFechaSubida().getTime()));
+            procInsertar.setString(5, dto.getDescripcion());
+            procInsertar.setInt(6, dto.getIdSistema());
+            procInsertar.execute();
+
+            conexion.commit();
+            BDConexion.cerrar();
             
-            super.insertarBitacora(
+            /*super.insertarBitacora(
                     TABLA,
                     TODOS_CAMPOS.replace(ID + ", imagen, ",""),
                         formatearValor(dto.getNombre()) + ", " +
                         formatearValor(dto.getTipo()) + ", " +
                         formatearValor(new java.sql.Timestamp(dto.getFechaSubida().getTime())) + ", " +
                         formatearValor(dto.getDescripcion()) + ", " +
-                        dto.getIdSistema()
-            );
+                        idSistema,
+                    true
+            );*/
             
             if(Globales.APP_DEBUG){
                 if(ImagenEnvoltorio.eliminarImagenTemporal())
@@ -213,7 +214,7 @@ public class ImagenDAO extends DAO{
             
             resultado = 0;
         }catch(Exception e){
-            ConsolaDebug.agregarTexto("No se pudo " + accion + " en la tabla " + Globales.BD_ESQUEMA + "." + TABLA + "\n"+e, ConsolaDebug.ERROR);
+            ConsolaDebug.agregarTexto("No se pudo " + accion + " en la tabla " + Globales.BD_DESC_ESQUEMA + "." + TABLA + "\n"+e, ConsolaDebug.ERROR);
         }
 
         return resultado;
@@ -225,7 +226,7 @@ public class ImagenDAO extends DAO{
         
         String accion = super.ACTUALIZAR;
         int parametros = 7;
-        String procedimiento = super.obtenerProcedimiento(Globales.BD_ESQUEMA, accion, TABLA, parametros);
+        String procedimiento = super.obtenerProcedimiento(Globales.BD_DESC_ESQUEMA, accion, TABLA, parametros);
         
         Dimension dimension = null;
                
@@ -250,6 +251,11 @@ public class ImagenDAO extends DAO{
                 imagen = new ByteArrayInputStream(byteStream .toByteArray());
                 longitud = imagen.available();
             }
+            
+            Integer idSistema = null;
+            try{
+                idSistema = dto.getIdSistema();
+            }catch(Exception e){}
                 
             CallableStatement procActualizar = conexion.prepareCall(procedimiento);
             procActualizar.setInt(1, dto.getIdImagen());
@@ -258,7 +264,7 @@ public class ImagenDAO extends DAO{
             procActualizar.setString(4, String.valueOf(dto.getTipo()));
             procActualizar.setTimestamp(5, new java.sql.Timestamp(dto.getFechaSubida().getTime()));
             procActualizar.setString(6, dto.getDescripcion());
-            procActualizar.setInt(7, dto.getIdSistema());
+            procActualizar.setInt(7, idSistema);
             procActualizar.execute();
 
             conexion.commit();
@@ -273,7 +279,7 @@ public class ImagenDAO extends DAO{
             
             resultado = 0;
         }catch(Exception e){
-            ConsolaDebug.agregarTexto("No se pudo " + accion + " en la tabla " + Globales.BD_ESQUEMA + "." + TABLA + "\n"+e, ConsolaDebug.ERROR);
+            ConsolaDebug.agregarTexto("No se pudo " + accion + " en la tabla " + Globales.BD_DESC_ESQUEMA + "." + TABLA + "\n"+e, ConsolaDebug.ERROR);
         }
 
         return resultado;
@@ -285,7 +291,7 @@ public class ImagenDAO extends DAO{
         
         String accion = super.ELIMINAR;
         int parametros = 1;
-        String procedimiento = super.obtenerProcedimiento(Globales.BD_ESQUEMA, accion, TABLA, parametros);
+        String procedimiento = super.obtenerProcedimiento(Globales.BD_DESC_ESQUEMA, accion, TABLA, parametros);
         
         if(Globales.APP_DEBUG)
             ConsolaDebug.agregarTexto(procedimiento + " : ID - " + dto.getIdImagen(), ConsolaDebug.PROCESO);
@@ -302,7 +308,7 @@ public class ImagenDAO extends DAO{
             
             resultado = 0;
         }catch(Exception e){
-            ConsolaDebug.agregarTexto("No se pudo " + accion + " en la tabla " + Globales.BD_ESQUEMA + "." + TABLA + "\n"+e, ConsolaDebug.ERROR);
+            ConsolaDebug.agregarTexto("No se pudo " + accion + " en la tabla " + Globales.BD_DESC_ESQUEMA + "." + TABLA + "\n"+e, ConsolaDebug.ERROR);
         }
 
         return resultado;

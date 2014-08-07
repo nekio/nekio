@@ -42,21 +42,49 @@ public abstract class DAO {
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Insertar Bitacora">
-    public void insertarBitacora(String tabla, String campos, String valores){
-        char accionInsertar = 'I';
+    public void insertarBitacora(String tabla, String campos, String valores, boolean insertar){
+        char accion = ' ';
+        
+        if(insertar)
+            accion = 'I';
+        else
+            accion = 'U';
         
         BitacoraDTO dtoBitacora = new BitacoraDTO();
         dtoBitacora.setIdSistema(Globales.ID_SISTEMA);
-        dtoBitacora.setIdUsuario(Globales.ID_USUARIO);
+        dtoBitacora.setIdUsuario(Globales.BD_ID_USUARIO);
         dtoBitacora.setTabla(tabla);
-        dtoBitacora.setAccion(accionInsertar);
+        dtoBitacora.setAccion(accion);
         dtoBitacora.setpCampos(campos);
         dtoBitacora.setpValores(valores);
 
         BitacoraDAO daoBitacora = new BitacoraDAO();
         daoBitacora.asignarParametros(dtoBitacora);
-        if(daoBitacora.agregar() == 1)
-            ConsolaDebug.agregarTexto("Ocurrio un error al insertar en la bitacora", ConsolaDebug.ERROR);
+        
+        if(insertar){
+            if(daoBitacora.agregar() == 1)
+                ConsolaDebug.agregarTexto("Ocurrio un error al insertar el DML INSERT en la bitacora", ConsolaDebug.ERROR);
+        }else{
+            if(daoBitacora.modificar() == 1)
+                ConsolaDebug.agregarTexto("Ocurrio un error al insertar el DML UPDATE en la bitacora", ConsolaDebug.ERROR);
+        }
+    }
+    
+    public void insertarBitacora(String tabla, String valores){
+        char accion = 'D';
+        
+        BitacoraDTO dtoBitacora = new BitacoraDTO();
+        dtoBitacora.setIdSistema(Globales.ID_SISTEMA);
+        dtoBitacora.setIdUsuario(Globales.BD_ID_USUARIO);
+        dtoBitacora.setTabla(tabla);
+        dtoBitacora.setAccion(accion);
+        dtoBitacora.setpValores(valores);
+
+        BitacoraDAO daoBitacora = new BitacoraDAO();
+        daoBitacora.asignarParametros(dtoBitacora);
+        
+        if(daoBitacora.eliminar() == 1)
+            ConsolaDebug.agregarTexto("Ocurrio un error al insertar el DML DELETE en la bitacora", ConsolaDebug.ERROR);
     }
     // </editor-fold>
     

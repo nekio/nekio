@@ -6,10 +6,13 @@ package nekio.myprp.recursos.utilerias.gui.swing;
  */
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -57,7 +60,7 @@ public class PanelGUI extends SwingJPanel{
     }
     
     private void inicializarPanel(){
-        this.setLayout(null);
+        this.setLayout(new BorderLayout());
         
         if(camposBD != null){
             identificarRegistros();
@@ -70,18 +73,20 @@ public class PanelGUI extends SwingJPanel{
     
     @Override
     public void agregarComponentes(){
+        JPanel pnlTabla = new JPanel(new BorderLayout());
+        
         /* PANEL DE LLAVES*/
         JPanel pnlLlaves = new JPanel(new BorderLayout());
-        pnlLlaves.setBounds(10, 10, 760, 190);
         pnlLlaves.add(new JLabel("  Llaves:"),"North");
         pnlLlaves.add(agregarLlaves(),"Center");
-        this.add(pnlLlaves);
-
+        pnlTabla.add(pnlLlaves,"North");
+        
         JPanel pnlCampos = new JPanel(new BorderLayout());
-        pnlCampos.setBounds(10, 210, 760, 330);
         pnlCampos.add(new JLabel("  Campos:"),"North");
         pnlCampos.add(agregarCampos());
-        this.add(pnlCampos);
+        pnlTabla.add(pnlCampos, "Center");
+        
+        this.add(pnlTabla,"Center");
     }
     
     @Override
@@ -99,7 +104,8 @@ public class PanelGUI extends SwingJPanel{
         
         int campos = registrosLlave.size();
         
-        JPanel pnlLlaves = new JPanel(new GridLayout(campos+1,1)); 
+        JPanel pnlLlaves = new JPanel(); 
+        pnlLlaves.setLayout(new BoxLayout(pnlLlaves, BoxLayout.Y_AXIS));
         Box caja=Box.createVerticalBox();
         caja.add(new JScrollPane(pnlLlaves));
 
@@ -124,7 +130,7 @@ public class PanelGUI extends SwingJPanel{
             
             pnlLlave = new PanelCampo().crear(tablaForanea, campo, valor, tipoDato, true, valorLOV, esquemaBD, camposExtraLOV);
 
-            pnlLlaves.add(pnlLlave);
+            pnlLlaves.add(pnlLlave, Component.CENTER_ALIGNMENT);
         }        
         
         return caja;
@@ -138,7 +144,8 @@ public class PanelGUI extends SwingJPanel{
         int llaves = this.registrosLlave.size();
         int campos = this.registrosNoLlave.size();
         
-        JPanel pnlCampos = new JPanel(new GridLayout(campos,1)); 
+        JPanel pnlCampos = new JPanel();
+        pnlCampos.setLayout(new BoxLayout(pnlCampos, BoxLayout.Y_AXIS));
         Box caja=Box.createVerticalBox();
         caja.add(new JScrollPane(pnlCampos));
 
@@ -150,7 +157,7 @@ public class PanelGUI extends SwingJPanel{
             
             pnlCampo = new PanelCampo().crear(campo, valor, tipoDato, false, esquemaBD);
 
-            pnlCampos.add(pnlCampo);
+            pnlCampos.add(pnlCampo, Component.CENTER_ALIGNMENT);
         }        
         
         return caja;

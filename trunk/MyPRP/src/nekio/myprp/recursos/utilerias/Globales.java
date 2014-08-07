@@ -1,16 +1,18 @@
 package nekio.myprp.recursos.utilerias;
 
+/**
+ *
+ * @author Nekio
+ */
+
+// <editor-fold defaultstate="collapsed" desc="Librerias">  
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import javax.swing.JFrame;
 import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.utilerias.bd.BDGestor;
-
-/**
- *
- * @author Nekio
- */
+// </editor-fold>
 
 public class Globales {
     /* CONSTANTES */
@@ -27,7 +29,7 @@ public class Globales {
     public static final String MSJ_MANTTO       = "Espera la proxima actualizacion.\nProceso en construccion";
     
     public static final int ID_SISTEMA = 1;
-    public static final int ID_USUARIO = 0;
+    public static final int ID_USUARIO_ADMIN = 1;
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Conexion a la BD">  
@@ -44,8 +46,6 @@ public class Globales {
     public static final int BD_MAX_ACTIVOS;
     public static final int BD_MAX_IDLE;
     
-    public static String BD_ESQUEMA; //Database variable
-    public static String BD_ESQUEMA_ID; //Database variable
     public static final String BD_ESQUEMA_SERIES;
     public static final int BD_ESQUEMA_SERIES_ID;
     
@@ -86,9 +86,6 @@ public class Globales {
     
     // <editor-fold defaultstate="collapsed" desc="Valores de App">  
     public static final JFrame CONSOLA          = new ConsolaDebug();
-    
-    public static final boolean APP_DEBUG       = true;
-    public static final boolean APP_DESIGN      = true;
     public static final String APP_SEPARADOR    = "--------------------------------------------------------------------";
     // </editor-fold>
     
@@ -237,4 +234,16 @@ public class Globales {
     // </editor-fold> 
     
     /* VARIABLES */
+    
+    // <editor-fold defaultstate="collapsed" desc="Interaccion para la BD">  
+    public static boolean APP_DEBUG;
+    public static boolean APP_DESIGN;
+    public static boolean APP_BITACORA_ESTILO;
+    
+    public static String BD_DESC_ESQUEMA; //Variable del nombre del esquema
+    public static int BD_ID_ESQUEMA; //Variable del ID del esquema
+    
+    public static String BD_DESC_USUARIO; //Variable del nombre del usuario
+    public static int BD_ID_USUARIO; //Variable del ID del usuario
+    // </editor-fold>
 }

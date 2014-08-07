@@ -21,7 +21,7 @@ public class Main {
         
         //System.out.println(inicio.loggear());
 //        try{
-//            new GeneradorPseudotablas(BDConexion.getConnection(), Globales.BD_ESQUEMA, false, "C:\\Users\\SITI\\Documents\\NetBeansProjects\\otros\\luis\\OBD_VW\\Tablas").generarTablas();
+//            new GeneradorPseudotablas(BDConexion.getConnection(), Globales.BD_DESC_ESQUEMA, false, "C:\\Users\\SITI\\Documents\\NetBeansProjects\\otros\\luis\\OBD_VW\\Tablas").generarTablas();
 //        }catch(Exception e){
 //            System.out.println(e);
 //        }

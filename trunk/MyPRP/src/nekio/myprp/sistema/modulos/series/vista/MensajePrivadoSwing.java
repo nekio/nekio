@@ -26,7 +26,7 @@ public class MensajePrivadoSwing extends SwingMaestro{
     
     private final BD_Navegador BDNavegador = new BD_Navegador(this);
     
-    private final Dimension DIMENSION = new Dimension(800, 680);
+    private final Dimension DIMENSION = new Dimension(500, 600);
     
     private Container contenedor;
     private JPanel pnlContenido;
@@ -158,7 +158,7 @@ public class MensajePrivadoSwing extends SwingMaestro{
                 BDNavegador.habilitarTodo(false);
             }
         }
-        pnlContenido.add(new PanelGUI(tablasForaneas, camposBD, valoresBD, tiposDatoBD, valorLOV, camposExtrasLOV, Globales.BD_ESQUEMA), "Center");
+        pnlContenido.add(new PanelGUI(tablasForaneas, camposBD, valoresBD, tiposDatoBD, valorLOV, camposExtrasLOV, Globales.BD_DESC_ESQUEMA), "Center");
         contenedor.add(pnlContenido, "Center");
     }
 
