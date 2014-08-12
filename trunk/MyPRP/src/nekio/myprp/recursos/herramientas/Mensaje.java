@@ -59,6 +59,12 @@ public class Mensaje {
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Decidir"> 
+    /* Retornos:
+     *
+     * -1 - Dialogo cerrado
+     * 0  - Cancelar presionado
+     * 1  - Aceptar presionado
+     */
     public static int decidir(String mensaje, String cancelar, String aceptar){        
         Object[] opciones = new String[2];
         opciones[0] = cancelar;

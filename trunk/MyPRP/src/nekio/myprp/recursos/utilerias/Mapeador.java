@@ -89,6 +89,10 @@ public class Mapeador {
                         parametrosMP.add((MensajePrivadoDTO) dto);
                     
                     new MensajePrivadoSwing(parametrosMP);
+                }else if(pagina.equals(Globales.BD.NUEVO.getPagina()+entidad)){                    
+                    gestor.getGui().nuevo();
+                }else if(pagina.equals(Globales.BD.CANCELAR.getPagina()+entidad)){                    
+                    gestor.getGui().cancelar();
                 }
                 
                 parametrosMP = null;

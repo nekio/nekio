@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
+import nekio.herramientas.listadevalores.dao.Listado;
 import nekio.herramientas.listadevalores.dto.Elementos;
 import nekio.herramientas.listadevalores.gui.SwingLOV;
 import nekio.myprp.recursos.herramientas.Calendario;
@@ -40,6 +41,7 @@ public class PanelCampo{
     private String campo;
     private String valorLOV;
     private List<String> camposExtrasLOV;
+    private boolean nuevo;
 
     private JTextField txtCampo;
     private JTextField txtCampoExtra;
@@ -61,19 +63,24 @@ public class PanelCampo{
     }
     
     public JPanel crear(String campo, Object valor, Globales.TipoDato tipoCampo, boolean llave, String valorLOV){
-        return crear(campo, valor, tipoCampo, llave, valorLOV, null);
+        return crear(campo, valor, tipoCampo, llave, valorLOV, false);
     }
     
-    public JPanel crear(String campo, Object valor, Globales.TipoDato tipoCampo, boolean llave, String valorLOV, String esquemaBD){
-        return crear(null, campo, valor, tipoCampo, llave, valorLOV, esquemaBD, null);
+    public JPanel crear(String campo, Object valor, Globales.TipoDato tipoCampo, boolean llave, String valorLOV, boolean nuevo){
+        return crear(campo, valor, tipoCampo, llave, valorLOV, null, nuevo);
     }
     
-    public JPanel crear(String tablaForanea, String campo, Object valor, Globales.TipoDato tipoCampo, boolean llave, String valorLOV, String esquemaBD, List<String> camposExtrasLOV){
+    public JPanel crear(String campo, Object valor, Globales.TipoDato tipoCampo, boolean llave, String valorLOV, String esquemaBD, boolean nuevo){
+        return crear(null, campo, valor, tipoCampo, llave, valorLOV, esquemaBD, null, nuevo);
+    }
+    
+    public JPanel crear(String tablaForanea, String campo, Object valor, Globales.TipoDato tipoCampo, boolean llave, String valorLOV, String esquemaBD, List<String> camposExtrasLOV, boolean nuevo){
         this.esquemaBD = esquemaBD;
         this.tablaForanea = tablaForanea;
         this.campo = campo;
         this.valorLOV = valorLOV;
         this.camposExtrasLOV = camposExtrasLOV;
+        this.nuevo = nuevo;
         
         JPanel pnlCampo = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
@@ -82,9 +89,17 @@ public class PanelCampo{
 
         // Aunque no todos sean JTextField, se necesita instanciar siempre
         // para obtener el valor del campo
+        if(valor == null)
+            valor = "";
+        
         txtCampo = new JTextField(TEXTO_CAMPO);
         txtCampo.setText(String.valueOf(valor));
-        txtCampo.setEditable(false);
+        
+        if(nuevo)
+            txtCampo.setEditable(true);
+        else
+            txtCampo.setEditable(false);
+        
         pnlCampo.add(txtCampo);
 
         if(llave && valorLOV!=null){
@@ -92,14 +107,34 @@ public class PanelCampo{
             
             txtCampoExtra = new JTextField(TEXTO_CAMPO);
             txtCampoExtra.setEditable(false);
+            
             pnlCampo.add(txtCampoExtra);
 
             btnLOV = new JButton("...");
             pnlCampo.add(btnLOV);
+            
+            if(tablaForanea == null)
+                tablaForanea = campo.replace(Globales.BD_TABLA_ID, "");
+            String idFK = Globales.BD_TABLA_ID + tablaForanea;
+            
+            try{
+                Elementos elementos = new Elementos();
+                elementos.setConexion(BDConexion.getConnection());
+                elementos.setLlave(idFK);
+                elementos.setValor(valorLOV);
+                elementos.setTabla(tablaForanea);
+                elementos.setFiltros(idFK + "=" + ((int)valor));
+            
+                txtCampoExtra.setText(Listado.getRegistro(elementos, esquemaBD).getValor());
+            }catch(Exception e){
+                txtCampoExtra.setText("-");
+            }
         }
 
-        if(!llave && tipoCampo == Globales.TipoDato.FECHA){            
-            txtCampo.setText(formatearFecha((Date)valor));
+        if(!llave && tipoCampo == Globales.TipoDato.FECHA){     
+            try{
+                txtCampo.setText(formatearFecha((Date)valor));
+            }catch(Exception e){}
             
             btnFecha = new JButton("...");
             pnlCampo.add(btnFecha);
@@ -107,14 +142,20 @@ public class PanelCampo{
             txtCampo.setVisible(false);
             
             chkValor = new JCheckBox();
-            chkValor.setSelected((boolean)valor);
+            try{
+                chkValor.setSelected((boolean)valor);
+            }catch(Exception e){}
+            
             pnlCampo.add(chkValor);
         }else if(!llave && tipoCampo == Globales.TipoDato.BLOB){
             txtCampo.setVisible(false);
-
-            ImageIcon icon = new ImageIcon(BufferedImage.class.cast(valor)); 
             lblImagen = new JLabel();
-            lblImagen.setIcon(icon);
+            
+            try{
+                ImageIcon icon = new ImageIcon(BufferedImage.class.cast(valor)); 
+                lblImagen.setIcon(icon);
+            }catch(Exception e){}
+            
             pnlCampo.add(lblImagen);
         }else if(!llave && tipoCampo == Globales.TipoDato.TEXTO_LARGO){
             txtCampo.setVisible(false);
@@ -122,7 +163,11 @@ public class PanelCampo{
             txtCaja = new JTextArea(String.valueOf(valor),10,55);
             txtCaja.setWrapStyleWord(true);
             txtCaja.setLineWrap(true);
-            txtCaja.setEditable(false);
+            
+            if(nuevo)
+                txtCaja.setEditable(true);
+            else
+                txtCaja.setEditable(false);
             
             scrollCaja = new JScrollPane(txtCaja);
             scrollCaja.setOpaque(false);
