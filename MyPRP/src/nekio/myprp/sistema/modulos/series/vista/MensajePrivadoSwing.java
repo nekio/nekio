@@ -5,6 +5,7 @@ package nekio.myprp.sistema.modulos.series.vista;
  * @author Nekio
  */
 
+import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -13,6 +14,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
+import nekio.myprp.recursos.herramientas.Mensaje;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.Idioma;
 import nekio.myprp.recursos.utilerias.gui.swing.BD_Navegador;
@@ -24,15 +26,17 @@ import nekio.myprp.sistema.modulos.series.dto.MensajePrivadoDTO;
 public class MensajePrivadoSwing extends SwingMaestro{
     private static final long serialVersionUID = 1L;
     
+    private final MensajePrivadoBD_M BDManipulador = new MensajePrivadoBD_M(this);
     private final BD_Navegador BDNavegador = new BD_Navegador(this);
     
-    private final Dimension DIMENSION = new Dimension(500, 600);
+    private final Dimension DIMENSION = new Dimension(700, 600);
     
     private Container contenedor;
     private JPanel pnlContenido;
     private List<MensajePrivadoDTO> listaDTO;
     private MensajePrivadoDTO dto;
     private int indiceDTO;
+    private boolean nuevo;
     
     public MensajePrivadoSwing(List<MensajePrivadoDTO> listaDTO){
         this.setTitle(Globales.NOMBRE_APP + " - " + Idioma.obtenerTexto(Idioma.PROP_MENU, "mensajePrivado"));
@@ -44,6 +48,8 @@ public class MensajePrivadoSwing extends SwingMaestro{
         this.setLayout(new BorderLayout());
         
         this.listaDTO = listaDTO;
+        this.indiceDTO = 0; // Para cargar el primer registro del DTO
+        nuevo = false;
         
         agregarComponentes(); 
         agregarEscuchadores();
@@ -53,10 +59,18 @@ public class MensajePrivadoSwing extends SwingMaestro{
 
     @Override
     public void agregarComponentes() {
-        this.indiceDTO = 0; // Para cargar el primer registro del DTO
-        cargarDTO();
+        pnlContenido = new JPanel(new BorderLayout());
         
-        contenedor.add(BDNavegador, "North");
+        // Navegador de la Base de Datos
+        pnlContenido.add(BDNavegador, "North");
+        
+        // Registros
+        pnlContenido.add(cargarDTO(), "Center");
+        
+        // Manipulador de la Base de Datos
+        pnlContenido.add(BDManipulador, "South");
+        
+        contenedor.add(pnlContenido);
     }
 
     @Override
@@ -72,8 +86,11 @@ public class MensajePrivadoSwing extends SwingMaestro{
     @Override
     public void recargar(List<DTO> listaDTO){
         this.listaDTO = new ArrayList<MensajePrivadoDTO>();
-        for(DTO dto:listaDTO)
-            this.listaDTO.add((MensajePrivadoDTO) dto);
+        
+        try{
+            for(DTO dto:listaDTO)
+                this.listaDTO.add((MensajePrivadoDTO) dto);
+        }catch(Exception e){}
         
         pnlContenido.setVisible(false);
         pnlContenido= null;
@@ -130,12 +147,8 @@ public class MensajePrivadoSwing extends SwingMaestro{
         }
     }
     
-    private void cargarDTO(){
-        if(pnlContenido != null){
-            pnlContenido.setVisible(false);
-            pnlContenido = null;
-        }
-        pnlContenido = new JPanel(new BorderLayout());
+    private JPanel cargarDTO(){        
+        JPanel pnlRegistro = new JPanel(new BorderLayout());
                 
         List<String> camposBD = null;
         List valoresBD = null;
@@ -149,7 +162,8 @@ public class MensajePrivadoSwing extends SwingMaestro{
                 dto.confirmarDTO();
 
                 camposBD = dto.getCampos();
-                valoresBD = dto.getValores();
+                if(!nuevo)
+                    valoresBD = dto.getValores();
                 tablasForaneas = dto.getTablasForaneas();
                 tiposDatoBD = dto.getTipoDatos();
                 valorLOV = dto.getLOVValores();
@@ -158,12 +172,52 @@ public class MensajePrivadoSwing extends SwingMaestro{
                 BDNavegador.habilitarTodo(false);
             }
         }
-        pnlContenido.add(new PanelGUI(tablasForaneas, camposBD, valoresBD, tiposDatoBD, valorLOV, camposExtrasLOV, Globales.BD_DESC_ESQUEMA), "Center");
-        contenedor.add(pnlContenido, "Center");
+        pnlRegistro.add(new PanelGUI(tablasForaneas, camposBD, valoresBD, tiposDatoBD, valorLOV, camposExtrasLOV, Globales.BD_DESC_ESQUEMA, nuevo), "Center");
+        
+        nuevo = false;
+        
+        return pnlRegistro;
     }
 
     @Override
     public void buscar(String filtro) {
         
+    }
+    
+    public MensajePrivadoDTO getParametros(){
+        MensajePrivadoDTO parametros = parametros = dto;
+        
+        if(dto == null)
+            new Mensaje(Idioma.obtenerTexto(Idioma.PROP_ACCIONES, "noFilaSeleccionada"), Mensaje.MSJ_ADVERTENCIA);
+        
+        return parametros;
+    }
+
+    @Override
+    public void nuevo() {
+        nuevo = true;
+        
+        recargar((List)this.listaDTO);
+    }
+
+    @Override
+    public void insertar() {
+        
+    }
+
+    @Override
+    public void modificar() {
+        
+    }
+
+    @Override
+    public void eliminar() {
+        
+    }
+
+    @Override
+    public void cancelar() {
+        nuevo = false;
+        recargar((List)this.listaDTO);
     }
 }

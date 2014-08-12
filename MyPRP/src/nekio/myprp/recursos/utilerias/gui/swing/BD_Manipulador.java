@@ -41,11 +41,11 @@ public abstract class BD_Manipulador extends SwingJPanel{
         btnGuardar = new JButton(Idioma.obtenerTexto(Idioma.PROP_ACCIONES, "guardar"));
         btnCancelar = new JButton(Idioma.obtenerTexto(Idioma.PROP_ACCIONES, "cancelar"));
         
-        pnlContenedor.add(btnNuevo);
-        pnlContenedor.add(btnEditar);
-        pnlContenedor.add(btnBorrar);
-        pnlContenedor.add(btnGuardar);
-        pnlContenedor.add(btnCancelar);
+        pnlContenedor.add(getBtnNuevo());
+        pnlContenedor.add(getBtnEditar());
+        pnlContenedor.add(getBtnBorrar());
+        pnlContenedor.add(getBtnGuardar());
+        pnlContenedor.add(getBtnCancelar());
         
         this.add(pnlContenedor,"Center");
     }
@@ -55,6 +55,7 @@ public abstract class BD_Manipulador extends SwingJPanel{
         btnNuevo.addActionListener(new ActionListener(){
         @Override
             public void actionPerformed(ActionEvent evt){
+                habilitarEdicion(false);
                 insertarRegistro();
             }
         });
@@ -62,6 +63,7 @@ public abstract class BD_Manipulador extends SwingJPanel{
         btnEditar.addActionListener(new ActionListener(){
         @Override
             public void actionPerformed(ActionEvent evt){
+                habilitarEdicion(false);
                 editarRegistro();
             }
         });
@@ -69,6 +71,7 @@ public abstract class BD_Manipulador extends SwingJPanel{
         btnBorrar.addActionListener(new ActionListener(){
         @Override
             public void actionPerformed(ActionEvent evt){
+                habilitarEdicion(true);
                 borrarRegistro();
             }
         });
@@ -76,6 +79,7 @@ public abstract class BD_Manipulador extends SwingJPanel{
         btnGuardar.addActionListener(new ActionListener(){
         @Override
             public void actionPerformed(ActionEvent evt){
+                habilitarEdicion(true);
                 guardarEdicion();
             }
         });
@@ -83,29 +87,27 @@ public abstract class BD_Manipulador extends SwingJPanel{
         btnCancelar.addActionListener(new ActionListener(){
         @Override
             public void actionPerformed(ActionEvent evt){
+                habilitarEdicion(true);
                 cancelarEdicion();
             }
         });
     }
     
-    public void ocultarNuevo(){
-        btnNuevo.setVisible(false);
-    }
-    
-    public void ocultarEditar(){
-        btnEditar.setVisible(false);
-    }
-    
-    public void ocultarBorrar(){
-        btnBorrar.setVisible(false);
-    }
-    
-    public void ocultarGuardar(){
-        btnGuardar.setVisible(false);
-    }
-    
-    public void ocultarCancelar(){
-        btnCancelar.setVisible(false);
+    public void habilitarEdicion(boolean edicion){
+        if(edicion){
+            btnNuevo.setEnabled(true);
+            btnEditar.setEnabled(true);
+            btnBorrar.setEnabled(true);
+            btnGuardar.setEnabled(false);
+            btnCancelar.setEnabled(false);
+        }else{
+            btnNuevo.setEnabled(false);
+            btnEditar.setEnabled(false);
+            btnBorrar.setEnabled(false);
+            btnGuardar.setEnabled(true);
+            btnCancelar.setEnabled(true);
+        }
+        
     }
     
     public abstract void insertarRegistro();
@@ -113,4 +115,24 @@ public abstract class BD_Manipulador extends SwingJPanel{
     public abstract void borrarRegistro();
     public abstract void guardarEdicion();
     public abstract void cancelarEdicion();    
+
+    public JButton getBtnNuevo() {
+        return btnNuevo;
+    }
+
+    public JButton getBtnEditar() {
+        return btnEditar;
+    }
+
+    public JButton getBtnBorrar() {
+        return btnBorrar;
+    }
+
+    public JButton getBtnGuardar() {
+        return btnGuardar;
+    }
+
+    public JButton getBtnCancelar() {
+        return btnCancelar;
+    }
 }

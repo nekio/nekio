@@ -9,6 +9,18 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 
 public class Autogenerador {    
+    public static void main(String[] args) {
+        String texto = "myprp";
+        
+        Autogenerador a = new Autogenerador();
+        try{
+            System.out.println(a.obtenerCadena(texto));
+            System.out.println(a.crearAcceso(texto));
+        }catch(Exception e){
+            System.out.println(e);
+        }
+    }
+    
     public String crearAcceso(String password) {
         String texto = null;
         try {

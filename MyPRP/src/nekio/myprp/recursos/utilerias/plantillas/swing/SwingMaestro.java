@@ -8,8 +8,9 @@ package nekio.myprp.recursos.utilerias.plantillas.swing;
 import java.util.List;
 import nekio.myprp.recursos.utilerias.gui.swing.BD_Navegador;
 import nekio.myprp.recursos.utilerias.plantillas.DTO;
+import nekio.myprp.recursos.utilerias.plantillas.ObjetoDML;
 
-public abstract class SwingMaestro extends SwingJFrame{
+public abstract class SwingMaestro extends SwingJFrame implements ObjetoDML{
     private static final long serialVersionUID = 1L;
     
     private BD_Navegador navegadorBD;
