@@ -1,6 +1,7 @@
 package nekio.myprp.sistema.acceso;
 
 import nekio.myprp.recursos.herramientas.ConsolaDebug;
+import nekio.myprp.recursos.utilerias.Autogenerador;
 import nekio.myprp.recursos.utilerias.Globales;
 import static nekio.myprp.recursos.utilerias.Globales.BD_TOOLS;
 import nekio.myprp.recursos.utilerias.bd.BDConexion;
@@ -44,6 +45,8 @@ public class Inicializacion {
                 Globales.BD_MAX_ACTIVOS,
                 Globales.BD_MAX_IDLE
         );
+        
+        Globales.BD_DESC_ESQUEMA = Globales.BD_TOOLS;
     }
     
     public String loggear(){        
@@ -56,11 +59,16 @@ public class Inicializacion {
             setPassword(Idioma.obtenerTexto(Idioma.PROP_ACC_USR_ANONIMO, "password"));
         }
         
-        Login login = new Login(usuario,password);
+        String acceso = null;
+        try{
+            acceso = Autogenerador.crearAcceso(password);
+        }catch(Exception e){}
+        
+        Login login = new Login(usuario, acceso);
         if(login.validar()){            
             gestor.setEsquemaBD(BD_TOOLS);
             gestor.setDTO(login.getDTO());
-            gestor.ejecutarControladorNegocio(Globales.BD.LEER.getValor(), entidad);
+            gestor.ejecutarControladorNegocio("login", entidad);
             
             mensaje = "Bienvenido "+login.getUsuarioIngresado();
         }else{
@@ -73,7 +81,7 @@ public class Inicializacion {
             else if(!login.isAccesoValido())
                 mensaje += "   Usuario Inactivo\n";
             
-            gestor.ejecutarControladorNegocio("login",entidad);
+            gestor.ejecutarControladorNegocio(Globales.BD.LEER.getValor(),entidad);
         }
         
         return mensaje;

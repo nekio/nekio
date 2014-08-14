@@ -11,17 +11,10 @@ import java.security.MessageDigest;
 public class Autogenerador {    
     public static void main(String[] args) {
         String texto = "myprp";
-        
-        Autogenerador a = new Autogenerador();
-        try{
-            System.out.println(a.obtenerCadena(texto));
-            System.out.println(a.crearAcceso(texto));
-        }catch(Exception e){
-            System.out.println(e);
-        }
+        new Autogenerador().formarEntrada(texto);
     }
     
-    public String crearAcceso(String password) {
+    public static String crearAcceso(String password) {
         String texto = null;
         try {
             MessageDigest md5 = MessageDigest.getInstance("MD5");
@@ -42,7 +35,7 @@ public class Autogenerador {
         return texto;
     }
     
-    public String obtenerCadena(String entrada) throws Exception{
+    public static String obtenerCadena(String entrada) throws Exception{
         StringBuilder cadena = new StringBuilder();
         int longitudCadena = entrada.length();
         
@@ -82,7 +75,7 @@ public class Autogenerador {
         return cadena.toString();
     }
     
-    public String formarEntrada(String cadena){
+    private String formarEntrada(String cadena){
         StringBuilder entrada = new StringBuilder();
         int longitudCadena = cadena.length();
         

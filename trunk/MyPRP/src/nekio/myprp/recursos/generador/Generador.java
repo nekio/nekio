@@ -44,6 +44,7 @@ public abstract class Generador {
     protected List<String> codigoGestor;
     
     protected boolean estandar;
+    protected boolean primitivos;
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Metodos Abstractos">
@@ -93,6 +94,14 @@ public abstract class Generador {
 
     public void setEstandar(boolean estandar) {
         this.estandar = estandar;
+    }
+    
+    public boolean isPrimitivos() {
+        return primitivos;
+    }
+
+    public void setPrimitivos(boolean primitivos) {
+        this.primitivos = primitivos;
     }
     // </editor-fold>
 }

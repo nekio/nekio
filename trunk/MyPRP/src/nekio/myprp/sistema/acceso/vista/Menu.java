@@ -33,6 +33,7 @@ public class Menu extends SwingJFrame{
     
     private JMenuBar mnuBarra;
     private JMenu mnuArchivo;
+    private JMenuItem mnItUsuario;
     private JMenuItem mnItImagen;
     private JMenu mnuModulos;
     private JMenuItem mnItAcademico;
@@ -75,6 +76,9 @@ public class Menu extends SwingJFrame{
         /*Archivo*/
         mnuArchivo=new JMenu(Idioma.obtenerTexto(Idioma.PROP_MENU, "archivo"));
         mnuArchivo.setMnemonic('a');
+            mnItUsuario=new JMenuItem(Idioma.obtenerTexto(Idioma.PROP_MENU, "usuario"));
+            mnuArchivo.add(mnItUsuario);
+            
             mnItImagen=new JMenuItem(Idioma.obtenerTexto(Idioma.PROP_MENU, "imagen"));
             mnuArchivo.add(mnItImagen);
         
@@ -132,6 +136,13 @@ public class Menu extends SwingJFrame{
                 gestor.setEsquemaBD(Globales.BD_TOOLS);
                 gestor.ejecutarControladorNegocio(Globales.BD.LEER_DESC.getValor(), Globales.Entidad.Imagen.name());
                 gestor = null;
+            }
+        });
+        
+        mnItUsuario.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed( ActionEvent evt){       
+                new UsuarioSwing();
             }
         });
                 

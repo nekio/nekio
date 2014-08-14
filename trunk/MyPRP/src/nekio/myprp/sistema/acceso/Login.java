@@ -40,9 +40,9 @@ public class Login {
         UsuarioDTO usuario;
          for(DTO dto:usuarios){
               usuario = (UsuarioDTO) dto;
-             usuarioValido = validarUsuario(usuario.getUsuario());
+             usuarioValido = validarUsuario(usuario.getNick());
             if(isUsuarioValido()){
-                passwordValido = validarPassword(usuario.getPassword());
+                passwordValido = validarPassword(usuario.getAcceso());
                 if(isPasswordValido()){
                     accesoValido = usuario.isActivo();  
                     if(accesoValido)

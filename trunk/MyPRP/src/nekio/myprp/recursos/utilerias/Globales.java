@@ -130,25 +130,34 @@ public class Globales {
     
     // Tipos de Datos
     public static enum TipoDato{
-        CARACTER("Character","String"),
-        TEXTO("String", "String"),
-        NUMERO("Integer", "Int"),
-        DECIMAL("Double", "Double"),
-        FECHA("Date", "Timestamp"),
-        TEXTO_LARGO("String", "String"),
-        BOOLEANO("Boolean", "Int"),
-        BLOB("Image", "BinaryStream");
+        CARACTER("Character", "char", "String"),
+        TEXTO("String", null, "String"),
+        NUMERO("Integer", "int", "Int"),
+        DECIMAL("Double", "double", "Double"),
+        FECHA("Date", null, "Timestamp"),
+        TEXTO_LARGO("String", null, "String"),
+        BOOLEANO("Boolean", "boolean", "Int"),
+        BLOB("Image", null, "BinaryStream");
         
-        String tipoJava;
+        String tipoClaseJava;
+        String tipoPrimitivoJava;
         String encapsulado;
         
-        private TipoDato(String tipoJava, String encapsulado){
-            this.tipoJava = tipoJava;
+        private TipoDato(String tipoClaseJava, String tipoPrimitivoJava, String encapsulado){
+            this.tipoClaseJava = tipoClaseJava;
+            if(tipoPrimitivoJava == null)
+                this.tipoPrimitivoJava = tipoClaseJava;
+            else
+                this.tipoPrimitivoJava = tipoPrimitivoJava;
             this.encapsulado = encapsulado;
         }
         
-        public String getTipoJava(){
-            return tipoJava;
+        public String getTipoClaseJava(){
+            return tipoClaseJava;
+        }
+        
+        public String getTipoPrimitivoJava(){
+            return tipoPrimitivoJava;
         }
         
         public String getEncapsulado(){
@@ -245,5 +254,9 @@ public class Globales {
     
     public static String BD_DESC_USUARIO; //Variable del nombre del usuario
     public static int BD_ID_USUARIO; //Variable del ID del usuario
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Variables de Usuario">
+    public static DetalleUsuario APP_USUARIO;  
     // </editor-fold>
 }

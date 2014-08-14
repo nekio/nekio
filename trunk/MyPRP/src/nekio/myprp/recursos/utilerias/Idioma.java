@@ -23,6 +23,9 @@ public class Idioma {
     public static String PROP_ACCIONES          = CADENAS+"Acciones";    
     public static String PROP_ACC_USR_ANONIMO   = CADENAS+"AccesoUsuarioAnonimo";    
     public static String PROP_RECOGEDOR_IMAGEN  = CADENAS+"RecogedorImagen";
+    public static String PROP_RANGO             = CADENAS+"HtasRango";
+    public static String PROP_PRIVILEGIO        = CADENAS+"HtasPrivilegio";
+    public static String PROP_USUARIO           = CADENAS+"HtasUsuario";
     public static int IDIOMA_DEFINIDO;
     // </editor-fold>
     

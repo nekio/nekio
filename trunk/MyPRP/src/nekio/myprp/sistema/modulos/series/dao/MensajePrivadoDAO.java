@@ -5,7 +5,6 @@ package nekio.myprp.sistema.modulos.series.dao;
  * @author Nekio
  */
 
-import java.awt.Dimension;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -21,7 +20,7 @@ public class MensajePrivadoDAO extends DAO{
     private final String TABLA = "mensaje_privado";
     private final String ID = Globales.BD_TABLA_ID + TABLA;
     private final String TODOS_CAMPOS = 
-            ID + ", id_tipo_mensaje, id_mp_relacionado, id_web"
+            ID + ", id_usuario, id_tipo_mensaje, id_mp_relacionado, id_web"
             + ", id_colaborador, mensaje, fecha, recibido_enviado, atendido ";
     
     private MensajePrivadoDTO dto;
@@ -70,6 +69,7 @@ public class MensajePrivadoDAO extends DAO{
             while(resultados.next()){
                 dto = new MensajePrivadoDTO();
 
+                dto.setIdUsuario(resultados.getInt("id_usuario"));
                 dto.setIdMensajePrivado(resultados.getInt("id_mensaje_privado"));
                 dto.setIdTipoMensaje(resultados.getInt("id_tipo_mensaje"));
                 dto.setIdMpRelacionado(resultados.getInt("id_mp_relacionado"));
@@ -118,6 +118,7 @@ public class MensajePrivadoDAO extends DAO{
             dto = new MensajePrivadoDTO();
             
             while(resultados.next()){
+                dto.setIdUsuario(resultados.getInt("id_usuario"));
                 dto.setIdMensajePrivado(resultados.getInt("id_mensaje_privado"));
                 dto.setIdTipoMensaje(resultados.getInt("id_tipo_mensaje"));
                 dto.setIdMpRelacionado(resultados.getInt("id_mp_relacionado"));
@@ -142,7 +143,7 @@ public class MensajePrivadoDAO extends DAO{
         int resultado = 1;
         
         String accion = super.INSERTAR;
-        int parametros = 8;
+        int parametros = 9;
         String procedimiento = super.obtenerProcedimiento(Globales.BD_DESC_ESQUEMA, accion, TABLA, parametros);
         
         if(Globales.APP_DEBUG)
@@ -152,14 +153,15 @@ public class MensajePrivadoDAO extends DAO{
             Connection conexion = BDConexion.getConnection();
                 
             CallableStatement procInsertar = conexion.prepareCall(procedimiento);
-            procInsertar.setInt(1, dto.getIdTipoMensaje());
-            procInsertar.setInt(2, dto.getIdMpRelacionado());
-            procInsertar.setInt(3, dto.getIdWeb());
-            procInsertar.setInt(4, dto.getIdColaborador());
-            procInsertar.setString(5, dto.getMensaje());
-            procInsertar.setTimestamp(6, new java.sql.Timestamp(dto.getFecha().getTime()));
-            procInsertar.setInt(7, dto.isRecibidoEnviado()==true?1:0);
-            procInsertar.setInt(8, dto.isAtendido()==true?1:0);
+            procInsertar.setInt(1, dto.getIdUsuario());
+            procInsertar.setInt(2, dto.getIdTipoMensaje());
+            procInsertar.setInt(3, dto.getIdMpRelacionado());
+            procInsertar.setInt(4, dto.getIdWeb());
+            procInsertar.setInt(5, dto.getIdColaborador());
+            procInsertar.setString(6, dto.getMensaje());
+            procInsertar.setTimestamp(7, new java.sql.Timestamp(dto.getFecha().getTime()));
+            procInsertar.setInt(8, dto.isRecibidoEnviado()==true?1:0);
+            procInsertar.setInt(9, dto.isAtendido()==true?1:0);
             procInsertar.execute();
 
             conexion.commit();
@@ -178,7 +180,7 @@ public class MensajePrivadoDAO extends DAO{
         int resultado = 1;
         
         String accion = super.ACTUALIZAR;
-        int parametros = 9;
+        int parametros = 10;
         String procedimiento = super.obtenerProcedimiento(Globales.BD_DESC_ESQUEMA, accion, TABLA, parametros);
                
         if(Globales.APP_DEBUG)
@@ -189,14 +191,15 @@ public class MensajePrivadoDAO extends DAO{
             
             CallableStatement procActualizar = conexion.prepareCall(procedimiento);
             procActualizar.setInt(1, dto.getIdMensajePrivado());
-            procActualizar.setInt(2, dto.getIdTipoMensaje());
-            procActualizar.setInt(3, dto.getIdMpRelacionado());
-            procActualizar.setInt(4, dto.getIdWeb());
-            procActualizar.setInt(5, dto.getIdColaborador());
-            procActualizar.setString(6, dto.getMensaje());
-            procActualizar.setTimestamp(7, new java.sql.Timestamp(dto.getFecha().getTime()));
-            procActualizar.setInt(8, dto.isRecibidoEnviado()==true?1:0);
-            procActualizar.setInt(9, dto.isAtendido()==true?1:0);
+            procActualizar.setInt(2, dto.getIdUsuario());
+            procActualizar.setInt(3, dto.getIdTipoMensaje());
+            procActualizar.setInt(4, dto.getIdMpRelacionado());
+            procActualizar.setInt(5, dto.getIdWeb());
+            procActualizar.setInt(6, dto.getIdColaborador());
+            procActualizar.setString(7, dto.getMensaje());
+            procActualizar.setTimestamp(8, new java.sql.Timestamp(dto.getFecha().getTime()));
+            procActualizar.setInt(9, dto.isRecibidoEnviado()==true?1:0);
+            procActualizar.setInt(10, dto.isAtendido()==true?1:0);
             procActualizar.execute();
 
             conexion.commit();
@@ -215,7 +218,7 @@ public class MensajePrivadoDAO extends DAO{
         int resultado = 1;
         
         String accion = super.ELIMINAR;
-        int parametros = 1;
+        int parametros = 2;
         String procedimiento = super.obtenerProcedimiento(Globales.BD_DESC_ESQUEMA, accion, TABLA, parametros);
         
         if(Globales.APP_DEBUG)
@@ -226,6 +229,7 @@ public class MensajePrivadoDAO extends DAO{
                 
             CallableStatement procEliminar = conexion.prepareCall(procedimiento);
             procEliminar.setInt(1, dto.getIdMensajePrivado());
+            procEliminar.setInt(2, dto.getIdUsuario());
             procEliminar.execute();
 
             conexion.commit();

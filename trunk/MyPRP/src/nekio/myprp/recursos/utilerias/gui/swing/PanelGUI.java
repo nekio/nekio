@@ -122,7 +122,10 @@ public class PanelGUI extends SwingJPanel{
             // El indice de los valores LOV esta desfazado en una posicion
             // respecto del indice en los registros de Llaves
             if(i!=0){
-                valorLOV = valoresLOV.get(i-1); 
+                try{
+                    valorLOV = valoresLOV.get(i-1); 
+                }catch(Exception e){}
+                
                 try{
                     camposExtraLOV = camposExtrasLOV.get(i-1);
                 }catch(Exception e){}

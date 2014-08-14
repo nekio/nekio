@@ -29,7 +29,7 @@ public class MensajePrivadoSwing extends SwingMaestro{
     private final MensajePrivadoBD_M BDManipulador = new MensajePrivadoBD_M(this);
     private final BD_Navegador BDNavegador = new BD_Navegador(this);
     
-    private final Dimension DIMENSION = new Dimension(700, 600);
+    private final Dimension DIMENSION = new Dimension(720, 600);
     
     private Container contenedor;
     private JPanel pnlContenido;
