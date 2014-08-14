@@ -6,6 +6,7 @@ package nekio.myprp.sistema.acceso.vista;
  */
 
 import nekio.myprp.recursos.herramientas.ConsolaDebug;
+import nekio.myprp.sistema.acceso.dto.UsuarioDTO;
 
 public class LoginGUI {
     public LoginGUI(){

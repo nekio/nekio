@@ -74,7 +74,11 @@ public class GPlantillas extends Generador{
                         for(int i=0; i<atributos.size(); i++){
                             aux = linea;
 
-                            tipoDato = tipos.get(i).getTipoJava();
+                            if(super.primitivos)
+                                tipoDato = tipos.get(i).getTipoPrimitivoJava();
+                            else
+                                tipoDato = tipos.get(i).getTipoClaseJava();
+                            
                             atributo = convertirCamel(atributos.get(i));
                             declaracionAtributo = tipoDato + " " + atributo;
 
@@ -93,10 +97,15 @@ public class GPlantillas extends Generador{
                             aux = linea;
                             
                             if(!aux.contains("}")){
+                                if(super.primitivos)
+                                    tipoDato = tipos.get(i).getTipoPrimitivoJava();
+                                else
+                                    tipoDato = tipos.get(i).getTipoClaseJava();
+                                
                                 //String bloque = formatearConfirmarDTO(tipos.get(i), atributos.get(i));
                                 aux = aux.replaceAll("#1", atributos.get(i));
                                 aux = aux.replaceAll("#2", convertirCamel(atributos.get(i)));
-                                aux = aux.replaceAll("#5", tipos.get(i).getTipoJava());
+                                aux = aux.replaceAll("#5", tipoDato);
                                 contenido.append(aux + "\n");
                             }else{
                                 contenido.append(aux + "\n");
@@ -111,10 +120,15 @@ public class GPlantillas extends Generador{
                             aux = linea;
                             
                             if(!aux.contains("}")){
+                                if(super.primitivos)
+                                    tipoDato = tipos.get(i).getTipoPrimitivoJava();
+                                else
+                                    tipoDato = tipos.get(i).getTipoClaseJava();
+                                
                                 //String bloque = formatearConfirmarDTO(tipos.get(i), atributos.get(i));
                                 aux = aux.replaceAll("#1", atributos.get(i));
                                 aux = aux.replaceAll("#2", convertirCamel(atributos.get(i)));
-                                aux = aux.replaceAll("#5", tipos.get(i).getTipoJava());
+                                aux = aux.replaceAll("#5", tipoDato);
                                 contenido.append(aux + "\n");
                             }else{
                                 contenido.append(aux + "\n");

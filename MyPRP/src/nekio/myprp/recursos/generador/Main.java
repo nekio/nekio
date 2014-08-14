@@ -13,7 +13,7 @@ import nekio.myprp.recursos.utilerias.bd.BDConexion;
  */
 public class Main {
     //private final String esquemaBD = Globales.BD_TOOLS;
-    private final String esquemaBD = Globales.BD_ESQUEMA_SERIES;
+    private final String esquemaBD = Globales.BD_TOOLS;
     
     public static void main(String[] args) {
         // Iniciar la consola
@@ -55,27 +55,6 @@ public class Main {
         
         // Realizar las generaciones de codigos
         ConsolaDebug.agregarTexto();
-        new GeneradorGUI(new ControladorGenerador(tablasBD, detallesTablasBD, false));
-    }
-    
-    private String convertirCamel(String texto){
-        StringBuilder camelCase = new StringBuilder(texto);
-        
-        char letra = '-';
-        int indiceAux = 0;
-        for(int i=0; i<texto.length(); i++){
-            letra = texto.charAt(i);
-            
-            if(letra == '_'){
-                char letraSiguiente = texto.charAt(i+1);
-                camelCase.delete(indiceAux+i, indiceAux+i+1);
-                camelCase.replace(indiceAux+i+1, indiceAux+i+1, String.valueOf(letraSiguiente).toUpperCase());
-                camelCase.delete(indiceAux+i, indiceAux+i+1);
-                
-                indiceAux--;
-            }
-        }
-        
-        return camelCase.toString();
+        new GeneradorGUI(new ControladorGenerador(tablasBD, detallesTablasBD, false, false));
     }
 }

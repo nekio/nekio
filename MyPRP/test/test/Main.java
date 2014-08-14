@@ -10,7 +10,7 @@ import nekio.myprp.sistema.acceso.Inicializacion;
 public class Main {
     public static void main(String[] args) {     
         Globales.CONSOLA.setVisible(true);
-        Inicializacion inicio = new Inicializacion(0, "usuario_02","pssword_02");
+        Inicializacion inicio = new Inicializacion(0, "admin","admin");
         inicio.loggear();
         
         /*String entidad = Globales.Entidad.Imagen.name();

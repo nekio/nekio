@@ -14,20 +14,20 @@ import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.bd.BDConexion;
 import nekio.myprp.recursos.utilerias.plantillas.DAO;
 import nekio.myprp.recursos.utilerias.plantillas.DTO;
-import nekio.myprp.sistema.acceso.dto.UsuarioDTO;
+import nekio.myprp.sistema.acceso.dto.SistemaDTO;
 
-public class UsuarioDAO extends DAO {
+public class SistemaDAO extends DAO {
 
-    private final String TABLA = "usuario";
-    private final String ID = "id_usuario";
+    private final String TABLA = "sistema";
+    private final String ID = "id_sistema";
     private final String TODOS_CAMPOS
-            = ID + ", id_tipo_usuario, id_rango, nombre, nick, autogenerado, acceso, contacto, fecha_registro, ultimo_acceso, activo ";
+            = ID + ", descripcion, siglas, titulo, desarrollador, contacto, version, actualizacion, fecha_liberacion, msj_mantenimiento, bd_esquema ";
 
-    private UsuarioDTO dto;
+    private SistemaDTO dto;
 
     @Override
     public void asignarParametros(DTO dto) {
-        this.dto = (UsuarioDTO) dto;
+        this.dto = (SistemaDTO) dto;
 
         if (Globales.APP_DEBUG) {
             ConsolaDebug.agregarTexto("DAO " + TABLA + ": Parametros ingresados", ConsolaDebug.PROCESO);
@@ -63,37 +63,30 @@ public class UsuarioDAO extends DAO {
 
         if (Globales.APP_DEBUG) {
             ConsolaDebug.agregarTexto(consulta, ConsolaDebug.SQL);
-            ConsolaDebug.agregarTexto("Obteniendo lista de usuarios...\n\n", ConsolaDebug.ADVERTENCIA, false);
         }
 
         try {
-            // Este DAO en particular no debe mostrar el resultado de sus registros
-            // por motivos de seguridad
-            boolean debug = Globales.APP_DEBUG;
-            Globales.APP_DEBUG = false;
-            
-            UsuarioDTO dto = null;
+            SistemaDTO dto = null;
             ResultSet resultados = BDConexion.consultar(consulta);
 
             while (resultados.next()) {
-                dto = new UsuarioDTO();
+                dto = new SistemaDTO();
 
-                dto.setIdUsuario(resultados.getInt("id_usuario"));
-                dto.setIdTipoUsuario(resultados.getInt("id_tipo_usuario"));
-                dto.setIdRango(resultados.getInt("id_rango"));
-                dto.setNombre(resultados.getString("nombre"));
-                dto.setNick(resultados.getString("nick"));
-                dto.setAutogenerado(resultados.getString("autogenerado"));
-                dto.setAcceso(resultados.getString("acceso"));
+                dto.setIdSistema(resultados.getInt("id_sistema"));
+                dto.setDescripcion(resultados.getString("descripcion"));
+                dto.setSiglas(resultados.getString("siglas"));
+                dto.setTitulo(resultados.getString("titulo"));
+                dto.setDesarrollador(resultados.getString("desarrollador"));
                 dto.setContacto(resultados.getString("contacto"));
-                dto.setFechaRegistro(resultados.getTimestamp("fecha_registro"));
-                dto.setUltimoAcceso(resultados.getTimestamp("ultimo_acceso"));
-                dto.setActivo(resultados.getInt("activo") == 1 ? true : false);
+                dto.setVersion(resultados.getString("version"));
+                dto.setActualizacion(resultados.getString("actualizacion"));
+                dto.setFechaLiberacion(resultados.getTimestamp("fecha_liberacion"));
+                dto.setMsjMantenimiento(resultados.getString("msj_mantenimiento"));
+                dto.setBdEsquema(resultados.getString("bd_esquema"));
 
                 lista.add(dto);
             }
             BDConexion.cerrar();
-            Globales.APP_DEBUG = debug;
         } catch (Exception e) {
             ConsolaDebug.agregarTexto("DAO: Error al leer registros de " + Globales.BD_DESC_ESQUEMA + "." + TABLA + ": " + e, ConsolaDebug.ERROR);
         }
@@ -106,7 +99,7 @@ public class UsuarioDAO extends DAO {
     }
 
     public DTO leerUno(String select, String where, String orderBy, String groupBy) {
-        UsuarioDTO dto = null;
+        SistemaDTO dto = null;
 
         String consulta
                 = "SELECT " + select + " \n"
@@ -129,20 +122,20 @@ public class UsuarioDAO extends DAO {
 
         try {
             ResultSet resultados = BDConexion.consultar(consulta);
-            dto = new UsuarioDTO();
+            dto = new SistemaDTO();
 
             while (resultados.next()) {
-                dto.setIdUsuario(resultados.getInt("id_usuario"));
-                dto.setIdTipoUsuario(resultados.getInt("id_tipo_usuario"));
-                dto.setIdRango(resultados.getInt("id_rango"));
-                dto.setNombre(resultados.getString("nombre"));
-                dto.setNick(resultados.getString("nick"));
-                dto.setAutogenerado(resultados.getString("autogenerado"));
-                dto.setAcceso(resultados.getString("acceso"));
+                dto.setIdSistema(resultados.getInt("id_sistema"));
+                dto.setDescripcion(resultados.getString("descripcion"));
+                dto.setSiglas(resultados.getString("siglas"));
+                dto.setTitulo(resultados.getString("titulo"));
+                dto.setDesarrollador(resultados.getString("desarrollador"));
                 dto.setContacto(resultados.getString("contacto"));
-                dto.setFechaRegistro(resultados.getTimestamp("fecha_registro"));
-                dto.setUltimoAcceso(resultados.getTimestamp("ultimo_acceso"));
-                dto.setActivo(resultados.getInt("activo") == 1 ? true : false);
+                dto.setVersion(resultados.getString("version"));
+                dto.setActualizacion(resultados.getString("actualizacion"));
+                dto.setFechaLiberacion(resultados.getTimestamp("fecha_liberacion"));
+                dto.setMsjMantenimiento(resultados.getString("msj_mantenimiento"));
+                dto.setBdEsquema(resultados.getString("bd_esquema"));
             }
 
             BDConexion.cerrar();
@@ -169,16 +162,16 @@ public class UsuarioDAO extends DAO {
             Connection conexion = BDConexion.getConnection();
 
             CallableStatement procInsertar = conexion.prepareCall(procedimiento);
-            procInsertar.setInt(1, dto.getIdTipoUsuario());
-            procInsertar.setInt(2, dto.getIdRango());
-            procInsertar.setString(3, dto.getNombre());
-            procInsertar.setString(4, dto.getNick());
-            procInsertar.setString(5, dto.getAutogenerado());
-            procInsertar.setString(6, dto.getAcceso());
-            procInsertar.setString(7, dto.getContacto());
-            procInsertar.setTimestamp(8, new java.sql.Timestamp(dto.getFechaRegistro().getTime()));
-            procInsertar.setTimestamp(9, new java.sql.Timestamp(dto.getUltimoAcceso().getTime()));
-            procInsertar.setInt(10, dto.isActivo() == true ? 1 : 0);
+            procInsertar.setString(1, dto.getDescripcion());
+            procInsertar.setString(2, dto.getSiglas());
+            procInsertar.setString(3, dto.getTitulo());
+            procInsertar.setString(4, dto.getDesarrollador());
+            procInsertar.setString(5, dto.getContacto());
+            procInsertar.setString(6, dto.getVersion());
+            procInsertar.setString(7, dto.getActualizacion());
+            procInsertar.setTimestamp(8, new java.sql.Timestamp(dto.getFechaLiberacion().getTime()));
+            procInsertar.setString(9, dto.getMsjMantenimiento());
+            procInsertar.setString(10, dto.getBdEsquema());
             procInsertar.execute();
 
             conexion.commit();
@@ -207,17 +200,17 @@ public class UsuarioDAO extends DAO {
             Connection conexion = BDConexion.getConnection();
 
             CallableStatement procActualizar = conexion.prepareCall(procedimiento);
-            procActualizar.setInt(1, dto.getIdUsuario());
-            procActualizar.setInt(2, dto.getIdTipoUsuario());
-            procActualizar.setInt(3, dto.getIdRango());
-            procActualizar.setString(4, dto.getNombre());
-            procActualizar.setString(5, dto.getNick());
-            procActualizar.setString(6, dto.getAutogenerado());
-            procActualizar.setString(7, dto.getAcceso());
-            procActualizar.setString(8, dto.getContacto());
-            procActualizar.setTimestamp(9, new java.sql.Timestamp(dto.getFechaRegistro().getTime()));
-            procActualizar.setTimestamp(10, new java.sql.Timestamp(dto.getUltimoAcceso().getTime()));
-            procActualizar.setInt(11, dto.isActivo() == true ? 1 : 0);
+            procActualizar.setInt(1, dto.getIdSistema());
+            procActualizar.setString(2, dto.getDescripcion());
+            procActualizar.setString(3, dto.getSiglas());
+            procActualizar.setString(4, dto.getTitulo());
+            procActualizar.setString(5, dto.getDesarrollador());
+            procActualizar.setString(6, dto.getContacto());
+            procActualizar.setString(7, dto.getVersion());
+            procActualizar.setString(8, dto.getActualizacion());
+            procActualizar.setTimestamp(9, new java.sql.Timestamp(dto.getFechaLiberacion().getTime()));
+            procActualizar.setString(10, dto.getMsjMantenimiento());
+            procActualizar.setString(11, dto.getBdEsquema());
             procActualizar.execute();
 
             conexion.commit();
@@ -240,14 +233,14 @@ public class UsuarioDAO extends DAO {
         String procedimiento = super.obtenerProcedimiento(Globales.BD_DESC_ESQUEMA, accion, TABLA, parametros);
 
         if (Globales.APP_DEBUG) {
-            ConsolaDebug.agregarTexto(procedimiento + " : ID - " + dto.getIdUsuario(), ConsolaDebug.PROCESO);
+            ConsolaDebug.agregarTexto(procedimiento + " : ID - " + dto.getIdSistema(), ConsolaDebug.PROCESO);
         }
 
         try {
             Connection conexion = BDConexion.getConnection();
 
             CallableStatement procEliminar = conexion.prepareCall(procedimiento);
-            procEliminar.setInt(1, dto.getIdUsuario());
+            procEliminar.setInt(1, dto.getIdSistema());
             procEliminar.execute();
 
             conexion.commit();

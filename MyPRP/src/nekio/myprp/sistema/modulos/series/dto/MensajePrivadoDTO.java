@@ -13,6 +13,7 @@ import nekio.myprp.recursos.utilerias.plantillas.DTO;
 
 public class MensajePrivadoDTO extends DTO{
     private int idMensajePrivado;
+    private int idUsuario;
     private int idTipoMensaje;
     private int idMpRelacionado;
     private int idWeb;
@@ -31,9 +32,16 @@ public class MensajePrivadoDTO extends DTO{
         valoresLOV = new ArrayList<String>();
         camposExtrasLOV = new ArrayList<List>();
         
+        super.campos.add("id_usuario");
+        super.valores.add(idUsuario);
+        super.tipoDatos.add(Globales.TipoDato.NUMERO);
+        
         super.campos.add("id_mensaje_privado");
         super.valores.add(idMensajePrivado);
         super.tipoDatos.add(Globales.TipoDato.NUMERO);
+        super.valoresLOV.add(null);
+        super.camposExtrasLOV.add(null);
+        super.tablasForaneas.add(null);
         
         super.campos.add("id_tipo_mensaje");
         super.valores.add(idTipoMensaje);
@@ -94,6 +102,14 @@ public class MensajePrivadoDTO extends DTO{
 
     public void setIdTipoMensaje(int idTipoMensaje) {
         this.idTipoMensaje = idTipoMensaje;
+    }
+    
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public int getIdMpRelacionado() {

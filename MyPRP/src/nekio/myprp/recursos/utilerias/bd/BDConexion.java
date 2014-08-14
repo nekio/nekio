@@ -165,12 +165,12 @@ public class BDConexion {
             ResultSetMetaData mdata = resultado.getMetaData();
             int campos = mdata.getColumnCount();
         
-            ConsolaDebug.agregarTexto("CABECERAS DE TABLA:", ConsolaDebug.SQL, false);
+            ConsolaDebug.agregarTexto("CABECERAS DE TABLA:\n", ConsolaDebug.PROCESO, false);
             for(String cabecera:obtenerNombresColumnas()){
-                ConsolaDebug.agregarTexto("   " + cabecera, ConsolaDebug.SQL, false);
+                ConsolaDebug.agregarTexto(cabecera + "   ", ConsolaDebug.SQL, false);
             }
             
-            ConsolaDebug.agregarTexto("\n\nREGISTROS DE TABLA:\n", ConsolaDebug.SQL, false);
+            ConsolaDebug.agregarTexto("\n\nREGISTROS DE TABLA:\n", ConsolaDebug.PROCESO, false);
             
             Statement instruccion = conexion.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = instruccion.executeQuery(consulta);
@@ -190,7 +190,7 @@ public class BDConexion {
                 }
                 ConsolaDebug.agregarTexto("\n", ConsolaDebug.OCULTO, false);
             }
-            ConsolaDebug.agregarTexto("\n", ConsolaDebug.OCULTO, false);
+            ConsolaDebug.agregarTexto("\n\n\n", ConsolaDebug.OCULTO, false);
         }catch(Exception e){
             e.printStackTrace();
         }

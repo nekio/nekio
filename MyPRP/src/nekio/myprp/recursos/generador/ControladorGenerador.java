@@ -23,6 +23,7 @@ public class ControladorGenerador {
     private List<List> detallesTablasBD;
     protected Generador generador;
     private boolean estandar;
+    private boolean primitivos;
     
     protected String comentarios = 
             "/* Es necesario realizar un \"Fix Imports\" en el IDE para incluir las librerias necesarias, " +
@@ -33,10 +34,10 @@ public class ControladorGenerador {
     
     // <editor-fold defaultstate="collapsed" desc="Constructor">
     public ControladorGenerador(List<String> tablasBD, List<List> detallesTablasBD){
-        this(tablasBD, detallesTablasBD, false);
+        this(tablasBD, detallesTablasBD, false, true);
     }
     
-    public ControladorGenerador(List<String> tablasBD, List<List> detallesTablasBD, boolean estandar){
+    public ControladorGenerador(List<String> tablasBD, List<List> detallesTablasBD, boolean estandar, boolean primitivos){
         try{
             this.catalogo = BDConexion.getConnection().getCatalog();
         }catch(Exception e){
@@ -45,8 +46,9 @@ public class ControladorGenerador {
         
         this.tablasBD = tablasBD;
         this.detallesTablasBD = detallesTablasBD;
-        this.generador = new GHardcode(estandar);
+        this.generador = new GHardcode(estandar, primitivos);
         this.estandar = estandar;
+        this.primitivos = primitivos;
         
         ConsolaDebug.agregarTexto(
                 Globales.APP_SEPARADOR + "\n" +
@@ -162,7 +164,7 @@ public class ControladorGenerador {
         detallesTablasBD.get(tabla).set(BDConexion.Detalles.TIPO_DATOS.ordinal(), tipos);
         
         this.generador = null;
-        this.generador = new GHardcode(estandar);
+        this.generador = new GHardcode(estandar, primitivos);
         crearCapasDesdeEsquema();
     }
     

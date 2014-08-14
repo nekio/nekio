@@ -46,6 +46,7 @@ public class GeneradorGUI extends SwingJFrame{
     private JTextField txtAutor;
     private JTextArea txtContenido;
     private JCheckBox chkEditar;
+    private JCheckBox chkPrimitivos;
     private JButton btnGenerar;
     private JButton btnEditar;
     private JButton btnExportarActual;
@@ -107,9 +108,13 @@ public class GeneradorGUI extends SwingJFrame{
         
         //Sur
         JPanel pnlInferior = new JPanel(new BorderLayout());
-        
+        JPanel pnlChks = new JPanel(new FlowLayout());
         chkEditar = new JCheckBox("Editar texto");
-        pnlInferior.add(chkEditar, "West");
+        pnlChks.add(chkEditar);
+        chkPrimitivos = new JCheckBox("Tipos Primitivos");
+        chkPrimitivos.setSelected(controlador.getGenerador().isPrimitivos());
+        pnlChks.add(chkPrimitivos);
+        pnlInferior.add(pnlChks, "West");
         
         JPanel pnlBotones = new JPanel(new FlowLayout());
         
@@ -158,6 +163,13 @@ public class GeneradorGUI extends SwingJFrame{
             @Override
             public void actionPerformed( ActionEvent evt){
                 txtContenido.setEditable(chkEditar.isSelected());
+             }
+        });
+        
+        chkPrimitivos.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed( ActionEvent evt){
+                controlador.getGenerador().setPrimitivos(chkPrimitivos.isSelected());
              }
         });
         

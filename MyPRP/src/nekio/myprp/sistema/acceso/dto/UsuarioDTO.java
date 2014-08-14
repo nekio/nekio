@@ -6,138 +6,178 @@ package nekio.myprp.sistema.acceso.dto;
  */
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.plantillas.DTO;
 
-public class UsuarioDTO extends DTO{
-    private int idUsuario;
-    private int idTipoUsuario;
+public class UsuarioDTO extends DTO {
+
+    private Integer idUsuario;
+    private Integer idTipoUsuario;
+    private Integer idRango;
     private String nombre;
-    private String apellidoP;
-    private String apellidoM;
+    private String nick;
+    private String autogenerado;
+    private String acceso;
     private String contacto;
-    private String usuario;
-    private String password;
-    private boolean activo;
-    
+    private Date fechaRegistro;
+    private Date ultimoAcceso;
+    private Boolean activo;
+
     @Override
-    public void confirmarDTO(){        
+    public void confirmarDTO() {
         campos = new ArrayList<String>();
+        tablasForaneas = new ArrayList<String>();
         valores = new ArrayList();
         tipoDatos = new ArrayList<Globales.TipoDato>();
-        
+        valoresLOV = new ArrayList<String>();
+        camposExtrasLOV = new ArrayList<List>();
+
         super.campos.add("id_usuario");
         super.valores.add(idUsuario);
         super.tipoDatos.add(Globales.TipoDato.NUMERO);
-        
+
         super.campos.add("id_tipo_usuario");
         super.valores.add(idTipoUsuario);
         super.tipoDatos.add(Globales.TipoDato.NUMERO);
-        
+		//super.valoresLOV.add(descripcion);
+        //super.camposExtrasLOV.add(new ArrayList<String>() {{add(""); add("");}});
+        super.tablasForaneas.add("null");
+
+        super.campos.add("id_rango");
+        super.valores.add(idRango);
+        super.tipoDatos.add(Globales.TipoDato.NUMERO);
+		//super.valoresLOV.add(descripcion);
+        //super.camposExtrasLOV.add(new ArrayList<String>() {{add(""); add("");}});
+        super.tablasForaneas.add("null");
+
         super.campos.add("nombre");
         super.valores.add(nombre);
-        
-        super.campos.add("apellido_p");
-        super.valores.add(apellidoP);
         super.tipoDatos.add(Globales.TipoDato.TEXTO);
-        
-        super.campos.add("apellido_m");
-        super.valores.add(apellidoM);
+
+        super.campos.add("nick");
+        super.valores.add(nick);
         super.tipoDatos.add(Globales.TipoDato.TEXTO);
-        
+
+        super.campos.add("autogenerado");
+        super.valores.add(autogenerado);
+        super.tipoDatos.add(Globales.TipoDato.TEXTO);
+
+        super.campos.add("acceso");
+        super.valores.add(acceso);
+        super.tipoDatos.add(Globales.TipoDato.TEXTO);
+
         super.campos.add("contacto");
         super.valores.add(contacto);
         super.tipoDatos.add(Globales.TipoDato.TEXTO);
-        
-        super.campos.add("usuario");
-        super.valores.add(usuario);
-        super.tipoDatos.add(Globales.TipoDato.TEXTO);
-        
-        super.campos.add("password");
-        super.valores.add(password);
-        super.tipoDatos.add(Globales.TipoDato.TEXTO);
-        
+
+        super.campos.add("fecha_registro");
+        super.valores.add(fechaRegistro);
+        super.tipoDatos.add(Globales.TipoDato.FECHA);
+
+        super.campos.add("ultimo_acceso");
+        super.valores.add(ultimoAcceso);
+        super.tipoDatos.add(Globales.TipoDato.FECHA);
+
         super.campos.add("activo");
         super.valores.add(activo);
         super.tipoDatos.add(Globales.TipoDato.BOOLEANO);
     }
 
-    public int getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(int idUsuario) {
+    public void setIdUsuario(Integer idUsuario) {
         this.idUsuario = idUsuario;
     }
 
-    public int getIdTipoUsuario() {
-        return idTipoUsuario;
+    public Integer getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setIdTipoUsuario(int idTipoUsuario) {
+    public void setIdTipoUsuario(Integer idTipoUsuario) {
         this.idTipoUsuario = idTipoUsuario;
     }
 
-    public String getNombre() {
-        return nombre;
+    public Integer getIdTipoUsuario() {
+        return idTipoUsuario;
+    }
+
+    public void setIdRango(Integer idRango) {
+        this.idRango = idRango;
+    }
+
+    public Integer getIdRango() {
+        return idRango;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    public String getApellidoP() {
-        return apellidoP;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setApellidoP(String apellidoP) {
-        this.apellidoP = apellidoP;
+    public void setNick(String nick) {
+        this.nick = nick;
     }
 
-    public String getApellidoM() {
-        return apellidoM;
+    public String getNick() {
+        return nick;
     }
 
-    public void setApellidoM(String apellidoM) {
-        this.apellidoM = apellidoM;
+    public void setAutogenerado(String autogenerado) {
+        this.autogenerado = autogenerado;
+    }
+
+    public String getAutogenerado() {
+        return autogenerado;
+    }
+
+    public void setAcceso(String acceso) {
+        this.acceso = acceso;
+    }
+
+    public String getAcceso() {
+        return acceso;
+    }
+
+    public void setContacto(String contacto) {
+        this.contacto = contacto;
     }
 
     public String getContacto() {
         return contacto;
     }
 
-    public void setContacto(String contacto) {
-        this.contacto = contacto;
-    }
-    
-    public String getUsuario() {
-        return usuario;
+    public void setFechaRegistro(Date fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public Date getFechaRegistro() {
+        return fechaRegistro;
     }
 
-    public String getPassword() {
-        return password;
+    public void setUltimoAcceso(Date ultimoAcceso) {
+        this.ultimoAcceso = ultimoAcceso;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public Date getUltimoAcceso() {
+        return ultimoAcceso;
     }
 
-    public boolean isActivo() {
-        return activo;
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
     }
 
     public void setActivo(int activo) {
-        if(activo == 1)
+        if (activo == 1) {
             this.activo = true;
-        else
+        } else {
             this.activo = false;
+        }
     }
-    
-    public void setActivo(boolean activo) {
-        this.activo = activo;
+
+    public Boolean isActivo() {
+        return activo;
     }
 }

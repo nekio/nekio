@@ -23,10 +23,11 @@ public class GHardcode extends Generador{
     
     // <editor-fold defaultstate="collapsed" desc="Constructores">
     public GHardcode(){
-        this(true);
+        this(true, true);
     }
     
-    public GHardcode(boolean estandar){
+    public GHardcode(boolean estandar, boolean primitivos){
+        super.primitivos = primitivos;
         super.estandar = estandar;
         
         super.codigoDTO = new ArrayList<String>();
@@ -60,7 +61,12 @@ public class GHardcode extends Generador{
         String declaracionAtributo = null;
         codigoDTO.append(abrirClase);        
         for(int i=0; i<atributos.size(); i++){
-            tipoDato = tipos.get(i).getTipoJava();
+            tipoDato = null;
+            if(super.primitivos)
+                tipoDato = tipos.get(i).getTipoPrimitivoJava();
+            else
+                tipoDato = tipos.get(i).getTipoClaseJava();
+            
             atributo = convertirCamel(atributos.get(i));
             declaracionAtributo = modificadorAcceso + " " + tipoDato + " " + atributo + ";";
             
@@ -128,17 +134,34 @@ public class GHardcode extends Generador{
     private String encapsular(TipoDato tipo, String campo){
         String codigo = null;
         
-        String tipoDato = tipo.getTipoJava();
+        String tipoDato = null;
+        if(super.primitivos)
+            tipoDato = tipo.getTipoPrimitivoJava();
+        else
+            tipoDato = tipo.getTipoClaseJava();
+            
         String pascal = convertirPascal(campo);
         String camel = convertirCamel(campo);
+        boolean booleano = tipo==tipo.BOOLEANO;
         
         String setter = 
                 "\n\tpublic void set" + pascal + "(" + tipoDato + " " + camel + ") {" + 
-                "\n\t\tthis." + camel + " = " + camel +
+                "\n\t\tthis." + camel + " = " + camel + ";" +
                 "\n\t}";
         
+        if(booleano){
+            setter += 
+                "\n\n\tpublic void set" + pascal + "(int " + camel + ") {" +
+                "\n\t\tif(" + camel + " == 1)" +
+                "\n\t\t\tthis." + camel + " = true;" +
+                "\n\t\telse" +
+                "\n\t\t\tthis." + camel + " = false;" +
+                "\n\t}";
+        }
+        
+        String prefijoGetter = booleano ? " is" : " get";
         String getter = 
-                "\n\tpublic " + tipoDato + " get" + pascal + "() {" +
+                "\n\tpublic " + tipoDato + prefijoGetter + pascal + "() {" +
                 "\n\t\treturn " + camel + ";" +
                 "\n\t}";
         
@@ -305,7 +328,7 @@ public class GHardcode extends Generador{
             "\n\t\tArrayList<DTO> lista = new ArrayList<DTO>();" +
             "\n\t\tString consulta = " +
             "\n\t\t\t\"SELECT \" + select + \" \\n\" +" +
-            "\n\t\t\t\"FROM \" + Globales.BD_ESQUEMA + \".\" + TABLA + \" \\n\" +" +
+            "\n\t\t\t\"FROM \" + Globales.BD_DESC_ESQUEMA + \".\" + TABLA + \" \\n\" +" +
             "\n\t\t\t\"WHERE 1=1\\n\";" +
             "\n\n\t\tif(where != null)" +
             "\n\t\t\tconsulta += \"AND \"+ where + \"\\n\";" +
@@ -325,7 +348,7 @@ public class GHardcode extends Generador{
             "\n\t\t\t}" +
             "\n\t\t\tBDConexion.cerrar();" +
             "\n\t\t}catch(Exception e){" +
-            "\n\t\t\tConsolaDebug.agregarTexto(\"DAO: Error al leer registros de \" + Globales.BD_ESQUEMA + \".\" + TABLA + \": \" + e, ConsolaDebug.ERROR);" +
+            "\n\t\t\tConsolaDebug.agregarTexto(\"DAO: Error al leer registros de \" + Globales.BD_DESC_ESQUEMA + \".\" + TABLA + \": \" + e, ConsolaDebug.ERROR);" +
             "\n\t\t}" +
             "\n\n\t\treturn lista;" +
             "\n\t}";
@@ -344,7 +367,7 @@ public class GHardcode extends Generador{
             "\n\t\t" + tablaPascal + "DTO dto = null;" +
             "\n\n\t\tString consulta = " +
             "\n\t\t\t\"SELECT \" + select + \" \\n\" +" +
-            "\n\t\t\t\"FROM \" + Globales.BD_ESQUEMA + \".\" + TABLA + \" \\n\" +" +
+            "\n\t\t\t\"FROM \" + Globales.BD_DESC_ESQUEMA + \".\" + TABLA + \" \\n\" +" +
             "\n\t\t\t\"WHERE 1=1\\n\";" +
             "\n\n\t\tif(where != null)" +
             "\n\t\t\tconsulta += \"AND \"+ where + \"\\n\";" +
@@ -362,7 +385,7 @@ public class GHardcode extends Generador{
             "\n\t\t\t}" +
             "\n\n\t\t\tBDConexion.cerrar();" +
             "\n\t\t}catch(Exception e){" +
-            "\n\t\t\tConsolaDebug.agregarTexto(\"Error al leer un registro de \" + Globales.BD_ESQUEMA + \".\" + TABLA + \": \" + e, ConsolaDebug.ERROR);" +
+            "\n\t\t\tConsolaDebug.agregarTexto(\"Error al leer un registro de \" + Globales.BD_DESC_ESQUEMA + \".\" + TABLA + \": \" + e, ConsolaDebug.ERROR);" +
             "\n\t\t}" +
             "\n\n\t\treturn dto;" +
             "\n\t}";
@@ -390,7 +413,7 @@ public class GHardcode extends Generador{
             "\n\t\tint resultado = 1;" +
             "\n\n\t\tString accion = super.INSERTAR;" +
             "\n\t\tint parametros = " + (campos.size()-1) + ";" + //No considera el ID, por eso se resta 1
-            "\n\t\tString procedimiento = super.obtenerProcedimiento(Globales.BD_ESQUEMA, accion, TABLA, parametros);" +
+            "\n\t\tString procedimiento = super.obtenerProcedimiento(Globales.BD_DESC_ESQUEMA, accion, TABLA, parametros);" +
             "\n\n\t\tif(Globales.APP_DEBUG)" +
             "\n\t\t\tConsolaDebug.agregarTexto(procedimiento, ConsolaDebug.PROCESO);" +
             "\n\n\t\ttry{" +
@@ -402,7 +425,7 @@ public class GHardcode extends Generador{
             "\n\t\t\tBDConexion.cerrar();" +
             "\n\n\t\t\tresultado = 0;" +
             "\n\t\t}catch(Exception e){" +
-            "\n\t\t\tConsolaDebug.agregarTexto(\"No se pudo \" + accion + \" en la tabla \" + Globales.BD_ESQUEMA + \".\" + TABLA + \"\\n\"+e, ConsolaDebug.ERROR);" +
+            "\n\t\t\tConsolaDebug.agregarTexto(\"No se pudo \" + accion + \" en la tabla \" + Globales.BD_DESC_ESQUEMA + \".\" + TABLA + \"\\n\"+e, ConsolaDebug.ERROR);" +
             "\n\t\t}" +
             "\n\n\t\treturn resultado;" +
             "\n\t}";
@@ -473,7 +496,7 @@ public class GHardcode extends Generador{
             "\n\t\tint resultado = 1;" +
             "\n\t\tString accion = super.ACTUALIZAR;" +
             "\n\t\tint parametros = " + campos.size() + ";" +
-            "\n\t\tString procedimiento = super.obtenerProcedimiento(Globales.BD_ESQUEMA, accion, TABLA, parametros);" +
+            "\n\t\tString procedimiento = super.obtenerProcedimiento(Globales.BD_DESC_ESQUEMA, accion, TABLA, parametros);" +
             "\n\n\t\tif(Globales.APP_DEBUG)" +
             "\n\t\t\tConsolaDebug.agregarTexto(procedimiento, ConsolaDebug.PROCESO);" +
             "\n\n\t\ttry{" +
@@ -485,7 +508,7 @@ public class GHardcode extends Generador{
             "\n\t\t\tBDConexion.cerrar();" +
             "\n\n\t\t\tresultado = 0;" +
             "\n\t\t}catch(Exception e){" +
-            "\n\t\t\tConsolaDebug.agregarTexto(\"No se pudo \" + accion + \" en la tabla \" + Globales.BD_ESQUEMA + \".\" + TABLA + \"\\n\"+e, ConsolaDebug.ERROR);" +
+            "\n\t\t\tConsolaDebug.agregarTexto(\"No se pudo \" + accion + \" en la tabla \" + Globales.BD_DESC_ESQUEMA + \".\" + TABLA + \"\\n\"+e, ConsolaDebug.ERROR);" +
             "\n\t\t}" +
             "\n\n\t\treturn resultado;" +
             "\n\t}";
@@ -502,7 +525,7 @@ public class GHardcode extends Generador{
             "\n\t\tint resultado = 1;" +
             "\n\n\t\tString accion = super.ELIMINAR;" +
             "\n\t\tint parametros = 1;" +
-            "\n\t\tString procedimiento = super.obtenerProcedimiento(Globales.BD_ESQUEMA, accion, TABLA, parametros);" +
+            "\n\t\tString procedimiento = super.obtenerProcedimiento(Globales.BD_DESC_ESQUEMA, accion, TABLA, parametros);" +
             "\n\n\t\tif(Globales.APP_DEBUG)" +
             "\n\t\t\tConsolaDebug.agregarTexto(procedimiento + \" : ID - \" + dto.getId" + tablaPascal + "(), ConsolaDebug.PROCESO);" +
             "\n\n\t\ttry{" +
@@ -514,7 +537,7 @@ public class GHardcode extends Generador{
             "\n\t\t\tBDConexion.cerrar();" +
             "\n\n\t\t\tresultado = 0;" +
             "\n\t\t}catch(Exception e){" +
-            "\n\t\t\tConsolaDebug.agregarTexto(\"No se pudo \" + accion + \" en la tabla \" + Globales.BD_ESQUEMA + \".\" + TABLA + \"\\n\"+e, ConsolaDebug.ERROR);" +
+            "\n\t\t\tConsolaDebug.agregarTexto(\"No se pudo \" + accion + \" en la tabla \" + Globales.BD_DESC_ESQUEMA + \".\" + TABLA + \"\\n\"+e, ConsolaDebug.ERROR);" +
             "\n\t\t}" +
             "\n\t\treturn resultado;\n" +
             "\n\t}";
@@ -629,7 +652,7 @@ public class GHardcode extends Generador{
             "\n\tprivate final int MODULO = Globales.MOD_" + catalogo.toUpperCase() + ";";
         
         String constructor = 
-            "\n\n\tpublic Gestor" + tablaPascal + "(){" +
+            "\n\n\tpublic " + tablaPascal + "Gestor(){" +
             "\n\t\tsuper.gestor = GESTOR;" +
             "\n\t\tsuper.objetoNegocio = OBJETO_NEGOCIO;" +
             "\n\t\tsuper.dao = DAO;" +

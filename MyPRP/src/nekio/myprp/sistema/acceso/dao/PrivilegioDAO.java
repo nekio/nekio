@@ -14,20 +14,20 @@ import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.bd.BDConexion;
 import nekio.myprp.recursos.utilerias.plantillas.DAO;
 import nekio.myprp.recursos.utilerias.plantillas.DTO;
-import nekio.myprp.sistema.acceso.dto.UsuarioDTO;
+import nekio.myprp.sistema.acceso.dto.PrivilegioDTO;
 
-public class UsuarioDAO extends DAO {
+public class PrivilegioDAO extends DAO {
 
-    private final String TABLA = "usuario";
-    private final String ID = "id_usuario";
+    private final String TABLA = "privilegio";
+    private final String ID = "id_tipo_usuario";
     private final String TODOS_CAMPOS
-            = ID + ", id_tipo_usuario, id_rango, nombre, nick, autogenerado, acceso, contacto, fecha_registro, ultimo_acceso, activo ";
+            = ID + ", configurar, buscar, insertar, modificar, eliminar ";
 
-    private UsuarioDTO dto;
+    private PrivilegioDTO dto;
 
     @Override
     public void asignarParametros(DTO dto) {
-        this.dto = (UsuarioDTO) dto;
+        this.dto = (PrivilegioDTO) dto;
 
         if (Globales.APP_DEBUG) {
             ConsolaDebug.agregarTexto("DAO " + TABLA + ": Parametros ingresados", ConsolaDebug.PROCESO);
@@ -63,37 +63,25 @@ public class UsuarioDAO extends DAO {
 
         if (Globales.APP_DEBUG) {
             ConsolaDebug.agregarTexto(consulta, ConsolaDebug.SQL);
-            ConsolaDebug.agregarTexto("Obteniendo lista de usuarios...\n\n", ConsolaDebug.ADVERTENCIA, false);
         }
 
         try {
-            // Este DAO en particular no debe mostrar el resultado de sus registros
-            // por motivos de seguridad
-            boolean debug = Globales.APP_DEBUG;
-            Globales.APP_DEBUG = false;
-            
-            UsuarioDTO dto = null;
+            PrivilegioDTO dto = null;
             ResultSet resultados = BDConexion.consultar(consulta);
 
             while (resultados.next()) {
-                dto = new UsuarioDTO();
+                dto = new PrivilegioDTO();
 
-                dto.setIdUsuario(resultados.getInt("id_usuario"));
                 dto.setIdTipoUsuario(resultados.getInt("id_tipo_usuario"));
-                dto.setIdRango(resultados.getInt("id_rango"));
-                dto.setNombre(resultados.getString("nombre"));
-                dto.setNick(resultados.getString("nick"));
-                dto.setAutogenerado(resultados.getString("autogenerado"));
-                dto.setAcceso(resultados.getString("acceso"));
-                dto.setContacto(resultados.getString("contacto"));
-                dto.setFechaRegistro(resultados.getTimestamp("fecha_registro"));
-                dto.setUltimoAcceso(resultados.getTimestamp("ultimo_acceso"));
-                dto.setActivo(resultados.getInt("activo") == 1 ? true : false);
+                dto.setConfigurar(resultados.getInt("configurar") == 1 ? true : false);
+                dto.setBuscar(resultados.getInt("buscar") == 1 ? true : false);
+                dto.setInsertar(resultados.getInt("insertar") == 1 ? true : false);
+                dto.setModificar(resultados.getInt("modificar") == 1 ? true : false);
+                dto.setEliminar(resultados.getInt("eliminar") == 1 ? true : false);
 
                 lista.add(dto);
             }
             BDConexion.cerrar();
-            Globales.APP_DEBUG = debug;
         } catch (Exception e) {
             ConsolaDebug.agregarTexto("DAO: Error al leer registros de " + Globales.BD_DESC_ESQUEMA + "." + TABLA + ": " + e, ConsolaDebug.ERROR);
         }
@@ -106,7 +94,7 @@ public class UsuarioDAO extends DAO {
     }
 
     public DTO leerUno(String select, String where, String orderBy, String groupBy) {
-        UsuarioDTO dto = null;
+        PrivilegioDTO dto = null;
 
         String consulta
                 = "SELECT " + select + " \n"
@@ -129,20 +117,15 @@ public class UsuarioDAO extends DAO {
 
         try {
             ResultSet resultados = BDConexion.consultar(consulta);
-            dto = new UsuarioDTO();
+            dto = new PrivilegioDTO();
 
             while (resultados.next()) {
-                dto.setIdUsuario(resultados.getInt("id_usuario"));
                 dto.setIdTipoUsuario(resultados.getInt("id_tipo_usuario"));
-                dto.setIdRango(resultados.getInt("id_rango"));
-                dto.setNombre(resultados.getString("nombre"));
-                dto.setNick(resultados.getString("nick"));
-                dto.setAutogenerado(resultados.getString("autogenerado"));
-                dto.setAcceso(resultados.getString("acceso"));
-                dto.setContacto(resultados.getString("contacto"));
-                dto.setFechaRegistro(resultados.getTimestamp("fecha_registro"));
-                dto.setUltimoAcceso(resultados.getTimestamp("ultimo_acceso"));
-                dto.setActivo(resultados.getInt("activo") == 1 ? true : false);
+                dto.setConfigurar(resultados.getInt("configurar") == 1 ? true : false);
+                dto.setBuscar(resultados.getInt("buscar") == 1 ? true : false);
+                dto.setInsertar(resultados.getInt("insertar") == 1 ? true : false);
+                dto.setModificar(resultados.getInt("modificar") == 1 ? true : false);
+                dto.setEliminar(resultados.getInt("eliminar") == 1 ? true : false);
             }
 
             BDConexion.cerrar();
@@ -158,7 +141,7 @@ public class UsuarioDAO extends DAO {
         int resultado = 1;
 
         String accion = super.INSERTAR;
-        int parametros = 10;
+        int parametros = 5;
         String procedimiento = super.obtenerProcedimiento(Globales.BD_DESC_ESQUEMA, accion, TABLA, parametros);
 
         if (Globales.APP_DEBUG) {
@@ -169,16 +152,11 @@ public class UsuarioDAO extends DAO {
             Connection conexion = BDConexion.getConnection();
 
             CallableStatement procInsertar = conexion.prepareCall(procedimiento);
-            procInsertar.setInt(1, dto.getIdTipoUsuario());
-            procInsertar.setInt(2, dto.getIdRango());
-            procInsertar.setString(3, dto.getNombre());
-            procInsertar.setString(4, dto.getNick());
-            procInsertar.setString(5, dto.getAutogenerado());
-            procInsertar.setString(6, dto.getAcceso());
-            procInsertar.setString(7, dto.getContacto());
-            procInsertar.setTimestamp(8, new java.sql.Timestamp(dto.getFechaRegistro().getTime()));
-            procInsertar.setTimestamp(9, new java.sql.Timestamp(dto.getUltimoAcceso().getTime()));
-            procInsertar.setInt(10, dto.isActivo() == true ? 1 : 0);
+            procInsertar.setInt(1, dto.isConfigurar() == true ? 1 : 0);
+            procInsertar.setInt(2, dto.isBuscar() == true ? 1 : 0);
+            procInsertar.setInt(3, dto.isInsertar() == true ? 1 : 0);
+            procInsertar.setInt(4, dto.isModificar() == true ? 1 : 0);
+            procInsertar.setInt(5, dto.isEliminar() == true ? 1 : 0);
             procInsertar.execute();
 
             conexion.commit();
@@ -196,7 +174,7 @@ public class UsuarioDAO extends DAO {
     public int modificar() {
         int resultado = 1;
         String accion = super.ACTUALIZAR;
-        int parametros = 11;
+        int parametros = 6;
         String procedimiento = super.obtenerProcedimiento(Globales.BD_DESC_ESQUEMA, accion, TABLA, parametros);
 
         if (Globales.APP_DEBUG) {
@@ -207,17 +185,12 @@ public class UsuarioDAO extends DAO {
             Connection conexion = BDConexion.getConnection();
 
             CallableStatement procActualizar = conexion.prepareCall(procedimiento);
-            procActualizar.setInt(1, dto.getIdUsuario());
-            procActualizar.setInt(2, dto.getIdTipoUsuario());
-            procActualizar.setInt(3, dto.getIdRango());
-            procActualizar.setString(4, dto.getNombre());
-            procActualizar.setString(5, dto.getNick());
-            procActualizar.setString(6, dto.getAutogenerado());
-            procActualizar.setString(7, dto.getAcceso());
-            procActualizar.setString(8, dto.getContacto());
-            procActualizar.setTimestamp(9, new java.sql.Timestamp(dto.getFechaRegistro().getTime()));
-            procActualizar.setTimestamp(10, new java.sql.Timestamp(dto.getUltimoAcceso().getTime()));
-            procActualizar.setInt(11, dto.isActivo() == true ? 1 : 0);
+            procActualizar.setInt(1, dto.getIdTipoUsuario());
+            procActualizar.setInt(2, dto.isConfigurar() == true ? 1 : 0);
+            procActualizar.setInt(3, dto.isBuscar() == true ? 1 : 0);
+            procActualizar.setInt(4, dto.isInsertar() == true ? 1 : 0);
+            procActualizar.setInt(5, dto.isModificar() == true ? 1 : 0);
+            procActualizar.setInt(6, dto.isEliminar() == true ? 1 : 0);
             procActualizar.execute();
 
             conexion.commit();
@@ -240,14 +213,14 @@ public class UsuarioDAO extends DAO {
         String procedimiento = super.obtenerProcedimiento(Globales.BD_DESC_ESQUEMA, accion, TABLA, parametros);
 
         if (Globales.APP_DEBUG) {
-            ConsolaDebug.agregarTexto(procedimiento + " : ID - " + dto.getIdUsuario(), ConsolaDebug.PROCESO);
+            ConsolaDebug.agregarTexto(procedimiento + " : ID - " + dto.getIdTipoUsuario(), ConsolaDebug.PROCESO);
         }
 
         try {
             Connection conexion = BDConexion.getConnection();
 
             CallableStatement procEliminar = conexion.prepareCall(procedimiento);
-            procEliminar.setInt(1, dto.getIdUsuario());
+            procEliminar.setInt(1, dto.getIdTipoUsuario());
             procEliminar.execute();
 
             conexion.commit();
