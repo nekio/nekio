@@ -1,5 +1,10 @@
 package nekio.myprp.sistema.acceso;
 
+/**
+ *
+ * @author Nekio
+ */
+
 import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.utilerias.Autogenerador;
 import nekio.myprp.recursos.utilerias.Globales;
@@ -7,34 +12,24 @@ import static nekio.myprp.recursos.utilerias.Globales.BD_TOOLS;
 import nekio.myprp.recursos.utilerias.bd.BDConexion;
 import nekio.myprp.recursos.utilerias.Idioma;
 
-/**
- *
- * @author Nekio
- */
-public class Inicializacion {
-    private final String entidad = "Usuario";
+public class Inicializador {
+    private static final String ENTIDAD = "Usuario";
     
-    private String usuario;
-    private String password;
-    
-    public Inicializacion(){
+    public Inicializador(){
         this(null, null);
     }
     
-    public Inicializacion(String usuario, String password){
+    public Inicializador(String usuario, String password){
         this(1, usuario, password);
     }
     
-    public Inicializacion(int idioma, String usuario, String password){
-        this.usuario = usuario;
-        this.password = password;
-        
+    public Inicializador(int idioma, String usuario, String password){
         Idioma.IDIOMA_DEFINIDO = idioma;
         
-        conectarBD();
+        conectarBD(usuario, password);
     }
     
-    private void conectarBD(){
+    private void conectarBD(String usuario, String password){
         BDConexion bd = new BDConexion(
                 Globales.BD_GESTOR,
                 Globales.BD_USUARIO,
@@ -49,14 +44,15 @@ public class Inicializacion {
         Globales.BD_DESC_ESQUEMA = Globales.BD_TOOLS;
     }
     
-    public String loggear(){        
+    public static boolean loggear(String usuario, String password, boolean recordar){ 
+        boolean ingresado = false;
         AccesoGestor gestor = new AccesoGestor();
         String mensaje = null;
         
         if(usuario == null){
             ConsolaDebug.agregarTexto("--- LOGGEANDO CON CREDENCIALES ANONIMAS ---", ConsolaDebug.MAPEO);
-            setUsuario(Idioma.obtenerTexto(Idioma.PROP_ACC_USR_ANONIMO, "usuario"));
-            setPassword(Idioma.obtenerTexto(Idioma.PROP_ACC_USR_ANONIMO, "password"));
+            usuario = Idioma.obtenerTexto(Idioma.PROP_ACC_USR_ANONIMO, "usuario");
+            password = Idioma.obtenerTexto(Idioma.PROP_ACC_USR_ANONIMO, "password");
         }
         
         String acceso = null;
@@ -64,11 +60,14 @@ public class Inicializacion {
             acceso = Autogenerador.crearAcceso(password);
         }catch(Exception e){}
         
-        Login login = new Login(usuario, acceso);
-        if(login.validar()){            
+        Login login = new Login(usuario, acceso, password, recordar);
+        if(login.validar()){
+            ingresado = true;
+            Globales.CONSOLA.setVisible(true);
+            
             gestor.setEsquemaBD(BD_TOOLS);
             gestor.setDTO(login.getDTO());
-            gestor.ejecutarControladorNegocio("login", entidad);
+            gestor.ejecutarControladorNegocio("login", ENTIDAD);
             
             mensaje = "Bienvenido "+login.getUsuarioIngresado();
         }else{
@@ -80,18 +79,10 @@ public class Inicializacion {
                 mensaje += "   Password incorrecto\n";
             else if(!login.isAccesoValido())
                 mensaje += "   Usuario Inactivo\n";
-            
-            gestor.ejecutarControladorNegocio(Globales.BD.LEER.getValor(),entidad);
         }
         
-        return mensaje;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-    
-    public void setPassword(String password) {
-        this.password = password;
+        ConsolaDebug.agregarTexto(mensaje, ConsolaDebug.BITACORA);
+        
+        return ingresado;
     }
 }

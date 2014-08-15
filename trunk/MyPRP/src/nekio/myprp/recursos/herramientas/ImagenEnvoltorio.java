@@ -18,8 +18,8 @@ import nekio.myprp.recursos.utilerias.Globales;
 public class ImagenEnvoltorio {
     // <editor-fold defaultstate="collapsed" desc="Atributos">
     public static final String EXTENSION = "png";
-    private static final String RUTA_TEMPORAL = System.getProperty("user.home") + File.separator + "." + Globales.SIGLAS_APP;
-    private static final String IMAGEN_TEMPORAL = RUTA_TEMPORAL + File.separator + "tmp_img." + EXTENSION ;
+    private static final String RUTA_TEMPORAL = Globales.RUTA_HOME;
+    private static final String IMAGEN_TEMPORAL = RUTA_TEMPORAL + "tmp_img." + EXTENSION ;
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Metodos">

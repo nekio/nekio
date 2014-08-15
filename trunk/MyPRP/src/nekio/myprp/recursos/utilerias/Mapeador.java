@@ -28,7 +28,7 @@ public class Mapeador {
             ConsolaDebug.agregarTexto("|==========>  Mapeador abriendo la vista: " + pagina + "  <==========|", ConsolaDebug.VISTA);
         
         if(pagina.equals("login"))
-            new LoginGUI();
+            new Menu();
         
         String entidad = null;
         switch(gestor.getModulo()){

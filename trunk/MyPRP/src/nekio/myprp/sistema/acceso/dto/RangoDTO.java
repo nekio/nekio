@@ -5,6 +5,7 @@ package nekio.myprp.sistema.acceso.dto;
  * @author Nekio
  */
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import nekio.myprp.recursos.utilerias.Globales;
@@ -18,6 +19,7 @@ public class RangoDTO extends DTO {
     private Boolean accGrupal;
     private Boolean accProtegido;
     private Boolean accPrivado;
+    private Color colorRango;
 
     @Override
     public void confirmarDTO() {
@@ -99,5 +101,13 @@ public class RangoDTO extends DTO {
 
     public Boolean isAccPrivado() {
         return accPrivado;
+    }
+
+    public Color getColorRango() {
+        return colorRango;
+    }
+
+    public void setColorRango(Color colorRango) {
+        this.colorRango = colorRango;
     }
 }

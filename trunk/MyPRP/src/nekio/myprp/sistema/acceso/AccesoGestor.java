@@ -34,7 +34,9 @@ public class AccesoGestor extends Gestor{
     
     @Override
     public void ejecutarControladorNegocio(String accion, String entidad){
-        definirUsuario();
+        if(super.dto != null)
+            definirUsuario();
+        
         String negocio = accion + entidad;
         
         if(Globales.APP_DEBUG)
