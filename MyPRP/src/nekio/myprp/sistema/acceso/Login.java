@@ -5,7 +5,11 @@ package nekio.myprp.sistema.acceso;
  * @author Nekio
  */
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
+import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.plantillas.DTO;
 import nekio.myprp.sistema.acceso.dao.UsuarioDAO;
 import nekio.myprp.sistema.acceso.dto.UsuarioDTO;
@@ -13,6 +17,8 @@ import nekio.myprp.sistema.acceso.dto.UsuarioDTO;
 public class Login {
     private String usuarioIngresado;
     private String passwordIngresado;
+    private String password;
+    private boolean recordar;
     
     private UsuarioDTO dto;
     private boolean usuarioValido;
@@ -20,12 +26,14 @@ public class Login {
     private boolean accesoValido;
     
     public Login(){
-        this(null, null);
+        this(null, null, null, false);
     }
     
-    public Login(String usuarioIngresado, String passwordIngresado){
+    public Login(String usuarioIngresado, String passwordIngresado, String password, boolean recordar){
         this.usuarioIngresado = usuarioIngresado;
         this.passwordIngresado = passwordIngresado;
+        this.password = password;
+        this.recordar = recordar;
         
         this.usuarioValido = false;
         this.passwordValido = false;
@@ -55,6 +63,8 @@ public class Login {
             }
          }
          
+         recordarCredenciales();
+         
          return valido;
     }
     
@@ -72,6 +82,31 @@ public class Login {
             return true;
         
         return valido;
+    }
+    
+    private void recordarCredenciales(){
+        // Verificar que exista la ruta Home
+        File rutaHome = new File(Globales.RUTA_HOME);
+        if(!rutaHome.isDirectory())
+            rutaHome.mkdir();
+
+        // Borrar el archivo si es que existe
+        File rutaCredenciales=new File(Globales.RUTA_CREDENCIALES);
+        rutaCredenciales.delete();
+                
+        if(recordar){
+            try{                
+                // Escribir el contenido
+                BufferedWriter bw = new BufferedWriter(new FileWriter(Globales.RUTA_CREDENCIALES));
+
+                bw.write(usuarioIngresado);
+                bw.newLine();
+                bw.write(password);
+
+                bw.close();
+                bw = null;
+            }catch(Exception e){}
+        }
     }
 
     public String getUsuarioIngresado() {

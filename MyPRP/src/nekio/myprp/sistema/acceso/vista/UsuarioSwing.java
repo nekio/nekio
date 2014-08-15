@@ -7,12 +7,14 @@ package nekio.myprp.sistema.acceso.vista;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,14 +25,16 @@ import nekio.myprp.recursos.utilerias.Fecha;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.Idioma;
 import nekio.myprp.recursos.utilerias.plantillas.swing.SwingJFrame;
+import nekio.myprp.sistema.acceso.dao.RangoDAO;
 import nekio.myprp.sistema.acceso.dao.SistemaDAO;
 import nekio.myprp.sistema.acceso.dao.UsuarioDAO;
+import nekio.myprp.sistema.acceso.dto.RangoDTO;
 import nekio.myprp.sistema.acceso.dto.SistemaDTO;
 import nekio.myprp.sistema.acceso.dto.UsuarioDTO;
 
 
 public class UsuarioSwing extends SwingJFrame{
-    private final Dimension DIMENSION = new Dimension(450, 350);
+    private final Dimension DIMENSION = new Dimension(600, 400);
     
     private Container contenedor;
     private DetalleUsuario usuario;
@@ -54,6 +58,7 @@ public class UsuarioSwing extends SwingJFrame{
 
     @Override
     public void agregarComponentes() {
+             
         // Rango
         JPanel pnlRangoProp = new JPanel(new BorderLayout());
         
@@ -61,19 +66,19 @@ public class UsuarioSwing extends SwingJFrame{
         Color colorRango = null;
         switch(usuario.getRangoId()){
             case 1:
-                colorRango = Color.DARK_GRAY;
+                colorRango = Color.LIGHT_GRAY;
             break;
             case 2:
-                colorRango = Color.GREEN;
+                colorRango = new Color(0, 204, 0);
             break;
             case 3:
-                colorRango = Color.BLUE;
+                colorRango = new Color(0, 153, 204);
             break;
             case 4:
-                colorRango = Color.RED;
+                colorRango = new Color(235, 0, 0);
             break;
             case 5:
-                colorRango = Color.WHITE;
+                colorRango = new Color(204, 153, 255);
             break;
         }
         lblRangoDesc.setHorizontalAlignment(SwingConstants.CENTER);
@@ -82,11 +87,13 @@ public class UsuarioSwing extends SwingJFrame{
         pnlRangoProp.add(lblRangoDesc, "North");
         
         JPanel pnlRango = new JPanel(new FlowLayout());
-        pnlRango.add(agregarInsignia(Idioma.obtenerTexto(Idioma.PROP_RANGO, "acc_publico"), usuario.isAccPublico()));
-        pnlRango.add(agregarInsignia(Idioma.obtenerTexto(Idioma.PROP_RANGO, "acc_grupal"), usuario.isAccGrupal()));
-        pnlRango.add(agregarInsignia(Idioma.obtenerTexto(Idioma.PROP_RANGO, "acc_protegido"), usuario.isAccProtegido()));
-        pnlRango.add(agregarInsignia(Idioma.obtenerTexto(Idioma.PROP_RANGO, "acc_privado"), usuario.isAccPrivado()));
+        pnlRango.add(agregarInsignia(Idioma.obtenerTexto(Idioma.PROP_RANGO, "acc_publico"), usuario.isAccPublico(), null));
+        pnlRango.add(agregarInsignia(Idioma.obtenerTexto(Idioma.PROP_RANGO, "acc_grupal"), usuario.isAccGrupal(), null));
+        pnlRango.add(agregarInsignia(Idioma.obtenerTexto(Idioma.PROP_RANGO, "acc_protegido"), usuario.isAccProtegido(), null));
+        pnlRango.add(agregarInsignia(Idioma.obtenerTexto(Idioma.PROP_RANGO, "acc_privado"), usuario.isAccPrivado(), null));
         pnlRangoProp.add(pnlRango, "Center");
+        
+        pnlRangoProp.add(new JLabel(" "), "South");
         
         // Usuario
         JPanel pnlUsuario = new JPanel();
@@ -107,15 +114,18 @@ public class UsuarioSwing extends SwingJFrame{
         pnlPrivilegioProp.add(lblPrivilegioDesc, "North");
         
         JPanel pnlPrivilegio = new JPanel(new FlowLayout());
-        pnlPrivilegio.add(agregarInsignia(Idioma.obtenerTexto(Idioma.PROP_PRIVILEGIO, "configurar"), usuario.isConfigurar()));
-        pnlPrivilegio.add(agregarInsignia(Idioma.obtenerTexto(Idioma.PROP_PRIVILEGIO, "buscar"), usuario.isBuscar()));
-        pnlPrivilegio.add(agregarInsignia(Idioma.obtenerTexto(Idioma.PROP_PRIVILEGIO, "insertar"), usuario.isInsertar()));
-        pnlPrivilegio.add(agregarInsignia(Idioma.obtenerTexto(Idioma.PROP_PRIVILEGIO, "modificar"), usuario.isModificar()));
-        pnlPrivilegio.add(agregarInsignia(Idioma.obtenerTexto(Idioma.PROP_PRIVILEGIO, "eliminar"), usuario.isEliminar()));
+        pnlPrivilegio.add(agregarInsignia(Idioma.obtenerTexto(Idioma.PROP_PRIVILEGIO, "configurar"), usuario.isConfigurar(), Globales.IMG_PRIV_CONFIGURAR));
+        pnlPrivilegio.add(agregarInsignia(Idioma.obtenerTexto(Idioma.PROP_PRIVILEGIO, "buscar"), usuario.isBuscar(), Globales.IMG_PRIV_BUSCAR));
+        pnlPrivilegio.add(agregarInsignia(Idioma.obtenerTexto(Idioma.PROP_PRIVILEGIO, "insertar"), usuario.isInsertar(), Globales.IMG_PRIV_INSERTAR));
+        pnlPrivilegio.add(agregarInsignia(Idioma.obtenerTexto(Idioma.PROP_PRIVILEGIO, "modificar"), usuario.isModificar(), Globales.IMG_PRIV_MODIFICAR));
+        pnlPrivilegio.add(agregarInsignia(Idioma.obtenerTexto(Idioma.PROP_PRIVILEGIO, "eliminar"), usuario.isEliminar(), Globales.IMG_PRIV_ELIMINAR));
         pnlPrivilegioProp.add(pnlPrivilegio, "Center");
         
         // Sistemas
         JPanel pnlSistemas = new JPanel(new FlowLayout());
+        pnlSistemas.setOpaque(true);
+        pnlSistemas.setBackground(colorRango);
+        
         SistemaDTO sistema = null;
         JButton btnSistema = null;
         for(int idSistema:usuario.getSistemas()){
@@ -130,22 +140,45 @@ public class UsuarioSwing extends SwingJFrame{
         pnlAvatar.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         pnlAvatar.setBackground(colorRango);
         
+        JPanel pnlAvatarNorte = new JPanel(new BorderLayout());
+        pnlAvatarNorte.setOpaque(false);
+        
         JLabel lblUsuario = new JLabel(usuario.getNick());
-        pnlAvatar.add(lblUsuario,"North");
+        lblUsuario.setHorizontalAlignment(SwingConstants.CENTER);
+        lblUsuario.setOpaque(true);
+        lblUsuario.setBackground(Color.BLACK);
+        lblUsuario.setForeground(Color.WHITE);
+        if(usuario.getId() == 1)
+            lblUsuario.setIcon(new ImageIcon(getClass().getResource(Globales.IMG_RANGO_PREMIUM)));
+        
+        pnlAvatarNorte.add(cargarTipoUsr(usuario.getTipoId()),"East");        
+        pnlAvatarNorte.add(lblUsuario,"Center");        
+        pnlAvatarNorte.add(cargarPiedrasPreciosas(usuario.getRangoId()),"South");
+        
+        pnlAvatar.add(pnlAvatarNorte,"North");
+        pnlAvatar.add(this.obtenerImagen(Globales.IMG_NO_AVATAR), "Center");
+        pnlAvatar.add(cargarEstrellas(usuario.getTipoId(), usuario.getRangoId()),"South");
         
         contenedor.add(pnlRangoProp, "North");
         contenedor.add(pnlUsuario, "Center");
         contenedor.add(pnlAvatar, "West");
+        contenedor.add(obtenerImagen(Globales.IMG_PROPIEDADES), "East");
         contenedor.add(pnlPrivilegioProp, "South");
     }
     
-    private JButton agregarInsignia(String acceso, boolean permitido){
-        JButton btnAcceso = new JButton(acceso);
-        btnAcceso.setEnabled(false);
-        if(permitido)
-            btnAcceso.setBackground(Color.WHITE);
-        else
+    private JButton agregarInsignia(String texto, boolean permitido, String imagen){
+        JButton btnAcceso = new JButton(texto);
+        
+        if(imagen != null)
+            btnAcceso.setIcon(new ImageIcon(getClass().getResource(imagen)));
+        
+        if(permitido){
+            btnAcceso.setBackground(new Color(153, 204, 255));
+            btnAcceso.setToolTipText("Permitido");
+        }else{
             btnAcceso.setBackground(Color.LIGHT_GRAY);
+            btnAcceso.setToolTipText("No Permitido");
+        }
         
         return btnAcceso;
     }
@@ -162,6 +195,113 @@ public class UsuarioSwing extends SwingJFrame{
         pnlCampo.add(txtValor);
         
         return pnlCampo;
+    }
+    
+    // <editor-fold defaultstate="collapsed" desc="Componentes">
+    private JLabel cargarTipoUsr(int tipoUsuario){
+        JLabel usr = null;
+        
+        switch(tipoUsuario){
+            case 1:
+                usr = obtenerImagen(Globales.IMG_USR_ADMIN);
+            break;
+            case 2:
+                usr = obtenerImagen(Globales.IMG_USR_MODERADOR);
+            break;
+            case 3:
+                usr = obtenerImagen(Globales.IMG_USR_USUARIO);
+            break;
+            case 4:
+                usr = obtenerImagen(Globales.IMG_USR_INVITADO);
+            break;
+            case 5:
+                usr = obtenerImagen(Globales.IMG_USR_ANONIMO);
+            break;
+        }
+        
+        return usr;
+    }
+    
+    private JPanel cargarPiedrasPreciosas(int rango){
+        JPanel pnlPiedras = new JPanel(new FlowLayout());
+        pnlPiedras.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+        
+        RangoDTO dto = null;
+        String descripcion = null;
+        
+        switch(rango){
+            case 5:
+                dto = (RangoDTO)new RangoDAO().leerUno("id_rango = " + 5);
+                descripcion = dto.getDescripcion();
+                
+                JLabel diamante = obtenerImagen(Globales.IMG_RANGO_DIAMANTE, descripcion);
+                pnlPiedras.add(diamante);
+            case 4:
+                dto = (RangoDTO)new RangoDAO().leerUno("id_rango = " + 4);
+                descripcion = dto.getDescripcion();
+                
+                JLabel rubi = obtenerImagen(Globales.IMG_RANGO_RUBI, descripcion);
+                pnlPiedras.add(rubi);
+            case 3:
+                dto = (RangoDTO)new RangoDAO().leerUno("id_rango = " + 3);
+                descripcion = dto.getDescripcion();
+                
+                JLabel zafiro = obtenerImagen(Globales.IMG_RANGO_ZAFIRO, descripcion);
+                pnlPiedras.add(zafiro);
+            case 2:
+                dto = (RangoDTO)new RangoDAO().leerUno("id_rango = " + 2);
+                descripcion = dto.getDescripcion();
+                
+                JLabel esmeralda = obtenerImagen(Globales.IMG_RANGO_ESMERALDA, descripcion);
+                pnlPiedras.add(esmeralda);
+            case 1:
+                dto = (RangoDTO)new RangoDAO().leerUno("id_rango = " + 1);
+                descripcion = dto.getDescripcion();
+                
+                JLabel carbon = obtenerImagen(Globales.IMG_RANGO_CRISTAL, descripcion);
+                pnlPiedras.add(carbon);
+        }
+        
+        return pnlPiedras;
+    }
+    
+    private JPanel cargarEstrellas(int tipo, int rango){
+        JPanel pnlEstrellas = new JPanel(new FlowLayout());
+        pnlEstrellas.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+        
+        JLabel estrella = null;
+        //La quinta estrella se da a cualquier tipo de usuario que sea diamante
+        if(rango == 5)
+            estrella = obtenerImagen(Globales.IMG_RANGO_STAR_1);
+        else
+            estrella = obtenerImagen(Globales.IMG_RANGO_STAR_0);
+        pnlEstrellas.add(estrella);
+        
+        //Las primeras 4 estrellas son por tipo de usuario
+        for(int i=1; i <= 4; i++){
+            if(i > tipo-1)
+                estrella = obtenerImagen(Globales.IMG_RANGO_STAR_1);
+            else
+                estrella = obtenerImagen(Globales.IMG_RANGO_STAR_0);
+            
+            pnlEstrellas.add(estrella);
+        }
+        
+        return pnlEstrellas;
+    }
+    // </editor-fold>
+    
+    private JLabel obtenerImagen(String ruta){
+        return obtenerImagen(ruta, null);
+    }
+    
+    private JLabel obtenerImagen(String ruta, String descripcion){
+        JLabel imagen = new JLabel(new ImageIcon(getClass().getResource(ruta)));
+        
+        if(descripcion != null)
+            imagen.setToolTipText(descripcion);
+        
+        return imagen;
     }
 
     @Override

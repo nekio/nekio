@@ -1,7 +1,6 @@
 package test;
 
-import nekio.myprp.recursos.utilerias.Globales;
-import nekio.myprp.sistema.acceso.Inicializacion;
+import nekio.myprp.sistema.acceso.vista.LoginGUI;
 
 /**
  *
@@ -9,9 +8,7 @@ import nekio.myprp.sistema.acceso.Inicializacion;
  */
 public class Main {
     public static void main(String[] args) {     
-        Globales.CONSOLA.setVisible(true);
-        Inicializacion inicio = new Inicializacion(0, "admin","admin");
-        inicio.loggear();
+        new LoginGUI();
         
         /*String entidad = Globales.Entidad.Imagen.name();
         

@@ -6,6 +6,7 @@ package nekio.myprp.recursos.utilerias;
  */
 
 // <editor-fold defaultstate="collapsed" desc="Librerias">  
+import java.io.File;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -103,6 +104,8 @@ public class Globales {
     // </editor-fold>
         
     // <editor-fold defaultstate="collapsed" desc="Rutas de recursos">
+    public static final String RUTA_HOME = System.getProperty("user.home")+File.separator+"."+SIGLAS_APP+File.separator;
+    
     // Valores
     private static final String RAIZ        = "nekio";
     private static final String PROYECTO    = SIGLAS_APP;
@@ -111,6 +114,9 @@ public class Globales {
     private static final String IMAGENES    = "img";
     private static final String IMG_OBJ     = "obj";
     private static final String VALORES     = "valores";
+    
+    // Archivos
+    public static final String RUTA_CREDENCIALES = RUTA_HOME+"id."+SIGLAS_APP;
     
     // Carpetas
     public static final String RUTA_BASE        = "/"+RAIZ+"/"+PROYECTO;
@@ -124,6 +130,35 @@ public class Globales {
     public static final String PAQ_RECURSOS = PAQ_BASE+"."+RECURSOS;
     public static final String PAQ_IMG      = PAQ_RECURSOS+"."+IMAGENES;
     public static final String PAQ_IMG_OBJ  = PAQ_IMG+"."+IMG_OBJ;
+    
+    //Imagenes
+    public static final String IMG_NO_AVATAR = RUTA_IMG+"noavatar.png";
+    public static final String IMG_PROPIEDADES = RUTA_IMG+"propiedades.png";
+    public static final String IMG_LLAVE = RUTA_IMG+"llave.png";
+    
+    public static final String RUTA_RANGO = RUTA_IMG+"rango/";
+    public static final String IMG_RANGO_CRISTAL    = RUTA_RANGO+"cristal.png";
+    public static final String IMG_RANGO_ESMERALDA  = RUTA_RANGO+"esmeralda.png";
+    public static final String IMG_RANGO_ZAFIRO     = RUTA_RANGO+"zafiro.png";
+    public static final String IMG_RANGO_RUBI       = RUTA_RANGO+"rubi.png";
+    public static final String IMG_RANGO_DIAMANTE   = RUTA_RANGO+"diamante.png";
+    public static final String IMG_RANGO_STAR_0     = RUTA_RANGO+"star0.png";
+    public static final String IMG_RANGO_STAR_1     = RUTA_RANGO+"star1.png";
+    public static final String IMG_RANGO_PREMIUM     = RUTA_RANGO+"premium.png";
+    
+    public static final String RUTA_TIPOUSR = RUTA_IMG+"tipousr/";
+    public static final String IMG_USR_ANONIMO      = RUTA_TIPOUSR+"anonimo.png";
+    public static final String IMG_USR_INVITADO     = RUTA_TIPOUSR+"invitado.png";
+    public static final String IMG_USR_USUARIO      = RUTA_TIPOUSR+"usuario.png";
+    public static final String IMG_USR_MODERADOR    = RUTA_TIPOUSR+"moderador.png";
+    public static final String IMG_USR_ADMIN        = RUTA_TIPOUSR+"admin.png";
+    
+    public static final String RUTA_PRIVILEGIOS = RUTA_IMG+"privilegios/";
+    public static final String IMG_PRIV_CONFIGURAR  = RUTA_PRIVILEGIOS+"config.png";
+    public static final String IMG_PRIV_BUSCAR      = RUTA_PRIVILEGIOS+"search.png";
+    public static final String IMG_PRIV_INSERTAR    = RUTA_PRIVILEGIOS+"insert.png";
+    public static final String IMG_PRIV_MODIFICAR   = RUTA_PRIVILEGIOS+"update.png";
+    public static final String IMG_PRIV_ELIMINAR    = RUTA_PRIVILEGIOS+"delete.png";
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Valores de Objetos de Negocio"> 

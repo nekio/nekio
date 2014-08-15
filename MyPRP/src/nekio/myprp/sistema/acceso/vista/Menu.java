@@ -58,7 +58,6 @@ public class Menu extends SwingJFrame{
         this.setLocationRelativeTo(null);
         this.setLayout(new BorderLayout());
         
-        
         agregarComponentes();
         agregarEscuchadores();
         
