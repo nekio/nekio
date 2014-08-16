@@ -38,6 +38,13 @@ public class GPlantillas extends Generador{
     
      // <editor-fold defaultstate="collapsed" desc="Capas del Sistema">
     
+    // <editor-fold defaultstate="collapsed" desc="Procedimientos BD">
+    @Override
+    protected void crearProcedimientosBD() {
+        
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="DTO">
     @Override
     public void crearDTO(String tabla, List<String> tablasForaneas, List<String> atributos, List<Globales.TipoDato> tipos){

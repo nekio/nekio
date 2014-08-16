@@ -39,6 +39,46 @@ public class GHardcode extends Generador{
     
     // <editor-fold defaultstate="collapsed" desc="Capas del Sistema">
     
+    // <editor-fold defaultstate="collapsed" desc="Procedimientos BD">
+    @Override
+    protected void crearProcedimientosBD() {
+        
+    }
+    
+    private String procInsertar(String esquema, String tabla, List<String> atributos, List<TipoDato> tipos){
+        StringBuilder codigo = new StringBuilder();
+        
+        String parametros = "";
+        for(int i=0; i <= atributos.size(); i++){
+            if(i != atributos.size())
+                parametros += "\n\tIN p"+convertirPascal(atributos.get(i)) + " " + tipos.get(i).getTipoSQL() + "(),";
+            else
+                parametros += "\n\tIN pIdSistema INT(11)";
+        }
+        
+        codigo.append(
+                "DELIMITER //" +
+                "\nCREATE PROCEDURE " + esquema + ".insertar_" + tabla + "(" +
+                parametros +
+                "\n"
+        );
+        
+        return codigo.toString();
+    }
+    
+    private String procActualizar(){
+        StringBuilder codigo = new StringBuilder();
+        
+        return codigo.toString();
+    }
+    
+    private String procEliminar(){
+        StringBuilder codigo = new StringBuilder();
+        
+        return codigo.toString();
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="DTO">
     @Override
     public void crearDTO(String tabla, List<String> tablasForaneas, List<String> atributos, List<TipoDato> tipos){
