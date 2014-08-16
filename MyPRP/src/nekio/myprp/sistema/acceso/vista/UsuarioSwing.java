@@ -5,6 +5,7 @@ package nekio.myprp.sistema.acceso.vista;
  * @author Nekio
  */
 
+// <editor-fold defaultstate="collapsed" desc="Librerias">
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.ComponentOrientation;
@@ -23,6 +24,7 @@ import javax.swing.SwingConstants;
 import nekio.myprp.recursos.utilerias.DetalleUsuario;
 import nekio.myprp.recursos.utilerias.Fecha;
 import nekio.myprp.recursos.utilerias.Globales;
+import nekio.myprp.recursos.utilerias.Icono;
 import nekio.myprp.recursos.utilerias.Idioma;
 import nekio.myprp.recursos.utilerias.plantillas.swing.SwingJFrame;
 import nekio.myprp.sistema.acceso.dao.RangoDAO;
@@ -31,14 +33,17 @@ import nekio.myprp.sistema.acceso.dao.UsuarioDAO;
 import nekio.myprp.sistema.acceso.dto.RangoDTO;
 import nekio.myprp.sistema.acceso.dto.SistemaDTO;
 import nekio.myprp.sistema.acceso.dto.UsuarioDTO;
-
+// </editor-fold>
 
 public class UsuarioSwing extends SwingJFrame{
+    // <editor-fold defaultstate="collapsed" desc="Atributos">
     private final Dimension DIMENSION = new Dimension(600, 400);
     
     private Container contenedor;
     private DetalleUsuario usuario;
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Constructor">
     public UsuarioSwing(){
         this.setTitle(Globales.NOMBRE_APP + " - " + Idioma.obtenerTexto(Idioma.PROP_MENU, "usuario"));
         
@@ -55,7 +60,9 @@ public class UsuarioSwing extends SwingJFrame{
         
         this.setVisible(true);
     }
+    // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Agregar Componentes">
     @Override
     public void agregarComponentes() {
              
@@ -165,7 +172,9 @@ public class UsuarioSwing extends SwingJFrame{
         contenedor.add(obtenerImagen(Globales.IMG_PROPIEDADES), "East");
         contenedor.add(pnlPrivilegioProp, "South");
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Metodos auxiliares">
     private JButton agregarInsignia(String texto, boolean permitido, String imagen){
         JButton btnAcceso = new JButton(texto);
         
@@ -197,7 +206,6 @@ public class UsuarioSwing extends SwingJFrame{
         return pnlCampo;
     }
     
-    // <editor-fold defaultstate="collapsed" desc="Componentes">
     private JLabel cargarTipoUsr(int tipoUsuario){
         JLabel usr = null;
         
@@ -234,31 +242,31 @@ public class UsuarioSwing extends SwingJFrame{
                 dto = (RangoDTO)new RangoDAO().leerUno("id_rango = " + 5);
                 descripcion = dto.getDescripcion();
                 
-                JLabel diamante = obtenerImagen(Globales.IMG_RANGO_DIAMANTE, descripcion);
+                JLabel diamante = new Icono().obtener(Globales.IMG_RANGO_DIAMANTE, descripcion);
                 pnlPiedras.add(diamante);
             case 4:
                 dto = (RangoDTO)new RangoDAO().leerUno("id_rango = " + 4);
                 descripcion = dto.getDescripcion();
                 
-                JLabel rubi = obtenerImagen(Globales.IMG_RANGO_RUBI, descripcion);
+                JLabel rubi = new Icono().obtener(Globales.IMG_RANGO_RUBI, descripcion);
                 pnlPiedras.add(rubi);
             case 3:
                 dto = (RangoDTO)new RangoDAO().leerUno("id_rango = " + 3);
                 descripcion = dto.getDescripcion();
                 
-                JLabel zafiro = obtenerImagen(Globales.IMG_RANGO_ZAFIRO, descripcion);
+                JLabel zafiro = new Icono().obtener(Globales.IMG_RANGO_ZAFIRO, descripcion);
                 pnlPiedras.add(zafiro);
             case 2:
                 dto = (RangoDTO)new RangoDAO().leerUno("id_rango = " + 2);
                 descripcion = dto.getDescripcion();
                 
-                JLabel esmeralda = obtenerImagen(Globales.IMG_RANGO_ESMERALDA, descripcion);
+                JLabel esmeralda = new Icono().obtener(Globales.IMG_RANGO_ESMERALDA, descripcion);
                 pnlPiedras.add(esmeralda);
             case 1:
                 dto = (RangoDTO)new RangoDAO().leerUno("id_rango = " + 1);
                 descripcion = dto.getDescripcion();
                 
-                JLabel carbon = obtenerImagen(Globales.IMG_RANGO_CRISTAL, descripcion);
+                JLabel carbon = new Icono().obtener(Globales.IMG_RANGO_CRISTAL, descripcion);
                 pnlPiedras.add(carbon);
         }
         
@@ -289,21 +297,13 @@ public class UsuarioSwing extends SwingJFrame{
         
         return pnlEstrellas;
     }
-    // </editor-fold>
     
     private JLabel obtenerImagen(String ruta){
-        return obtenerImagen(ruta, null);
+        return new Icono().obtener(ruta, null);
     }
-    
-    private JLabel obtenerImagen(String ruta, String descripcion){
-        JLabel imagen = new JLabel(new ImageIcon(getClass().getResource(ruta)));
-        
-        if(descripcion != null)
-            imagen.setToolTipText(descripcion);
-        
-        return imagen;
-    }
+    // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Agregar Escuchadores">
     @Override
     public void agregarEscuchadores() {
         addWindowListener( new WindowAdapter(){
@@ -313,5 +313,6 @@ public class UsuarioSwing extends SwingJFrame{
             }
         });
     }
+    // </editor-fold>
     
 }

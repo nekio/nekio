@@ -135,6 +135,7 @@ public class Globales {
     public static final String IMG_NO_AVATAR = RUTA_IMG+"noavatar.png";
     public static final String IMG_PROPIEDADES = RUTA_IMG+"propiedades.png";
     public static final String IMG_LLAVE = RUTA_IMG+"llave.png";
+    public static final String IMG_NUEVO_USR = RUTA_IMG+"nuevousuario.png";
     
     public static final String RUTA_RANGO = RUTA_IMG+"rango/";
     public static final String IMG_RANGO_CRISTAL    = RUTA_RANGO+"cristal.png";
@@ -165,26 +166,30 @@ public class Globales {
     
     // Tipos de Datos
     public static enum TipoDato{
-        CARACTER("Character", "char", "String"),
-        TEXTO("String", null, "String"),
-        NUMERO("Integer", "int", "Int"),
-        DECIMAL("Double", "double", "Double"),
-        FECHA("Date", null, "Timestamp"),
-        TEXTO_LARGO("String", null, "String"),
-        BOOLEANO("Boolean", "boolean", "Int"),
-        BLOB("Image", null, "BinaryStream");
+        CARACTER("Character", "char", "String", "VARCHAR"),
+        TEXTO("String", null, "String", "VARCHAR"),
+        NUMERO("Integer", "int", "Int", "INT"),
+        DECIMAL("Double", "double", "Double", "DECIMAL"),
+        FECHA("Date", null, "Timestamp", "TIMESTAMP"),
+        TEXTO_LARGO("String", null, "String", "TEXT"),
+        BOOLEANO("Boolean", "boolean", "Int", "INT"),
+        BLOB("Image", null, "BinaryStream", "BLOB");
         
         String tipoClaseJava;
         String tipoPrimitivoJava;
         String encapsulado;
+        String tipoSQL;
         
-        private TipoDato(String tipoClaseJava, String tipoPrimitivoJava, String encapsulado){
+        private TipoDato(String tipoClaseJava, String tipoPrimitivoJava, String encapsulado, String tipoSQL){
             this.tipoClaseJava = tipoClaseJava;
+            
             if(tipoPrimitivoJava == null)
                 this.tipoPrimitivoJava = tipoClaseJava;
             else
                 this.tipoPrimitivoJava = tipoPrimitivoJava;
+            
             this.encapsulado = encapsulado;
+            this.tipoSQL = tipoSQL;
         }
         
         public String getTipoClaseJava(){
@@ -197,6 +202,10 @@ public class Globales {
         
         public String getEncapsulado(){
             return encapsulado;
+        }
+        
+        public String getTipoSQL(){
+            return tipoSQL;
         }
     }
     

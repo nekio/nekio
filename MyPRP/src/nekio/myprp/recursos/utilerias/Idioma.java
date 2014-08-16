@@ -19,6 +19,7 @@ public class Idioma {
         
     // <editor-fold defaultstate="collapsed" desc="Internacionalizacion">
     public static final String CADENAS          = "nekio.myprp.recursos.valores.cadenas.";
+    public static String PROP_LOGIN             = CADENAS+"AccesoLogin";    
     public static String PROP_MENU              = CADENAS+"Menu";    
     public static String PROP_ACCIONES          = CADENAS+"Acciones";    
     public static String PROP_ACC_USR_ANONIMO   = CADENAS+"AccesoUsuarioAnonimo";    

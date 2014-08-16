@@ -6,6 +6,10 @@ package nekio.myprp.recursos.utilerias.plantillas;
  */
 
 // <editor-fold defaultstate="collapsed" desc="Librerias">
+import java.io.InputStream;
+import java.sql.CallableStatement;
+import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.Date;
 import java.util.List;
 import nekio.myprp.recursos.herramientas.ConsolaDebug;
@@ -111,6 +115,46 @@ public abstract class DAO {
         formateado = "DATE_FORMAT('" + valor + "', '%Y-%m-%d %H:%i:%s')";
         
         return formateado;
+    }
+    
+    public void val(CallableStatement procedimiento, int indice, Object tipo){
+        val(procedimiento, indice, tipo, 0);
+    }
+    
+    public void val(CallableStatement procedimiento, int indice, Object tipo, int longitud){
+        try{
+            
+            if(tipo == null)
+                asignarNulo(procedimiento, indice, tipo);
+            else{
+                if(tipo instanceof Integer)
+                    procedimiento.setInt(indice, (int)tipo);
+                if(tipo instanceof String)
+                    procedimiento.setString(indice, String.valueOf(tipo));
+                if(tipo instanceof Boolean){
+                    boolean booleano = (boolean)tipo;
+                    procedimiento.setInt(indice, booleano == true ? 1 : 0);
+                }if(tipo instanceof Date){
+                    Date fecha = (Date)tipo;
+                    procedimiento.setTimestamp(indice, new Timestamp(fecha.getTime()));
+                }if(tipo instanceof Double)
+                    procedimiento.setDouble(indice, (double)tipo);
+                if(tipo instanceof InputStream)
+                    procedimiento.setBinaryStream(indice, (InputStream)tipo, longitud);
+            }
+            
+        }catch(Exception e){
+            asignarNulo(procedimiento, indice, tipo);
+        }
+    }
+    
+    private void asignarNulo(CallableStatement procedimiento, int indice, Object tipo){
+        try{
+            procedimiento.setNull(indice, Types.NULL);
+        }catch(Exception ex){
+            if(Globales.APP_DEBUG)
+                ConsolaDebug.agregarTexto("Error de procedimiento en el paso del parametro " + indice + " (" + tipo.toString() + ")", ConsolaDebug.ERROR);
+        }
     }
     // </editor-fold>
     

@@ -4,7 +4,6 @@ package nekio.myprp.sistema.acceso.dto;
  *
  * @author Nekio
  */
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +15,7 @@ public class UsuarioDTO extends DTO {
     private Integer idUsuario;
     private Integer idTipoUsuario;
     private Integer idRango;
+    private Integer idIdioma;
     private String nombre;
     private String nick;
     private String autogenerado;
@@ -47,6 +47,13 @@ public class UsuarioDTO extends DTO {
 
         super.campos.add("id_rango");
         super.valores.add(idRango);
+        super.tipoDatos.add(Globales.TipoDato.NUMERO);
+		//super.valoresLOV.add(descripcion);
+        //super.camposExtrasLOV.add(new ArrayList<String>() {{add(""); add("");}});
+        super.tablasForaneas.add("null");
+
+        super.campos.add("id_idioma");
+        super.valores.add(idIdioma);
         super.tipoDatos.add(Globales.TipoDato.NUMERO);
 		//super.valoresLOV.add(descripcion);
         //super.camposExtrasLOV.add(new ArrayList<String>() {{add(""); add("");}});
@@ -107,6 +114,14 @@ public class UsuarioDTO extends DTO {
 
     public Integer getIdRango() {
         return idRango;
+    }
+
+    public void setIdIdioma(Integer idIdioma) {
+        this.idIdioma = idIdioma;
+    }
+
+    public Integer getIdIdioma() {
+        return idIdioma;
     }
 
     public void setNombre(String nombre) {

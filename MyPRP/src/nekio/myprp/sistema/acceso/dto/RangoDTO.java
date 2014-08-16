@@ -4,7 +4,6 @@ package nekio.myprp.sistema.acceso.dto;
  *
  * @author Nekio
  */
-
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +14,12 @@ public class RangoDTO extends DTO {
 
     private Integer idRango;
     private String descripcion;
+    private String detalle;
     private Boolean accPublico;
     private Boolean accGrupal;
     private Boolean accProtegido;
     private Boolean accPrivado;
-    private Color colorRango;
+    private String color;
 
     @Override
     public void confirmarDTO() {
@@ -38,6 +38,10 @@ public class RangoDTO extends DTO {
         super.valores.add(descripcion);
         super.tipoDatos.add(Globales.TipoDato.TEXTO);
 
+        super.campos.add("detalle");
+        super.valores.add(detalle);
+        super.tipoDatos.add(Globales.TipoDato.TEXTO);
+
         super.campos.add("acc_publico");
         super.valores.add(accPublico);
         super.tipoDatos.add(Globales.TipoDato.BOOLEANO);
@@ -53,6 +57,10 @@ public class RangoDTO extends DTO {
         super.campos.add("acc_privado");
         super.valores.add(accPrivado);
         super.tipoDatos.add(Globales.TipoDato.BOOLEANO);
+
+        super.campos.add("color");
+        super.valores.add(color);
+        super.tipoDatos.add(Globales.TipoDato.TEXTO);
     }
 
     public void setIdRango(Integer idRango) {
@@ -71,8 +79,24 @@ public class RangoDTO extends DTO {
         return descripcion;
     }
 
+    public void setDetalle(String detalle) {
+        this.detalle = detalle;
+    }
+
+    public String getDetalle() {
+        return detalle;
+    }
+
     public void setAccPublico(Boolean accPublico) {
         this.accPublico = accPublico;
+    }
+
+    public void setAccPublico(int accPublico) {
+        if (accPublico == 1) {
+            this.accPublico = true;
+        } else {
+            this.accPublico = false;
+        }
     }
 
     public Boolean isAccPublico() {
@@ -83,12 +107,28 @@ public class RangoDTO extends DTO {
         this.accGrupal = accGrupal;
     }
 
+    public void setAccGrupal(int accGrupal) {
+        if (accGrupal == 1) {
+            this.accGrupal = true;
+        } else {
+            this.accGrupal = false;
+        }
+    }
+
     public Boolean isAccGrupal() {
         return accGrupal;
     }
 
     public void setAccProtegido(Boolean accProtegido) {
         this.accProtegido = accProtegido;
+    }
+
+    public void setAccProtegido(int accProtegido) {
+        if (accProtegido == 1) {
+            this.accProtegido = true;
+        } else {
+            this.accProtegido = false;
+        }
     }
 
     public Boolean isAccProtegido() {
@@ -99,15 +139,23 @@ public class RangoDTO extends DTO {
         this.accPrivado = accPrivado;
     }
 
+    public void setAccPrivado(int accPrivado) {
+        if (accPrivado == 1) {
+            this.accPrivado = true;
+        } else {
+            this.accPrivado = false;
+        }
+    }
+
     public Boolean isAccPrivado() {
         return accPrivado;
     }
 
-    public Color getColorRango() {
-        return colorRango;
+    public void setColor(String color) {
+        this.color = color;
     }
 
-    public void setColorRango(Color colorRango) {
-        this.colorRango = colorRango;
+    public String getColor() {
+        return color;
     }
 }

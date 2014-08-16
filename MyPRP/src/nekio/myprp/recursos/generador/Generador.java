@@ -53,6 +53,7 @@ public abstract class Generador {
     protected abstract void crearObjetoNegocio(String tabla);
     protected abstract void crearGestor(String tabla, String catalogo);
     protected abstract void crearVista();
+    protected abstract void crearProcedimientosBD();
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Setters y Getters">

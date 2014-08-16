@@ -17,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import nekio.myprp.recursos.utilerias.Globales;
+import nekio.myprp.recursos.utilerias.Icono;
+import nekio.myprp.recursos.utilerias.Idioma;
 import nekio.myprp.sistema.acceso.Inicializador;
 // </editor-fold>
 
@@ -65,7 +67,7 @@ public class LoginGUI{
         
         // Norte
         JPanel pnlUsr=new JPanel(new BorderLayout());
-        pnlUsr.add(new JLabel("Usuario:     "),"West");
+        pnlUsr.add(new JLabel(Idioma.obtenerTexto(Idioma.PROP_LOGIN, "usuario")),"West");
         JTextField txtUser=new JTextField(this.usuario);
         txtUser.setCaretPosition(txtUser.getText().length());
         pnlUsr.add(txtUser,"Center");
@@ -73,25 +75,42 @@ public class LoginGUI{
         
         // Centro
         JPanel pnlPass=new JPanel(new BorderLayout());
-        pnlPass.add(new JLabel("Password: "),"West");
+        pnlPass.add(new JLabel(Idioma.obtenerTexto(Idioma.PROP_LOGIN, "password")),"West");
         JPasswordField txtPass = new JPasswordField(this.password);
         txtPass.setCaretPosition(txtPass.getText().length());
         pnlPass.add(txtPass,"Center");
         pnlLogin.add(pnlPass,"Center");
         
         //Sur
-        JPanel pnlRecordar=new JPanel(new BorderLayout());
-        JCheckBox chkRecordar = new JCheckBox("Recordar credenciales");
+        JPanel pnlExtras=new JPanel(new BorderLayout());
+        
+        JCheckBox chkRecordar = new JCheckBox(Idioma.obtenerTexto(Idioma.PROP_LOGIN, "recordar"));
         chkRecordar.setSelected(recordar);
-        pnlRecordar.add(new JLabel(" "),"South");
-        pnlRecordar.add(chkRecordar,"West");
-        pnlLogin.add(pnlRecordar,"South");
         
-        Object[]opciones = {"Aceptar","Cancelar"};
+        pnlExtras.add(new JLabel(" "),"North");
+        pnlExtras.add(chkRecordar,"West");
+        pnlExtras.add(new JLabel(" "),"South");
         
-        int entrada=JOptionPane.showOptionDialog(null, pnlLogin,Globales.NOMBRE_APP + " Login",
-                 JOptionPane.DEFAULT_OPTION,JOptionPane.PLAIN_MESSAGE,
-                 new ImageIcon(getClass().getResource(Globales.IMG_LLAVE)),opciones,txtPass); 
+        pnlLogin.add(pnlExtras,"South");
+        
+        Object[]opciones = {
+            Idioma.obtenerTexto(Idioma.PROP_LOGIN, "registrar"),
+            new Icono().obtener(Globales.IMG_NUEVO_USR, null),
+            new JLabel("             "),
+            Idioma.obtenerTexto(Idioma.PROP_LOGIN, "aceptar"),
+            Idioma.obtenerTexto(Idioma.PROP_LOGIN, "cancelar")
+        };
+        
+        int entrada = JOptionPane.showOptionDialog(
+                null,
+                pnlLogin,
+                Globales.NOMBRE_APP + " Login",
+                 JOptionPane.DEFAULT_OPTION,
+                 JOptionPane.PLAIN_MESSAGE,
+                 new ImageIcon(getClass().getResource(Globales.IMG_LLAVE)),
+                 opciones,
+                 txtPass
+        ); 
         
         String user=txtUser.getText();
         String pass=txtPass.getText();
@@ -99,7 +118,11 @@ public class LoginGUI{
         this.usuario = user;
         this.password = pass;
         
-        if(entrada == 0)
+        if(entrada == 0){
+            new NuevoUsuarioSwing();
+            ingresado = true;
+        }
+        else if(entrada == 3)
             ingresado = Inicializador.loggear(user, pass, chkRecordar.isSelected());
         else
             salir();

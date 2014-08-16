@@ -4,6 +4,7 @@ package nekio.myprp.sistema.acceso.dao;
  *
  * @author Nekio
  */
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -13,20 +14,20 @@ import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.bd.BDConexion;
 import nekio.myprp.recursos.utilerias.plantillas.DAO;
 import nekio.myprp.recursos.utilerias.plantillas.DTO;
-import nekio.myprp.sistema.acceso.dto.RangoDTO;
+import nekio.myprp.sistema.acceso.dto.IdiomaDTO;
 
-public class RangoDAO extends DAO {
+public class IdiomaDAO extends DAO {
 
-    private final String TABLA = "rango";
-    private final String ID = "id_rango";
+    private final String TABLA = "idioma";
+    private final String ID = "id_idioma";
     private final String TODOS_CAMPOS
-            = ID + ", descripcion, detalle, acc_publico, acc_grupal, acc_protegido, acc_privado, color ";
+            = ID + ", descripcion ";
 
-    private RangoDTO dto;
+    private IdiomaDTO dto;
 
     @Override
     public void asignarParametros(DTO dto) {
-        this.dto = (RangoDTO) dto;
+        this.dto = (IdiomaDTO) dto;
 
         if (Globales.APP_DEBUG) {
             ConsolaDebug.agregarTexto("DAO " + TABLA + ": Parametros ingresados", ConsolaDebug.PROCESO);
@@ -65,20 +66,14 @@ public class RangoDAO extends DAO {
         }
 
         try {
-            RangoDTO dto = null;
+            IdiomaDTO dto = null;
             ResultSet resultados = BDConexion.consultar(consulta);
 
             while (resultados.next()) {
-                dto = new RangoDTO();
+                dto = new IdiomaDTO();
 
-                dto.setIdRango(resultados.getInt("id_rango"));
+                dto.setIdIdioma(resultados.getInt("id_idioma"));
                 dto.setDescripcion(resultados.getString("descripcion"));
-                dto.setDetalle(resultados.getString("detalle"));
-                dto.setAccPublico(resultados.getInt("acc_publico") == 1 ? true : false);
-                dto.setAccGrupal(resultados.getInt("acc_grupal") == 1 ? true : false);
-                dto.setAccProtegido(resultados.getInt("acc_protegido") == 1 ? true : false);
-                dto.setAccPrivado(resultados.getInt("acc_privado") == 1 ? true : false);
-                dto.setColor(resultados.getString("color"));
 
                 lista.add(dto);
             }
@@ -95,7 +90,7 @@ public class RangoDAO extends DAO {
     }
 
     public DTO leerUno(String select, String where, String orderBy, String groupBy) {
-        RangoDTO dto = null;
+        IdiomaDTO dto = null;
 
         String consulta
                 = "SELECT " + select + " \n"
@@ -118,17 +113,11 @@ public class RangoDAO extends DAO {
 
         try {
             ResultSet resultados = BDConexion.consultar(consulta);
-            dto = new RangoDTO();
+            dto = new IdiomaDTO();
 
             while (resultados.next()) {
-                dto.setIdRango(resultados.getInt("id_rango"));
+                dto.setIdIdioma(resultados.getInt("id_idioma"));
                 dto.setDescripcion(resultados.getString("descripcion"));
-                dto.setDetalle(resultados.getString("detalle"));
-                dto.setAccPublico(resultados.getInt("acc_publico") == 1 ? true : false);
-                dto.setAccGrupal(resultados.getInt("acc_grupal") == 1 ? true : false);
-                dto.setAccProtegido(resultados.getInt("acc_protegido") == 1 ? true : false);
-                dto.setAccPrivado(resultados.getInt("acc_privado") == 1 ? true : false);
-                dto.setColor(resultados.getString("color"));
             }
 
             BDConexion.cerrar();
@@ -144,7 +133,7 @@ public class RangoDAO extends DAO {
         int resultado = 1;
 
         String accion = super.INSERTAR;
-        int parametros = 7;
+        int parametros = 1;
         String procedimiento = super.obtenerProcedimiento(Globales.BD_DESC_ESQUEMA, accion, TABLA, parametros);
 
         if (Globales.APP_DEBUG) {
@@ -156,12 +145,6 @@ public class RangoDAO extends DAO {
 
             CallableStatement procInsertar = conexion.prepareCall(procedimiento);
             procInsertar.setString(1, dto.getDescripcion());
-            procInsertar.setString(2, dto.getDetalle());
-            procInsertar.setInt(3, dto.isAccPublico() == true ? 1 : 0);
-            procInsertar.setInt(4, dto.isAccGrupal() == true ? 1 : 0);
-            procInsertar.setInt(5, dto.isAccProtegido() == true ? 1 : 0);
-            procInsertar.setInt(6, dto.isAccPrivado() == true ? 1 : 0);
-            procInsertar.setString(7, dto.getColor());
             procInsertar.execute();
 
             conexion.commit();
@@ -179,7 +162,7 @@ public class RangoDAO extends DAO {
     public int modificar() {
         int resultado = 1;
         String accion = super.ACTUALIZAR;
-        int parametros = 8;
+        int parametros = 2;
         String procedimiento = super.obtenerProcedimiento(Globales.BD_DESC_ESQUEMA, accion, TABLA, parametros);
 
         if (Globales.APP_DEBUG) {
@@ -190,14 +173,8 @@ public class RangoDAO extends DAO {
             Connection conexion = BDConexion.getConnection();
 
             CallableStatement procActualizar = conexion.prepareCall(procedimiento);
-            procActualizar.setInt(1, dto.getIdRango());
+            procActualizar.setInt(1, dto.getIdIdioma());
             procActualizar.setString(2, dto.getDescripcion());
-            procActualizar.setString(3, dto.getDetalle());
-            procActualizar.setInt(4, dto.isAccPublico() == true ? 1 : 0);
-            procActualizar.setInt(5, dto.isAccGrupal() == true ? 1 : 0);
-            procActualizar.setInt(6, dto.isAccProtegido() == true ? 1 : 0);
-            procActualizar.setInt(7, dto.isAccPrivado() == true ? 1 : 0);
-            procActualizar.setString(8, dto.getColor());
             procActualizar.execute();
 
             conexion.commit();
@@ -220,14 +197,14 @@ public class RangoDAO extends DAO {
         String procedimiento = super.obtenerProcedimiento(Globales.BD_DESC_ESQUEMA, accion, TABLA, parametros);
 
         if (Globales.APP_DEBUG) {
-            ConsolaDebug.agregarTexto(procedimiento + " : ID - " + dto.getIdRango(), ConsolaDebug.PROCESO);
+            ConsolaDebug.agregarTexto(procedimiento + " : ID - " + dto.getIdIdioma(), ConsolaDebug.PROCESO);
         }
 
         try {
             Connection conexion = BDConexion.getConnection();
 
             CallableStatement procEliminar = conexion.prepareCall(procedimiento);
-            procEliminar.setInt(1, dto.getIdRango());
+            procEliminar.setInt(1, dto.getIdIdioma());
             procEliminar.execute();
 
             conexion.commit();
