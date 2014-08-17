@@ -25,11 +25,11 @@ public class ControladorGenerador {
     private boolean estandar;
     private boolean primitivos;
     
-    protected String comentarios = 
-            "/* Es necesario realizar un \"Fix Imports\" en el IDE para incluir las librerias necesarias, " +
-            "\n * Agregarle tambien el package correspondiente " +
-            "\n * y adicionalmente \"Format\" si se desajustan las identaciones" +
-            "\n */\n\n";
+    protected String comentarios = "";
+//            "/* Es necesario realizar un \"Fix Imports\" en el IDE para incluir las librerias necesarias, " +
+//            "\n * Agregarle tambien el package correspondiente " +
+//            "\n * y adicionalmente \"Format\" si se desajustan las identaciones" +
+//            "\n */\n\n";
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Constructor">
@@ -73,11 +73,13 @@ public class ControladorGenerador {
         ConsolaDebug.agregarTexto("\nCreando capas para la tabla " + tabla, ConsolaDebug.PROCESO, false);
         
         try{
+            List<Integer> precisiones = detallesTablaBD.get(BDConexion.Detalles.TAMANO_CAMPOS.ordinal());
             List<String> tablasForaneas = (List<String>)detallesTablaBD.get(BDConexion.Detalles.LLAVES.ordinal()).get(2);
             List<String> atributos = detallesTablaBD.get(BDConexion.Detalles.NOMBRE_CAMPOS.ordinal());
             List<TipoDato> tipos = detallesTablaBD.get(BDConexion.Detalles.TIPO_DATOS.ordinal());
             List<List> llaves = detallesTablaBD.get(BDConexion.Detalles.LLAVES.ordinal());
 
+            generador.crearProcedimientosBD(catalogo, tabla, atributos, tipos, precisiones);
             generador.crearDTO(tabla, tablasForaneas, atributos, tipos);
             generador.crearDAO(tabla, llaves, atributos, tipos);
             generador.crearObjetoNegocio(tabla);

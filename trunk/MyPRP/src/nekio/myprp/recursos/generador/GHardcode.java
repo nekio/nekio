@@ -30,6 +30,7 @@ public class GHardcode extends Generador{
         super.primitivos = primitivos;
         super.estandar = estandar;
         
+        super.codigoProcBD = new ArrayList<String>();
         super.codigoDTO = new ArrayList<String>();
         super.codigoDAO = new ArrayList<String>();
         super.codigoObjetoNegocio = new ArrayList<String>();
@@ -41,39 +42,132 @@ public class GHardcode extends Generador{
     
     // <editor-fold defaultstate="collapsed" desc="Procedimientos BD">
     @Override
-    protected void crearProcedimientosBD() {
+    protected void crearProcedimientosBD(String catalogo, String tabla, List<String> atributos, List<TipoDato> tipos, List<Integer> precisiones) {
+        StringBuilder codigoBD = new StringBuilder();
         
+        String comentarios = 
+            "--" +
+            "\n-- PROCEDIMIENTOS DE " +tabla.toUpperCase() +
+            "\n--";
+        
+        codigoBD.append(comentarios);
+        codigoBD.append(procInsertar(catalogo, tabla, atributos, tipos, precisiones));
+        codigoBD.append(procActualizar(catalogo, tabla, atributos, tipos, precisiones));
+        codigoBD.append(procEliminar(catalogo, tabla));
+        
+        super.codigoProcBD.add(codigoBD.toString());
     }
     
-    private String procInsertar(String esquema, String tabla, List<String> atributos, List<TipoDato> tipos){
+    private String procInsertar(String catalogo, String tabla, List<String> atributos, List<TipoDato> tipos, List<Integer> precisiones){
         StringBuilder codigo = new StringBuilder();
+        String tablaPascal = convertirPascal(tabla);
+        
+        int cantidadCampos = atributos.size();
         
         String parametros = "";
-        for(int i=0; i <= atributos.size(); i++){
-            if(i != atributos.size())
-                parametros += "\n\tIN p"+convertirPascal(atributos.get(i)) + " " + tipos.get(i).getTipoSQL() + "(),";
-            else
+        TipoDato tipo = null;
+        for(int i=1; i < cantidadCampos; i++){ //Comienza del indice 1, para no considerar la PK
+            tipo = tipos.get(i);
+            if(i != cantidadCampos){
+                if(tipo == TipoDato.FECHA || tipo == TipoDato.BLOB || tipo == TipoDato.TEXTO_LARGO)
+                    parametros += "\n\tIN p" + convertirPascal(atributos.get(i)) + " " + tipo.getTipoSQL() + ",";
+                else
+                    parametros += "\n\tIN p" + convertirPascal(atributos.get(i)) + " " + tipo.getTipoSQL() + "(" + precisiones.get(i) + "),";
+            }else
                 parametros += "\n\tIN pIdSistema INT(11)";
         }
         
+        String campos = "";
+        String camposPascal = "";
+        for(int i=0; i < cantidadCampos; i++){ 
+            campos += atributos.get(i) + ", ";
+            camposPascal += "p" + convertirPascal(atributos.get(i)) + ", ";
+            
+            if((i+1)%3 == 0){
+                campos += "\n\t\t";
+                camposPascal += "\n\t\t";
+            }
+        }
+        campos = campos.substring(0, campos.lastIndexOf(','));
+        camposPascal = camposPascal.substring(0, camposPascal.lastIndexOf(','));
+        
         codigo.append(
-                "DELIMITER //" +
-                "\nCREATE PROCEDURE " + esquema + ".insertar_" + tabla + "(" +
+                "\n\nDELIMITER //" +
+                "\nCREATE PROCEDURE " + catalogo + ".insertar_" + tabla + "(" +
                 parametros +
-                "\n"
+                "\n)BEGIN"+
+                "\n\tDECLARE vId" + tablaPascal + " INT(11);" +
+                "\n\n\tSELECT IFNULL(MAX(id_" + tabla + "),0) + 1" +
+                "\n\t\tINTO vId" + tablaPascal + "" +
+                "\n\tFROM " + tabla + ";" +
+                "\n\t//WHERE id_ = pId_;" +
+                "\n\n\tINSERT INTO " + catalogo + "." + tabla + "\n\t\t(" + campos + ")" + 
+                "\n\tVALUES\n\t\t(" + camposPascal + ");" +
+                "\nEND" +
+                "\n// DELIMITER ;"
         );
         
         return codigo.toString();
     }
     
-    private String procActualizar(){
+    private String procActualizar (String catalogo, String tabla, List<String> atributos, List<TipoDato> tipos, List<Integer> precisiones){
         StringBuilder codigo = new StringBuilder();
+        String tablaPascal = convertirPascal(tabla);
+        
+        int cantidadCampos = atributos.size();
+        
+        String parametros = "";
+        TipoDato tipo = null;
+        for(int i=0; i < cantidadCampos; i++){ //Comienza del indice 0, para considerar la PK
+            tipo = tipos.get(i);
+            if(i != cantidadCampos){
+                if(tipo == TipoDato.FECHA || tipo == TipoDato.BLOB || tipo == TipoDato.TEXTO_LARGO)
+                    parametros += "\n\tIN p" + convertirPascal(atributos.get(i)) + " " + tipo.getTipoSQL() + ",";
+                else
+                    parametros += "\n\tIN p" + convertirPascal(atributos.get(i)) + " " + tipo.getTipoSQL() + "(" + precisiones.get(i) + "),";
+            }else
+                parametros += "\n\tIN pIdSistema INT(11)";
+        }
+        
+        String pk = "\n\t\t" + atributos.get(0) + " = " + "p" + convertirPascal(atributos.get(0)) + ",";
+        String campos = "";
+        for(int i=1; i < cantidadCampos; i++) //Comienza del indice 0, para considerar la PK
+            campos += "\n\t\t" + atributos.get(i) + " = " + "p" + convertirPascal(atributos.get(i)) + ",";
+        campos = campos.substring(0, campos.lastIndexOf(','));
+        
+        codigo.append(
+                "\n\nDELIMITER //" +
+                "\nCREATE PROCEDURE " + catalogo + ".actualizar_" + tabla + "(" +
+                parametros +
+                "\n)BEGIN"+
+                "\n\n\tUPDATE " + catalogo + "." + tabla +
+                "\n\tSET" + campos +
+                "\n\tWHERE " + pk + ";" +
+                "\n\t\t//AND id_ = pId;" + 
+                "\nEND" +
+                "\n// DELIMITER ;"
+        );
         
         return codigo.toString();
     }
     
-    private String procEliminar(){
+    private String procEliminar(String catalogo, String tabla){
         StringBuilder codigo = new StringBuilder();
+        String tablaPascal = convertirPascal(tabla);
+        
+        String pk = "id_" + tabla + " = " + "pId" + convertirPascal(tabla);
+        
+        codigo.append(
+                "\n\nDELIMITER //" +
+                "\nCREATE PROCEDURE " + catalogo + ".eliminar_" + tabla + "(" +
+                "\n\tp" + "id" + tablaPascal + "INT(11)" +
+                "\n)BEGIN" +
+                "\n\n\tDELETE FROM " + catalogo + "." + tabla +
+                "\n\tWHERE " + pk + ";" +
+                "\n\t//AND id_ = pId;" + 
+                "\nEND" +
+                "\n// DELIMITER ;"
+        );
         
         return codigo.toString();
     }
