@@ -38,6 +38,7 @@ public abstract class Generador {
         }
     }
     
+    protected List<String> codigoProcBD;    
     protected List<String> codigoDTO;
     protected List<String> codigoDAO;
     protected List<String> codigoObjetoNegocio;
@@ -53,10 +54,18 @@ public abstract class Generador {
     protected abstract void crearObjetoNegocio(String tabla);
     protected abstract void crearGestor(String tabla, String catalogo);
     protected abstract void crearVista();
-    protected abstract void crearProcedimientosBD();
+    protected abstract void crearProcedimientosBD(String catalogo, String tabla, List<String> atributos, List<Globales.TipoDato> tipos, List<Integer> precisiones);
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Setters y Getters">
+    public List<String> getCodigoProcBD() {
+        return codigoProcBD;
+    }
+
+    public void setCodigoProcBD(List<String> codigoProcBD) {
+        this.codigoProcBD = codigoProcBD;
+    }
+    
     public List<String> getCodigoDTO() {
         return codigoDTO;
     }

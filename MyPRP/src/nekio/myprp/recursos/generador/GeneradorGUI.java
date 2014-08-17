@@ -9,6 +9,9 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -34,6 +37,7 @@ import nekio.myprp.recursos.utilerias.plantillas.swing.SwingJFrame;
 public class GeneradorGUI extends SwingJFrame{
     
     private enum Capas{
+        BD,
         DTO,
         DAO,
         NEGOCIO,
@@ -49,6 +53,7 @@ public class GeneradorGUI extends SwingJFrame{
     private JCheckBox chkPrimitivos;
     private JButton btnGenerar;
     private JButton btnEditar;
+    private JButton btnCopiarPortapapeles;
     private JButton btnExportarActual;
     private JButton btnExportarTodo;
             
@@ -118,6 +123,10 @@ public class GeneradorGUI extends SwingJFrame{
         
         JPanel pnlBotones = new JPanel(new FlowLayout());
         
+        btnCopiarPortapapeles = new JButton("Copiar en el Portapapeles");
+        btnCopiarPortapapeles.setEnabled(false);
+        pnlBotones.add(btnCopiarPortapapeles);
+        
         btnExportarActual = new JButton("Exportar capas de la tabla seleccionada");
         pnlBotones.add(btnExportarActual);
         
@@ -142,6 +151,13 @@ public class GeneradorGUI extends SwingJFrame{
         @Override
             public void actionPerformed(ActionEvent evt){
                 verCodigo();
+            }
+        });
+        
+        btnCopiarPortapapeles.addActionListener(new ActionListener(){
+        @Override
+            public void actionPerformed(ActionEvent evt){
+                copiarPortapapeles();
             }
         });
         
@@ -189,6 +205,9 @@ public class GeneradorGUI extends SwingJFrame{
         String codigo = null;
         try{
             switch(capa){
+                case BD:
+                    codigo = controlador.getGenerador().getCodigoProcBD().get(tabla);
+                break;
                 case DTO:
                     codigo = controlador.getGenerador().getCodigoDTO().get(tabla);
                 break;
@@ -218,6 +237,7 @@ public class GeneradorGUI extends SwingJFrame{
         }
 
         txtContenido.setText(controlador.getComentarios() + autor + codigo);
+        btnCopiarPortapapeles.setEnabled(true);
     }
     
     private void editarEntidad(){
@@ -228,6 +248,14 @@ public class GeneradorGUI extends SwingJFrame{
         List<Globales.TipoDato> tipos = (List<Globales.TipoDato>) controlador.getDetallesTablaBD(tablaSeleccionada).get(BDConexion.Detalles.TIPO_DATOS.ordinal());
         
         new GEditor(controlador, tablaSeleccionada, tabla, atributos, tipos);
+    }
+    
+    private void copiarPortapapeles(){        
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        StringSelection data = new StringSelection (txtContenido.getText());
+        clipboard.setContents(data,data);
+    
+        String codigoCopiado = cmbCapas.getSelectedItem().toString();
     }
     
     private void exportar(boolean todo){

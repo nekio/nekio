@@ -40,7 +40,7 @@ public class GPlantillas extends Generador{
     
     // <editor-fold defaultstate="collapsed" desc="Procedimientos BD">
     @Override
-    protected void crearProcedimientosBD() {
+    protected void crearProcedimientosBD(String catalogo, String tabla, List<String> atributos, List<Globales.TipoDato> tipos, List<Integer> precisiones) {
         
     }
     // </editor-fold>

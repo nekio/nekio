@@ -13,7 +13,7 @@ import nekio.myprp.recursos.utilerias.bd.BDConexion;
  */
 public class Main {
     //private final String esquemaBD = Globales.BD_TOOLS;
-    private final String esquemaBD = Globales.BD_TOOLS;
+    private final String esquemaBD = Globales.BD_ESQUEMA_SERIES;
     
     public static void main(String[] args) {
         // Iniciar la consola
