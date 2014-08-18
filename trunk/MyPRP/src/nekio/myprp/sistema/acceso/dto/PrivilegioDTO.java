@@ -4,7 +4,6 @@ package nekio.myprp.sistema.acceso.dto;
  *
  * @author Nekio
  */
-
 import java.util.ArrayList;
 import java.util.List;
 import nekio.myprp.recursos.utilerias.Globales;
@@ -12,7 +11,7 @@ import nekio.myprp.recursos.utilerias.plantillas.DTO;
 
 public class PrivilegioDTO extends DTO {
 
-    private Integer idTipoUsuario;
+    private Integer idPrivilegio;
     private Boolean configurar;
     private Boolean buscar;
     private Boolean insertar;
@@ -28,8 +27,8 @@ public class PrivilegioDTO extends DTO {
         valoresLOV = new ArrayList<String>();
         camposExtrasLOV = new ArrayList<List>();
 
-        super.campos.add("id_tipo_usuario");
-        super.valores.add(idTipoUsuario);
+        super.campos.add("id_privilegio");
+        super.valores.add(idPrivilegio);
         super.tipoDatos.add(Globales.TipoDato.NUMERO);
 
         super.campos.add("configurar");
@@ -53,12 +52,12 @@ public class PrivilegioDTO extends DTO {
         super.tipoDatos.add(Globales.TipoDato.BOOLEANO);
     }
 
-    public void setIdTipoUsuario(Integer idTipoUsuario) {
-        this.idTipoUsuario = idTipoUsuario;
+    public void setIdPrivilegio(Integer idPrivilegio) {
+        this.idPrivilegio = idPrivilegio;
     }
 
-    public Integer getIdTipoUsuario() {
-        return idTipoUsuario;
+    public Integer getIdPrivilegio() {
+        return idPrivilegio;
     }
 
     public void setConfigurar(Boolean configurar) {

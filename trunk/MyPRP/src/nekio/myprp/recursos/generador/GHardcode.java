@@ -68,14 +68,13 @@ public class GHardcode extends Generador{
         TipoDato tipo = null;
         for(int i=1; i < cantidadCampos; i++){ //Comienza del indice 1, para no considerar la PK
             tipo = tipos.get(i);
-            if(i != cantidadCampos){
-                if(tipo == TipoDato.FECHA || tipo == TipoDato.BLOB || tipo == TipoDato.TEXTO_LARGO)
-                    parametros += "\n\tIN p" + convertirPascal(atributos.get(i)) + " " + tipo.getTipoSQL() + ",";
-                else
-                    parametros += "\n\tIN p" + convertirPascal(atributos.get(i)) + " " + tipo.getTipoSQL() + "(" + precisiones.get(i) + "),";
-            }else
-                parametros += "\n\tIN pIdSistema INT(11)";
+            
+            if(tipo == TipoDato.FECHA || tipo == TipoDato.BLOB || tipo == TipoDato.TEXTO_LARGO)
+                parametros += "\n\tIN p" + convertirPascal(atributos.get(i)) + " " + tipo.getTipoSQL() + ",";
+            else
+                parametros += "\n\tIN p" + convertirPascal(atributos.get(i)) + " " + tipo.getTipoSQL() + "(" + precisiones.get(i) + "),";
         }
+        parametros = parametros.substring(0, parametros.lastIndexOf(','));
         
         String campos = "";
         String camposPascal = "";
@@ -91,18 +90,53 @@ public class GHardcode extends Generador{
         campos = campos.substring(0, campos.lastIndexOf(','));
         camposPascal = camposPascal.substring(0, camposPascal.lastIndexOf(','));
         
+        String camposBitacora = "";
+        for(int i=0; i < cantidadCampos; i++){
+            tipo = tipos.get(i);
+            
+            if(tipo == TipoDato.FECHA)
+                camposBitacora += "\n\t\t\t\"DATE_FORMAT('\",CAST(IFNULL(p" + convertirPascal(atributos.get(i)) + ",'NULL') AS CHAR),\"', '%Y-%m-%d %H:%i:%s')\", ', ',";
+            else if (tipo == TipoDato.BLOB)
+                continue;
+            else
+                camposBitacora += "\n\t\t\tIFNULL(CONCAT(\"'\",p" + convertirPascal(atributos.get(i)) + ",\"'\"),'NULL'), ', ',";
+        }
+        camposBitacora = camposBitacora.substring(0, camposBitacora.lastIndexOf(','));
+        
+        String listaCampos = "";
+        for(int i=0; i < cantidadCampos; i++){ 
+            if(!(tipos.get(i) == TipoDato.BLOB))
+                listaCampos += atributos.get(i) + ", ";
+        }
+        listaCampos = listaCampos.substring(0, listaCampos.lastIndexOf(','));
+        
+        String bitacora = 
+            "\n\n\tCALL nekio_herramientas.insertar_bitacora(" +
+            "\n\t\tvIdSistema," +
+            "\n\t\tNULL," +
+            "\n\t\t'" + tabla + "'," +
+            "\n\t\t'I'," +
+            "\n\t\t'" + listaCampos +  "'," +
+            "\n\t\tCONCAT(" +
+            camposBitacora +
+            "\n\t\t)" +
+            "\n\t);";
+        
         codigo.append(
-                "\n\nDELIMITER //" +
+                "\n\nDROP PROCEDURE IF EXISTS " + catalogo + ".insertar_" + tabla + ";" +
+                "\nDELIMITER //" +
                 "\nCREATE PROCEDURE " + catalogo + ".insertar_" + tabla + "(" +
                 parametros +
                 "\n)BEGIN"+
-                "\n\tDECLARE vId" + tablaPascal + " INT(11);" +
+                "\n\tDECLARE pId" + tablaPascal + " INT(11);" +
+                procIdSistema(catalogo) +
                 "\n\n\tSELECT IFNULL(MAX(id_" + tabla + "),0) + 1" +
-                "\n\t\tINTO vId" + tablaPascal + "" +
-                "\n\tFROM " + tabla + ";" +
-                "\n\t//WHERE id_ = pId_;" +
+                "\n\t\tINTO pId" + tablaPascal + "" +
+                "\n\tFROM " + catalogo + "." + tabla + ";" +
+                "\n\t-- WHERE id_ = pId_;" +
                 "\n\n\tINSERT INTO " + catalogo + "." + tabla + "\n\t\t(" + campos + ")" + 
                 "\n\tVALUES\n\t\t(" + camposPascal + ");" +
+                bitacora +
                 "\nEND" +
                 "\n// DELIMITER ;"
         );
@@ -120,30 +154,57 @@ public class GHardcode extends Generador{
         TipoDato tipo = null;
         for(int i=0; i < cantidadCampos; i++){ //Comienza del indice 0, para considerar la PK
             tipo = tipos.get(i);
-            if(i != cantidadCampos){
-                if(tipo == TipoDato.FECHA || tipo == TipoDato.BLOB || tipo == TipoDato.TEXTO_LARGO)
-                    parametros += "\n\tIN p" + convertirPascal(atributos.get(i)) + " " + tipo.getTipoSQL() + ",";
-                else
-                    parametros += "\n\tIN p" + convertirPascal(atributos.get(i)) + " " + tipo.getTipoSQL() + "(" + precisiones.get(i) + "),";
-            }else
-                parametros += "\n\tIN pIdSistema INT(11)";
+
+            if(tipo == TipoDato.FECHA || tipo == TipoDato.BLOB || tipo == TipoDato.TEXTO_LARGO)
+                parametros += "\n\tIN p" + convertirPascal(atributos.get(i)) + " " + tipo.getTipoSQL() + ",";
+            else
+                parametros += "\n\tIN p" + convertirPascal(atributos.get(i)) + " " + tipo.getTipoSQL() + "(" + precisiones.get(i) + "),";
         }
+        parametros = parametros.substring(0, parametros.lastIndexOf(','));
         
-        String pk = "\n\t\t" + atributos.get(0) + " = " + "p" + convertirPascal(atributos.get(0)) + ",";
+        String pk = atributos.get(0) + " = " + "p" + convertirPascal(atributos.get(0));
         String campos = "";
         for(int i=1; i < cantidadCampos; i++) //Comienza del indice 0, para considerar la PK
             campos += "\n\t\t" + atributos.get(i) + " = " + "p" + convertirPascal(atributos.get(i)) + ",";
         campos = campos.substring(0, campos.lastIndexOf(','));
         
+        String camposBitacora = "";
+        for(int i=0; i < cantidadCampos; i++){
+            tipo = tipos.get(i);
+            
+            if(tipo == TipoDato.FECHA)
+                camposBitacora += "\n\t\t\t\"" + atributos.get(i) + " = \", \"DATE_FORMAT('\",CAST(IFNULL(p" + convertirPascal(atributos.get(i)) + ",'NULL') AS CHAR),\"', '%Y-%m-%d %H:%i:%s')\", \",\\n\",";
+            else if (tipo == TipoDato.BLOB)
+                continue;
+            else
+                camposBitacora += "\n\t\t\t\"" + atributos.get(i) + " = \", IFNULL(CONCAT(\"'\",p" + convertirPascal(atributos.get(i)) + ",\"'\"),'NULL'), \",\\n\",";
+        }
+        camposBitacora = camposBitacora.substring(0, camposBitacora.lastIndexOf(','));
+        
+        String bitacora = 
+            "\n\n\tCALL nekio_herramientas.insertar_bitacora(" +
+            "\n\t\tvIdSistema," +
+            "\n\t\tNULL," +
+            "\n\t\t'" + tabla + "'," +
+            "\n\t\t'U'," +
+            "\n\t\tCONCAT(" +
+            camposBitacora +
+            "\n\t\t)," +
+            "\n\t\tCONCAT(\"id_" + tabla + " = \", IFNULL(CONCAT(\"'\",pId" + tablaPascal + ",\"'\"),'NULL'))" +
+            "\n\t);";
+        
         codigo.append(
-                "\n\nDELIMITER //" +
+                "\n\nDROP PROCEDURE IF EXISTS " + catalogo + ".actualizar_" + tabla + ";" +
+                "\nDELIMITER //" +
                 "\nCREATE PROCEDURE " + catalogo + ".actualizar_" + tabla + "(" +
                 parametros +
                 "\n)BEGIN"+
+                procIdSistema(catalogo) +
                 "\n\n\tUPDATE " + catalogo + "." + tabla +
                 "\n\tSET" + campos +
                 "\n\tWHERE " + pk + ";" +
-                "\n\t\t//AND id_ = pId;" + 
+                "\n\t-- AND id_ = pId;" + 
+                bitacora +
                 "\nEND" +
                 "\n// DELIMITER ;"
         );
@@ -157,19 +218,41 @@ public class GHardcode extends Generador{
         
         String pk = "id_" + tabla + " = " + "pId" + convertirPascal(tabla);
         
+        String bitacora = 
+            "\n\n\tCALL nekio_herramientas.insertar_bitacora(" +
+            "\n\t\tvIdSistema," +
+            "\n\t\tNULL," +
+            "\n\t\t'" + tabla + "'," +
+            "\n\t\t'D'," +
+            "\n\t\tNULL," +
+            "\n\t\tCONCAT(\"id_" + tabla + " = \", pId" + tablaPascal + ")" +
+            "\n\t);";
+        
         codigo.append(
-                "\n\nDELIMITER //" +
+                "\n\nDROP PROCEDURE IF EXISTS " + catalogo + ".eliminar_" + tabla + ";" +
+                "\nDELIMITER //" +
                 "\nCREATE PROCEDURE " + catalogo + ".eliminar_" + tabla + "(" +
-                "\n\tp" + "id" + tablaPascal + "INT(11)" +
+                "\n\tp" + "id" + tablaPascal + " INT(11)" +
                 "\n)BEGIN" +
+                procIdSistema(catalogo) +
                 "\n\n\tDELETE FROM " + catalogo + "." + tabla +
                 "\n\tWHERE " + pk + ";" +
-                "\n\t//AND id_ = pId;" + 
+                "\n\t-- AND id_ = pId;" + 
+                bitacora +
                 "\nEND" +
                 "\n// DELIMITER ;"
         );
         
         return codigo.toString();
+    }
+    
+    private String procIdSistema(String catalogo){
+        String codigo = 
+            "\n\tDECLARE vIdSistema INT(2);" +
+            "\n\n\tSELECT nekio_herramientas.id_sistema(" + catalogo + ".esquema())" +
+            "\n\tINTO vIdSistema;";
+        
+        return codigo;
     }
     // </editor-fold>
     

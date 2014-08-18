@@ -159,19 +159,22 @@ public class MensajePrivadoSwing extends SwingMaestro{
         if(listaDTO != null){
             if(listaDTO.size() != 0){
                 dto = listaDTO.get(indiceDTO);
-                dto.confirmarDTO();
-
-                camposBD = dto.getCampos();
-                if(!nuevo)
-                    valoresBD = dto.getValores();
-                tablasForaneas = dto.getTablasForaneas();
-                tiposDatoBD = dto.getTipoDatos();
-                valorLOV = dto.getLOVValores();
-                camposExtrasLOV = dto.getCamposExtrasLOV();
-            }else{
+            }else{                
+                dto = new MensajePrivadoDTO();
                 BDNavegador.habilitarTodo(false);
             }
         }
+        
+        dto.confirmarDTO();
+
+        camposBD = dto.getCampos();
+        if(!nuevo)
+            valoresBD = dto.getValores();
+        tablasForaneas = dto.getTablasForaneas();
+        tiposDatoBD = dto.getTipoDatos();
+        valorLOV = dto.getLOVValores();
+        camposExtrasLOV = dto.getCamposExtrasLOV();
+        
         pnlRegistro.add(new PanelGUI(tablasForaneas, camposBD, valoresBD, tiposDatoBD, valorLOV, camposExtrasLOV, Globales.BD_DESC_ESQUEMA, nuevo), "Center");
         
         nuevo = false;
@@ -185,7 +188,10 @@ public class MensajePrivadoSwing extends SwingMaestro{
     }
     
     public MensajePrivadoDTO getParametros(){
-        MensajePrivadoDTO parametros = parametros = dto;
+        MensajePrivadoDTO parametros = dto;
+        
+        // PASAR AQUI LOS VALORES DEL DTO
+        //dto.setIdTipoMensaje();
         
         if(dto == null)
             new Mensaje(Idioma.obtenerTexto(Idioma.PROP_ACCIONES, "noFilaSeleccionada"), Mensaje.MSJ_ADVERTENCIA);

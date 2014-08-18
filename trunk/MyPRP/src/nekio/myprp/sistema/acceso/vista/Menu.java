@@ -115,7 +115,9 @@ public class Menu extends SwingJFrame{
             mnuAyuda.add(mnItVersion);
             
             mnItDebug=new JMenuItem(Idioma.obtenerTexto(Idioma.PROP_MENU, "consola"));
-            mnuAyuda.add(mnItDebug);
+            if(Globales.APP_DEBUG)
+                mnuAyuda.add(mnItDebug);
+            
             
             mnItAcercaDe=new JMenuItem(Idioma.obtenerTexto(Idioma.PROP_MENU, "acercaDe"));
             mnuAyuda.add(mnItAcercaDe);

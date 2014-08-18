@@ -5,17 +5,20 @@ package nekio.myprp.sistema.acceso;
  * @author Nekio
  */
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import nekio.myprp.recursos.herramientas.ConsolaDebug;
 import nekio.myprp.recursos.utilerias.DetalleUsuario;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.plantillas.Gestor;
+import nekio.myprp.sistema.acceso.dao.ModalidadDAO;
 import nekio.myprp.sistema.acceso.dao.PrivilegioDAO;
 import nekio.myprp.sistema.acceso.dao.RangoDAO;
 import nekio.myprp.sistema.acceso.dao.TipoUsuarioDAO;
 import nekio.myprp.sistema.acceso.dao.UsuarioDAO;
 import nekio.myprp.sistema.acceso.dao.UsuarioSistemaDAO;
+import nekio.myprp.sistema.acceso.dto.ModalidadDTO;
 import nekio.myprp.sistema.acceso.dto.PrivilegioDTO;
 import nekio.myprp.sistema.acceso.dto.RangoDTO;
 import nekio.myprp.sistema.acceso.dto.TipoUsuarioDTO;
@@ -33,7 +36,7 @@ public class AccesoGestor extends Gestor{
     }
     
     @Override
-    public void ejecutarControladorNegocio(String accion, String entidad){
+    public void ejecutarControladorNegocio(String accion, String entidad){        
         if(super.dto != null)
             definirUsuario();
         
@@ -65,8 +68,15 @@ public class AccesoGestor extends Gestor{
     private void definirUsuario(){
         UsuarioDTO usuario = (UsuarioDTO) super.dto;
         TipoUsuarioDTO tipoUsuario = (TipoUsuarioDTO) new TipoUsuarioDAO().leerUno("id_tipo_usuario = " + usuario.getIdTipoUsuario());
-        PrivilegioDTO privilegio = (PrivilegioDTO) new PrivilegioDAO().leerUno("id_tipo_usuario = " + usuario.getIdTipoUsuario());
+        PrivilegioDTO privilegio = (PrivilegioDTO) new PrivilegioDAO().leerUno("id_privilegio = " + usuario.getIdTipoUsuario());
         RangoDTO rango = (RangoDTO) new RangoDAO().leerUno("id_rango = " + usuario.getIdRango());
+        
+        String RGB = rango.getColor();
+        int rojo = Integer.valueOf(RGB.substring(0, RGB.indexOf(',')));
+        int verde = Integer.valueOf(RGB.substring(RGB.indexOf(',')+1, RGB.lastIndexOf(',')));
+        int azul = Integer.valueOf(RGB.substring(RGB.lastIndexOf(',')+1));
+        
+        Color color = new Color(rojo, verde, azul);
         
         List<UsuarioSistemaDTO> usuarioSistema = (List) new UsuarioSistemaDAO().leer("id_usuario = " + usuario.getIdUsuario());
         List<Integer> sistemas = new ArrayList<Integer>();
@@ -89,6 +99,7 @@ public class AccesoGestor extends Gestor{
         appUsuario.setInsertar(privilegio.isInsertar());
         appUsuario.setModificar(privilegio.isModificar());
         appUsuario.setEliminar(privilegio.isEliminar());
+        appUsuario.setColor(color);
         appUsuario.setSistemas(sistemas);
         
         Globales.APP_USUARIO = appUsuario;

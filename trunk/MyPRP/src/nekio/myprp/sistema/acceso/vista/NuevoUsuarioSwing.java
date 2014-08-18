@@ -243,7 +243,13 @@ public class NuevoUsuarioSwing extends SwingJFrame{
         
         UsuarioDAO dao = new UsuarioDAO();
         dao.asignarParametros(dto);
-        dao.agregar();
+        
+        int resultado = dao.agregar();
+        if(resultado == 0){
+            new Mensaje(Idioma.obtenerTexto(Idioma.PROP_LOGIN, "registro"), Mensaje.MSJ_INFORMACION);
+            salir();
+        }else
+            new Mensaje(Idioma.obtenerTexto(Idioma.PROP_LOGIN, "Xregistro"), Mensaje.MSJ_ERROR);
     }
     
     private int obtenerID(String texto){

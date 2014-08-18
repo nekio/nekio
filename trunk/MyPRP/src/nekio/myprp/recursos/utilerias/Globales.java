@@ -289,7 +289,7 @@ public class Globales {
     /* VARIABLES */
     
     // <editor-fold defaultstate="collapsed" desc="Interaccion para la BD">  
-    public static boolean APP_DEBUG = true;
+    public static boolean APP_DEBUG = false;
     public static boolean APP_DESIGN;
     public static boolean APP_BITACORA_ESTILO;
     

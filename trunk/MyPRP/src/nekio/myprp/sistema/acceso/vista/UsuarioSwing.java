@@ -69,25 +69,9 @@ public class UsuarioSwing extends SwingJFrame{
         // Rango
         JPanel pnlRangoProp = new JPanel(new BorderLayout());
         
-        JLabel lblRangoDesc = new JLabel(Idioma.obtenerTexto(Idioma.PROP_RANGO, "rango") + ": " + usuario.getRangoDesc());
-        Color colorRango = null;
-        switch(usuario.getRangoId()){
-            case 1:
-                colorRango = Color.LIGHT_GRAY;
-            break;
-            case 2:
-                colorRango = new Color(0, 204, 0);
-            break;
-            case 3:
-                colorRango = new Color(0, 153, 204);
-            break;
-            case 4:
-                colorRango = new Color(235, 0, 0);
-            break;
-            case 5:
-                colorRango = new Color(204, 153, 255);
-            break;
-        }
+        Color colorRango = usuario.getColor();
+        
+        JLabel lblRangoDesc = new JLabel(Idioma.obtenerTexto(Idioma.PROP_RANGO, "rango") + ": " + usuario.getRangoDesc());        
         lblRangoDesc.setHorizontalAlignment(SwingConstants.CENTER);
         lblRangoDesc.setOpaque(true);
         lblRangoDesc.setBackground(colorRango);

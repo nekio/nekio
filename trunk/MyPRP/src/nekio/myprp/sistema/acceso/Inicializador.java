@@ -11,6 +11,8 @@ import nekio.myprp.recursos.utilerias.Globales;
 import static nekio.myprp.recursos.utilerias.Globales.BD_TOOLS;
 import nekio.myprp.recursos.utilerias.bd.BDConexion;
 import nekio.myprp.recursos.utilerias.Idioma;
+import nekio.myprp.sistema.acceso.dao.ModalidadDAO;
+import nekio.myprp.sistema.acceso.dto.ModalidadDTO;
 
 public class Inicializador {
     private static final String ENTIDAD = "Usuario";
@@ -50,7 +52,8 @@ public class Inicializador {
         String mensaje = null;
         
         if(usuario == null){
-            ConsolaDebug.agregarTexto("--- LOGGEANDO CON CREDENCIALES ANONIMAS ---", ConsolaDebug.MAPEO);
+            if(Globales.APP_DEBUG)
+                ConsolaDebug.agregarTexto("--- LOGGEANDO CON CREDENCIALES ANONIMAS ---", ConsolaDebug.MAPEO);
             usuario = Idioma.obtenerTexto(Idioma.PROP_ACC_USR_ANONIMO, "usuario");
             password = Idioma.obtenerTexto(Idioma.PROP_ACC_USR_ANONIMO, "password");
         }
@@ -63,7 +66,8 @@ public class Inicializador {
         Login login = new Login(usuario, acceso, password, recordar);
         if(login.validar()){
             ingresado = true;
-            Globales.CONSOLA.setVisible(true);
+            
+            definirConfiguracionesApp();
             
             gestor.setEsquemaBD(BD_TOOLS);
             gestor.setDTO(login.getDTO());
@@ -81,8 +85,17 @@ public class Inicializador {
                 mensaje += "   Usuario Inactivo\n";
         }
         
-        ConsolaDebug.agregarTexto(mensaje, ConsolaDebug.BITACORA);
+        if(Globales.APP_DEBUG)
+            ConsolaDebug.agregarTexto(mensaje, ConsolaDebug.BITACORA);
         
         return ingresado;
+    }
+    
+    private static void definirConfiguracionesApp(){
+        ModalidadDTO modalidad = (ModalidadDTO) new ModalidadDAO().leerUno(null);
+        Globales.APP_DEBUG = modalidad.isAppDebug();
+        Globales.APP_DESIGN = modalidad.isAppDesign();
+        
+        Globales.CONSOLA.setVisible(Globales.APP_DEBUG);
     }
 }
