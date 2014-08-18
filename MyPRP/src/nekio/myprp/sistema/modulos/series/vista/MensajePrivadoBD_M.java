@@ -29,6 +29,7 @@ public class MensajePrivadoBD_M extends BD_Manipulador{
     @Override
     public void insertarRegistro() {
         gestor = new MensajePrivadoGestor();
+        gestor.setEsquemaBD(Globales.BD_ESQUEMA_SERIES);
         gestor.setGui(gui);
         gestor.ejecutarControladorNegocio(Globales.BD.NUEVO.getValor(), ENTIDAD);
         gestor = null;
@@ -63,6 +64,7 @@ public class MensajePrivadoBD_M extends BD_Manipulador{
         if(confirmar == 1){
             if(parametros != null){
                 gestor = new MensajePrivadoGestor();
+                gestor.setEsquemaBD(Globales.BD_ESQUEMA_SERIES);
                 gestor.setDTO(parametros);
                 gestor.setGui(gui);
                 gestor.ejecutarControladorNegocio(Globales.BD.ELIMINAR.getValor(), ENTIDAD);
@@ -74,7 +76,22 @@ public class MensajePrivadoBD_M extends BD_Manipulador{
         }
     }
 
-    @Override public void guardarEdicion(){}
+    @Override public void guardarEdicion(){
+        MensajePrivadoDTO parametros = gui.getParametros();
+        
+        if(parametros != null){
+            gestor = new MensajePrivadoGestor();
+            gestor.setEsquemaBD(Globales.BD_ESQUEMA_SERIES);
+            gestor.setDTO(parametros);
+            gestor.setGui(gui);
+            gestor.ejecutarControladorNegocio(Globales.BD.INSERTAR.getValor(), ENTIDAD);
+            gestor = null;
+        }else{
+            if(Globales.APP_DEBUG)
+                ConsolaDebug.agregarTexto("No se pudieron leer los parametros para insertar " + ENTIDAD, ConsolaDebug.ERROR);
+        }
+           
+    }
     
     @Override public void cancelarEdicion(){
         MensajePrivadoDTO parametros = gui.getParametros();

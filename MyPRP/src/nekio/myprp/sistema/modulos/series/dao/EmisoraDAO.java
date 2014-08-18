@@ -1,9 +1,10 @@
-package nekio.myprp.sistema.acceso.dao;
+package nekio.myprp.sistema.modulos.series.dao;
 
 /**
  *
  * @author Nekio
  */
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -13,20 +14,20 @@ import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.bd.BDConexion;
 import nekio.myprp.recursos.utilerias.plantillas.DAO;
 import nekio.myprp.recursos.utilerias.plantillas.DTO;
-import nekio.myprp.sistema.acceso.dto.PrivilegioDTO;
+import nekio.myprp.sistema.modulos.series.dto.EmisoraDTO;
 
-public class PrivilegioDAO extends DAO {
+public class EmisoraDAO extends DAO {
 
-    private final String TABLA = "privilegio";
-    private final String ID = "id_privilegio";
+    private final String TABLA = "emisora";
+    private final String ID = "id_emisora";
     private final String TODOS_CAMPOS
-            = ID + ", configurar, buscar, insertar, modificar, eliminar ";
+            = ID + ", id_imagen, siglas_emisora, nombre_emisora ";
 
-    private PrivilegioDTO dto;
+    private EmisoraDTO dto;
 
     @Override
     public void asignarParametros(DTO dto) {
-        this.dto = (PrivilegioDTO) dto;
+        this.dto = (EmisoraDTO) dto;
 
         if (Globales.APP_DEBUG) {
             ConsolaDebug.agregarTexto("DAO " + TABLA + ": Parametros ingresados", ConsolaDebug.PROCESO);
@@ -65,18 +66,16 @@ public class PrivilegioDAO extends DAO {
         }
 
         try {
-            PrivilegioDTO dto = null;
+            EmisoraDTO dto = null;
             ResultSet resultados = BDConexion.consultar(consulta);
 
             while (resultados.next()) {
-                dto = new PrivilegioDTO();
+                dto = new EmisoraDTO();
 
-                dto.setIdPrivilegio(resultados.getInt("id_privilegio"));
-                dto.setConfigurar(resultados.getInt("configurar") == 1 ? true : false);
-                dto.setBuscar(resultados.getInt("buscar") == 1 ? true : false);
-                dto.setInsertar(resultados.getInt("insertar") == 1 ? true : false);
-                dto.setModificar(resultados.getInt("modificar") == 1 ? true : false);
-                dto.setEliminar(resultados.getInt("eliminar") == 1 ? true : false);
+                dto.setIdEmisora(resultados.getInt("id_emisora"));
+                dto.setIdImagen(resultados.getInt("id_imagen"));
+                dto.setSiglasEmisora(resultados.getString("siglas_emisora"));
+                dto.setNombreEmisora(resultados.getString("nombre_emisora"));
 
                 lista.add(dto);
             }
@@ -93,7 +92,7 @@ public class PrivilegioDAO extends DAO {
     }
 
     public DTO leerUno(String select, String where, String orderBy, String groupBy) {
-        PrivilegioDTO dto = null;
+        EmisoraDTO dto = null;
 
         String consulta
                 = "SELECT " + select + " \n"
@@ -116,15 +115,13 @@ public class PrivilegioDAO extends DAO {
 
         try {
             ResultSet resultados = BDConexion.consultar(consulta);
-            dto = new PrivilegioDTO();
+            dto = new EmisoraDTO();
 
             while (resultados.next()) {
-                dto.setIdPrivilegio(resultados.getInt("id_privilegio"));
-                dto.setConfigurar(resultados.getInt("configurar") == 1 ? true : false);
-                dto.setBuscar(resultados.getInt("buscar") == 1 ? true : false);
-                dto.setInsertar(resultados.getInt("insertar") == 1 ? true : false);
-                dto.setModificar(resultados.getInt("modificar") == 1 ? true : false);
-                dto.setEliminar(resultados.getInt("eliminar") == 1 ? true : false);
+                dto.setIdEmisora(resultados.getInt("id_emisora"));
+                dto.setIdImagen(resultados.getInt("id_imagen"));
+                dto.setSiglasEmisora(resultados.getString("siglas_emisora"));
+                dto.setNombreEmisora(resultados.getString("nombre_emisora"));
             }
 
             BDConexion.cerrar();
@@ -140,7 +137,7 @@ public class PrivilegioDAO extends DAO {
         int resultado = 1;
 
         String accion = super.INSERTAR;
-        int parametros = 5;
+        int parametros = 3;
         String procedimiento = super.obtenerProcedimiento(Globales.BD_DESC_ESQUEMA, accion, TABLA, parametros);
 
         if (Globales.APP_DEBUG) {
@@ -151,11 +148,9 @@ public class PrivilegioDAO extends DAO {
             Connection conexion = BDConexion.getConnection();
 
             CallableStatement procInsertar = conexion.prepareCall(procedimiento);
-            procInsertar.setInt(1, dto.isConfigurar() == true ? 1 : 0);
-            procInsertar.setInt(2, dto.isBuscar() == true ? 1 : 0);
-            procInsertar.setInt(3, dto.isInsertar() == true ? 1 : 0);
-            procInsertar.setInt(4, dto.isModificar() == true ? 1 : 0);
-            procInsertar.setInt(5, dto.isEliminar() == true ? 1 : 0);
+            procInsertar.setInt(1, dto.getIdImagen());
+            procInsertar.setString(2, dto.getSiglasEmisora());
+            procInsertar.setString(3, dto.getNombreEmisora());
             procInsertar.execute();
 
             conexion.commit();
@@ -173,7 +168,7 @@ public class PrivilegioDAO extends DAO {
     public int modificar() {
         int resultado = 1;
         String accion = super.ACTUALIZAR;
-        int parametros = 6;
+        int parametros = 4;
         String procedimiento = super.obtenerProcedimiento(Globales.BD_DESC_ESQUEMA, accion, TABLA, parametros);
 
         if (Globales.APP_DEBUG) {
@@ -184,12 +179,10 @@ public class PrivilegioDAO extends DAO {
             Connection conexion = BDConexion.getConnection();
 
             CallableStatement procActualizar = conexion.prepareCall(procedimiento);
-            procActualizar.setInt(1, dto.getIdPrivilegio());
-            procActualizar.setInt(2, dto.isConfigurar() == true ? 1 : 0);
-            procActualizar.setInt(3, dto.isBuscar() == true ? 1 : 0);
-            procActualizar.setInt(4, dto.isInsertar() == true ? 1 : 0);
-            procActualizar.setInt(5, dto.isModificar() == true ? 1 : 0);
-            procActualizar.setInt(6, dto.isEliminar() == true ? 1 : 0);
+            procActualizar.setInt(1, dto.getIdEmisora());
+            procActualizar.setInt(2, dto.getIdImagen());
+            procActualizar.setString(3, dto.getSiglasEmisora());
+            procActualizar.setString(4, dto.getNombreEmisora());
             procActualizar.execute();
 
             conexion.commit();
@@ -212,14 +205,14 @@ public class PrivilegioDAO extends DAO {
         String procedimiento = super.obtenerProcedimiento(Globales.BD_DESC_ESQUEMA, accion, TABLA, parametros);
 
         if (Globales.APP_DEBUG) {
-            ConsolaDebug.agregarTexto(procedimiento + " : ID - " + dto.getIdPrivilegio(), ConsolaDebug.PROCESO);
+            ConsolaDebug.agregarTexto(procedimiento + " : ID - " + dto.getIdEmisora(), ConsolaDebug.PROCESO);
         }
 
         try {
             Connection conexion = BDConexion.getConnection();
 
             CallableStatement procEliminar = conexion.prepareCall(procedimiento);
-            procEliminar.setInt(1, dto.getIdPrivilegio());
+            procEliminar.setInt(1, dto.getIdEmisora());
             procEliminar.execute();
 
             conexion.commit();

@@ -61,7 +61,7 @@ public class GeneradorGUI extends SwingJFrame{
         super("Generador de Capas del Sistema");
         this.controlador = generador;
         this.setLayout(new BorderLayout());
-        this.setMinimumSize(new Dimension(400,300));
+        this.setMinimumSize(new Dimension(850,500));
         this.setLocationRelativeTo(null);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         

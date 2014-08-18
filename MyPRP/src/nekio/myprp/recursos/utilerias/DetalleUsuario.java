@@ -1,6 +1,7 @@
 package nekio.myprp.recursos.utilerias;
 
 // <editor-fold defaultstate="collapsed" desc="Librerias">
+import java.awt.Color;
 import java.util.List;
 // </editor-fold>
 
@@ -28,6 +29,7 @@ public class DetalleUsuario {
     private boolean modificar;
     private boolean eliminar;
     
+    private Color color;
     private List<Integer> sistemas;
     // </editor-fold>
 
@@ -150,6 +152,14 @@ public class DetalleUsuario {
 
     public void setEliminar(boolean eliminar) {
         this.eliminar = eliminar;
+    }
+    
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     public List<Integer> getSistemas() {
