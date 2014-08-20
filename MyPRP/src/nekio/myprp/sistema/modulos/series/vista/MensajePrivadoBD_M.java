@@ -94,18 +94,13 @@ public class MensajePrivadoBD_M extends BD_Manipulador{
     }
     
     @Override public void cancelarEdicion(){
-        MensajePrivadoDTO parametros = gui.getParametros();
+        MensajePrivadoDTO parametros = gui.getUltimoDtoSeleccionado();
         
-        if(parametros != null){
-            gestor = new MensajePrivadoGestor();
-            gestor.setEsquemaBD(Globales.BD_ESQUEMA_SERIES);
-            gestor.setDTO(parametros);
-            gestor.setGui(gui);
-            gestor.ejecutarControladorNegocio(Globales.BD.CANCELAR.getValor(), ENTIDAD);
-            gestor = null;
-        }else{
-            if(Globales.APP_DEBUG)
-                ConsolaDebug.agregarTexto("No se pudieron leer los parametros para cancelar la edicion de " + ENTIDAD, ConsolaDebug.ERROR);
-        }
+        gestor = new MensajePrivadoGestor();
+        gestor.setEsquemaBD(Globales.BD_ESQUEMA_SERIES);
+        gestor.setDTO(parametros);
+        gestor.setGui(gui);
+        gestor.ejecutarControladorNegocio(Globales.BD.CANCELAR.getValor(), ENTIDAD);
+        gestor = null;
     }
 }

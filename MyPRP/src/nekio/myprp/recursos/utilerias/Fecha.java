@@ -1,5 +1,6 @@
 package nekio.myprp.recursos.utilerias;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -18,5 +19,16 @@ public class Fecha {
         String fechaFormateada = formateador.format(fecha);
         
         return fechaFormateada;
+    }
+    
+    public static Date obtenerFecha(String cadena, String formato){
+        DateFormat formateador = new SimpleDateFormat(formato);
+        
+        Date fecha = null;
+        try{
+            fecha = formateador.parse(cadena);
+        }catch(Exception e){}
+   
+        return fecha;
     }
 }

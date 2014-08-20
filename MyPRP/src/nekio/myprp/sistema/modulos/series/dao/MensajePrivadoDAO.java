@@ -153,15 +153,15 @@ public class MensajePrivadoDAO extends DAO{
             Connection conexion = BDConexion.getConnection();
                 
             CallableStatement procInsertar = conexion.prepareCall(procedimiento);
-            procInsertar.setInt(1, dto.getIdUsuario());
-            procInsertar.setInt(2, dto.getIdTipoMensaje());
-            procInsertar.setInt(3, dto.getIdMpRelacionado());
-            procInsertar.setInt(4, dto.getIdWeb());
-            procInsertar.setInt(5, dto.getIdColaborador());
-            procInsertar.setString(6, dto.getMensaje());
-            procInsertar.setTimestamp(7, new java.sql.Timestamp(dto.getFecha().getTime()));
-            procInsertar.setInt(8, dto.isRecibidoEnviado()==true?1:0);
-            procInsertar.setInt(9, dto.isAtendido()==true?1:0);
+            val(procInsertar, 1, dto.getIdUsuario());
+            val(procInsertar, 2, dto.getIdTipoMensaje());
+            val(procInsertar, 3, dto.getIdMpRelacionado());
+            val(procInsertar, 4, dto.getIdWeb());
+            val(procInsertar, 5, dto.getIdColaborador());
+            val(procInsertar, 6, dto.getMensaje());
+            val(procInsertar, 7, dto.getFecha());
+            val(procInsertar, 8, dto.isRecibidoEnviado());
+            val(procInsertar, 9, dto.isAtendido());
             procInsertar.execute();
 
             conexion.commit();

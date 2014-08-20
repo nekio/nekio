@@ -65,6 +65,7 @@ public class UsuarioSwing extends SwingJFrame{
     // <editor-fold defaultstate="collapsed" desc="Agregar Componentes">
     @Override
     public void agregarComponentes() {
+        Globales.BD_DESC_ESQUEMA = Globales.BD_TOOLS;
              
         // Rango
         JPanel pnlRangoProp = new JPanel(new BorderLayout());
