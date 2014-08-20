@@ -13,12 +13,17 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import nekio.myprp.recursos.herramientas.Convertidor;
 import nekio.myprp.recursos.herramientas.Mensaje;
+import nekio.myprp.recursos.utilerias.Fecha;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.Idioma;
 import nekio.myprp.recursos.utilerias.gui.swing.BD_Navegador;
-import nekio.myprp.recursos.utilerias.gui.swing.PanelGUI;
+import nekio.myprp.recursos.utilerias.gui.swing.PanelFormulario;
 import nekio.myprp.recursos.utilerias.plantillas.DTO;
 import nekio.myprp.recursos.utilerias.plantillas.swing.SwingMaestro;
 import nekio.myprp.sistema.modulos.series.dto.MensajePrivadoDTO;
@@ -33,7 +38,9 @@ public class MensajePrivadoSwing extends SwingMaestro{
     
     private Container contenedor;
     private JPanel pnlContenido;
+    private PanelFormulario pnlFormulario;
     private List<MensajePrivadoDTO> listaDTO;
+    private MensajePrivadoDTO ultimoDtoSeleccionado;
     private MensajePrivadoDTO dto;
     private int indiceDTO;
     private boolean nuevo;
@@ -159,6 +166,7 @@ public class MensajePrivadoSwing extends SwingMaestro{
         if(listaDTO != null){
             if(listaDTO.size() != 0){
                 dto = listaDTO.get(indiceDTO);
+                ultimoDtoSeleccionado = dto;
             }else{                
                 dto = new MensajePrivadoDTO();
                 BDNavegador.habilitarTodo(false);
@@ -175,7 +183,8 @@ public class MensajePrivadoSwing extends SwingMaestro{
         valorLOV = dto.getLOVValores();
         camposExtrasLOV = dto.getCamposExtrasLOV();
         
-        pnlRegistro.add(new PanelGUI(tablasForaneas, camposBD, valoresBD, tiposDatoBD, valorLOV, camposExtrasLOV, Globales.BD_DESC_ESQUEMA, nuevo), "Center");
+        pnlFormulario = new PanelFormulario(tablasForaneas, camposBD, valoresBD, tiposDatoBD, valorLOV, camposExtrasLOV, Globales.BD_DESC_ESQUEMA, nuevo);
+        pnlRegistro.add(pnlFormulario , "Center");
         
         nuevo = false;
         
@@ -188,10 +197,34 @@ public class MensajePrivadoSwing extends SwingMaestro{
     }
     
     public MensajePrivadoDTO getParametros(){
-        MensajePrivadoDTO parametros = dto;
+        MensajePrivadoDTO parametros = null;
         
-        // PASAR AQUI LOS VALORES DEL DTO
-        //dto.setIdTipoMensaje();
+        List objetosCampos = pnlFormulario.getObjetosCampos();
+        
+        try{
+            JTextField tmpIdMensajePrivado = (JTextField)objetosCampos.get(0);
+            //JTextField tmpIdUsuario = (JTextField)objetosCampos.get(1); //No se considera obtener el Id Usuario desde el formulario
+            JTextField tmpIdTipoMensaje = (JTextField)objetosCampos.get(1);
+            JTextField tmpIdMpRelacionado = (JTextField)objetosCampos.get(2);
+            JTextField tmpIdWeb = (JTextField)objetosCampos.get(3);
+            JTextField tmpIdColaborador = (JTextField)objetosCampos.get(4);
+            JTextArea tmpMensaje = (JTextArea)objetosCampos.get(5);
+            JTextField tmpFecha = (JTextField)objetosCampos.get(6);
+            JCheckBox tmpRecibidoEnviado = (JCheckBox)objetosCampos.get(7);
+            JCheckBox tmpAtendido = (JCheckBox)objetosCampos.get(8);
+            
+            parametros = new MensajePrivadoDTO();
+            parametros.setIdMensajePrivado(Convertidor.aEntero(tmpIdMensajePrivado.getText()));
+            parametros.setIdUsuario(Globales.APP_USUARIO.getId());
+            parametros.setIdTipoMensaje(Convertidor.aEntero(tmpIdTipoMensaje.getText()));
+            parametros.setIdMpRelacionado(Convertidor.aEntero(tmpIdMpRelacionado.getText()));
+            parametros.setIdWeb(Convertidor.aEntero(tmpIdWeb.getText()));
+            parametros.setIdColaborador(Convertidor.aEntero(tmpIdColaborador.getText()));
+            parametros.setMensaje(tmpMensaje.getText());
+            parametros.setFecha(Fecha.obtenerFecha(tmpFecha.getText(), Fecha.FORMATO_COMPLETO));
+            parametros.setRecibidoEnviado(tmpRecibidoEnviado.isSelected());
+            parametros.setAtendido(tmpAtendido.isSelected());
+        }catch(Exception e){}
         
         if(dto == null)
             new Mensaje(Idioma.obtenerTexto(Idioma.PROP_ACCIONES, "noFilaSeleccionada"), Mensaje.MSJ_ADVERTENCIA);
@@ -202,13 +235,13 @@ public class MensajePrivadoSwing extends SwingMaestro{
     @Override
     public void nuevo() {
         nuevo = true;
-        
         recargar((List)this.listaDTO);
     }
 
     @Override
     public void insertar() {
-        
+        nuevo = false;
+        recargar((List)this.listaDTO); 
     }
 
     @Override
@@ -218,12 +251,17 @@ public class MensajePrivadoSwing extends SwingMaestro{
 
     @Override
     public void eliminar() {
-        
+       nuevo = false;
+       recargar((List)this.listaDTO); 
     }
 
     @Override
     public void cancelar() {
         nuevo = false;
         recargar((List)this.listaDTO);
+    }
+    
+    public MensajePrivadoDTO getUltimoDtoSeleccionado(){
+        return ultimoDtoSeleccionado;
     }
 }

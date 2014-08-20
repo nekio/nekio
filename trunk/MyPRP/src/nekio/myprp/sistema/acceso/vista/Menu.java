@@ -17,6 +17,7 @@ import java.util.List;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JSeparator;
 import nekio.myprp.recursos.img.obj.ImagenGestor;
 import nekio.myprp.recursos.utilerias.Globales;
 import static nekio.myprp.recursos.utilerias.Globales.BD_ESQUEMA_SERIES;
@@ -35,6 +36,7 @@ public class Menu extends SwingJFrame{
     private JMenu mnuArchivo;
     private JMenuItem mnItUsuario;
     private JMenuItem mnItImagen;
+    private JMenuItem mnItSalir;
     private JMenu mnuModulos;
     private JMenuItem mnItAcademico;
     private JMenuItem mnItDeportes;
@@ -80,6 +82,10 @@ public class Menu extends SwingJFrame{
             
             mnItImagen=new JMenuItem(Idioma.obtenerTexto(Idioma.PROP_MENU, "imagen"));
             mnuArchivo.add(mnItImagen);
+            
+            mnItSalir=new JMenuItem(Idioma.obtenerTexto(Idioma.PROP_MENU, "salir"));
+            mnuArchivo.add(new JSeparator());
+            mnuArchivo.add(mnItSalir);
         
         /*Modulos*/
         mnuModulos = new JMenu(Idioma.obtenerTexto(Idioma.PROP_MENU, "modulos"));
@@ -130,6 +136,13 @@ public class Menu extends SwingJFrame{
 
     @Override
     public void agregarEscuchadores() {
+        mnItSalir.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed( ActionEvent evt){       
+                cerrarAplicacion();
+            }
+        });
+                
         mnItImagen.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed( ActionEvent evt){       
@@ -177,15 +190,18 @@ public class Menu extends SwingJFrame{
         addWindowListener( new WindowAdapter(){
             @Override
             public void windowClosing(WindowEvent evt){
-                cerrarAplicacion();                
+                cerrarAplicacion();
             }
         });
     }
     
     private void cerrarAplicacion(){
-        Globales.CONSOLA.setVisible(false);
-        Globales.CONSOLA.dispose();
+        if(Globales.APP_DEBUG){
+            Globales.CONSOLA.setVisible(false);
+            Globales.CONSOLA.dispose();
+        }
         
         salir();
+        System.exit(0);
     }
 }

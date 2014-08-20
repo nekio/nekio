@@ -31,10 +31,12 @@ import nekio.myprp.recursos.utilerias.Fecha;
 import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.bd.BDConexion;
 
-public class PanelCampo{
+public class PanelCampo extends JPanel{
     // <editor-fold defaultstate="collapsed" desc="Atributos">
     private final int TEXTO_ID = 4;
     private final int TEXTO_CAMPO = 15;
+    
+    private Object valor;
     
     private String esquemaBD;
     private String tablaForanea;
@@ -51,30 +53,35 @@ public class PanelCampo{
     private JButton btnLOV;
     private JButton btnFecha;
     private JCheckBox chkValor;
+    
+    private boolean llave;
+    private Globales.TipoDato tipoCampo;
     // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Constructores">
+    public PanelCampo(String campo, Object valor, boolean llave){
+        this(campo, valor, Globales.TipoDato.TEXTO, llave);
+    }
 
-    // <editor-fold defaultstate="collapsed" desc="Crear">
-    public JPanel crear(String campo, Object valor, boolean llave){
-        return crear(campo, valor, Globales.TipoDato.TEXTO, llave);
-    }
-
-    public JPanel crear(String campo, Object valor, Globales.TipoDato tipoCampo, boolean llave){
-        return crear(campo, valor, tipoCampo, llave, null);
+    public PanelCampo(String campo, Object valor, Globales.TipoDato tipoCampo, boolean llave){
+        this(campo, valor, tipoCampo, llave, null);
     }
     
-    public JPanel crear(String campo, Object valor, Globales.TipoDato tipoCampo, boolean llave, String valorLOV){
-        return crear(campo, valor, tipoCampo, llave, valorLOV, false);
+    public PanelCampo(String campo, Object valor, Globales.TipoDato tipoCampo, boolean llave, String valorLOV){
+        this(campo, valor, tipoCampo, llave, valorLOV, false);
     }
     
-    public JPanel crear(String campo, Object valor, Globales.TipoDato tipoCampo, boolean llave, String valorLOV, boolean nuevo){
-        return crear(campo, valor, tipoCampo, llave, valorLOV, null, nuevo);
+    public PanelCampo(String campo, Object valor, Globales.TipoDato tipoCampo, boolean llave, String valorLOV, boolean nuevo){
+        this(campo, valor, tipoCampo, llave, valorLOV, null, nuevo);
     }
     
-    public JPanel crear(String campo, Object valor, Globales.TipoDato tipoCampo, boolean llave, String valorLOV, String esquemaBD, boolean nuevo){
-        return crear(null, campo, valor, tipoCampo, llave, valorLOV, esquemaBD, null, nuevo);
+    public PanelCampo(String campo, Object valor, Globales.TipoDato tipoCampo, boolean llave, String valorLOV, String esquemaBD, boolean nuevo){
+        this(null, campo, valor, tipoCampo, llave, valorLOV, esquemaBD, null, nuevo);
     }
     
-    public JPanel crear(String tablaForanea, String campo, Object valor, Globales.TipoDato tipoCampo, boolean llave, String valorLOV, String esquemaBD, List<String> camposExtrasLOV, boolean nuevo){
+    public PanelCampo(String tablaForanea, String campo, Object valor, Globales.TipoDato tipoCampo, boolean llave, String valorLOV, String esquemaBD, List<String> camposExtrasLOV, boolean nuevo){
+        this.setLayout(new FlowLayout(FlowLayout.LEFT));
+        
         this.esquemaBD = esquemaBD;
         this.tablaForanea = tablaForanea;
         this.campo = campo;
@@ -82,10 +89,18 @@ public class PanelCampo{
         this.camposExtrasLOV = camposExtrasLOV;
         this.nuevo = nuevo;
         
-        JPanel pnlCampo = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        this.llave = llave;
+        this.tipoCampo = tipoCampo;
 
+        crearCampo();
+        escuchadores();
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Crear campo">
+    private void crearCampo(){
         JLabel lblCampo = new JLabel(campo + ":");
-        pnlCampo.add(lblCampo);
+        this.add(lblCampo);
 
         // Aunque no todos sean JTextField, se necesita instanciar siempre
         // para obtener el valor del campo
@@ -94,24 +109,23 @@ public class PanelCampo{
         
         txtCampo = new JTextField(TEXTO_CAMPO);
         txtCampo.setText(String.valueOf(valor));
+        txtCampo.setEditable(nuevo);
         
-        if(nuevo)
-            txtCampo.setEditable(true);
-        else
-            txtCampo.setEditable(false);
-        
-        pnlCampo.add(txtCampo);
+        this.add(txtCampo);
 
         if(llave && valorLOV!=null){
             txtCampo.setColumns(TEXTO_ID);
             
             txtCampoExtra = new JTextField(TEXTO_CAMPO);
             txtCampoExtra.setEditable(false);
+            txtCampoExtra.setFocusable(false);
             
-            pnlCampo.add(txtCampoExtra);
+            this.add(txtCampoExtra);
 
             btnLOV = new JButton("...");
-            pnlCampo.add(btnLOV);
+            btnLOV.setEnabled(nuevo);
+            btnLOV.setFocusable(false);
+            this.add(btnLOV);
             
             if(tablaForanea == null)
                 tablaForanea = campo.replace(Globales.BD_TABLA_ID, "");
@@ -129,15 +143,14 @@ public class PanelCampo{
             }catch(Exception e){
                 txtCampoExtra.setText("-");
             }
-        }
-
-        if(!llave && tipoCampo == Globales.TipoDato.FECHA){     
+        } else if(!llave && tipoCampo == Globales.TipoDato.FECHA){     
             try{
                 txtCampo.setText(formatearFecha((Date)valor));
             }catch(Exception e){}
             
             btnFecha = new JButton("...");
-            pnlCampo.add(btnFecha);
+            btnFecha.setFocusable(false);
+            this.add(btnFecha);
         }else if(!llave && tipoCampo == Globales.TipoDato.BOOLEANO){
             txtCampo.setVisible(false);
             
@@ -146,7 +159,7 @@ public class PanelCampo{
                 chkValor.setSelected((boolean)valor);
             }catch(Exception e){}
             
-            pnlCampo.add(chkValor);
+            this.add(chkValor);
         }else if(!llave && tipoCampo == Globales.TipoDato.BLOB){
             txtCampo.setVisible(false);
             lblImagen = new JLabel();
@@ -156,7 +169,7 @@ public class PanelCampo{
                 lblImagen.setIcon(icon);
             }catch(Exception e){}
             
-            pnlCampo.add(lblImagen);
+            this.add(lblImagen);
         }else if(!llave && tipoCampo == Globales.TipoDato.TEXTO_LARGO){
             txtCampo.setVisible(false);
             
@@ -171,12 +184,11 @@ public class PanelCampo{
             
             scrollCaja = new JScrollPane(txtCaja);
             scrollCaja.setOpaque(false);
-            pnlCampo.add(scrollCaja);
+            this.add(scrollCaja);
+        }else{ //Esto identifica a la PK en modo insercion
+            if(llave && nuevo) 
+                txtCampo.setEditable(false);
         }
-
-        escuchadores();
-
-        return pnlCampo;
     }
     // </editor-fold>
 
@@ -268,4 +280,17 @@ public class PanelCampo{
     // </editor-fold>
     
     private void seleccionarImagen(){}
+    
+    // <editor-fold defaultstate="collapsed" desc="Obtener Valor">
+    public Object obtenerObjeto(){
+        if(txtCampo != null)
+            valor = txtCampo;
+        if(txtCaja != null)
+            valor = txtCaja;
+        if(chkValor != null)
+            valor = chkValor;
+        
+        return valor;
+    }
+    // </editor-fold>
 }

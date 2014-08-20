@@ -12,16 +12,16 @@ import nekio.myprp.recursos.utilerias.Globales;
 import nekio.myprp.recursos.utilerias.plantillas.DTO;
 
 public class MensajePrivadoDTO extends DTO{
-    private int idMensajePrivado;
-    private int idUsuario;
-    private int idTipoMensaje;
-    private int idMpRelacionado;
-    private int idWeb;
-    private int idColaborador;
+    private Integer idMensajePrivado;
+    private Integer idUsuario;
+    private Integer idTipoMensaje;
+    private Integer idMpRelacionado;
+    private Integer idWeb;
+    private Integer idColaborador;
     private String mensaje;
     private Date fecha;
-    private boolean recibidoEnviado;
-    private boolean atendido;
+    private Boolean recibidoEnviado;
+    private Boolean atendido;
     
     @Override
     public void confirmarDTO(){        
@@ -32,16 +32,14 @@ public class MensajePrivadoDTO extends DTO{
         valoresLOV = new ArrayList<String>();
         camposExtrasLOV = new ArrayList<List>();
         
-        super.campos.add("id_usuario");
-        super.valores.add(idUsuario);
-        super.tipoDatos.add(Globales.TipoDato.NUMERO);
+        // Este campo no nos sirve mostrar en la vista
+        //super.campos.add("id_usuario");
+        //super.valores.add(idUsuario);
+        //super.tipoDatos.add(Globales.TipoDato.NUMERO);
         
         super.campos.add("id_mensaje_privado");
         super.valores.add(idMensajePrivado);
         super.tipoDatos.add(Globales.TipoDato.NUMERO);
-        super.valoresLOV.add(null);
-        super.camposExtrasLOV.add(null);
-        super.tablasForaneas.add(null);
         
         super.campos.add("id_tipo_mensaje");
         super.valores.add(idTipoMensaje);
@@ -88,51 +86,51 @@ public class MensajePrivadoDTO extends DTO{
         super.tipoDatos.add(Globales.TipoDato.BOOLEANO);
     }
 
-    public int getIdMensajePrivado() {
+    public Integer getIdMensajePrivado() {
         return idMensajePrivado;
     }
 
-    public void setIdMensajePrivado(int idMensajePrivado) {
+    public void setIdMensajePrivado(Integer idMensajePrivado) {
         this.idMensajePrivado = idMensajePrivado;
     }
 
-    public int getIdTipoMensaje() {
+    public Integer getIdTipoMensaje() {
         return idTipoMensaje;
     }
 
-    public void setIdTipoMensaje(int idTipoMensaje) {
+    public void setIdTipoMensaje(Integer idTipoMensaje) {
         this.idTipoMensaje = idTipoMensaje;
     }
     
-    public int getIdUsuario() {
+    public Integer getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
+    public void setIdUsuario(Integer idUsuario) {
         this.idUsuario = idUsuario;
     }
 
-    public int getIdMpRelacionado() {
+    public Integer getIdMpRelacionado() {
         return idMpRelacionado;
     }
 
-    public void setIdMpRelacionado(int idMpRelacionado) {
+    public void setIdMpRelacionado(Integer idMpRelacionado) {
         this.idMpRelacionado = idMpRelacionado;
     }
 
-    public int getIdWeb() {
+    public Integer getIdWeb() {
         return idWeb;
     }
 
-    public void setIdWeb(int idWeb) {
+    public void setIdWeb(Integer idWeb) {
         this.idWeb = idWeb;
     }
 
-    public int getIdColaborador() {
+    public Integer getIdColaborador() {
         return idColaborador;
     }
 
-    public void setIdColaborador(int idColaborador) {
+    public void setIdColaborador(Integer idColaborador) {
         this.idColaborador = idColaborador;
     }
 
@@ -152,19 +150,19 @@ public class MensajePrivadoDTO extends DTO{
         this.fecha = fecha;
     }
 
-    public boolean isRecibidoEnviado() {
+    public Boolean isRecibidoEnviado() {
         return recibidoEnviado;
     }
 
-    public void setRecibidoEnviado(boolean recibidoEnviado) {
+    public void setRecibidoEnviado(Boolean recibidoEnviado) {
         this.recibidoEnviado = recibidoEnviado;
     }
 
-    public boolean isAtendido() {
+    public Boolean isAtendido() {
         return atendido;
     }
 
-    public void setAtendido(boolean atendido) {
+    public void setAtendido(Boolean atendido) {
         this.atendido = atendido;
     }
 }
