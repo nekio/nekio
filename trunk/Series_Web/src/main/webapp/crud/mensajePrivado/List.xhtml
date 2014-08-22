@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="MensajePrivadoListForm">
+
+        <p:panel header="#{seriesBundle.ListMensajePrivadoTitle}">
+            <p:contextMenu id="MensajePrivadoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{seriesBundle.Create}" onclick="document.getElementById('MensajePrivadoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{seriesBundle.View}" onclick="document.getElementById('MensajePrivadoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('MensajePrivadoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('MensajePrivadoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{seriesBundle.MensajePrivadoMenuItem_idWeb}" icon="ui-icon-search"  actionListener="#{mensajePrivadoController.prepareIdWeb}" update=":WebViewForm" oncomplete="WebViewDialog.show()" disabled="#{empty mensajePrivadoController.selected.idWeb}"/>  
+                <p:menuitem value="#{seriesBundle.MensajePrivadoMenuItem_idTipoMensaje}" icon="ui-icon-search"  actionListener="#{mensajePrivadoController.prepareIdTipoMensaje}" update=":TipoMensajeViewForm" oncomplete="TipoMensajeViewDialog.show()" disabled="#{empty mensajePrivadoController.selected.idTipoMensaje}"/>  
+                <p:menuitem value="#{seriesBundle.MensajePrivadoMenuItem_idColaborador}" icon="ui-icon-search"  actionListener="#{mensajePrivadoController.prepareIdColaborador}" update=":ColaboradorViewForm" oncomplete="ColaboradorViewDialog.show()" disabled="#{empty mensajePrivadoController.selected.idColaborador}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{mensajePrivadoController.items}"
+                         var="item"
+                         rowKey="#{item.mensajePrivadoPK}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="5,10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{mensajePrivadoController.selected}">
+
+                <p:ajax event="rowSelect"   update=":MensajePrivadoListForm:createButton :MensajePrivadoListForm:viewButton :MensajePrivadoListForm:editButton :MensajePrivadoListForm:deleteButton :MensajePrivadoListForm:MensajePrivadoDataTableContextMenu" listener="#{mensajePrivadoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":MensajePrivadoListForm:createButton :MensajePrivadoListForm:viewButton :MensajePrivadoListForm:editButton :MensajePrivadoListForm:deleteButton :MensajePrivadoListForm:MensajePrivadoDataTableContextMenu" listener="#{mensajePrivadoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('MensajePrivadoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.mensajePrivadoPK.idMensajePrivado}" filterBy="#{item.mensajePrivadoPK.idMensajePrivado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListMensajePrivadoTitle_mensajePrivadoPK_idMensajePrivado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.mensajePrivadoPK.idMensajePrivado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.mensajePrivadoPK.idUsuario}" filterBy="#{item.mensajePrivadoPK.idUsuario}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListMensajePrivadoTitle_mensajePrivadoPK_idUsuario}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.mensajePrivadoPK.idUsuario}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idMpRelacionado}" filterBy="#{item.idMpRelacionado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListMensajePrivadoTitle_idMpRelacionado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idMpRelacionado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.mensaje}" filterBy="#{item.mensaje}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListMensajePrivadoTitle_mensaje}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.mensaje}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fecha}" filterBy="#{item.fecha}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListMensajePrivadoTitle_fecha}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fecha}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.recibidoEnviado}" filterBy="#{item.recibidoEnviado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListMensajePrivadoTitle_recibidoEnviado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.recibidoEnviado}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.atendido}" filterBy="#{item.atendido}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListMensajePrivadoTitle_atendido}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.atendido}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idWeb.descripcion}" filterBy="#{item.idWeb.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListMensajePrivadoTitle_idWeb}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idWeb.descripcion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idTipoMensaje.descripcion}" filterBy="#{item.idTipoMensaje.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListMensajePrivadoTitle_idTipoMensaje}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idTipoMensaje.descripcion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idColaborador.descripcion}" filterBy="#{item.idColaborador.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListMensajePrivadoTitle_idColaborador}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idColaborador.descripcion}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{seriesBundle.Create}" actionListener="#{mensajePrivadoController.prepareCreate}" update=":MensajePrivadoCreateForm" oncomplete="MensajePrivadoCreateDialog.show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{seriesBundle.View}" update=":MensajePrivadoViewForm" oncomplete="MensajePrivadoViewDialog.show()" disabled="#{empty mensajePrivadoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{seriesBundle.Edit}" update=":MensajePrivadoEditForm" oncomplete="MensajePrivadoEditDialog.show()" disabled="#{empty mensajePrivadoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{seriesBundle.Delete}" actionListener="#{mensajePrivadoController.delete}" update=":growl,datalist" disabled="#{empty mensajePrivadoController.selected}"/>
+
+        </p:panel>
+    </h:form>
+
+</ui:composition>

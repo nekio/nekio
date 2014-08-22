@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AlmacenCreateDlg" widgetVar="AlmacenCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{seriesBundle.CreateAlmacenTitle}" closeOnEscape="true">
+
+            <h:form id="AlmacenCreateForm">
+
+                <h:panelGroup id="display" rendered="#{almacenController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{seriesBundle.CreateAlmacenLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{almacenController.selected.descripcion}" title="#{seriesBundle.CreateAlmacenTitle_descripcion}" required="true" requiredMessage="#{seriesBundle.CreateAlmacenRequiredMessage_descripcion}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreateAlmacenLabel_proposito}" for="proposito" />
+                        <p:inputText id="proposito" value="#{almacenController.selected.proposito}" title="#{seriesBundle.CreateAlmacenTitle_proposito}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreateAlmacenLabel_comentarios}" for="comentarios" />
+                        <p:inputText id="comentarios" value="#{almacenController.selected.comentarios}" title="#{seriesBundle.CreateAlmacenTitle_comentarios}" size="200" maxlength="200"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreateAlmacenLabel_capacidad}" for="capacidad" />
+                        <p:inputText id="capacidad" value="#{almacenController.selected.capacidad}" title="#{seriesBundle.CreateAlmacenTitle_capacidad}" required="true" requiredMessage="#{seriesBundle.CreateAlmacenRequiredMessage_capacidad}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreateAlmacenLabel_espacioLibre}" for="espacioLibre" />
+                        <p:inputText id="espacioLibre" value="#{almacenController.selected.espacioLibre}" title="#{seriesBundle.CreateAlmacenTitle_espacioLibre}" size="20" maxlength="20"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{almacenController.saveNew}" value="#{seriesBundle.Save}" update="display,:AlmacenListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,AlmacenCreateDialog);"/>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="AlmacenCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="MensajePrivadoEditDlg" widgetVar="MensajePrivadoEditDialog" modal="true" resizable="false"  appendToBody="true" header="#{seriesBundle.EditMensajePrivadoTitle}" closeOnEscape="true">
+
+            <h:form id="MensajePrivadoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{mensajePrivadoController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditMensajePrivadoLabel_mensajePrivadoPK_idMensajePrivado}" for="mensajePrivadoPK_idMensajePrivado" />
+                        <h:outputText id="mensajePrivadoPK_idMensajePrivado" value="#{mensajePrivadoController.selected.mensajePrivadoPK.idMensajePrivado}" />
+
+
+                        <h:outputLabel value="#{seriesBundle.EditMensajePrivadoLabel_mensajePrivadoPK_idUsuario}" for="mensajePrivadoPK_idUsuario" />
+                        <h:outputText id="mensajePrivadoPK_idUsuario" value="#{mensajePrivadoController.selected.mensajePrivadoPK.idUsuario}" />
+
+                        <p:outputLabel value="#{seriesBundle.EditMensajePrivadoLabel_idMpRelacionado}" for="idMpRelacionado" />
+                        <p:inputText id="idMpRelacionado" value="#{mensajePrivadoController.selected.idMpRelacionado}" title="#{seriesBundle.EditMensajePrivadoTitle_idMpRelacionado}"/>
+
+                        <p:outputLabel value="#{seriesBundle.EditMensajePrivadoLabel_mensaje}" for="mensaje" />
+                        <p:inputTextarea rows="4" cols="30" id="mensaje" value="#{mensajePrivadoController.selected.mensaje}" title="#{seriesBundle.EditMensajePrivadoTitle_mensaje}" required="true" requiredMessage="#{seriesBundle.EditMensajePrivadoRequiredMessage_mensaje}"/>
+
+                        <p:outputLabel value="#{seriesBundle.EditMensajePrivadoLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy HH:mm:ss" value="#{mensajePrivadoController.selected.fecha}" title="#{seriesBundle.EditMensajePrivadoTitle_fecha}" required="true" requiredMessage="#{seriesBundle.EditMensajePrivadoRequiredMessage_fecha}" showOn="button"/>
+
+                        <p:outputLabel value="#{seriesBundle.EditMensajePrivadoLabel_recibidoEnviado}" for="recibidoEnviado" />
+                        <p:inputText id="recibidoEnviado" value="#{mensajePrivadoController.selected.recibidoEnviado}" title="#{seriesBundle.EditMensajePrivadoTitle_recibidoEnviado}" required="true" requiredMessage="#{seriesBundle.EditMensajePrivadoRequiredMessage_recibidoEnviado}"/>
+
+                        <p:outputLabel value="#{seriesBundle.EditMensajePrivadoLabel_atendido}" for="atendido" />
+                        <p:inputText id="atendido" value="#{mensajePrivadoController.selected.atendido}" title="#{seriesBundle.EditMensajePrivadoTitle_atendido}"/>
+
+                        <p:outputLabel value="#{seriesBundle.EditMensajePrivadoLabel_idWeb}" for="idWeb" />
+                        <p:selectOneMenu id="idWeb" value="#{mensajePrivadoController.selected.idWeb}"  converter="webConverter">
+                            <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{webController.items}"
+                                           var="idWebItem"
+                                           itemValue="#{idWebItem}"
+                                           itemLabel="#{idWebItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{seriesBundle.EditMensajePrivadoLabel_idTipoMensaje}" for="idTipoMensaje" />
+                        <p:selectOneMenu id="idTipoMensaje" value="#{mensajePrivadoController.selected.idTipoMensaje}" required="true" requiredMessage="#{seriesBundle.EditMensajePrivadoRequiredMessage_idTipoMensaje}" converter="tipoMensajeConverter">
+                            <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoMensajeController.items}"
+                                           var="idTipoMensajeItem"
+                                           itemValue="#{idTipoMensajeItem}"
+                                           itemLabel="#{idTipoMensajeItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{seriesBundle.EditMensajePrivadoLabel_idColaborador}" for="idColaborador" />
+                        <p:selectOneMenu id="idColaborador" value="#{mensajePrivadoController.selected.idColaborador}"  converter="colaboradorConverter">
+                            <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{colaboradorController.items}"
+                                           var="idColaboradorItem"
+                                           itemValue="#{idColaboradorItem}"
+                                           itemLabel="#{idColaboradorItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{mensajePrivadoController.save}" value="#{seriesBundle.Save}" update="display,:MensajePrivadoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,MensajePrivadoEditDialog);"/>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="MensajePrivadoEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

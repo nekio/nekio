@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="DuracionListForm">
+
+        <p:panel header="#{seriesBundle.ListDuracionTitle}">
+            <p:contextMenu id="DuracionDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{seriesBundle.Create}" onclick="document.getElementById('DuracionListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{seriesBundle.View}" onclick="document.getElementById('DuracionListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('DuracionListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('DuracionListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{seriesBundle.DuracionMenuItem_serieCollection}" icon="ui-icon-search"  action="#{duracionController.navigateSerieCollection}" disabled="#{empty duracionController.selected.serieCollection}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{duracionController.items}"
+                         var="item"
+                         rowKey="#{item.idDuracion}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="5,10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{duracionController.selected}">
+
+                <p:ajax event="rowSelect"   update=":DuracionListForm:createButton :DuracionListForm:viewButton :DuracionListForm:editButton :DuracionListForm:deleteButton :DuracionListForm:DuracionDataTableContextMenu" listener="#{duracionController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":DuracionListForm:createButton :DuracionListForm:viewButton :DuracionListForm:editButton :DuracionListForm:deleteButton :DuracionListForm:DuracionDataTableContextMenu" listener="#{duracionController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('DuracionListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idDuracion}" filterBy="#{item.idDuracion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListDuracionTitle_idDuracion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idDuracion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListDuracionTitle_descripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{seriesBundle.Create}" actionListener="#{duracionController.prepareCreate}" update=":DuracionCreateForm" oncomplete="DuracionCreateDialog.show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{seriesBundle.View}" update=":DuracionViewForm" oncomplete="DuracionViewDialog.show()" disabled="#{empty duracionController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{seriesBundle.Edit}" update=":DuracionEditForm" oncomplete="DuracionEditDialog.show()" disabled="#{empty duracionController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{seriesBundle.Delete}" actionListener="#{duracionController.delete}" update=":growl,datalist" disabled="#{empty duracionController.selected}"/>
+
+        </p:panel>
+    </h:form>
+
+</ui:composition>

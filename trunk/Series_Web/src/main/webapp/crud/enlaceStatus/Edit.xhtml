@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EnlaceStatusEditDlg" widgetVar="EnlaceStatusEditDialog" modal="true" resizable="false"  appendToBody="true" header="#{seriesBundle.EditEnlaceStatusTitle}" closeOnEscape="true">
+
+            <h:form id="EnlaceStatusEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{enlaceStatusController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditEnlaceStatusLabel_idEnlaceStatus}" for="idEnlaceStatus" />
+                        <h:outputText id="idEnlaceStatus" value="#{enlaceStatusController.selected.idEnlaceStatus}" />
+
+                        <p:outputLabel value="#{seriesBundle.EditEnlaceStatusLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{enlaceStatusController.selected.descripcion}" title="#{seriesBundle.EditEnlaceStatusTitle_descripcion}" required="true" requiredMessage="#{seriesBundle.EditEnlaceStatusRequiredMessage_descripcion}" size="40" maxlength="40"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{enlaceStatusController.save}" value="#{seriesBundle.Save}" update="display,:EnlaceStatusListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,EnlaceStatusEditDialog);"/>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="EnlaceStatusEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

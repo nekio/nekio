@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PesoCreateDlg" widgetVar="PesoCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{seriesBundle.CreatePesoTitle}" closeOnEscape="true">
+
+            <h:form id="PesoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{pesoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{seriesBundle.CreatePesoLabel_idRango}" for="idRango" />
+                        <p:inputText id="idRango" value="#{pesoController.selected.idRango}" title="#{seriesBundle.CreatePesoTitle_idRango}" required="true" requiredMessage="#{seriesBundle.CreatePesoRequiredMessage_idRango}"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreatePesoLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{pesoController.selected.descripcion}" title="#{seriesBundle.CreatePesoTitle_descripcion}" size="20" maxlength="20"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{pesoController.saveNew}" value="#{seriesBundle.Save}" update="display,:PesoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PesoCreateDialog);"/>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PesoCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

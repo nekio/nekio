@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ProyectoListForm">
+
+        <p:panel header="#{seriesBundle.ListProyectoTitle}">
+            <p:contextMenu id="ProyectoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{seriesBundle.Create}" onclick="document.getElementById('ProyectoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{seriesBundle.View}" onclick="document.getElementById('ProyectoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('ProyectoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('ProyectoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{seriesBundle.ProyectoMenuItem_idPeso}" icon="ui-icon-search"  actionListener="#{proyectoController.prepareIdPeso}" update=":PesoViewForm" oncomplete="PesoViewDialog.show()" disabled="#{empty proyectoController.selected.idPeso}"/>  
+                <p:menuitem value="#{seriesBundle.ProyectoMenuItem_idCalidad}" icon="ui-icon-search"  actionListener="#{proyectoController.prepareIdCalidad}" update=":CalidadViewForm" oncomplete="CalidadViewDialog.show()" disabled="#{empty proyectoController.selected.idCalidad}"/>  
+                <p:menuitem value="#{seriesBundle.ProyectoMenuItem_idFormato}" icon="ui-icon-search"  actionListener="#{proyectoController.prepareIdFormato}" update=":FormatoViewForm" oncomplete="FormatoViewDialog.show()" disabled="#{empty proyectoController.selected.idFormato}"/>  
+                <p:menuitem value="#{seriesBundle.ProyectoMenuItem_idIdioma}" icon="ui-icon-search"  actionListener="#{proyectoController.prepareIdIdioma}" update=":IdiomaViewForm" oncomplete="IdiomaViewDialog.show()" disabled="#{empty proyectoController.selected.idIdioma}"/>  
+                <p:menuitem value="#{seriesBundle.ProyectoMenuItem_idWeb}" icon="ui-icon-search"  actionListener="#{proyectoController.prepareIdWeb}" update=":WebViewForm" oncomplete="WebViewDialog.show()" disabled="#{empty proyectoController.selected.idWeb}"/>  
+                <p:menuitem value="#{seriesBundle.ProyectoMenuItem_idSerie}" icon="ui-icon-search"  actionListener="#{proyectoController.prepareIdSerie}" update=":SerieViewForm" oncomplete="SerieViewDialog.show()" disabled="#{empty proyectoController.selected.idSerie}"/>  
+                <p:menuitem value="#{seriesBundle.ProyectoMenuItem_idEstadoProyecto}" icon="ui-icon-search"  actionListener="#{proyectoController.prepareIdEstadoProyecto}" update=":EstadoProyectoViewForm" oncomplete="EstadoProyectoViewDialog.show()" disabled="#{empty proyectoController.selected.idEstadoProyecto}"/>  
+                <p:menuitem value="#{seriesBundle.ProyectoMenuItem_proyectoDetCollection}" icon="ui-icon-search"  action="#{proyectoController.navigateProyectoDetCollection}" disabled="#{empty proyectoController.selected.proyectoDetCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.ProyectoMenuItem_passwordCollection}" icon="ui-icon-search"  action="#{proyectoController.navigatePasswordCollection}" disabled="#{empty proyectoController.selected.passwordCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.ProyectoMenuItem_pendienteCollection}" icon="ui-icon-search"  action="#{proyectoController.navigatePendienteCollection}" disabled="#{empty proyectoController.selected.pendienteCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.ProyectoMenuItem_enlaceCollection}" icon="ui-icon-search"  action="#{proyectoController.navigateEnlaceCollection}" disabled="#{empty proyectoController.selected.enlaceCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.ProyectoMenuItem_obtenidoCollection}" icon="ui-icon-search"  action="#{proyectoController.navigateObtenidoCollection}" disabled="#{empty proyectoController.selected.obtenidoCollection}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{proyectoController.items}"
+                         var="item"
+                         rowKey="#{item.idProyecto}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="5,10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{proyectoController.selected}">
+
+                <p:ajax event="rowSelect"   update=":ProyectoListForm:createButton :ProyectoListForm:viewButton :ProyectoListForm:editButton :ProyectoListForm:deleteButton :ProyectoListForm:ProyectoDataTableContextMenu" listener="#{proyectoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":ProyectoListForm:createButton :ProyectoListForm:viewButton :ProyectoListForm:editButton :ProyectoListForm:deleteButton :ProyectoListForm:ProyectoDataTableContextMenu" listener="#{proyectoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ProyectoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idProyecto}" filterBy="#{item.idProyecto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListProyectoTitle_idProyecto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idProyecto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idRango}" filterBy="#{item.idRango}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListProyectoTitle_idRango}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idRango}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaInicio}" filterBy="#{item.fechaInicio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListProyectoTitle_fechaInicio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaInicio}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaFin}" filterBy="#{item.fechaFin}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListProyectoTitle_fechaFin}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaFin}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.episodiosSubir}" filterBy="#{item.episodiosSubir}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListProyectoTitle_episodiosSubir}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.episodiosSubir}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.episodiosSubidos}" filterBy="#{item.episodiosSubidos}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListProyectoTitle_episodiosSubidos}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.episodiosSubidos}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.enlace}" filterBy="#{item.enlace}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListProyectoTitle_enlace}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.enlace}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.comentario}" filterBy="#{item.comentario}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListProyectoTitle_comentario}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.comentario}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.enlaces}" filterBy="#{item.enlaces}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListProyectoTitle_enlaces}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.enlaces}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idPeso.descripcion}" filterBy="#{item.idPeso.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListProyectoTitle_idPeso}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idPeso.descripcion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idCalidad.descripcion}" filterBy="#{item.idCalidad.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListProyectoTitle_idCalidad}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idCalidad.descripcion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idFormato.descripcion}" filterBy="#{item.idFormato.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListProyectoTitle_idFormato}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idFormato.descripcion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idIdioma.descripcion}" filterBy="#{item.idIdioma.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListProyectoTitle_idIdioma}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idIdioma.descripcion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idWeb.descripcion}" filterBy="#{item.idWeb.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListProyectoTitle_idWeb}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idWeb.descripcion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idSerie.idSerie}" filterBy="#{item.idSerie.idSerie}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListProyectoTitle_idSerie}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idSerie.idSerie}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idEstadoProyecto.descripcion}" filterBy="#{item.idEstadoProyecto.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListProyectoTitle_idEstadoProyecto}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idEstadoProyecto.descripcion}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{seriesBundle.Create}" actionListener="#{proyectoController.prepareCreate}" update=":ProyectoCreateForm" oncomplete="ProyectoCreateDialog.show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{seriesBundle.View}" update=":ProyectoViewForm" oncomplete="ProyectoViewDialog.show()" disabled="#{empty proyectoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{seriesBundle.Edit}" update=":ProyectoEditForm" oncomplete="ProyectoEditDialog.show()" disabled="#{empty proyectoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{seriesBundle.Delete}" actionListener="#{proyectoController.delete}" update=":growl,datalist" disabled="#{empty proyectoController.selected}"/>
+
+        </p:panel>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ColaboradorViewDlg" widgetVar="ColaboradorViewDialog" modal="true" resizable="false"  appendToBody="true" header="#{seriesBundle.ViewColaboradorTitle}" closeOnEscape="true">
+
+            <h:form id="ColaboradorViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{colaboradorController.selected != null}">
+
+                        <h:outputText value="#{seriesBundle.ViewColaboradorLabel_idColaborador}"/>
+                        <h:outputText value="#{colaboradorController.selected.idColaborador}" title="#{seriesBundle.ViewColaboradorTitle_idColaborador}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewColaboradorLabel_idImagen}"/>
+                        <h:outputText value="#{colaboradorController.selected.idImagen}" title="#{seriesBundle.ViewColaboradorTitle_idImagen}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewColaboradorLabel_idRango}"/>
+                        <h:outputText value="#{colaboradorController.selected.idRango}" title="#{seriesBundle.ViewColaboradorTitle_idRango}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewColaboradorLabel_descripcion}"/>
+                        <h:outputText value="#{colaboradorController.selected.descripcion}" title="#{seriesBundle.ViewColaboradorTitle_descripcion}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewColaboradorLabel_sexo}"/>
+                        <h:outputText value="#{colaboradorController.selected.sexo}" title="#{seriesBundle.ViewColaboradorTitle_sexo}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewColaboradorLabel_contacto}"/>
+                        <h:outputText value="#{colaboradorController.selected.contacto}" title="#{seriesBundle.ViewColaboradorTitle_contacto}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewColaboradorLabel_idPais}"/>
+                        <h:outputText value="#{colaboradorController.selected.idPais.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="ColaboradorViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

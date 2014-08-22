@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="FormatoEditDlg" widgetVar="FormatoEditDialog" modal="true" resizable="false"  appendToBody="true" header="#{seriesBundle.EditFormatoTitle}" closeOnEscape="true">
+
+            <h:form id="FormatoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{formatoController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditFormatoLabel_idFormato}" for="idFormato" />
+                        <h:outputText id="idFormato" value="#{formatoController.selected.idFormato}" />
+
+                        <p:outputLabel value="#{seriesBundle.EditFormatoLabel_idRango}" for="idRango" />
+                        <p:inputText id="idRango" value="#{formatoController.selected.idRango}" title="#{seriesBundle.EditFormatoTitle_idRango}" required="true" requiredMessage="#{seriesBundle.EditFormatoRequiredMessage_idRango}"/>
+
+                        <p:outputLabel value="#{seriesBundle.EditFormatoLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{formatoController.selected.descripcion}" title="#{seriesBundle.EditFormatoTitle_descripcion}" size="20" maxlength="20"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{formatoController.save}" value="#{seriesBundle.Save}" update="display,:FormatoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,FormatoEditDialog);"/>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="FormatoEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

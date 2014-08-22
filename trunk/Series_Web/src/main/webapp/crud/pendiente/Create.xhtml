@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PendienteCreateDlg" widgetVar="PendienteCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{seriesBundle.CreatePendienteTitle}" closeOnEscape="true">
+
+            <h:form id="PendienteCreateForm">
+
+                <h:panelGroup id="display" rendered="#{pendienteController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{seriesBundle.CreatePendienteLabel_idRango}" for="idRango" />
+                        <p:inputText id="idRango" value="#{pendienteController.selected.idRango}" title="#{seriesBundle.CreatePendienteTitle_idRango}" required="true" requiredMessage="#{seriesBundle.CreatePendienteRequiredMessage_idRango}"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreatePendienteLabel_pendiente}" for="pendiente" />
+                        <p:inputText id="pendiente" value="#{pendienteController.selected.pendiente}" title="#{seriesBundle.CreatePendienteTitle_pendiente}" required="true" requiredMessage="#{seriesBundle.CreatePendienteRequiredMessage_pendiente}" size="80" maxlength="80"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreatePendienteLabel_detalle}" for="detalle" />
+                        <p:inputText id="detalle" value="#{pendienteController.selected.detalle}" title="#{seriesBundle.CreatePendienteTitle_detalle}" required="true" requiredMessage="#{seriesBundle.CreatePendienteRequiredMessage_detalle}" size="80" maxlength="80"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreatePendienteLabel_fechaRevision}" for="fechaRevision" />
+                        <p:calendar id="fechaRevision" pattern="MM/dd/yyyy HH:mm:ss" value="#{pendienteController.selected.fechaRevision}" title="#{seriesBundle.CreatePendienteTitle_fechaRevision}" required="true" requiredMessage="#{seriesBundle.CreatePendienteRequiredMessage_fechaRevision}" showOn="button"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreatePendienteLabel_enlace}" for="enlace" />
+                        <p:inputTextarea rows="4" cols="30" id="enlace" value="#{pendienteController.selected.enlace}" title="#{seriesBundle.CreatePendienteTitle_enlace}" />
+
+                        <p:outputLabel value="#{seriesBundle.CreatePendienteLabel_comentarios}" for="comentarios" />
+                        <p:inputText id="comentarios" value="#{pendienteController.selected.comentarios}" title="#{seriesBundle.CreatePendienteTitle_comentarios}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreatePendienteLabel_idProyecto}" for="idProyecto" />
+                        <p:selectOneMenu id="idProyecto" value="#{pendienteController.selected.idProyecto}"  converter="proyectoConverter">
+                            <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{proyectoController.items}"
+                                           var="idProyectoItem"
+                                           itemValue="#{idProyectoItem}"
+                                           itemLabel="#{idProyectoItem.idProyecto.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{seriesBundle.CreatePendienteLabel_idEpisodio}" for="idEpisodio" />
+                        <p:selectOneMenu id="idEpisodio" value="#{pendienteController.selected.idEpisodio}"  converter="episodioConverter">
+                            <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{episodioController.items}"
+                                           var="idEpisodioItem"
+                                           itemValue="#{idEpisodioItem}"
+                                           itemLabel="#{idEpisodioItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{pendienteController.saveNew}" value="#{seriesBundle.Save}" update="display,:PendienteListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PendienteCreateDialog);"/>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PendienteCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

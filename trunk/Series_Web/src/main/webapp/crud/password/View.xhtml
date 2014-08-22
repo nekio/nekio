@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PasswordViewDlg" widgetVar="PasswordViewDialog" modal="true" resizable="false"  appendToBody="true" header="#{seriesBundle.ViewPasswordTitle}" closeOnEscape="true">
+
+            <h:form id="PasswordViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{passwordController.selected != null}">
+
+                        <h:outputText value="#{seriesBundle.ViewPasswordLabel_idPassword}"/>
+                        <h:outputText value="#{passwordController.selected.idPassword}" title="#{seriesBundle.ViewPasswordTitle_idPassword}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewPasswordLabel_idRango}"/>
+                        <h:outputText value="#{passwordController.selected.idRango}" title="#{seriesBundle.ViewPasswordTitle_idRango}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewPasswordLabel_password}"/>
+                        <h:outputText value="#{passwordController.selected.password}" title="#{seriesBundle.ViewPasswordTitle_password}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewPasswordLabel_comentarios}"/>
+                        <h:outputText value="#{passwordController.selected.comentarios}" title="#{seriesBundle.ViewPasswordTitle_comentarios}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewPasswordLabel_idProyecto}"/>
+                        <h:outputText value="#{passwordController.selected.idProyecto.idProyecto}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewPasswordLabel_idSerie}"/>
+                        <h:outputText value="#{passwordController.selected.idSerie.idSerie}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewPasswordLabel_idEpisodio}"/>
+                        <h:outputText value="#{passwordController.selected.idEpisodio.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="PasswordViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

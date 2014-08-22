@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ColaboradorCreateDlg" widgetVar="ColaboradorCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{seriesBundle.CreateColaboradorTitle}" closeOnEscape="true">
+
+            <h:form id="ColaboradorCreateForm">
+
+                <h:panelGroup id="display" rendered="#{colaboradorController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{seriesBundle.CreateColaboradorLabel_idImagen}" for="idImagen" />
+                        <p:inputText id="idImagen" value="#{colaboradorController.selected.idImagen}" title="#{seriesBundle.CreateColaboradorTitle_idImagen}"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreateColaboradorLabel_idRango}" for="idRango" />
+                        <p:inputText id="idRango" value="#{colaboradorController.selected.idRango}" title="#{seriesBundle.CreateColaboradorTitle_idRango}" required="true" requiredMessage="#{seriesBundle.CreateColaboradorRequiredMessage_idRango}"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreateColaboradorLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{colaboradorController.selected.descripcion}" title="#{seriesBundle.CreateColaboradorTitle_descripcion}" required="true" requiredMessage="#{seriesBundle.CreateColaboradorRequiredMessage_descripcion}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreateColaboradorLabel_sexo}" for="sexo" />
+                        <p:inputText id="sexo" value="#{colaboradorController.selected.sexo}" title="#{seriesBundle.CreateColaboradorTitle_sexo}"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreateColaboradorLabel_contacto}" for="contacto" />
+                        <p:inputText id="contacto" value="#{colaboradorController.selected.contacto}" title="#{seriesBundle.CreateColaboradorTitle_contacto}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreateColaboradorLabel_idPais}" for="idPais" />
+                        <p:selectOneMenu id="idPais" value="#{colaboradorController.selected.idPais}"  converter="paisConverter">
+                            <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{paisController.items}"
+                                           var="idPaisItem"
+                                           itemValue="#{idPaisItem}"
+                                           itemLabel="#{idPaisItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{colaboradorController.saveNew}" value="#{seriesBundle.Save}" update="display,:ColaboradorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,ColaboradorCreateDialog);"/>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="ColaboradorCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

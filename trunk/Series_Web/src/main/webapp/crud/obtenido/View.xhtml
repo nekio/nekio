@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ObtenidoViewDlg" widgetVar="ObtenidoViewDialog" modal="true" resizable="false"  appendToBody="true" header="#{seriesBundle.ViewObtenidoTitle}" closeOnEscape="true">
+
+            <h:form id="ObtenidoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{obtenidoController.selected != null}">
+
+                        <h:outputText value="#{seriesBundle.ViewObtenidoLabel_idObtenido}"/>
+                        <h:outputText value="#{obtenidoController.selected.idObtenido}" title="#{seriesBundle.ViewObtenidoTitle_idObtenido}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewObtenidoLabel_fechaObtencion}"/>
+                        <h:outputText value="#{obtenidoController.selected.fechaObtencion}" title="#{seriesBundle.ViewObtenidoTitle_fechaObtencion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{seriesBundle.ViewObtenidoLabel_nombreArchivo}"/>
+                        <h:outputText value="#{obtenidoController.selected.nombreArchivo}" title="#{seriesBundle.ViewObtenidoTitle_nombreArchivo}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewObtenidoLabel_pesoArchivo}"/>
+                        <h:outputText value="#{obtenidoController.selected.pesoArchivo}" title="#{seriesBundle.ViewObtenidoTitle_pesoArchivo}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewObtenidoLabel_unidadPeso}"/>
+                        <h:outputText value="#{obtenidoController.selected.unidadPeso}" title="#{seriesBundle.ViewObtenidoTitle_unidadPeso}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewObtenidoLabel_comentarios}"/>
+                        <h:outputText value="#{obtenidoController.selected.comentarios}" title="#{seriesBundle.ViewObtenidoTitle_comentarios}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewObtenidoLabel_idAudio}"/>
+                        <h:outputText value="#{obtenidoController.selected.idAudio.descripcion}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewObtenidoLabel_idAlmacen}"/>
+                        <h:outputText value="#{obtenidoController.selected.idAlmacen.descripcion}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewObtenidoLabel_idProyecto}"/>
+                        <h:outputText value="#{obtenidoController.selected.idProyecto.idProyecto}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewObtenidoLabel_idEpisodio}"/>
+                        <h:outputText value="#{obtenidoController.selected.idEpisodio.descripcion}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewObtenidoLabel_idSubtitulo}"/>
+                        <h:outputText value="#{obtenidoController.selected.idSubtitulo.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="ObtenidoViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

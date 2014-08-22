@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoEpisodioCreateDlg" widgetVar="TipoEpisodioCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{seriesBundle.CreateTipoEpisodioTitle}" closeOnEscape="true">
+
+            <h:form id="TipoEpisodioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tipoEpisodioController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{seriesBundle.CreateTipoEpisodioLabel_idRango}" for="idRango" />
+                        <p:inputText id="idRango" value="#{tipoEpisodioController.selected.idRango}" title="#{seriesBundle.CreateTipoEpisodioTitle_idRango}" required="true" requiredMessage="#{seriesBundle.CreateTipoEpisodioRequiredMessage_idRango}"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreateTipoEpisodioLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{tipoEpisodioController.selected.descripcion}" title="#{seriesBundle.CreateTipoEpisodioTitle_descripcion}" size="20" maxlength="20"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoEpisodioController.saveNew}" value="#{seriesBundle.Save}" update="display,:TipoEpisodioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,TipoEpisodioCreateDialog);"/>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="TipoEpisodioCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

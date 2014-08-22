@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="CalidadEditDlg" widgetVar="CalidadEditDialog" modal="true" resizable="false"  appendToBody="true" header="#{seriesBundle.EditCalidadTitle}" closeOnEscape="true">
+
+            <h:form id="CalidadEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{calidadController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditCalidadLabel_idCalidad}" for="idCalidad" />
+                        <h:outputText id="idCalidad" value="#{calidadController.selected.idCalidad}" />
+
+                        <p:outputLabel value="#{seriesBundle.EditCalidadLabel_idRango}" for="idRango" />
+                        <p:inputText id="idRango" value="#{calidadController.selected.idRango}" title="#{seriesBundle.EditCalidadTitle_idRango}" required="true" requiredMessage="#{seriesBundle.EditCalidadRequiredMessage_idRango}"/>
+
+                        <p:outputLabel value="#{seriesBundle.EditCalidadLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{calidadController.selected.descripcion}" title="#{seriesBundle.EditCalidadTitle_descripcion}" size="20" maxlength="20"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{calidadController.save}" value="#{seriesBundle.Save}" update="display,:CalidadListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,CalidadEditDialog);"/>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="CalidadEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>
