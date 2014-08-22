@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EstadoProyectoViewDlg" widgetVar="EstadoProyectoViewDialog" modal="true" resizable="false"  appendToBody="true" header="#{seriesBundle.ViewEstadoProyectoTitle}" closeOnEscape="true">
+
+            <h:form id="EstadoProyectoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{estadoProyectoController.selected != null}">
+
+                        <h:outputText value="#{seriesBundle.ViewEstadoProyectoLabel_idEstadoProyecto}"/>
+                        <h:outputText value="#{estadoProyectoController.selected.idEstadoProyecto}" title="#{seriesBundle.ViewEstadoProyectoTitle_idEstadoProyecto}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewEstadoProyectoLabel_descripcion}"/>
+                        <h:outputText value="#{estadoProyectoController.selected.descripcion}" title="#{seriesBundle.ViewEstadoProyectoTitle_descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="EstadoProyectoViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

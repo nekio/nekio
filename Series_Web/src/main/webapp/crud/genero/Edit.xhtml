@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="GeneroEditDlg" widgetVar="GeneroEditDialog" modal="true" resizable="false"  appendToBody="true" header="#{seriesBundle.EditGeneroTitle}" closeOnEscape="true">
+
+            <h:form id="GeneroEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{generoController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditGeneroLabel_idGenero}" for="idGenero" />
+                        <h:outputText id="idGenero" value="#{generoController.selected.idGenero}" />
+
+                        <p:outputLabel value="#{seriesBundle.EditGeneroLabel_idRango}" for="idRango" />
+                        <p:inputText id="idRango" value="#{generoController.selected.idRango}" title="#{seriesBundle.EditGeneroTitle_idRango}" required="true" requiredMessage="#{seriesBundle.EditGeneroRequiredMessage_idRango}"/>
+
+                        <p:outputLabel value="#{seriesBundle.EditGeneroLabel_genero}" for="genero" />
+                        <p:inputText id="genero" value="#{generoController.selected.genero}" title="#{seriesBundle.EditGeneroTitle_genero}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{seriesBundle.EditGeneroLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{generoController.selected.descripcion}" title="#{seriesBundle.EditGeneroTitle_descripcion}" size="255" maxlength="255"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{generoController.save}" value="#{seriesBundle.Save}" update="display,:GeneroListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,GeneroEditDialog);"/>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="GeneroEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

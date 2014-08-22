@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ClasificacionViewDlg" widgetVar="ClasificacionViewDialog" modal="true" resizable="false"  appendToBody="true" header="#{seriesBundle.ViewClasificacionTitle}" closeOnEscape="true">
+
+            <h:form id="ClasificacionViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{clasificacionController.selected != null}">
+
+                        <h:outputText value="#{seriesBundle.ViewClasificacionLabel_idClasificacion}"/>
+                        <h:outputText value="#{clasificacionController.selected.idClasificacion}" title="#{seriesBundle.ViewClasificacionTitle_idClasificacion}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewClasificacionLabel_siglas}"/>
+                        <h:outputText value="#{clasificacionController.selected.siglas}" title="#{seriesBundle.ViewClasificacionTitle_siglas}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewClasificacionLabel_descripcion}"/>
+                        <h:outputText value="#{clasificacionController.selected.descripcion}" title="#{seriesBundle.ViewClasificacionTitle_descripcion}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewClasificacionLabel_comentarios}"/>
+                        <h:outputText value="#{clasificacionController.selected.comentarios}" title="#{seriesBundle.ViewClasificacionTitle_comentarios}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewClasificacionLabel_minimoEdad}"/>
+                        <h:outputText value="#{clasificacionController.selected.minimoEdad}" title="#{seriesBundle.ViewClasificacionTitle_minimoEdad}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="ClasificacionViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

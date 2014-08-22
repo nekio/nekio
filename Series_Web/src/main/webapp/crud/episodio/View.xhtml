@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EpisodioViewDlg" widgetVar="EpisodioViewDialog" modal="true" resizable="false"  appendToBody="true" header="#{seriesBundle.ViewEpisodioTitle}" closeOnEscape="true">
+
+            <h:form id="EpisodioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{episodioController.selected != null}">
+
+                        <h:outputText value="#{seriesBundle.ViewEpisodioLabel_idEpisodio}"/>
+                        <h:outputText value="#{episodioController.selected.idEpisodio}" title="#{seriesBundle.ViewEpisodioTitle_idEpisodio}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewEpisodioLabel_temporada}"/>
+                        <h:outputText value="#{episodioController.selected.temporada}" title="#{seriesBundle.ViewEpisodioTitle_temporada}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewEpisodioLabel_numEpisodioSerie}"/>
+                        <h:outputText value="#{episodioController.selected.numEpisodioSerie}" title="#{seriesBundle.ViewEpisodioTitle_numEpisodioSerie}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewEpisodioLabel_numEpisodioTemp}"/>
+                        <h:outputText value="#{episodioController.selected.numEpisodioTemp}" title="#{seriesBundle.ViewEpisodioTitle_numEpisodioTemp}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewEpisodioLabel_descripcion}"/>
+                        <h:outputText value="#{episodioController.selected.descripcion}" title="#{seriesBundle.ViewEpisodioTitle_descripcion}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewEpisodioLabel_tituloAlternativo}"/>
+                        <h:outputText value="#{episodioController.selected.tituloAlternativo}" title="#{seriesBundle.ViewEpisodioTitle_tituloAlternativo}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewEpisodioLabel_idSerie}"/>
+                        <h:outputText value="#{episodioController.selected.idSerie.idSerie}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewEpisodioLabel_idTipoEpisodio}"/>
+                        <h:outputText value="#{episodioController.selected.idTipoEpisodio.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="EpisodioViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

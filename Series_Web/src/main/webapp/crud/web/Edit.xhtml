@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="WebEditDlg" widgetVar="WebEditDialog" modal="true" resizable="false"  appendToBody="true" header="#{seriesBundle.EditWebTitle}" closeOnEscape="true">
+
+            <h:form id="WebEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{webController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditWebLabel_idWeb}" for="idWeb" />
+                        <h:outputText id="idWeb" value="#{webController.selected.idWeb}" />
+
+                        <p:outputLabel value="#{seriesBundle.EditWebLabel_idImagen}" for="idImagen" />
+                        <p:inputText id="idImagen" value="#{webController.selected.idImagen}" title="#{seriesBundle.EditWebTitle_idImagen}"/>
+
+                        <p:outputLabel value="#{seriesBundle.EditWebLabel_idRango}" for="idRango" />
+                        <p:inputText id="idRango" value="#{webController.selected.idRango}" title="#{seriesBundle.EditWebTitle_idRango}" required="true" requiredMessage="#{seriesBundle.EditWebRequiredMessage_idRango}"/>
+
+                        <p:outputLabel value="#{seriesBundle.EditWebLabel_titulo}" for="titulo" />
+                        <p:inputText id="titulo" value="#{webController.selected.titulo}" title="#{seriesBundle.EditWebTitle_titulo}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{seriesBundle.EditWebLabel_siglas}" for="siglas" />
+                        <p:inputText id="siglas" value="#{webController.selected.siglas}" title="#{seriesBundle.EditWebTitle_siglas}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{seriesBundle.EditWebLabel_facebook}" for="facebook" />
+                        <p:inputText id="facebook" value="#{webController.selected.facebook}" title="#{seriesBundle.EditWebTitle_facebook}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{seriesBundle.EditWebLabel_pagina}" for="pagina" />
+                        <p:inputText id="pagina" value="#{webController.selected.pagina}" title="#{seriesBundle.EditWebTitle_pagina}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{seriesBundle.EditWebLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{webController.selected.descripcion}" title="#{seriesBundle.EditWebTitle_descripcion}" size="100" maxlength="100"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{webController.save}" value="#{seriesBundle.Save}" update="display,:WebListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,WebEditDialog);"/>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="WebEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

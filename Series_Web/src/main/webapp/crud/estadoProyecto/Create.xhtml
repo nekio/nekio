@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EstadoProyectoCreateDlg" widgetVar="EstadoProyectoCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{seriesBundle.CreateEstadoProyectoTitle}" closeOnEscape="true">
+
+            <h:form id="EstadoProyectoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{estadoProyectoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{seriesBundle.CreateEstadoProyectoLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{estadoProyectoController.selected.descripcion}" title="#{seriesBundle.CreateEstadoProyectoTitle_descripcion}" size="20" maxlength="20"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{estadoProyectoController.saveNew}" value="#{seriesBundle.Save}" update="display,:EstadoProyectoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,EstadoProyectoCreateDialog);"/>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="EstadoProyectoCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

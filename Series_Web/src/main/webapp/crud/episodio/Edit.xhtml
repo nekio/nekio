@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EpisodioEditDlg" widgetVar="EpisodioEditDialog" modal="true" resizable="false"  appendToBody="true" header="#{seriesBundle.EditEpisodioTitle}" closeOnEscape="true">
+
+            <h:form id="EpisodioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{episodioController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditEpisodioLabel_idEpisodio}" for="idEpisodio" />
+                        <h:outputText id="idEpisodio" value="#{episodioController.selected.idEpisodio}" />
+
+                        <p:outputLabel value="#{seriesBundle.EditEpisodioLabel_temporada}" for="temporada" />
+                        <p:inputText id="temporada" value="#{episodioController.selected.temporada}" title="#{seriesBundle.EditEpisodioTitle_temporada}"/>
+
+                        <p:outputLabel value="#{seriesBundle.EditEpisodioLabel_numEpisodioSerie}" for="numEpisodioSerie" />
+                        <p:inputText id="numEpisodioSerie" value="#{episodioController.selected.numEpisodioSerie}" title="#{seriesBundle.EditEpisodioTitle_numEpisodioSerie}"/>
+
+                        <p:outputLabel value="#{seriesBundle.EditEpisodioLabel_numEpisodioTemp}" for="numEpisodioTemp" />
+                        <p:inputText id="numEpisodioTemp" value="#{episodioController.selected.numEpisodioTemp}" title="#{seriesBundle.EditEpisodioTitle_numEpisodioTemp}"/>
+
+                        <p:outputLabel value="#{seriesBundle.EditEpisodioLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{episodioController.selected.descripcion}" title="#{seriesBundle.EditEpisodioTitle_descripcion}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{seriesBundle.EditEpisodioLabel_tituloAlternativo}" for="tituloAlternativo" />
+                        <p:inputText id="tituloAlternativo" value="#{episodioController.selected.tituloAlternativo}" title="#{seriesBundle.EditEpisodioTitle_tituloAlternativo}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{seriesBundle.EditEpisodioLabel_idSerie}" for="idSerie" />
+                        <p:selectOneMenu id="idSerie" value="#{episodioController.selected.idSerie}" required="true" requiredMessage="#{seriesBundle.EditEpisodioRequiredMessage_idSerie}" converter="serieConverter">
+                            <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{serieController.items}"
+                                           var="idSerieItem"
+                                           itemValue="#{idSerieItem}"
+                                           itemLabel="#{idSerieItem.idSerie.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{seriesBundle.EditEpisodioLabel_idTipoEpisodio}" for="idTipoEpisodio" />
+                        <p:selectOneMenu id="idTipoEpisodio" value="#{episodioController.selected.idTipoEpisodio}"  converter="tipoEpisodioConverter">
+                            <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoEpisodioController.items}"
+                                           var="idTipoEpisodioItem"
+                                           itemValue="#{idTipoEpisodioItem}"
+                                           itemLabel="#{idTipoEpisodioItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{episodioController.save}" value="#{seriesBundle.Save}" update="display,:EpisodioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,EpisodioEditDialog);"/>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="EpisodioEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

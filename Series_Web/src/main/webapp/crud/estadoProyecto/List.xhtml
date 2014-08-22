@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="EstadoProyectoListForm">
+
+        <p:panel header="#{seriesBundle.ListEstadoProyectoTitle}">
+            <p:contextMenu id="EstadoProyectoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{seriesBundle.Create}" onclick="document.getElementById('EstadoProyectoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{seriesBundle.View}" onclick="document.getElementById('EstadoProyectoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('EstadoProyectoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('EstadoProyectoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{seriesBundle.EstadoProyectoMenuItem_proyectoCollection}" icon="ui-icon-search"  action="#{estadoProyectoController.navigateProyectoCollection}" disabled="#{empty estadoProyectoController.selected.proyectoCollection}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{estadoProyectoController.items}"
+                         var="item"
+                         rowKey="#{item.idEstadoProyecto}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="5,10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{estadoProyectoController.selected}">
+
+                <p:ajax event="rowSelect"   update=":EstadoProyectoListForm:createButton :EstadoProyectoListForm:viewButton :EstadoProyectoListForm:editButton :EstadoProyectoListForm:deleteButton :EstadoProyectoListForm:EstadoProyectoDataTableContextMenu" listener="#{estadoProyectoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":EstadoProyectoListForm:createButton :EstadoProyectoListForm:viewButton :EstadoProyectoListForm:editButton :EstadoProyectoListForm:deleteButton :EstadoProyectoListForm:EstadoProyectoDataTableContextMenu" listener="#{estadoProyectoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('EstadoProyectoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idEstadoProyecto}" filterBy="#{item.idEstadoProyecto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListEstadoProyectoTitle_idEstadoProyecto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idEstadoProyecto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListEstadoProyectoTitle_descripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{seriesBundle.Create}" actionListener="#{estadoProyectoController.prepareCreate}" update=":EstadoProyectoCreateForm" oncomplete="EstadoProyectoCreateDialog.show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{seriesBundle.View}" update=":EstadoProyectoViewForm" oncomplete="EstadoProyectoViewDialog.show()" disabled="#{empty estadoProyectoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{seriesBundle.Edit}" update=":EstadoProyectoEditForm" oncomplete="EstadoProyectoEditDialog.show()" disabled="#{empty estadoProyectoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{seriesBundle.Delete}" actionListener="#{estadoProyectoController.delete}" update=":growl,datalist" disabled="#{empty estadoProyectoController.selected}"/>
+
+        </p:panel>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PasswordCreateDlg" widgetVar="PasswordCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{seriesBundle.CreatePasswordTitle}" closeOnEscape="true">
+
+            <h:form id="PasswordCreateForm">
+
+                <h:panelGroup id="display" rendered="#{passwordController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{seriesBundle.CreatePasswordLabel_idRango}" for="idRango" />
+                        <p:inputText id="idRango" value="#{passwordController.selected.idRango}" title="#{seriesBundle.CreatePasswordTitle_idRango}" required="true" requiredMessage="#{seriesBundle.CreatePasswordRequiredMessage_idRango}"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreatePasswordLabel_password}" for="password" />
+                        <p:inputText id="password" value="#{passwordController.selected.password}" title="#{seriesBundle.CreatePasswordTitle_password}" required="true" requiredMessage="#{seriesBundle.CreatePasswordRequiredMessage_password}" size="80" maxlength="80"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreatePasswordLabel_comentarios}" for="comentarios" />
+                        <p:inputText id="comentarios" value="#{passwordController.selected.comentarios}" title="#{seriesBundle.CreatePasswordTitle_comentarios}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreatePasswordLabel_idProyecto}" for="idProyecto" />
+                        <p:selectOneMenu id="idProyecto" value="#{passwordController.selected.idProyecto}"  converter="proyectoConverter">
+                            <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{proyectoController.items}"
+                                           var="idProyectoItem"
+                                           itemValue="#{idProyectoItem}"
+                                           itemLabel="#{idProyectoItem.idProyecto.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{seriesBundle.CreatePasswordLabel_idSerie}" for="idSerie" />
+                        <p:selectOneMenu id="idSerie" value="#{passwordController.selected.idSerie}"  converter="serieConverter">
+                            <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{serieController.items}"
+                                           var="idSerieItem"
+                                           itemValue="#{idSerieItem}"
+                                           itemLabel="#{idSerieItem.idSerie.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{seriesBundle.CreatePasswordLabel_idEpisodio}" for="idEpisodio" />
+                        <p:selectOneMenu id="idEpisodio" value="#{passwordController.selected.idEpisodio}"  converter="episodioConverter">
+                            <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{episodioController.items}"
+                                           var="idEpisodioItem"
+                                           itemValue="#{idEpisodioItem}"
+                                           itemLabel="#{idEpisodioItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{passwordController.saveNew}" value="#{seriesBundle.Save}" update="display,:PasswordListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PasswordCreateDialog);"/>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PasswordCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

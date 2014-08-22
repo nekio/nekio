@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EnlaceStatusViewDlg" widgetVar="EnlaceStatusViewDialog" modal="true" resizable="false"  appendToBody="true" header="#{seriesBundle.ViewEnlaceStatusTitle}" closeOnEscape="true">
+
+            <h:form id="EnlaceStatusViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{enlaceStatusController.selected != null}">
+
+                        <h:outputText value="#{seriesBundle.ViewEnlaceStatusLabel_idEnlaceStatus}"/>
+                        <h:outputText value="#{enlaceStatusController.selected.idEnlaceStatus}" title="#{seriesBundle.ViewEnlaceStatusTitle_idEnlaceStatus}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewEnlaceStatusLabel_descripcion}"/>
+                        <h:outputText value="#{enlaceStatusController.selected.descripcion}" title="#{seriesBundle.ViewEnlaceStatusTitle_descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="EnlaceStatusViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

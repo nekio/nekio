@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="WebCreateDlg" widgetVar="WebCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{seriesBundle.CreateWebTitle}" closeOnEscape="true">
+
+            <h:form id="WebCreateForm">
+
+                <h:panelGroup id="display" rendered="#{webController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{seriesBundle.CreateWebLabel_idImagen}" for="idImagen" />
+                        <p:inputText id="idImagen" value="#{webController.selected.idImagen}" title="#{seriesBundle.CreateWebTitle_idImagen}"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreateWebLabel_idRango}" for="idRango" />
+                        <p:inputText id="idRango" value="#{webController.selected.idRango}" title="#{seriesBundle.CreateWebTitle_idRango}" required="true" requiredMessage="#{seriesBundle.CreateWebRequiredMessage_idRango}"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreateWebLabel_titulo}" for="titulo" />
+                        <p:inputText id="titulo" value="#{webController.selected.titulo}" title="#{seriesBundle.CreateWebTitle_titulo}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreateWebLabel_siglas}" for="siglas" />
+                        <p:inputText id="siglas" value="#{webController.selected.siglas}" title="#{seriesBundle.CreateWebTitle_siglas}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreateWebLabel_facebook}" for="facebook" />
+                        <p:inputText id="facebook" value="#{webController.selected.facebook}" title="#{seriesBundle.CreateWebTitle_facebook}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreateWebLabel_pagina}" for="pagina" />
+                        <p:inputText id="pagina" value="#{webController.selected.pagina}" title="#{seriesBundle.CreateWebTitle_pagina}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreateWebLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{webController.selected.descripcion}" title="#{seriesBundle.CreateWebTitle_descripcion}" size="100" maxlength="100"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{webController.saveNew}" value="#{seriesBundle.Save}" update="display,:WebListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,WebCreateDialog);"/>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="WebCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

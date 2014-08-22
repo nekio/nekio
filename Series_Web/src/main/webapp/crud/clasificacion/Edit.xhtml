@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ClasificacionEditDlg" widgetVar="ClasificacionEditDialog" modal="true" resizable="false"  appendToBody="true" header="#{seriesBundle.EditClasificacionTitle}" closeOnEscape="true">
+
+            <h:form id="ClasificacionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{clasificacionController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditClasificacionLabel_idClasificacion}" for="idClasificacion" />
+                        <h:outputText id="idClasificacion" value="#{clasificacionController.selected.idClasificacion}" />
+
+                        <p:outputLabel value="#{seriesBundle.EditClasificacionLabel_siglas}" for="siglas" />
+                        <p:inputText id="siglas" value="#{clasificacionController.selected.siglas}" title="#{seriesBundle.EditClasificacionTitle_siglas}" size="10" maxlength="10"/>
+
+                        <p:outputLabel value="#{seriesBundle.EditClasificacionLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{clasificacionController.selected.descripcion}" title="#{seriesBundle.EditClasificacionTitle_descripcion}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{seriesBundle.EditClasificacionLabel_comentarios}" for="comentarios" />
+                        <p:inputText id="comentarios" value="#{clasificacionController.selected.comentarios}" title="#{seriesBundle.EditClasificacionTitle_comentarios}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{seriesBundle.EditClasificacionLabel_minimoEdad}" for="minimoEdad" />
+                        <p:inputText id="minimoEdad" value="#{clasificacionController.selected.minimoEdad}" title="#{seriesBundle.EditClasificacionTitle_minimoEdad}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{clasificacionController.save}" value="#{seriesBundle.Save}" update="display,:ClasificacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,ClasificacionEditDialog);"/>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="ClasificacionEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

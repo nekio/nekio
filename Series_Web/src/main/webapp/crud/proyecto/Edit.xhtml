@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ProyectoEditDlg" widgetVar="ProyectoEditDialog" modal="true" resizable="false"  appendToBody="true" header="#{seriesBundle.EditProyectoTitle}" closeOnEscape="true">
+
+            <h:form id="ProyectoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:tabView id="ProyectoTabView">
+
+                        <p:tab id="ProyectoTab1" title="#{seriesBundle.TabHeaderPrefix} 1">
+                            <p:panelGrid  columns="2" columnClasses="column" rendered="#{proyectoController.selected != null}">
+
+                                <h:outputLabel value="#{seriesBundle.EditProyectoLabel_idProyecto}" for="idProyecto" />
+                                <h:outputText id="idProyecto" value="#{proyectoController.selected.idProyecto}" />
+
+                                <p:outputLabel value="#{seriesBundle.EditProyectoLabel_idRango}" for="idRango" />
+                                <p:inputText id="idRango" value="#{proyectoController.selected.idRango}" title="#{seriesBundle.EditProyectoTitle_idRango}" required="true" requiredMessage="#{seriesBundle.EditProyectoRequiredMessage_idRango}"/>
+
+                                <p:outputLabel value="#{seriesBundle.EditProyectoLabel_fechaInicio}" for="fechaInicio" />
+                                <p:calendar id="fechaInicio" pattern="MM/dd/yyyy HH:mm:ss" value="#{proyectoController.selected.fechaInicio}" title="#{seriesBundle.EditProyectoTitle_fechaInicio}" required="true" requiredMessage="#{seriesBundle.EditProyectoRequiredMessage_fechaInicio}" showOn="button"/>
+
+                                <p:outputLabel value="#{seriesBundle.EditProyectoLabel_fechaFin}" for="fechaFin" />
+                                <p:calendar id="fechaFin" pattern="MM/dd/yyyy HH:mm:ss" value="#{proyectoController.selected.fechaFin}" title="#{seriesBundle.EditProyectoTitle_fechaFin}"  showOn="button"/>
+
+                                <p:outputLabel value="#{seriesBundle.EditProyectoLabel_episodiosSubir}" for="episodiosSubir" />
+                                <p:inputText id="episodiosSubir" value="#{proyectoController.selected.episodiosSubir}" title="#{seriesBundle.EditProyectoTitle_episodiosSubir}"/>
+
+                                <p:outputLabel value="#{seriesBundle.EditProyectoLabel_episodiosSubidos}" for="episodiosSubidos" />
+                                <p:inputText id="episodiosSubidos" value="#{proyectoController.selected.episodiosSubidos}" title="#{seriesBundle.EditProyectoTitle_episodiosSubidos}"/>
+
+                                <p:outputLabel value="#{seriesBundle.EditProyectoLabel_enlace}" for="enlace" />
+                                <p:inputText id="enlace" value="#{proyectoController.selected.enlace}" title="#{seriesBundle.EditProyectoTitle_enlace}" size="255" maxlength="255"/>
+
+                                <p:outputLabel value="#{seriesBundle.EditProyectoLabel_comentario}" for="comentario" />
+                                <p:inputText id="comentario" value="#{proyectoController.selected.comentario}" title="#{seriesBundle.EditProyectoTitle_comentario}" size="100" maxlength="100"/>
+
+                                <p:outputLabel value="#{seriesBundle.EditProyectoLabel_enlaces}" for="enlaces" />
+                                <p:inputTextarea rows="4" cols="30" id="enlaces" value="#{proyectoController.selected.enlaces}" title="#{seriesBundle.EditProyectoTitle_enlaces}" />
+
+                                <p:outputLabel value="#{seriesBundle.EditProyectoLabel_idPeso}" for="idPeso" />
+                                <p:selectOneMenu id="idPeso" value="#{proyectoController.selected.idPeso}" required="true" requiredMessage="#{seriesBundle.EditProyectoRequiredMessage_idPeso}" converter="pesoConverter">
+                                    <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{pesoController.items}"
+                                                   var="idPesoItem"
+                                                   itemValue="#{idPesoItem}"
+                                                   itemLabel="#{idPesoItem.descripcion.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{seriesBundle.EditProyectoLabel_idCalidad}" for="idCalidad" />
+                                <p:selectOneMenu id="idCalidad" value="#{proyectoController.selected.idCalidad}" required="true" requiredMessage="#{seriesBundle.EditProyectoRequiredMessage_idCalidad}" converter="calidadConverter">
+                                    <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{calidadController.items}"
+                                                   var="idCalidadItem"
+                                                   itemValue="#{idCalidadItem}"
+                                                   itemLabel="#{idCalidadItem.descripcion.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{seriesBundle.EditProyectoLabel_idFormato}" for="idFormato" />
+                                <p:selectOneMenu id="idFormato" value="#{proyectoController.selected.idFormato}" required="true" requiredMessage="#{seriesBundle.EditProyectoRequiredMessage_idFormato}" converter="formatoConverter">
+                                    <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{formatoController.items}"
+                                                   var="idFormatoItem"
+                                                   itemValue="#{idFormatoItem}"
+                                                   itemLabel="#{idFormatoItem.descripcion.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{seriesBundle.EditProyectoLabel_idIdioma}" for="idIdioma" />
+                                <p:selectOneMenu id="idIdioma" value="#{proyectoController.selected.idIdioma}" required="true" requiredMessage="#{seriesBundle.EditProyectoRequiredMessage_idIdioma}" converter="idiomaConverter">
+                                    <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{idiomaController.items}"
+                                                   var="idIdiomaItem"
+                                                   itemValue="#{idIdiomaItem}"
+                                                   itemLabel="#{idIdiomaItem.descripcion.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{seriesBundle.EditProyectoLabel_idWeb}" for="idWeb" />
+                                <p:selectOneMenu id="idWeb" value="#{proyectoController.selected.idWeb}" required="true" requiredMessage="#{seriesBundle.EditProyectoRequiredMessage_idWeb}" converter="webConverter">
+                                    <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{webController.items}"
+                                                   var="idWebItem"
+                                                   itemValue="#{idWebItem}"
+                                                   itemLabel="#{idWebItem.descripcion.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{seriesBundle.EditProyectoLabel_idSerie}" for="idSerie" />
+                                <p:selectOneMenu id="idSerie" value="#{proyectoController.selected.idSerie}" required="true" requiredMessage="#{seriesBundle.EditProyectoRequiredMessage_idSerie}" converter="serieConverter">
+                                    <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{serieController.items}"
+                                                   var="idSerieItem"
+                                                   itemValue="#{idSerieItem}"
+                                                   itemLabel="#{idSerieItem.idSerie.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{seriesBundle.EditProyectoLabel_idEstadoProyecto}" for="idEstadoProyecto" />
+                                <p:selectOneMenu id="idEstadoProyecto" value="#{proyectoController.selected.idEstadoProyecto}" required="true" requiredMessage="#{seriesBundle.EditProyectoRequiredMessage_idEstadoProyecto}" converter="estadoProyectoConverter">
+                                    <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{estadoProyectoController.items}"
+                                                   var="idEstadoProyectoItem"
+                                                   itemValue="#{idEstadoProyectoItem}"
+                                                   itemLabel="#{idEstadoProyectoItem.descripcion.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+                            </p:panelGrid>
+                        </p:tab>
+                    </p:tabView>
+                    <p:commandButton actionListener="#{proyectoController.save}" value="#{seriesBundle.Save}" update="display,:ProyectoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,ProyectoEditDialog);"/>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="ProyectoEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

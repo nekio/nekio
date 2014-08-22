@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GeneroViewDlg" widgetVar="GeneroViewDialog" modal="true" resizable="false"  appendToBody="true" header="#{seriesBundle.ViewGeneroTitle}" closeOnEscape="true">
+
+            <h:form id="GeneroViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{generoController.selected != null}">
+
+                        <h:outputText value="#{seriesBundle.ViewGeneroLabel_idGenero}"/>
+                        <h:outputText value="#{generoController.selected.idGenero}" title="#{seriesBundle.ViewGeneroTitle_idGenero}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewGeneroLabel_idRango}"/>
+                        <h:outputText value="#{generoController.selected.idRango}" title="#{seriesBundle.ViewGeneroTitle_idRango}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewGeneroLabel_genero}"/>
+                        <h:outputText value="#{generoController.selected.genero}" title="#{seriesBundle.ViewGeneroTitle_genero}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewGeneroLabel_descripcion}"/>
+                        <h:outputText value="#{generoController.selected.descripcion}" title="#{seriesBundle.ViewGeneroTitle_descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="GeneroViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

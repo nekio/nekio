@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProyectoDetCreateDlg" widgetVar="ProyectoDetCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{seriesBundle.CreateProyectoDetTitle}" closeOnEscape="true">
+
+            <h:form id="ProyectoDetCreateForm">
+
+                <h:panelGroup id="display" rendered="#{proyectoDetController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{seriesBundle.CreateProyectoDetLabel_idColaborador}" for="idColaborador" />
+                        <p:selectOneMenu id="idColaborador" value="#{proyectoDetController.selected.idColaborador}" required="true" requiredMessage="#{seriesBundle.CreateProyectoDetRequiredMessage_idColaborador}" converter="colaboradorConverter">
+                            <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{colaboradorController.items}"
+                                           var="idColaboradorItem"
+                                           itemValue="#{idColaboradorItem}"
+                                           itemLabel="#{idColaboradorItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{seriesBundle.CreateProyectoDetLabel_idProyecto}" for="idProyecto" />
+                        <p:selectOneMenu id="idProyecto" value="#{proyectoDetController.selected.idProyecto}" required="true" requiredMessage="#{seriesBundle.CreateProyectoDetRequiredMessage_idProyecto}" converter="proyectoConverter">
+                            <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{proyectoController.items}"
+                                           var="idProyectoItem"
+                                           itemValue="#{idProyectoItem}"
+                                           itemLabel="#{idProyectoItem.idProyecto.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{seriesBundle.CreateProyectoDetLabel_idTipoColaboracion}" for="idTipoColaboracion" />
+                        <p:selectOneMenu id="idTipoColaboracion" value="#{proyectoDetController.selected.idTipoColaboracion}" required="true" requiredMessage="#{seriesBundle.CreateProyectoDetRequiredMessage_idTipoColaboracion}" converter="tipoColaboracionConverter">
+                            <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoColaboracionController.items}"
+                                           var="idTipoColaboracionItem"
+                                           itemValue="#{idTipoColaboracionItem}"
+                                           itemLabel="#{idTipoColaboracionItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{proyectoDetController.saveNew}" value="#{seriesBundle.Save}" update="display,:ProyectoDetListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,ProyectoDetCreateDialog);"/>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="ProyectoDetCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

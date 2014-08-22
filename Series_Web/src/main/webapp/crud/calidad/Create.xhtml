@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CalidadCreateDlg" widgetVar="CalidadCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{seriesBundle.CreateCalidadTitle}" closeOnEscape="true">
+
+            <h:form id="CalidadCreateForm">
+
+                <h:panelGroup id="display" rendered="#{calidadController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{seriesBundle.CreateCalidadLabel_idRango}" for="idRango" />
+                        <p:inputText id="idRango" value="#{calidadController.selected.idRango}" title="#{seriesBundle.CreateCalidadTitle_idRango}" required="true" requiredMessage="#{seriesBundle.CreateCalidadRequiredMessage_idRango}"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreateCalidadLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{calidadController.selected.descripcion}" title="#{seriesBundle.CreateCalidadTitle_descripcion}" size="20" maxlength="20"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{calidadController.saveNew}" value="#{seriesBundle.Save}" update="display,:CalidadListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,CalidadCreateDialog);"/>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="CalidadCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="PesoEditDlg" widgetVar="PesoEditDialog" modal="true" resizable="false"  appendToBody="true" header="#{seriesBundle.EditPesoTitle}" closeOnEscape="true">
+
+            <h:form id="PesoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{pesoController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditPesoLabel_idPeso}" for="idPeso" />
+                        <h:outputText id="idPeso" value="#{pesoController.selected.idPeso}" />
+
+                        <p:outputLabel value="#{seriesBundle.EditPesoLabel_idRango}" for="idRango" />
+                        <p:inputText id="idRango" value="#{pesoController.selected.idRango}" title="#{seriesBundle.EditPesoTitle_idRango}" required="true" requiredMessage="#{seriesBundle.EditPesoRequiredMessage_idRango}"/>
+
+                        <p:outputLabel value="#{seriesBundle.EditPesoLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{pesoController.selected.descripcion}" title="#{seriesBundle.EditPesoTitle_descripcion}" size="20" maxlength="20"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{pesoController.save}" value="#{seriesBundle.Save}" update="display,:PesoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PesoEditDialog);"/>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PesoEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

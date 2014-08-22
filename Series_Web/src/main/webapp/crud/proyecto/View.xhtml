@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProyectoViewDlg" widgetVar="ProyectoViewDialog" modal="true" resizable="false"  appendToBody="true" header="#{seriesBundle.ViewProyectoTitle}" closeOnEscape="true">
+
+            <h:form id="ProyectoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:tabView id="ProyectoTabView">
+
+                        <p:tab id="ProyectoTab1" title="#{seriesBundle.TabHeaderPrefix} 1">
+                            <p:panelGrid columns="2" columnClasses="column" rendered="#{proyectoController.selected != null}">
+                                <h:outputText value="#{seriesBundle.ViewProyectoLabel_idProyecto}"/>
+                                <h:outputText value="#{proyectoController.selected.idProyecto}" title="#{seriesBundle.ViewProyectoTitle_idProyecto}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewProyectoLabel_idRango}"/>
+                                <h:outputText value="#{proyectoController.selected.idRango}" title="#{seriesBundle.ViewProyectoTitle_idRango}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewProyectoLabel_fechaInicio}"/>
+                                <h:outputText value="#{proyectoController.selected.fechaInicio}" title="#{seriesBundle.ViewProyectoTitle_fechaInicio}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                </h:outputText>
+
+                                <h:outputText value="#{seriesBundle.ViewProyectoLabel_fechaFin}"/>
+                                <h:outputText value="#{proyectoController.selected.fechaFin}" title="#{seriesBundle.ViewProyectoTitle_fechaFin}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                </h:outputText>
+
+                                <h:outputText value="#{seriesBundle.ViewProyectoLabel_episodiosSubir}"/>
+                                <h:outputText value="#{proyectoController.selected.episodiosSubir}" title="#{seriesBundle.ViewProyectoTitle_episodiosSubir}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewProyectoLabel_episodiosSubidos}"/>
+                                <h:outputText value="#{proyectoController.selected.episodiosSubidos}" title="#{seriesBundle.ViewProyectoTitle_episodiosSubidos}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewProyectoLabel_enlace}"/>
+                                <h:outputText value="#{proyectoController.selected.enlace}" title="#{seriesBundle.ViewProyectoTitle_enlace}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewProyectoLabel_comentario}"/>
+                                <h:outputText value="#{proyectoController.selected.comentario}" title="#{seriesBundle.ViewProyectoTitle_comentario}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewProyectoLabel_enlaces}"/>
+                                <h:outputText value="#{proyectoController.selected.enlaces}" title="#{seriesBundle.ViewProyectoTitle_enlaces}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewProyectoLabel_idPeso}"/>
+                                <h:outputText value="#{proyectoController.selected.idPeso.descripcion}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewProyectoLabel_idCalidad}"/>
+                                <h:outputText value="#{proyectoController.selected.idCalidad.descripcion}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewProyectoLabel_idFormato}"/>
+                                <h:outputText value="#{proyectoController.selected.idFormato.descripcion}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewProyectoLabel_idIdioma}"/>
+                                <h:outputText value="#{proyectoController.selected.idIdioma.descripcion}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewProyectoLabel_idWeb}"/>
+                                <h:outputText value="#{proyectoController.selected.idWeb.descripcion}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewProyectoLabel_idSerie}"/>
+                                <h:outputText value="#{proyectoController.selected.idSerie.idSerie}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewProyectoLabel_idEstadoProyecto}"/>
+                                <h:outputText value="#{proyectoController.selected.idEstadoProyecto.descripcion}"/>
+                            </p:panelGrid>
+                        </p:tab>
+                    </p:tabView>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="ProyectoViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

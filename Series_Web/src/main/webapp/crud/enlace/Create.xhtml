@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EnlaceCreateDlg" widgetVar="EnlaceCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{seriesBundle.CreateEnlaceTitle}" closeOnEscape="true">
+
+            <h:form id="EnlaceCreateForm">
+
+                <h:panelGroup id="display" rendered="#{enlaceController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{seriesBundle.CreateEnlaceLabel_enlace}" for="enlace" />
+                        <p:inputTextarea id="enlace" value="#{enlaceController.selected.enlace}" title="#{seriesBundle.CreateEnlaceTitle_enlace}" required="true" requiredMessage="#{seriesBundle.CreateEnlaceRequiredMessage_enlace}" rows="9" cols="160" autoResize="false" />
+
+                        <p:outputLabel value="#{seriesBundle.CreateEnlaceLabel_comentarios}" for="comentarios" />
+                        <p:inputText id="comentarios" value="#{enlaceController.selected.comentarios}" title="#{seriesBundle.CreateEnlaceTitle_comentarios}" size="180" maxlength="255"/>
+
+                        <p:outputLabel value="#{seriesBundle.CreateEnlaceLabel_idSerie}" for="idSerie" />
+                        <p:selectOneMenu id="idSerie" value="#{enlaceController.selected.idSerie}"  converter="serieConverter">
+                            <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{serieController.items}"
+                                           var="idSerieItem"
+                                           itemValue="#{idSerieItem}"
+                                           itemLabel="#{idSerieItem.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{seriesBundle.CreateEnlaceLabel_idEpisodio}" for="idEpisodio" />
+                        <p:selectOneMenu id="idEpisodio" value="#{enlaceController.selected.idEpisodio}"  converter="episodioConverter">
+                            <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{episodioController.items}"
+                                           var="idEpisodioItem"
+                                           itemValue="#{idEpisodioItem}"
+                                           itemLabel="#{idEpisodioItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{seriesBundle.CreateEnlaceLabel_idEnlaceStatus}" for="idEnlaceStatus" />
+                        <p:selectOneMenu id="idEnlaceStatus" value="#{enlaceController.selected.idEnlaceStatus}"  converter="enlaceStatusConverter">
+                            <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{enlaceStatusController.items}"
+                                           var="idEnlaceStatusItem"
+                                           itemValue="#{idEnlaceStatusItem}"
+                                           itemLabel="#{idEnlaceStatusItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{seriesBundle.CreateEnlaceLabel_idProyecto}" for="idProyecto" />
+                        <p:selectOneMenu id="idProyecto" value="#{enlaceController.selected.idProyecto}"  converter="proyectoConverter">
+                            <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{proyectoController.items}"
+                                           var="idProyectoItem"
+                                           itemValue="#{idProyectoItem}"
+                                           itemLabel="#{idProyectoItem.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{enlaceController.saveNew}" value="#{seriesBundle.Save}" update="display,:EnlaceListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,EnlaceCreateDialog);"/>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="EnlaceCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

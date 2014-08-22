@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FormatoViewDlg" widgetVar="FormatoViewDialog" modal="true" resizable="false"  appendToBody="true" header="#{seriesBundle.ViewFormatoTitle}" closeOnEscape="true">
+
+            <h:form id="FormatoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{formatoController.selected != null}">
+
+                        <h:outputText value="#{seriesBundle.ViewFormatoLabel_idFormato}"/>
+                        <h:outputText value="#{formatoController.selected.idFormato}" title="#{seriesBundle.ViewFormatoTitle_idFormato}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewFormatoLabel_idRango}"/>
+                        <h:outputText value="#{formatoController.selected.idRango}" title="#{seriesBundle.ViewFormatoTitle_idRango}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewFormatoLabel_descripcion}"/>
+                        <h:outputText value="#{formatoController.selected.descripcion}" title="#{seriesBundle.ViewFormatoTitle_descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="FormatoViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

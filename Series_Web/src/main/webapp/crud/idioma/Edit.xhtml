@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="IdiomaEditDlg" widgetVar="IdiomaEditDialog" modal="true" resizable="false"  appendToBody="true" header="#{seriesBundle.EditIdiomaTitle}" closeOnEscape="true">
+
+            <h:form id="IdiomaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{idiomaController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditIdiomaLabel_idIdioma}" for="idIdioma" />
+                        <h:outputText id="idIdioma" value="#{idiomaController.selected.idIdioma}" />
+
+                        <p:outputLabel value="#{seriesBundle.EditIdiomaLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{idiomaController.selected.descripcion}" title="#{seriesBundle.EditIdiomaTitle_descripcion}" size="20" maxlength="20"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{idiomaController.save}" value="#{seriesBundle.Save}" update="display,:IdiomaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,IdiomaEditDialog);"/>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="IdiomaEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

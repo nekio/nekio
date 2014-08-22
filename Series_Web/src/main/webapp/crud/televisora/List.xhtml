@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TelevisoraListForm">
+
+        <p:panel header="#{seriesBundle.ListTelevisoraTitle}">
+            <p:contextMenu id="TelevisoraDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{seriesBundle.Create}" onclick="document.getElementById('TelevisoraListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{seriesBundle.View}" onclick="document.getElementById('TelevisoraListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('TelevisoraListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('TelevisoraListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{seriesBundle.TelevisoraMenuItem_serieCollection}" icon="ui-icon-search"  action="#{televisoraController.navigateSerieCollection}" disabled="#{empty televisoraController.selected.serieCollection}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{televisoraController.items}"
+                         var="item"
+                         rowKey="#{item.idTelevisora}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="5,10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{televisoraController.selected}">
+
+                <p:ajax event="rowSelect"   update=":TelevisoraListForm:createButton :TelevisoraListForm:viewButton :TelevisoraListForm:editButton :TelevisoraListForm:deleteButton :TelevisoraListForm:TelevisoraDataTableContextMenu" listener="#{televisoraController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":TelevisoraListForm:createButton :TelevisoraListForm:viewButton :TelevisoraListForm:editButton :TelevisoraListForm:deleteButton :TelevisoraListForm:TelevisoraDataTableContextMenu" listener="#{televisoraController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TelevisoraListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idTelevisora}" filterBy="#{item.idTelevisora}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListTelevisoraTitle_idTelevisora}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idTelevisora}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idImagen}" filterBy="#{item.idImagen}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListTelevisoraTitle_idImagen}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idImagen}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.siglasTelevisora}" filterBy="#{item.siglasTelevisora}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListTelevisoraTitle_siglasTelevisora}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.siglasTelevisora}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombreTelevisora}" filterBy="#{item.nombreTelevisora}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListTelevisoraTitle_nombreTelevisora}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombreTelevisora}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{seriesBundle.Create}" actionListener="#{televisoraController.prepareCreate}" update=":TelevisoraCreateForm" oncomplete="TelevisoraCreateDialog.show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{seriesBundle.View}" update=":TelevisoraViewForm" oncomplete="TelevisoraViewDialog.show()" disabled="#{empty televisoraController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{seriesBundle.Edit}" update=":TelevisoraEditForm" oncomplete="TelevisoraEditDialog.show()" disabled="#{empty televisoraController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{seriesBundle.Delete}" actionListener="#{televisoraController.delete}" update=":growl,datalist" disabled="#{empty televisoraController.selected}"/>
+
+        </p:panel>
+    </h:form>
+
+</ui:composition>

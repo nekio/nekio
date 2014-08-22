@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="PasswordListForm">
+
+        <p:panel header="#{seriesBundle.ListPasswordTitle}">
+            <p:contextMenu id="PasswordDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{seriesBundle.Create}" onclick="document.getElementById('PasswordListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{seriesBundle.View}" onclick="document.getElementById('PasswordListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('PasswordListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('PasswordListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{seriesBundle.PasswordMenuItem_idProyecto}" icon="ui-icon-search"  actionListener="#{passwordController.prepareIdProyecto}" update=":ProyectoViewForm" oncomplete="ProyectoViewDialog.show()" disabled="#{empty passwordController.selected.idProyecto}"/>  
+                <p:menuitem value="#{seriesBundle.PasswordMenuItem_idSerie}" icon="ui-icon-search"  actionListener="#{passwordController.prepareIdSerie}" update=":SerieViewForm" oncomplete="SerieViewDialog.show()" disabled="#{empty passwordController.selected.idSerie}"/>  
+                <p:menuitem value="#{seriesBundle.PasswordMenuItem_idEpisodio}" icon="ui-icon-search"  actionListener="#{passwordController.prepareIdEpisodio}" update=":EpisodioViewForm" oncomplete="EpisodioViewDialog.show()" disabled="#{empty passwordController.selected.idEpisodio}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{passwordController.items}"
+                         var="item"
+                         rowKey="#{item.idPassword}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="5,10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{passwordController.selected}">
+
+                <p:ajax event="rowSelect"   update=":PasswordListForm:createButton :PasswordListForm:viewButton :PasswordListForm:editButton :PasswordListForm:deleteButton :PasswordListForm:PasswordDataTableContextMenu" listener="#{passwordController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":PasswordListForm:createButton :PasswordListForm:viewButton :PasswordListForm:editButton :PasswordListForm:deleteButton :PasswordListForm:PasswordDataTableContextMenu" listener="#{passwordController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('PasswordListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idPassword}" filterBy="#{item.idPassword}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListPasswordTitle_idPassword}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idPassword}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idRango}" filterBy="#{item.idRango}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListPasswordTitle_idRango}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idRango}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.password}" filterBy="#{item.password}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListPasswordTitle_password}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.password}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.comentarios}" filterBy="#{item.comentarios}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListPasswordTitle_comentarios}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.comentarios}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idProyecto.idProyecto}" filterBy="#{item.idProyecto.idProyecto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListPasswordTitle_idProyecto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idProyecto.idProyecto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idSerie.idSerie}" filterBy="#{item.idSerie.idSerie}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListPasswordTitle_idSerie}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idSerie.idSerie}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.idEpisodio.descripcion}" filterBy="#{item.idEpisodio.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListPasswordTitle_idEpisodio}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idEpisodio.descripcion}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{seriesBundle.Create}" actionListener="#{passwordController.prepareCreate}" update=":PasswordCreateForm" oncomplete="PasswordCreateDialog.show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{seriesBundle.View}" update=":PasswordViewForm" oncomplete="PasswordViewDialog.show()" disabled="#{empty passwordController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{seriesBundle.Edit}" update=":PasswordEditForm" oncomplete="PasswordEditDialog.show()" disabled="#{empty passwordController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{seriesBundle.Delete}" actionListener="#{passwordController.delete}" update=":growl,datalist" disabled="#{empty passwordController.selected}"/>
+
+        </p:panel>
+    </h:form>
+
+</ui:composition>

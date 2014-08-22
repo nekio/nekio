@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoMensajeCreateDlg" widgetVar="TipoMensajeCreateDialog" modal="true" resizable="false" appendToBody="true" header="#{seriesBundle.CreateTipoMensajeTitle}" closeOnEscape="true">
+
+            <h:form id="TipoMensajeCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tipoMensajeController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{seriesBundle.CreateTipoMensajeLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{tipoMensajeController.selected.descripcion}" title="#{seriesBundle.CreateTipoMensajeTitle_descripcion}" size="20" maxlength="20"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoMensajeController.saveNew}" value="#{seriesBundle.Save}" update="display,:TipoMensajeListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,TipoMensajeCreateDialog);"/>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="TipoMensajeCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>
