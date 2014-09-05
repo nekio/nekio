@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="CarpetaEditDlg" widgetVar="CarpetaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{toolsBundle.EditCarpetaTitle}" closeOnEscape="true">
+
+            <h:form id="CarpetaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{carpetaController.selected != null}">
+
+
+                        <h:outputLabel value="#{toolsBundle.EditCarpetaLabel_idCarpeta}" for="idCarpeta" />
+                        <h:panelGroup>
+                            <h:outputText id="idCarpeta" value="#{carpetaController.selected.idCarpeta}" />
+                            <p:tooltip for="idCarpeta" value="#{carpetaController.getComponentMessages('idCarpeta', toolsBundle.EditCarpetaHelpText_idCarpeta)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{toolsBundle.EditCarpetaLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{carpetaController.selected.descripcion}" title="#{toolsBundle.EditCarpetaTitle_descripcion}" required="true" requiredMessage="#{toolsBundle.EditCarpetaRequiredMessage_descripcion}" size="255" maxlength="255"/>
+                            <p:tooltip for="descripcion" value="#{carpetaController.getComponentMessages('descripcion', toolsBundle.EditCarpetaHelpText_descripcion)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{carpetaController.save}" value="#{toolsBundle.Save}" update="display,:CarpetaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CarpetaEditDialog'));">
+                        <p:confirm header="#{toolsBundle.ConfirmationHeader}" message="#{toolsBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{toolsBundle.Cancel}" onclick="PF('CarpetaEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

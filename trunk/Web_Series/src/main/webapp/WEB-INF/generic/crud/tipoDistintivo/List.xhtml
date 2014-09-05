@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TipoDistintivoListForm">
+
+        <p:panel header="#{seriesBundle.ListTipoDistintivoTitle}">
+            <p:contextMenu id="TipoDistintivoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{seriesBundle.Create}" onclick="document.getElementById('TipoDistintivoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{seriesBundle.View}" onclick="document.getElementById('TipoDistintivoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('TipoDistintivoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('TipoDistintivoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{seriesBundle.TipoDistintivoMenuItem_distintivoCollection}" icon="ui-icon-search"  action="#{tipoDistintivoController.navigateDistintivoCollection}" disabled="#{empty tipoDistintivoController.selected.distintivoCollection}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{tipoDistintivoController.items}"
+                         var="item"
+                         rowKey="#{item.idTipoDistintivo}"
+                         paginator="true"
+                         rows="25"
+                         rowsPerPageTemplate="10,25,50,75,100"
+                         selectionMode="single"
+                         selection="#{tipoDistintivoController.selected}">
+
+                <p:ajax event="rowSelect"   update=":TipoDistintivoListForm:createButton :TipoDistintivoListForm:viewButton :TipoDistintivoListForm:editButton :TipoDistintivoListForm:deleteButton :TipoDistintivoListForm:TipoDistintivoDataTableContextMenu" listener="#{tipoDistintivoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":TipoDistintivoListForm:createButton :TipoDistintivoListForm:viewButton :TipoDistintivoListForm:editButton :TipoDistintivoListForm:deleteButton :TipoDistintivoListForm:TipoDistintivoDataTableContextMenu" listener="#{tipoDistintivoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TipoDistintivoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idTipoDistintivo}" filterBy="#{item.idTipoDistintivo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListTipoDistintivoTitle_idTipoDistintivo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idTipoDistintivo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListTipoDistintivoTitle_descripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{seriesBundle.Create}" actionListener="#{tipoDistintivoController.prepareCreate}" update=":TipoDistintivoCreateForm" oncomplete="PF('TipoDistintivoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{seriesBundle.View}" update=":TipoDistintivoViewForm" oncomplete="PF('TipoDistintivoViewDialog').show()" disabled="#{empty tipoDistintivoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{seriesBundle.Edit}" update=":TipoDistintivoEditForm" oncomplete="PF('TipoDistintivoEditDialog').show()" disabled="#{empty tipoDistintivoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{seriesBundle.Delete}" actionListener="#{tipoDistintivoController.delete}" update=":growl,datalist" disabled="#{empty tipoDistintivoController.selected}">
+                <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/generic/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

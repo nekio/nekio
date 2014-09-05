@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="SerieListForm">
+
+        <p:panel header="#{seriesBundle.ListSerieTitle}">
+            <p:contextMenu id="SerieDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{seriesBundle.Create}" onclick="document.getElementById('SerieListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{seriesBundle.View}" onclick="document.getElementById('SerieListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('SerieListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('SerieListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{seriesBundle.SerieMenuItem_televisoraCollection}" icon="ui-icon-search"  action="#{serieController.navigateTelevisoraCollection}" disabled="#{empty serieController.selected.televisoraCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.SerieMenuItem_proyectoCollection}" icon="ui-icon-search"  action="#{serieController.navigateProyectoCollection}" disabled="#{empty serieController.selected.proyectoCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.SerieMenuItem_passwordCollection}" icon="ui-icon-search"  action="#{serieController.navigatePasswordCollection}" disabled="#{empty serieController.selected.passwordCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.SerieMenuItem_enlaceCollection}" icon="ui-icon-search"  action="#{serieController.navigateEnlaceCollection}" disabled="#{empty serieController.selected.enlaceCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.SerieMenuItem_idGenero2}" icon="ui-icon-search"  actionListener="#{serieController.prepareIdGenero2}" update=":GeneroViewForm" oncomplete="PF('GeneroViewDialog').show()" disabled="#{empty serieController.selected.idGenero2}"/>  
+                <p:menuitem value="#{seriesBundle.SerieMenuItem_idGenero1}" icon="ui-icon-search"  actionListener="#{serieController.prepareIdGenero1}" update=":GeneroViewForm" oncomplete="PF('GeneroViewDialog').show()" disabled="#{empty serieController.selected.idGenero1}"/>  
+                <p:menuitem value="#{seriesBundle.SerieMenuItem_idClasificacion}" icon="ui-icon-search"  actionListener="#{serieController.prepareIdClasificacion}" update=":ClasificacionViewForm" oncomplete="PF('ClasificacionViewDialog').show()" disabled="#{empty serieController.selected.idClasificacion}"/>  
+                <p:menuitem value="#{seriesBundle.SerieMenuItem_idDuracion}" icon="ui-icon-search"  actionListener="#{serieController.prepareIdDuracion}" update=":DuracionViewForm" oncomplete="PF('DuracionViewDialog').show()" disabled="#{empty serieController.selected.idDuracion}"/>  
+                <p:menuitem value="#{seriesBundle.SerieMenuItem_idPais}" icon="ui-icon-search"  actionListener="#{serieController.prepareIdPais}" update=":PaisViewForm" oncomplete="PF('PaisViewDialog').show()" disabled="#{empty serieController.selected.idPais}"/>  
+                <p:menuitem value="#{seriesBundle.SerieMenuItem_idIdiomaOrigen}" icon="ui-icon-search"  actionListener="#{serieController.prepareIdIdiomaOrigen}" update=":IdiomaViewForm" oncomplete="PF('IdiomaViewDialog').show()" disabled="#{empty serieController.selected.idIdiomaOrigen}"/>  
+                <p:menuitem value="#{seriesBundle.SerieMenuItem_idTipoSerie}" icon="ui-icon-search"  actionListener="#{serieController.prepareIdTipoSerie}" update=":TipoSerieViewForm" oncomplete="PF('TipoSerieViewDialog').show()" disabled="#{empty serieController.selected.idTipoSerie}"/>  
+                <p:menuitem value="#{seriesBundle.SerieMenuItem_idEmisora}" icon="ui-icon-search"  actionListener="#{serieController.prepareIdEmisora}" update=":EmisoraViewForm" oncomplete="PF('EmisoraViewDialog').show()" disabled="#{empty serieController.selected.idEmisora}"/>  
+                <p:menuitem value="#{seriesBundle.SerieMenuItem_idDistintivo}" icon="ui-icon-search"  actionListener="#{serieController.prepareIdDistintivo}" update=":DistintivoViewForm" oncomplete="PF('DistintivoViewDialog').show()" disabled="#{empty serieController.selected.idDistintivo}"/>  
+                <p:menuitem value="#{seriesBundle.SerieMenuItem_idGenero4}" icon="ui-icon-search"  actionListener="#{serieController.prepareIdGenero4}" update=":GeneroViewForm" oncomplete="PF('GeneroViewDialog').show()" disabled="#{empty serieController.selected.idGenero4}"/>  
+                <p:menuitem value="#{seriesBundle.SerieMenuItem_idGenero3}" icon="ui-icon-search"  actionListener="#{serieController.prepareIdGenero3}" update=":GeneroViewForm" oncomplete="PF('GeneroViewDialog').show()" disabled="#{empty serieController.selected.idGenero3}"/>  
+                <p:menuitem value="#{seriesBundle.SerieMenuItem_serieCollection}" icon="ui-icon-search"  action="#{serieController.navigateSerieCollection}" disabled="#{empty serieController.selected.serieCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.SerieMenuItem_idSerieOrigen}" icon="ui-icon-search"  actionListener="#{serieController.prepareIdSerieOrigen}" update=":SerieViewForm" oncomplete="PF('SerieViewDialog').show()" disabled="#{empty serieController.selected.idSerieOrigen}"/>  
+                <p:menuitem value="#{seriesBundle.SerieMenuItem_episodioCollection}" icon="ui-icon-search"  action="#{serieController.navigateEpisodioCollection}" disabled="#{empty serieController.selected.episodioCollection}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{serieController.items}"
+                         var="item"
+                         rowKey="#{item.idSerie}"
+                         paginator="true"
+                         rows="25"
+                         rowsPerPageTemplate="10,25,50,75,100"
+                         selectionMode="single"
+                         selection="#{serieController.selected}">
+
+                <p:ajax event="rowSelect"   update=":SerieListForm:createButton :SerieListForm:viewButton :SerieListForm:editButton :SerieListForm:deleteButton :SerieListForm:SerieDataTableContextMenu" listener="#{serieController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":SerieListForm:createButton :SerieListForm:viewButton :SerieListForm:editButton :SerieListForm:deleteButton :SerieListForm:SerieDataTableContextMenu" listener="#{serieController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('SerieListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idSerie}" filterBy="#{item.idSerie}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListSerieTitle_idSerie}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idSerie}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idImagen}" filterBy="#{item.idImagen}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListSerieTitle_idImagen}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idImagen}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idRango}" filterBy="#{item.idRango}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListSerieTitle_idRango}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idRango.toString()}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.titulo}" filterBy="#{item.titulo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListSerieTitle_titulo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.titulo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tituloAlternativo}" filterBy="#{item.tituloAlternativo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListSerieTitle_tituloAlternativo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tituloAlternativo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tituloAlternativo2}" filterBy="#{item.tituloAlternativo2}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListSerieTitle_tituloAlternativo2}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tituloAlternativo2}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.anioInicio}" filterBy="#{item.anioInicio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListSerieTitle_anioInicio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.anioInicio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.anioFin}" filterBy="#{item.anioFin}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListSerieTitle_anioFin}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.anioFin}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.temporadas}" filterBy="#{item.temporadas}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListSerieTitle_temporadas}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.temporadas}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.episodios}" filterBy="#{item.episodios}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListSerieTitle_episodios}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.episodios}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idGenero2.descripcion}" filterBy="#{item.idGenero2.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListSerieTitle_idGenero2}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idGenero2.descripcion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idGenero1.descripcion}" filterBy="#{item.idGenero1.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListSerieTitle_idGenero1}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idGenero1.descripcion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idClasificacion.descripcion}" filterBy="#{item.idClasificacion.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListSerieTitle_idClasificacion}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idClasificacion.descripcion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idDuracion.descripcion}" filterBy="#{item.idDuracion.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListSerieTitle_idDuracion}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idDuracion.descripcion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idPais.descripcion}" filterBy="#{item.idPais.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListSerieTitle_idPais}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idPais.descripcion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idIdiomaOrigen.descripcion}" filterBy="#{item.idIdiomaOrigen.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListSerieTitle_idIdiomaOrigen}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idIdiomaOrigen.descripcion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idTipoSerie.descripcion}" filterBy="#{item.idTipoSerie.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListSerieTitle_idTipoSerie}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idTipoSerie.descripcion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idEmisora.idEmisora}" filterBy="#{item.idEmisora.idEmisora}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListSerieTitle_idEmisora}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idEmisora.idEmisora}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idDistintivo.descripcion}" filterBy="#{item.idDistintivo.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListSerieTitle_idDistintivo}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idDistintivo.descripcion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idGenero4.descripcion}" filterBy="#{item.idGenero4.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListSerieTitle_idGenero4}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idGenero4.descripcion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idGenero3.descripcion}" filterBy="#{item.idGenero3.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListSerieTitle_idGenero3}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idGenero3.descripcion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idSerieOrigen.idSerie}" filterBy="#{item.idSerieOrigen.idSerie}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListSerieTitle_idSerieOrigen}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idSerieOrigen.idSerie}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{seriesBundle.Create}" actionListener="#{serieController.prepareCreate}" update=":SerieCreateForm" oncomplete="PF('SerieCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{seriesBundle.View}" update=":SerieViewForm" oncomplete="PF('SerieViewDialog').show()" disabled="#{empty serieController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{seriesBundle.Edit}" update=":SerieEditForm" oncomplete="PF('SerieEditDialog').show()" disabled="#{empty serieController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{seriesBundle.Delete}" actionListener="#{serieController.delete}" update=":growl,datalist" disabled="#{empty serieController.selected}">
+                <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/generic/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

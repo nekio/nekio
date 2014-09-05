@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoDistintivoCreateDlg" widgetVar="TipoDistintivoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{seriesBundle.CreateTipoDistintivoTitle}" closeOnEscape="true">
+
+            <h:form id="TipoDistintivoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tipoDistintivoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{seriesBundle.CreateTipoDistintivoLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{tipoDistintivoController.selected.descripcion}" title="#{seriesBundle.CreateTipoDistintivoTitle_descripcion}" size="25" maxlength="25"/>
+                            <p:tooltip for="descripcion" value="#{tipoDistintivoController.getComponentMessages('descripcion', seriesBundle.CreateTipoDistintivoHelpText_descripcion)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoDistintivoController.saveNew}" value="#{seriesBundle.Save}" update="display,:TipoDistintivoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoDistintivoCreateDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('TipoDistintivoCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

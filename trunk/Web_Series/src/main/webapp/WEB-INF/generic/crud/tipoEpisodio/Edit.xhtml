@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TipoEpisodioEditDlg" widgetVar="TipoEpisodioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.EditTipoEpisodioTitle}" closeOnEscape="true">
+
+            <h:form id="TipoEpisodioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoEpisodioController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditTipoEpisodioLabel_idTipoEpisodio}" for="idTipoEpisodio" />
+                        <h:panelGroup>
+                            <h:outputText id="idTipoEpisodio" value="#{tipoEpisodioController.selected.idTipoEpisodio}" />
+                            <p:tooltip for="idTipoEpisodio" value="#{tipoEpisodioController.getComponentMessages('idTipoEpisodio', seriesBundle.EditTipoEpisodioHelpText_idTipoEpisodio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditTipoEpisodioLabel_idRango}" for="idRango" />
+                        <h:panelGroup>
+                            <p:inputText id="idRango" value="#{tipoEpisodioController.selected.idRango}" title="#{seriesBundle.EditTipoEpisodioTitle_idRango}" required="true" requiredMessage="#{seriesBundle.EditTipoEpisodioRequiredMessage_idRango}"/>
+                            <p:tooltip for="idRango" value="#{tipoEpisodioController.getComponentMessages('idRango', seriesBundle.EditTipoEpisodioHelpText_idRango)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditTipoEpisodioLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{tipoEpisodioController.selected.descripcion}" title="#{seriesBundle.EditTipoEpisodioTitle_descripcion}" size="20" maxlength="20"/>
+                            <p:tooltip for="descripcion" value="#{tipoEpisodioController.getComponentMessages('descripcion', seriesBundle.EditTipoEpisodioHelpText_descripcion)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoEpisodioController.save}" value="#{seriesBundle.Save}" update="display,:TipoEpisodioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoEpisodioEditDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('TipoEpisodioEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

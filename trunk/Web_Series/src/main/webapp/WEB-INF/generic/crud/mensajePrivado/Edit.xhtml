@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="MensajePrivadoEditDlg" widgetVar="MensajePrivadoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.EditMensajePrivadoTitle}" closeOnEscape="true">
+
+            <h:form id="MensajePrivadoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{mensajePrivadoController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditMensajePrivadoLabel_mensajePrivadoPK_idMensajePrivado}" for="mensajePrivadoPK_idMensajePrivado" />
+                        <h:panelGroup>
+                            <h:outputText id="mensajePrivadoPK_idMensajePrivado" value="#{mensajePrivadoController.selected.mensajePrivadoPK.idMensajePrivado}" />
+                            <p:tooltip for="mensajePrivadoPK_idMensajePrivado" value="#{mensajePrivadoController.getComponentMessages('mensajePrivadoPK_idMensajePrivado', seriesBundle.EditMensajePrivadoHelpText_mensajePrivadoPK_idMensajePrivado)}"/>
+                        </h:panelGroup>
+
+
+                        <h:outputLabel value="#{seriesBundle.EditMensajePrivadoLabel_mensajePrivadoPK_idUsuario}" for="mensajePrivadoPK_idUsuario" />
+                        <h:panelGroup>
+                            <h:outputText id="mensajePrivadoPK_idUsuario" value="#{mensajePrivadoController.selected.mensajePrivadoPK.idUsuario}" />
+                            <p:tooltip for="mensajePrivadoPK_idUsuario" value="#{mensajePrivadoController.getComponentMessages('mensajePrivadoPK_idUsuario', seriesBundle.EditMensajePrivadoHelpText_mensajePrivadoPK_idUsuario)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditMensajePrivadoLabel_idMpRelacionado}" for="idMpRelacionado" />
+                        <h:panelGroup>
+                            <p:inputText id="idMpRelacionado" value="#{mensajePrivadoController.selected.idMpRelacionado}" title="#{seriesBundle.EditMensajePrivadoTitle_idMpRelacionado}"/>
+                            <p:tooltip for="idMpRelacionado" value="#{mensajePrivadoController.getComponentMessages('idMpRelacionado', seriesBundle.EditMensajePrivadoHelpText_idMpRelacionado)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditMensajePrivadoLabel_mensaje}" for="mensaje" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="4" cols="30" id="mensaje" value="#{mensajePrivadoController.selected.mensaje}" title="#{seriesBundle.EditMensajePrivadoTitle_mensaje}" required="true" requiredMessage="#{seriesBundle.EditMensajePrivadoRequiredMessage_mensaje}"/>
+                            <p:tooltip for="mensaje" value="#{mensajePrivadoController.getComponentMessages('mensaje', seriesBundle.EditMensajePrivadoHelpText_mensaje)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditMensajePrivadoLabel_fecha}" for="fecha" />
+                        <h:panelGroup>
+                            <p:calendar id="fecha" pattern="MM/dd/yyyy HH:mm:ss" value="#{mensajePrivadoController.selected.fecha}" title="#{seriesBundle.EditMensajePrivadoTitle_fecha}" required="true" requiredMessage="#{seriesBundle.EditMensajePrivadoRequiredMessage_fecha}" showOn="button"/>
+                            <p:tooltip for="fecha" value="#{mensajePrivadoController.getComponentMessages('fecha', seriesBundle.EditMensajePrivadoHelpText_fecha)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditMensajePrivadoLabel_recibidoEnviado}" for="recibidoEnviado" />
+                        <h:panelGroup>
+                            <p:inputText id="recibidoEnviado" value="#{mensajePrivadoController.selected.recibidoEnviado}" title="#{seriesBundle.EditMensajePrivadoTitle_recibidoEnviado}" required="true" requiredMessage="#{seriesBundle.EditMensajePrivadoRequiredMessage_recibidoEnviado}"/>
+                            <p:tooltip for="recibidoEnviado" value="#{mensajePrivadoController.getComponentMessages('recibidoEnviado', seriesBundle.EditMensajePrivadoHelpText_recibidoEnviado)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditMensajePrivadoLabel_atendido}" for="atendido" />
+                        <h:panelGroup>
+                            <p:inputText id="atendido" value="#{mensajePrivadoController.selected.atendido}" title="#{seriesBundle.EditMensajePrivadoTitle_atendido}"/>
+                            <p:tooltip for="atendido" value="#{mensajePrivadoController.getComponentMessages('atendido', seriesBundle.EditMensajePrivadoHelpText_atendido)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditMensajePrivadoLabel_idColaborador}" for="idColaborador" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idColaborador" value="#{mensajePrivadoController.selected.idColaborador}"  converter="colaboradorConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{colaboradorController.items}"
+                                               var="idColaboradorItem"
+                                               itemValue="#{idColaboradorItem}"
+                                               itemLabel="#{idColaboradorItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idColaborador" value="#{mensajePrivadoController.getComponentMessages('idColaborador', seriesBundle.EditMensajePrivadoHelpText_idColaborador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditMensajePrivadoLabel_idWeb}" for="idWeb" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idWeb" value="#{mensajePrivadoController.selected.idWeb}"  converter="webConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{webController.items}"
+                                               var="idWebItem"
+                                               itemValue="#{idWebItem}"
+                                               itemLabel="#{idWebItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idWeb" value="#{mensajePrivadoController.getComponentMessages('idWeb', seriesBundle.EditMensajePrivadoHelpText_idWeb)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditMensajePrivadoLabel_idTipoMensaje}" for="idTipoMensaje" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idTipoMensaje" value="#{mensajePrivadoController.selected.idTipoMensaje}" required="true" requiredMessage="#{seriesBundle.EditMensajePrivadoRequiredMessage_idTipoMensaje}" converter="tipoMensajeConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{tipoMensajeController.items}"
+                                               var="idTipoMensajeItem"
+                                               itemValue="#{idTipoMensajeItem}"
+                                               itemLabel="#{idTipoMensajeItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idTipoMensaje" value="#{mensajePrivadoController.getComponentMessages('idTipoMensaje', seriesBundle.EditMensajePrivadoHelpText_idTipoMensaje)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{mensajePrivadoController.save}" value="#{seriesBundle.Save}" update="display,:MensajePrivadoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('MensajePrivadoEditDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('MensajePrivadoEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

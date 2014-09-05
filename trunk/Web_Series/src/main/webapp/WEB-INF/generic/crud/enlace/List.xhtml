@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="EnlaceListForm">
+
+        <p:panel header="#{seriesBundle.ListEnlaceTitle}">
+            <p:contextMenu id="EnlaceDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{seriesBundle.Create}" onclick="document.getElementById('EnlaceListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{seriesBundle.View}" onclick="document.getElementById('EnlaceListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('EnlaceListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('EnlaceListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{seriesBundle.EnlaceMenuItem_idProyecto}" icon="ui-icon-search"  actionListener="#{enlaceController.prepareIdProyecto}" update=":ProyectoViewForm" oncomplete="PF('ProyectoViewDialog').show()" disabled="#{empty enlaceController.selected.idProyecto}"/>  
+                <p:menuitem value="#{seriesBundle.EnlaceMenuItem_idSerie}" icon="ui-icon-search"  actionListener="#{enlaceController.prepareIdSerie}" update=":SerieViewForm" oncomplete="PF('SerieViewDialog').show()" disabled="#{empty enlaceController.selected.idSerie}"/>  
+                <p:menuitem value="#{seriesBundle.EnlaceMenuItem_idEpisodio}" icon="ui-icon-search"  actionListener="#{enlaceController.prepareIdEpisodio}" update=":EpisodioViewForm" oncomplete="PF('EpisodioViewDialog').show()" disabled="#{empty enlaceController.selected.idEpisodio}"/>  
+                <p:menuitem value="#{seriesBundle.EnlaceMenuItem_idEnlaceStatus}" icon="ui-icon-search"  actionListener="#{enlaceController.prepareIdEnlaceStatus}" update=":EnlaceStatusViewForm" oncomplete="PF('EnlaceStatusViewDialog').show()" disabled="#{empty enlaceController.selected.idEnlaceStatus}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{enlaceController.items}"
+                         var="item"
+                         rowKey="#{item.idEnlace}"
+                         paginator="true"
+                         rows="25"
+                         rowsPerPageTemplate="10,25,50,75,100"
+                         selectionMode="single"
+                         selection="#{enlaceController.selected}">
+
+                <p:ajax event="rowSelect"   update=":EnlaceListForm:createButton :EnlaceListForm:viewButton :EnlaceListForm:editButton :EnlaceListForm:deleteButton :EnlaceListForm:EnlaceDataTableContextMenu" listener="#{enlaceController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":EnlaceListForm:createButton :EnlaceListForm:viewButton :EnlaceListForm:editButton :EnlaceListForm:deleteButton :EnlaceListForm:EnlaceDataTableContextMenu" listener="#{enlaceController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('EnlaceListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idEnlace}" filterBy="#{item.idEnlace}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListEnlaceTitle_idEnlace}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idEnlace}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.enlace}" filterBy="#{item.enlace}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListEnlaceTitle_enlace}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.enlace}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.comentarios}" filterBy="#{item.comentarios}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListEnlaceTitle_comentarios}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.comentarios}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idProyecto.idProyecto}" filterBy="#{item.idProyecto.idProyecto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListEnlaceTitle_idProyecto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idProyecto.idProyecto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idSerie.idSerie}" filterBy="#{item.idSerie.idSerie}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListEnlaceTitle_idSerie}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idSerie.idSerie}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idEpisodio.descripcion}" filterBy="#{item.idEpisodio.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListEnlaceTitle_idEpisodio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idEpisodio.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idEnlaceStatus.descripcion}" filterBy="#{item.idEnlaceStatus.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListEnlaceTitle_idEnlaceStatus}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idEnlaceStatus.descripcion}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{seriesBundle.Create}" actionListener="#{enlaceController.prepareCreate}" update=":EnlaceCreateForm" oncomplete="PF('EnlaceCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{seriesBundle.View}" update=":EnlaceViewForm" oncomplete="PF('EnlaceViewDialog').show()" disabled="#{empty enlaceController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{seriesBundle.Edit}" update=":EnlaceEditForm" oncomplete="PF('EnlaceEditDialog').show()" disabled="#{empty enlaceController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{seriesBundle.Delete}" actionListener="#{enlaceController.delete}" update=":growl,datalist" disabled="#{empty enlaceController.selected}">
+                <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/generic/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

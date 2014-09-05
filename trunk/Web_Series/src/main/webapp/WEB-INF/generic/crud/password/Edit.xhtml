@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="PasswordEditDlg" widgetVar="PasswordEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.EditPasswordTitle}" closeOnEscape="true">
+
+            <h:form id="PasswordEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{passwordController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditPasswordLabel_idPassword}" for="idPassword" />
+                        <h:panelGroup>
+                            <h:outputText id="idPassword" value="#{passwordController.selected.idPassword}" />
+                            <p:tooltip for="idPassword" value="#{passwordController.getComponentMessages('idPassword', seriesBundle.EditPasswordHelpText_idPassword)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditPasswordLabel_idRango}" for="idRango" />
+                        <h:panelGroup>
+                            <p:inputText id="idRango" value="#{passwordController.selected.idRango}" title="#{seriesBundle.EditPasswordTitle_idRango}" required="true" requiredMessage="#{seriesBundle.EditPasswordRequiredMessage_idRango}"/>
+                            <p:tooltip for="idRango" value="#{passwordController.getComponentMessages('idRango', seriesBundle.EditPasswordHelpText_idRango)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditPasswordLabel_password}" for="password" />
+                        <h:panelGroup>
+                            <p:inputText id="password" value="#{passwordController.selected.password}" title="#{seriesBundle.EditPasswordTitle_password}" required="true" requiredMessage="#{seriesBundle.EditPasswordRequiredMessage_password}" size="80" maxlength="80"/>
+                            <p:tooltip for="password" value="#{passwordController.getComponentMessages('password', seriesBundle.EditPasswordHelpText_password)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditPasswordLabel_comentarios}" for="comentarios" />
+                        <h:panelGroup>
+                            <p:inputText id="comentarios" value="#{passwordController.selected.comentarios}" title="#{seriesBundle.EditPasswordTitle_comentarios}" size="255" maxlength="255"/>
+                            <p:tooltip for="comentarios" value="#{passwordController.getComponentMessages('comentarios', seriesBundle.EditPasswordHelpText_comentarios)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditPasswordLabel_idProyecto}" for="idProyecto" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idProyecto" value="#{passwordController.selected.idProyecto}"  converter="proyectoConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{proyectoController.items}"
+                                               var="idProyectoItem"
+                                               itemValue="#{idProyectoItem}"
+                                               itemLabel="#{idProyectoItem.idProyecto.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idProyecto" value="#{passwordController.getComponentMessages('idProyecto', seriesBundle.EditPasswordHelpText_idProyecto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditPasswordLabel_idSerie}" for="idSerie" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idSerie" value="#{passwordController.selected.idSerie}"  converter="serieConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{serieController.items}"
+                                               var="idSerieItem"
+                                               itemValue="#{idSerieItem}"
+                                               itemLabel="#{idSerieItem.idSerie.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idSerie" value="#{passwordController.getComponentMessages('idSerie', seriesBundle.EditPasswordHelpText_idSerie)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditPasswordLabel_idEpisodio}" for="idEpisodio" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idEpisodio" value="#{passwordController.selected.idEpisodio}"  converter="episodioConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{episodioController.items}"
+                                               var="idEpisodioItem"
+                                               itemValue="#{idEpisodioItem}"
+                                               itemLabel="#{idEpisodioItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idEpisodio" value="#{passwordController.getComponentMessages('idEpisodio', seriesBundle.EditPasswordHelpText_idEpisodio)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{passwordController.save}" value="#{seriesBundle.Save}" update="display,:PasswordListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PasswordEditDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('PasswordEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

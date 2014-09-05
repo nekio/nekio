@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ColaboradorEditDlg" widgetVar="ColaboradorEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.EditColaboradorTitle}" closeOnEscape="true">
+
+            <h:form id="ColaboradorEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{colaboradorController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditColaboradorLabel_idColaborador}" for="idColaborador" />
+                        <h:panelGroup>
+                            <h:outputText id="idColaborador" value="#{colaboradorController.selected.idColaborador}" />
+                            <p:tooltip for="idColaborador" value="#{colaboradorController.getComponentMessages('idColaborador', seriesBundle.EditColaboradorHelpText_idColaborador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditColaboradorLabel_idImagen}" for="idImagen" />
+                        <h:panelGroup>
+                            <p:inputText id="idImagen" value="#{colaboradorController.selected.idImagen}" title="#{seriesBundle.EditColaboradorTitle_idImagen}"/>
+                            <p:tooltip for="idImagen" value="#{colaboradorController.getComponentMessages('idImagen', seriesBundle.EditColaboradorHelpText_idImagen)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditColaboradorLabel_idRango}" for="idRango" />
+                        <h:panelGroup>
+                            <p:inputText id="idRango" value="#{colaboradorController.selected.idRango}" title="#{seriesBundle.EditColaboradorTitle_idRango}" required="true" requiredMessage="#{seriesBundle.EditColaboradorRequiredMessage_idRango}"/>
+                            <p:tooltip for="idRango" value="#{colaboradorController.getComponentMessages('idRango', seriesBundle.EditColaboradorHelpText_idRango)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditColaboradorLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{colaboradorController.selected.descripcion}" title="#{seriesBundle.EditColaboradorTitle_descripcion}" required="true" requiredMessage="#{seriesBundle.EditColaboradorRequiredMessage_descripcion}" size="20" maxlength="20"/>
+                            <p:tooltip for="descripcion" value="#{colaboradorController.getComponentMessages('descripcion', seriesBundle.EditColaboradorHelpText_descripcion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditColaboradorLabel_sexo}" for="sexo" />
+                        <h:panelGroup>
+                            <p:inputText id="sexo" value="#{colaboradorController.selected.sexo}" title="#{seriesBundle.EditColaboradorTitle_sexo}"/>
+                            <p:tooltip for="sexo" value="#{colaboradorController.getComponentMessages('sexo', seriesBundle.EditColaboradorHelpText_sexo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditColaboradorLabel_contacto}" for="contacto" />
+                        <h:panelGroup>
+                            <p:inputText id="contacto" value="#{colaboradorController.selected.contacto}" title="#{seriesBundle.EditColaboradorTitle_contacto}" size="100" maxlength="100"/>
+                            <p:tooltip for="contacto" value="#{colaboradorController.getComponentMessages('contacto', seriesBundle.EditColaboradorHelpText_contacto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditColaboradorLabel_idPais}" for="idPais" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idPais" value="#{colaboradorController.selected.idPais}"  converter="paisConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{paisController.items}"
+                                               var="idPaisItem"
+                                               itemValue="#{idPaisItem}"
+                                               itemLabel="#{idPaisItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idPais" value="#{colaboradorController.getComponentMessages('idPais', seriesBundle.EditColaboradorHelpText_idPais)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{colaboradorController.save}" value="#{seriesBundle.Save}" update="display,:ColaboradorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ColaboradorEditDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('ColaboradorEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

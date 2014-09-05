@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="EmisoraListForm">
+
+        <p:panel header="#{seriesBundle.ListEmisoraTitle}">
+            <p:contextMenu id="EmisoraDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{seriesBundle.Create}" onclick="document.getElementById('EmisoraListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{seriesBundle.View}" onclick="document.getElementById('EmisoraListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('EmisoraListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('EmisoraListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{seriesBundle.EmisoraMenuItem_serieCollection}" icon="ui-icon-search"  action="#{emisoraController.navigateSerieCollection}" disabled="#{empty emisoraController.selected.serieCollection}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{emisoraController.items}"
+                         var="item"
+                         rowKey="#{item.idEmisora}"
+                         paginator="true"
+                         rows="25"
+                         rowsPerPageTemplate="10,25,50,75,100"
+                         selectionMode="single"
+                         selection="#{emisoraController.selected}">
+
+                <p:ajax event="rowSelect"   update=":EmisoraListForm:createButton :EmisoraListForm:viewButton :EmisoraListForm:editButton :EmisoraListForm:deleteButton :EmisoraListForm:EmisoraDataTableContextMenu" listener="#{emisoraController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":EmisoraListForm:createButton :EmisoraListForm:viewButton :EmisoraListForm:editButton :EmisoraListForm:deleteButton :EmisoraListForm:EmisoraDataTableContextMenu" listener="#{emisoraController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('EmisoraListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idEmisora}" filterBy="#{item.idEmisora}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListEmisoraTitle_idEmisora}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idEmisora}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idImagen}" filterBy="#{item.idImagen}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListEmisoraTitle_idImagen}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idImagen}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.siglasEmisora}" filterBy="#{item.siglasEmisora}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListEmisoraTitle_siglasEmisora}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.siglasEmisora}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombreEmisora}" filterBy="#{item.nombreEmisora}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListEmisoraTitle_nombreEmisora}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombreEmisora}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{seriesBundle.Create}" actionListener="#{emisoraController.prepareCreate}" update=":EmisoraCreateForm" oncomplete="PF('EmisoraCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{seriesBundle.View}" update=":EmisoraViewForm" oncomplete="PF('EmisoraViewDialog').show()" disabled="#{empty emisoraController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{seriesBundle.Edit}" update=":EmisoraEditForm" oncomplete="PF('EmisoraEditDialog').show()" disabled="#{empty emisoraController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{seriesBundle.Delete}" actionListener="#{emisoraController.delete}" update=":growl,datalist" disabled="#{empty emisoraController.selected}">
+                <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/generic/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

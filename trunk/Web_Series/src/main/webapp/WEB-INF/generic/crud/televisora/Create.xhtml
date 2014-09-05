@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TelevisoraCreateDlg" widgetVar="TelevisoraCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{seriesBundle.CreateTelevisoraTitle}" closeOnEscape="true">
+
+            <h:form id="TelevisoraCreateForm">
+
+                <h:panelGroup id="display" rendered="#{televisoraController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{seriesBundle.CreateTelevisoraLabel_idImagen}" for="idImagen" />
+                        <h:panelGroup>
+                            <p:inputText id="idImagen" value="#{televisoraController.selected.idImagen}" title="#{seriesBundle.CreateTelevisoraTitle_idImagen}"/>
+                            <p:tooltip for="idImagen" value="#{televisoraController.getComponentMessages('idImagen', seriesBundle.CreateTelevisoraHelpText_idImagen)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateTelevisoraLabel_siglasTelevisora}" for="siglasTelevisora" />
+                        <h:panelGroup>
+                            <p:inputText id="siglasTelevisora" value="#{televisoraController.selected.siglasTelevisora}" title="#{seriesBundle.CreateTelevisoraTitle_siglasTelevisora}" required="true" requiredMessage="#{seriesBundle.CreateTelevisoraRequiredMessage_siglasTelevisora}" size="20" maxlength="20"/>
+                            <p:tooltip for="siglasTelevisora" value="#{televisoraController.getComponentMessages('siglasTelevisora', seriesBundle.CreateTelevisoraHelpText_siglasTelevisora)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateTelevisoraLabel_nombreTelevisora}" for="nombreTelevisora" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreTelevisora" value="#{televisoraController.selected.nombreTelevisora}" title="#{seriesBundle.CreateTelevisoraTitle_nombreTelevisora}" required="true" requiredMessage="#{seriesBundle.CreateTelevisoraRequiredMessage_nombreTelevisora}" size="100" maxlength="100"/>
+                            <p:tooltip for="nombreTelevisora" value="#{televisoraController.getComponentMessages('nombreTelevisora', seriesBundle.CreateTelevisoraHelpText_nombreTelevisora)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateTelevisoraLabel_serieCollection}" for="serieCollection" />
+                        <h:panelGroup>
+                            <p:selectManyMenu id="serieCollection" value="#{televisoraController.selected.serieCollection}"  converter="serieConverter">
+                                <f:selectItems value="#{serieController.items}"
+                                               var="serieCollectionItem"
+                                               itemValue="#{serieCollectionItem}"
+                                               itemLabel="#{serieCollectionItem.idSerie.toString()}"
+                                               />
+
+                            </p:selectManyMenu>
+                            <p:tooltip for="serieCollection" value="#{televisoraController.getComponentMessages('serieCollection', seriesBundle.CreateTelevisoraHelpText_serieCollection)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{televisoraController.saveNew}" value="#{seriesBundle.Save}" update="display,:TelevisoraListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TelevisoraCreateDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('TelevisoraCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

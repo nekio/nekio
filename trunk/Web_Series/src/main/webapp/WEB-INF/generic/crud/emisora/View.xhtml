@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EmisoraViewDlg" widgetVar="EmisoraViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.ViewEmisoraTitle}" closeOnEscape="true">
+
+            <h:form id="EmisoraViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{emisoraController.selected != null}">
+
+                        <h:outputText value="#{seriesBundle.ViewEmisoraLabel_idEmisora}"/>
+                        <h:outputText value="#{emisoraController.selected.idEmisora}" title="#{seriesBundle.ViewEmisoraTitle_idEmisora}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewEmisoraLabel_idImagen}"/>
+                        <h:outputText value="#{emisoraController.selected.idImagen}" title="#{seriesBundle.ViewEmisoraTitle_idImagen}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewEmisoraLabel_siglasEmisora}"/>
+                        <h:outputText value="#{emisoraController.selected.siglasEmisora}" title="#{seriesBundle.ViewEmisoraTitle_siglasEmisora}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewEmisoraLabel_nombreEmisora}"/>
+                        <h:outputText value="#{emisoraController.selected.nombreEmisora}" title="#{seriesBundle.ViewEmisoraTitle_nombreEmisora}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="PF('EmisoraViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

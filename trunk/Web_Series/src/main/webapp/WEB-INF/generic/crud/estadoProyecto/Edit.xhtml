@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EstadoProyectoEditDlg" widgetVar="EstadoProyectoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.EditEstadoProyectoTitle}" closeOnEscape="true">
+
+            <h:form id="EstadoProyectoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{estadoProyectoController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditEstadoProyectoLabel_idEstadoProyecto}" for="idEstadoProyecto" />
+                        <h:panelGroup>
+                            <h:outputText id="idEstadoProyecto" value="#{estadoProyectoController.selected.idEstadoProyecto}" />
+                            <p:tooltip for="idEstadoProyecto" value="#{estadoProyectoController.getComponentMessages('idEstadoProyecto', seriesBundle.EditEstadoProyectoHelpText_idEstadoProyecto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditEstadoProyectoLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{estadoProyectoController.selected.descripcion}" title="#{seriesBundle.EditEstadoProyectoTitle_descripcion}" size="20" maxlength="20"/>
+                            <p:tooltip for="descripcion" value="#{estadoProyectoController.getComponentMessages('descripcion', seriesBundle.EditEstadoProyectoHelpText_descripcion)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{estadoProyectoController.save}" value="#{seriesBundle.Save}" update="display,:EstadoProyectoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EstadoProyectoEditDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('EstadoProyectoEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

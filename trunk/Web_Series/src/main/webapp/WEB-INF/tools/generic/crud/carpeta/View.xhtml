@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CarpetaViewDlg" widgetVar="CarpetaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{toolsBundle.ViewCarpetaTitle}" closeOnEscape="true">
+
+            <h:form id="CarpetaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{carpetaController.selected != null}">
+
+                        <h:outputText value="#{toolsBundle.ViewCarpetaLabel_idCarpeta}"/>
+                        <h:outputText value="#{carpetaController.selected.idCarpeta}" title="#{toolsBundle.ViewCarpetaTitle_idCarpeta}"/>
+
+                        <h:outputText value="#{toolsBundle.ViewCarpetaLabel_descripcion}"/>
+                        <h:outputText value="#{carpetaController.selected.descripcion}" title="#{toolsBundle.ViewCarpetaTitle_descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{toolsBundle.Close}" onclick="PF('CarpetaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

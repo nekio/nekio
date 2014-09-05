@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ImagenCreateDlg" widgetVar="ImagenCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{toolsBundle.CreateImagenTitle}" closeOnEscape="true">
+
+            <h:form id="ImagenCreateForm">
+
+                <h:panelGroup id="display" rendered="#{imagenController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{toolsBundle.CreateImagenLabel_imagen}" for="imagen" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="4" cols="30" id="imagen" value="#{imagenController.selected.imagen}" title="#{toolsBundle.CreateImagenTitle_imagen}" />
+                            <p:tooltip for="imagen" value="#{imagenController.getComponentMessages('imagen', toolsBundle.CreateImagenHelpText_imagen)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{toolsBundle.CreateImagenLabel_nombre}" for="nombre" />
+                        <h:panelGroup>
+                            <p:inputText id="nombre" value="#{imagenController.selected.nombre}" title="#{toolsBundle.CreateImagenTitle_nombre}" size="30" maxlength="30"/>
+                            <p:tooltip for="nombre" value="#{imagenController.getComponentMessages('nombre', toolsBundle.CreateImagenHelpText_nombre)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{toolsBundle.CreateImagenLabel_tipo}" for="tipo" />
+                        <h:panelGroup>
+                            <p:inputText id="tipo" value="#{imagenController.selected.tipo}" title="#{toolsBundle.CreateImagenTitle_tipo}" required="true" requiredMessage="#{toolsBundle.CreateImagenRequiredMessage_tipo}" size="1" maxlength="1"/>
+                            <p:tooltip for="tipo" value="#{imagenController.getComponentMessages('tipo', toolsBundle.CreateImagenHelpText_tipo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{toolsBundle.CreateImagenLabel_fechaSubida}" for="fechaSubida" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaSubida" pattern="MM/dd/yyyy HH:mm:ss" value="#{imagenController.selected.fechaSubida}" title="#{toolsBundle.CreateImagenTitle_fechaSubida}" required="true" requiredMessage="#{toolsBundle.CreateImagenRequiredMessage_fechaSubida}" showOn="button"/>
+                            <p:tooltip for="fechaSubida" value="#{imagenController.getComponentMessages('fechaSubida', toolsBundle.CreateImagenHelpText_fechaSubida)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{toolsBundle.CreateImagenLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{imagenController.selected.descripcion}" title="#{toolsBundle.CreateImagenTitle_descripcion}" size="80" maxlength="80"/>
+                            <p:tooltip for="descripcion" value="#{imagenController.getComponentMessages('descripcion', toolsBundle.CreateImagenHelpText_descripcion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{toolsBundle.CreateImagenLabel_idSistema}" for="idSistema" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idSistema" value="#{imagenController.selected.idSistema}"  converter="sistemaConverter">
+                                <f:selectItem itemLabel="#{toolsBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{sistemaController.items}"
+                                               var="idSistemaItem"
+                                               itemValue="#{idSistemaItem}"
+                                               itemLabel="#{idSistemaItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idSistema" value="#{imagenController.getComponentMessages('idSistema', toolsBundle.CreateImagenHelpText_idSistema)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{toolsBundle.CreateImagenLabel_idCarpeta}" for="idCarpeta" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idCarpeta" value="#{imagenController.selected.idCarpeta}"  converter="carpetaConverter">
+                                <f:selectItem itemLabel="#{toolsBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{carpetaController.items}"
+                                               var="idCarpetaItem"
+                                               itemValue="#{idCarpetaItem}"
+                                               itemLabel="#{idCarpetaItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idCarpeta" value="#{imagenController.getComponentMessages('idCarpeta', toolsBundle.CreateImagenHelpText_idCarpeta)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{imagenController.saveNew}" value="#{toolsBundle.Save}" update="display,:ImagenListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ImagenCreateDialog'));">
+                        <p:confirm header="#{toolsBundle.ConfirmationHeader}" message="#{toolsBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{toolsBundle.Cancel}" onclick="PF('ImagenCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

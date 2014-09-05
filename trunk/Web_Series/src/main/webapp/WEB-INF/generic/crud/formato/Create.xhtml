@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FormatoCreateDlg" widgetVar="FormatoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{seriesBundle.CreateFormatoTitle}" closeOnEscape="true">
+
+            <h:form id="FormatoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{formatoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{seriesBundle.CreateFormatoLabel_idRango}" for="idRango" />
+                        <h:panelGroup>
+                            <p:inputText id="idRango" value="#{formatoController.selected.idRango}" title="#{seriesBundle.CreateFormatoTitle_idRango}" required="true" requiredMessage="#{seriesBundle.CreateFormatoRequiredMessage_idRango}"/>
+                            <p:tooltip for="idRango" value="#{formatoController.getComponentMessages('idRango', seriesBundle.CreateFormatoHelpText_idRango)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateFormatoLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{formatoController.selected.descripcion}" title="#{seriesBundle.CreateFormatoTitle_descripcion}" size="20" maxlength="20"/>
+                            <p:tooltip for="descripcion" value="#{formatoController.getComponentMessages('descripcion', seriesBundle.CreateFormatoHelpText_descripcion)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{formatoController.saveNew}" value="#{seriesBundle.Save}" update="display,:FormatoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('FormatoCreateDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('FormatoCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

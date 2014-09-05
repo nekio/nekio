@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="EnlaceStatusListForm">
+
+        <p:panel header="#{seriesBundle.ListEnlaceStatusTitle}">
+            <p:contextMenu id="EnlaceStatusDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{seriesBundle.Create}" onclick="document.getElementById('EnlaceStatusListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{seriesBundle.View}" onclick="document.getElementById('EnlaceStatusListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('EnlaceStatusListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('EnlaceStatusListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{seriesBundle.EnlaceStatusMenuItem_enlaceCollection}" icon="ui-icon-search"  action="#{enlaceStatusController.navigateEnlaceCollection}" disabled="#{empty enlaceStatusController.selected.enlaceCollection}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{enlaceStatusController.items}"
+                         var="item"
+                         rowKey="#{item.idEnlaceStatus}"
+                         paginator="true"
+                         rows="25"
+                         rowsPerPageTemplate="10,25,50,75,100"
+                         selectionMode="single"
+                         selection="#{enlaceStatusController.selected}">
+
+                <p:ajax event="rowSelect"   update=":EnlaceStatusListForm:createButton :EnlaceStatusListForm:viewButton :EnlaceStatusListForm:editButton :EnlaceStatusListForm:deleteButton :EnlaceStatusListForm:EnlaceStatusDataTableContextMenu" listener="#{enlaceStatusController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":EnlaceStatusListForm:createButton :EnlaceStatusListForm:viewButton :EnlaceStatusListForm:editButton :EnlaceStatusListForm:deleteButton :EnlaceStatusListForm:EnlaceStatusDataTableContextMenu" listener="#{enlaceStatusController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('EnlaceStatusListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idEnlaceStatus}" filterBy="#{item.idEnlaceStatus}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListEnlaceStatusTitle_idEnlaceStatus}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idEnlaceStatus}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListEnlaceStatusTitle_descripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{seriesBundle.Create}" actionListener="#{enlaceStatusController.prepareCreate}" update=":EnlaceStatusCreateForm" oncomplete="PF('EnlaceStatusCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{seriesBundle.View}" update=":EnlaceStatusViewForm" oncomplete="PF('EnlaceStatusViewDialog').show()" disabled="#{empty enlaceStatusController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{seriesBundle.Edit}" update=":EnlaceStatusEditForm" oncomplete="PF('EnlaceStatusEditDialog').show()" disabled="#{empty enlaceStatusController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{seriesBundle.Delete}" actionListener="#{enlaceStatusController.delete}" update=":growl,datalist" disabled="#{empty enlaceStatusController.selected}">
+                <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/generic/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

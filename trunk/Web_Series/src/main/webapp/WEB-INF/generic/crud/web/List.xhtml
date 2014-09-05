@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="WebListForm">
+
+        <p:panel header="#{seriesBundle.ListWebTitle}">
+            <p:contextMenu id="WebDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{seriesBundle.Create}" onclick="document.getElementById('WebListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{seriesBundle.View}" onclick="document.getElementById('WebListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('WebListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('WebListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{seriesBundle.WebMenuItem_proyectoCollection}" icon="ui-icon-search"  action="#{webController.navigateProyectoCollection}" disabled="#{empty webController.selected.proyectoCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.WebMenuItem_mensajePrivadoCollection}" icon="ui-icon-search"  action="#{webController.navigateMensajePrivadoCollection}" disabled="#{empty webController.selected.mensajePrivadoCollection}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{webController.items}"
+                         var="item"
+                         rowKey="#{item.idWeb}"
+                         paginator="true"
+                         rows="25"
+                         rowsPerPageTemplate="10,25,50,75,100"
+                         selectionMode="single"
+                         selection="#{webController.selected}">
+
+                <p:ajax event="rowSelect"   update=":WebListForm:createButton :WebListForm:viewButton :WebListForm:editButton :WebListForm:deleteButton :WebListForm:WebDataTableContextMenu" listener="#{webController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":WebListForm:createButton :WebListForm:viewButton :WebListForm:editButton :WebListForm:deleteButton :WebListForm:WebDataTableContextMenu" listener="#{webController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('WebListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idWeb}" filterBy="#{item.idWeb}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListWebTitle_idWeb}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idWeb}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idImagen}" filterBy="#{item.idImagen}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListWebTitle_idImagen}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idImagen}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idRango}" filterBy="#{item.idRango}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListWebTitle_idRango}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idRango}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.titulo}" filterBy="#{item.titulo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListWebTitle_titulo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.titulo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.siglas}" filterBy="#{item.siglas}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListWebTitle_siglas}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.siglas}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.facebook}" filterBy="#{item.facebook}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListWebTitle_facebook}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.facebook}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.pagina}" filterBy="#{item.pagina}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListWebTitle_pagina}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.pagina}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListWebTitle_descripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{seriesBundle.Create}" actionListener="#{webController.prepareCreate}" update=":WebCreateForm" oncomplete="PF('WebCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{seriesBundle.View}" update=":WebViewForm" oncomplete="PF('WebViewDialog').show()" disabled="#{empty webController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{seriesBundle.Edit}" update=":WebEditForm" oncomplete="PF('WebEditDialog').show()" disabled="#{empty webController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{seriesBundle.Delete}" actionListener="#{webController.delete}" update=":growl,datalist" disabled="#{empty webController.selected}">
+                <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/generic/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

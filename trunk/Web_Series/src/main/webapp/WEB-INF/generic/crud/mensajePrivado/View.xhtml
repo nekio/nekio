@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MensajePrivadoViewDlg" widgetVar="MensajePrivadoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.ViewMensajePrivadoTitle}" closeOnEscape="true">
+
+            <h:form id="MensajePrivadoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{mensajePrivadoController.selected != null}">
+
+                        <h:outputText value="#{seriesBundle.ViewMensajePrivadoLabel_mensajePrivadoPK_idMensajePrivado}"/>
+                        <h:outputText value="#{mensajePrivadoController.selected.mensajePrivadoPK.idMensajePrivado}" title="#{seriesBundle.ViewMensajePrivadoTitle_mensajePrivadoPK_idMensajePrivado}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewMensajePrivadoLabel_mensajePrivadoPK_idUsuario}"/>
+                        <h:outputText value="#{mensajePrivadoController.selected.mensajePrivadoPK.idUsuario}" title="#{seriesBundle.ViewMensajePrivadoTitle_mensajePrivadoPK_idUsuario}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewMensajePrivadoLabel_idMpRelacionado}"/>
+                        <h:outputText value="#{mensajePrivadoController.selected.idMpRelacionado}" title="#{seriesBundle.ViewMensajePrivadoTitle_idMpRelacionado}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewMensajePrivadoLabel_mensaje}"/>
+                        <h:outputText value="#{mensajePrivadoController.selected.mensaje}" title="#{seriesBundle.ViewMensajePrivadoTitle_mensaje}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewMensajePrivadoLabel_fecha}"/>
+                        <h:outputText value="#{mensajePrivadoController.selected.fecha}" title="#{seriesBundle.ViewMensajePrivadoTitle_fecha}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{seriesBundle.ViewMensajePrivadoLabel_recibidoEnviado}"/>
+                        <h:outputText value="#{mensajePrivadoController.selected.recibidoEnviado}" title="#{seriesBundle.ViewMensajePrivadoTitle_recibidoEnviado}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewMensajePrivadoLabel_atendido}"/>
+                        <h:outputText value="#{mensajePrivadoController.selected.atendido}" title="#{seriesBundle.ViewMensajePrivadoTitle_atendido}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewMensajePrivadoLabel_idColaborador}"/>
+                        <h:outputText value="#{mensajePrivadoController.selected.idColaborador.descripcion}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewMensajePrivadoLabel_idWeb}"/>
+                        <h:outputText value="#{mensajePrivadoController.selected.idWeb.descripcion}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewMensajePrivadoLabel_idTipoMensaje}"/>
+                        <h:outputText value="#{mensajePrivadoController.selected.idTipoMensaje.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="PF('MensajePrivadoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

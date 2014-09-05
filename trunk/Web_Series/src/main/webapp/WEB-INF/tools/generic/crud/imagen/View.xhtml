@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ImagenViewDlg" widgetVar="ImagenViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{toolsBundle.ViewImagenTitle}" closeOnEscape="true">
+
+            <h:form id="ImagenViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{imagenController.selected != null}">
+
+                        <h:outputText value="#{toolsBundle.ViewImagenLabel_idImagen}"/>
+                        <h:outputText value="#{imagenController.selected.idImagen}" title="#{toolsBundle.ViewImagenTitle_idImagen}"/>
+
+                        <h:outputText value="#{toolsBundle.ViewImagenLabel_imagen}"/>
+                        <h:outputText value="#{imagenController.selected.imagen}" title="#{toolsBundle.ViewImagenTitle_imagen}"/>
+
+                        <h:outputText value="#{toolsBundle.ViewImagenLabel_nombre}"/>
+                        <h:outputText value="#{imagenController.selected.nombre}" title="#{toolsBundle.ViewImagenTitle_nombre}"/>
+
+                        <h:outputText value="#{toolsBundle.ViewImagenLabel_tipo}"/>
+                        <h:outputText value="#{imagenController.selected.tipo}" title="#{toolsBundle.ViewImagenTitle_tipo}"/>
+
+                        <h:outputText value="#{toolsBundle.ViewImagenLabel_fechaSubida}"/>
+                        <h:outputText value="#{imagenController.selected.fechaSubida}" title="#{toolsBundle.ViewImagenTitle_fechaSubida}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{toolsBundle.ViewImagenLabel_descripcion}"/>
+                        <h:outputText value="#{imagenController.selected.descripcion}" title="#{toolsBundle.ViewImagenTitle_descripcion}"/>
+
+                        <h:outputText value="#{toolsBundle.ViewImagenLabel_idSistema}"/>
+                        <h:outputText value="#{imagenController.selected.idSistema.descripcion}"/>
+
+                        <h:outputText value="#{toolsBundle.ViewImagenLabel_idCarpeta}"/>
+                        <h:outputText value="#{imagenController.selected.idCarpeta.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{toolsBundle.Close}" onclick="PF('ImagenViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

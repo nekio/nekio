@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ImagenListForm">
+
+        <p:panel header="#{toolsBundle.ListImagenTitle}">
+            <p:contextMenu id="ImagenDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{toolsBundle.Create}" onclick="document.getElementById('ImagenListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{toolsBundle.View}" onclick="document.getElementById('ImagenListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{toolsBundle.Edit}" onclick="document.getElementById('ImagenListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{toolsBundle.Delete}" onclick="document.getElementById('ImagenListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{toolsBundle.ImagenMenuItem_idSistema}" icon="ui-icon-search"  actionListener="#{imagenController.prepareIdSistema}" update=":SistemaViewForm" oncomplete="PF('SistemaViewDialog').show()" disabled="#{empty imagenController.selected.idSistema}"/>  
+                <p:menuitem value="#{toolsBundle.ImagenMenuItem_idCarpeta}" icon="ui-icon-search"  actionListener="#{imagenController.prepareIdCarpeta}" update=":CarpetaViewForm" oncomplete="PF('CarpetaViewDialog').show()" disabled="#{empty imagenController.selected.idCarpeta}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{imagenController.items}"
+                         var="item"
+                         rowKey="#{item.idImagen}"
+                         paginator="true"
+                         rows="20"
+                         rowsPerPageTemplate="10,25,50"
+                         selectionMode="single"
+                         selection="#{imagenController.selected}">
+
+                <p:ajax event="rowSelect"   update=":ImagenListForm:createButton :ImagenListForm:viewButton :ImagenListForm:editButton :ImagenListForm:deleteButton :ImagenListForm:ImagenDataTableContextMenu" listener="#{imagenController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":ImagenListForm:createButton :ImagenListForm:viewButton :ImagenListForm:editButton :ImagenListForm:deleteButton :ImagenListForm:ImagenDataTableContextMenu" listener="#{imagenController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ImagenListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idImagen}" filterBy="#{item.idImagen}">
+                    <f:facet name="header">
+                        <h:outputText value="#{toolsBundle.ListImagenTitle_idImagen}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idImagen}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.imagen}" filterBy="#{item.imagen}">
+                    <f:facet name="header">
+                        <h:outputText value="#{toolsBundle.ListImagenTitle_imagen}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.imagen}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{toolsBundle.ListImagenTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipo}" filterBy="#{item.tipo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{toolsBundle.ListImagenTitle_tipo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaSubida}" filterBy="#{item.fechaSubida}">
+                    <f:facet name="header">
+                        <h:outputText value="#{toolsBundle.ListImagenTitle_fechaSubida}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaSubida}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{toolsBundle.ListImagenTitle_descripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idSistema.descripcion}" filterBy="#{item.idSistema.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{toolsBundle.ListImagenTitle_idSistema}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idSistema.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idCarpeta.descripcion}" filterBy="#{item.idCarpeta.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{toolsBundle.ListImagenTitle_idCarpeta}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idCarpeta.descripcion}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{toolsBundle.Create}" actionListener="#{imagenController.prepareCreate}" update=":ImagenCreateForm" oncomplete="PF('ImagenCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{toolsBundle.View}" update=":ImagenViewForm" oncomplete="PF('ImagenViewDialog').show()" disabled="#{empty imagenController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{toolsBundle.Edit}" update=":ImagenEditForm" oncomplete="PF('ImagenEditDialog').show()" disabled="#{empty imagenController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{toolsBundle.Delete}" actionListener="#{imagenController.delete}" update=":growl,datalist" disabled="#{empty imagenController.selected}">
+                <p:confirm header="#{toolsBundle.ConfirmationHeader}" message="#{toolsBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/tools/generic/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

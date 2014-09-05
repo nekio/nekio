@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EmisoraCreateDlg" widgetVar="EmisoraCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{seriesBundle.CreateEmisoraTitle}" closeOnEscape="true">
+
+            <h:form id="EmisoraCreateForm">
+
+                <h:panelGroup id="display" rendered="#{emisoraController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{seriesBundle.CreateEmisoraLabel_idImagen}" for="idImagen" />
+                        <h:panelGroup>
+                            <p:inputText id="idImagen" value="#{emisoraController.selected.idImagen}" title="#{seriesBundle.CreateEmisoraTitle_idImagen}"/>
+                            <p:tooltip for="idImagen" value="#{emisoraController.getComponentMessages('idImagen', seriesBundle.CreateEmisoraHelpText_idImagen)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateEmisoraLabel_siglasEmisora}" for="siglasEmisora" />
+                        <h:panelGroup>
+                            <p:inputText id="siglasEmisora" value="#{emisoraController.selected.siglasEmisora}" title="#{seriesBundle.CreateEmisoraTitle_siglasEmisora}" required="true" requiredMessage="#{seriesBundle.CreateEmisoraRequiredMessage_siglasEmisora}" size="20" maxlength="20"/>
+                            <p:tooltip for="siglasEmisora" value="#{emisoraController.getComponentMessages('siglasEmisora', seriesBundle.CreateEmisoraHelpText_siglasEmisora)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateEmisoraLabel_nombreEmisora}" for="nombreEmisora" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreEmisora" value="#{emisoraController.selected.nombreEmisora}" title="#{seriesBundle.CreateEmisoraTitle_nombreEmisora}" required="true" requiredMessage="#{seriesBundle.CreateEmisoraRequiredMessage_nombreEmisora}" size="100" maxlength="100"/>
+                            <p:tooltip for="nombreEmisora" value="#{emisoraController.getComponentMessages('nombreEmisora', seriesBundle.CreateEmisoraHelpText_nombreEmisora)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{emisoraController.saveNew}" value="#{seriesBundle.Save}" update="display,:EmisoraListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EmisoraCreateDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('EmisoraCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

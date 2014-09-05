@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EnlaceViewDlg" widgetVar="EnlaceViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.ViewEnlaceTitle}" closeOnEscape="true">
+
+            <h:form id="EnlaceViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{enlaceController.selected != null}">
+
+                        <h:outputText value="#{seriesBundle.ViewEnlaceLabel_idEnlace}"/>
+                        <h:outputText value="#{enlaceController.selected.idEnlace}" title="#{seriesBundle.ViewEnlaceTitle_idEnlace}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewEnlaceLabel_enlace}"/>
+                        <h:outputText value="#{enlaceController.selected.enlace}" title="#{seriesBundle.ViewEnlaceTitle_enlace}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewEnlaceLabel_comentarios}"/>
+                        <h:outputText value="#{enlaceController.selected.comentarios}" title="#{seriesBundle.ViewEnlaceTitle_comentarios}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewEnlaceLabel_idProyecto}"/>
+                        <h:outputText value="#{enlaceController.selected.idProyecto.idProyecto}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewEnlaceLabel_idSerie}"/>
+                        <h:outputText value="#{enlaceController.selected.idSerie.idSerie}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewEnlaceLabel_idEpisodio}"/>
+                        <h:outputText value="#{enlaceController.selected.idEpisodio.descripcion}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewEnlaceLabel_idEnlaceStatus}"/>
+                        <h:outputText value="#{enlaceController.selected.idEnlaceStatus.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="PF('EnlaceViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

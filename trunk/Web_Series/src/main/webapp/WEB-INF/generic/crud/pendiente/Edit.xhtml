@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="PendienteEditDlg" widgetVar="PendienteEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.EditPendienteTitle}" closeOnEscape="true">
+
+            <h:form id="PendienteEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{pendienteController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditPendienteLabel_idPendiente}" for="idPendiente" />
+                        <h:panelGroup>
+                            <h:outputText id="idPendiente" value="#{pendienteController.selected.idPendiente}" />
+                            <p:tooltip for="idPendiente" value="#{pendienteController.getComponentMessages('idPendiente', seriesBundle.EditPendienteHelpText_idPendiente)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditPendienteLabel_idRango}" for="idRango" />
+                        <h:panelGroup>
+                            <p:inputText id="idRango" value="#{pendienteController.selected.idRango}" title="#{seriesBundle.EditPendienteTitle_idRango}" required="true" requiredMessage="#{seriesBundle.EditPendienteRequiredMessage_idRango}"/>
+                            <p:tooltip for="idRango" value="#{pendienteController.getComponentMessages('idRango', seriesBundle.EditPendienteHelpText_idRango)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditPendienteLabel_pendiente}" for="pendiente" />
+                        <h:panelGroup>
+                            <p:inputText id="pendiente" value="#{pendienteController.selected.pendiente}" title="#{seriesBundle.EditPendienteTitle_pendiente}" required="true" requiredMessage="#{seriesBundle.EditPendienteRequiredMessage_pendiente}" size="80" maxlength="80"/>
+                            <p:tooltip for="pendiente" value="#{pendienteController.getComponentMessages('pendiente', seriesBundle.EditPendienteHelpText_pendiente)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditPendienteLabel_detalle}" for="detalle" />
+                        <h:panelGroup>
+                            <p:inputText id="detalle" value="#{pendienteController.selected.detalle}" title="#{seriesBundle.EditPendienteTitle_detalle}" required="true" requiredMessage="#{seriesBundle.EditPendienteRequiredMessage_detalle}" size="80" maxlength="80"/>
+                            <p:tooltip for="detalle" value="#{pendienteController.getComponentMessages('detalle', seriesBundle.EditPendienteHelpText_detalle)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditPendienteLabel_fechaRevision}" for="fechaRevision" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaRevision" pattern="MM/dd/yyyy HH:mm:ss" value="#{pendienteController.selected.fechaRevision}" title="#{seriesBundle.EditPendienteTitle_fechaRevision}" required="true" requiredMessage="#{seriesBundle.EditPendienteRequiredMessage_fechaRevision}" showOn="button"/>
+                            <p:tooltip for="fechaRevision" value="#{pendienteController.getComponentMessages('fechaRevision', seriesBundle.EditPendienteHelpText_fechaRevision)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditPendienteLabel_enlace}" for="enlace" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="4" cols="30" id="enlace" value="#{pendienteController.selected.enlace}" title="#{seriesBundle.EditPendienteTitle_enlace}" />
+                            <p:tooltip for="enlace" value="#{pendienteController.getComponentMessages('enlace', seriesBundle.EditPendienteHelpText_enlace)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditPendienteLabel_comentarios}" for="comentarios" />
+                        <h:panelGroup>
+                            <p:inputText id="comentarios" value="#{pendienteController.selected.comentarios}" title="#{seriesBundle.EditPendienteTitle_comentarios}" size="255" maxlength="255"/>
+                            <p:tooltip for="comentarios" value="#{pendienteController.getComponentMessages('comentarios', seriesBundle.EditPendienteHelpText_comentarios)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditPendienteLabel_idProyecto}" for="idProyecto" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idProyecto" value="#{pendienteController.selected.idProyecto}"  converter="proyectoConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{proyectoController.items}"
+                                               var="idProyectoItem"
+                                               itemValue="#{idProyectoItem}"
+                                               itemLabel="#{idProyectoItem.idProyecto.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idProyecto" value="#{pendienteController.getComponentMessages('idProyecto', seriesBundle.EditPendienteHelpText_idProyecto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditPendienteLabel_idEpisodio}" for="idEpisodio" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idEpisodio" value="#{pendienteController.selected.idEpisodio}"  converter="episodioConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{episodioController.items}"
+                                               var="idEpisodioItem"
+                                               itemValue="#{idEpisodioItem}"
+                                               itemLabel="#{idEpisodioItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idEpisodio" value="#{pendienteController.getComponentMessages('idEpisodio', seriesBundle.EditPendienteHelpText_idEpisodio)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{pendienteController.save}" value="#{seriesBundle.Save}" update="display,:PendienteListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PendienteEditDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('PendienteEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>
