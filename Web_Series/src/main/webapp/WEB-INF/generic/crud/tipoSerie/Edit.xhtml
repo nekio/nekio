@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TipoSerieEditDlg" widgetVar="TipoSerieEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.EditTipoSerieTitle}" closeOnEscape="true">
+
+            <h:form id="TipoSerieEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoSerieController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditTipoSerieLabel_idTipoSerie}" for="idTipoSerie" />
+                        <h:panelGroup>
+                            <h:outputText id="idTipoSerie" value="#{tipoSerieController.selected.idTipoSerie}" />
+                            <p:tooltip for="idTipoSerie" value="#{tipoSerieController.getComponentMessages('idTipoSerie', seriesBundle.EditTipoSerieHelpText_idTipoSerie)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditTipoSerieLabel_idRango}" for="idRango" />
+                        <h:panelGroup>
+                            <p:inputText id="idRango" value="#{tipoSerieController.selected.idRango}" title="#{seriesBundle.EditTipoSerieTitle_idRango}" required="true" requiredMessage="#{seriesBundle.EditTipoSerieRequiredMessage_idRango}"/>
+                            <p:tooltip for="idRango" value="#{tipoSerieController.getComponentMessages('idRango', seriesBundle.EditTipoSerieHelpText_idRango)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditTipoSerieLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{tipoSerieController.selected.descripcion}" title="#{seriesBundle.EditTipoSerieTitle_descripcion}" size="20" maxlength="20"/>
+                            <p:tooltip for="descripcion" value="#{tipoSerieController.getComponentMessages('descripcion', seriesBundle.EditTipoSerieHelpText_descripcion)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoSerieController.save}" value="#{seriesBundle.Save}" update="display,:TipoSerieListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoSerieEditDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('TipoSerieEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

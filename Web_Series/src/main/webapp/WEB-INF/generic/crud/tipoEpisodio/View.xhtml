@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoEpisodioViewDlg" widgetVar="TipoEpisodioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.ViewTipoEpisodioTitle}" closeOnEscape="true">
+
+            <h:form id="TipoEpisodioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tipoEpisodioController.selected != null}">
+
+                        <h:outputText value="#{seriesBundle.ViewTipoEpisodioLabel_idTipoEpisodio}"/>
+                        <h:outputText value="#{tipoEpisodioController.selected.idTipoEpisodio}" title="#{seriesBundle.ViewTipoEpisodioTitle_idTipoEpisodio}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewTipoEpisodioLabel_idRango}"/>
+                        <h:outputText value="#{tipoEpisodioController.selected.idRango}" title="#{seriesBundle.ViewTipoEpisodioTitle_idRango}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewTipoEpisodioLabel_descripcion}"/>
+                        <h:outputText value="#{tipoEpisodioController.selected.descripcion}" title="#{seriesBundle.ViewTipoEpisodioTitle_descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="PF('TipoEpisodioViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

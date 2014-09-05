@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <h:form id="menuForm">
+            <p:menubar>
+                <p:menuitem value="#{seriesBundle.Home}" outcome="/index" icon="ui-icon-home"/>
+                <p:submenu label="#{seriesBundle.MenuAcciones}">
+                    <p:menuitem value="#{seriesBundle.ProyectoHeading}" outcome="/view/proyecto/index" />
+                    <p:menuitem value="#{seriesBundle.ProyectoDetHeading}" outcome="/view/proyectoDet/index" />
+                    <p:menuitem value="#{seriesBundle.ObtenidoHeading}" outcome="/view/obtenido/index" />
+                    <p:menuitem value="#{seriesBundle.EnlaceHeading}" outcome="/view/enlace/index" />
+                    <p:menuitem value="#{seriesBundle.PasswordHeading}" outcome="/view/password/index" />
+                    <p:menuitem value="#{seriesBundle.PendienteHeading}" outcome="/view/pendiente/index" />
+                    <p:menuitem value="#{seriesBundle.MensajePrivadoHeading}" outcome="/view/mensajePrivado/index" />
+                </p:submenu>
+                <p:submenu label="#{seriesBundle.MenuElementos}">
+                    <p:menuitem value="#{seriesBundle.TelevisoraHeading}" outcome="/view/televisora/index" />
+                    <p:menuitem value="#{seriesBundle.EmisoraHeading}" outcome="/view/emisora/index" />
+                    <p:menuitem value="#{seriesBundle.SerieHeading}" outcome="/view/serie/index" />
+                    <p:menuitem value="#{seriesBundle.EpisodioHeading}" outcome="/view/episodio/index" />
+                </p:submenu>
+                <p:submenu label="#{seriesBundle.MenuCatalogos}">
+                    <p:menuitem value="#{seriesBundle.AlmacenHeading}" outcome="/view/almacen/index" />
+                    <p:menuitem value="#{seriesBundle.ColaboradorHeading}" outcome="/view/colaborador/index" />
+                    <p:menuitem value="#{seriesBundle.WebHeading}" outcome="/view/web/index" />
+                </p:submenu>
+                <p:submenu label="#{seriesBundle.MenuAjustes}">
+                    <p:menuitem value="#{seriesBundle.TipoColaboracionHeading}" outcome="/view/tipoColaboracion/index" />
+                    <p:menuitem value="#{seriesBundle.TipoEpisodioHeading}" outcome="/view/tipoEpisodio/index" />
+                    <p:menuitem value="#{seriesBundle.TipoMensajeHeading}" outcome="/view/tipoMensaje/index" />
+                    <p:menuitem value="#{seriesBundle.TipoSerieHeading}" outcome="/view/tipoSerie/index" />
+                    <p:menuitem value="#{seriesBundle.TipoDistintivoHeading}" outcome="/view/tipoDistintivo/index" />
+                    <p:menuitem value="#{seriesBundle.EstadoProyectoHeading}" outcome="/view/estadoProyecto/index" />
+                    <p:menuitem value="#{seriesBundle.EnlaceStatusHeading}" outcome="/view/enlaceStatus/index" />
+                </p:submenu>
+                <p:submenu label="#{seriesBundle.MenuConfiguraciones}">                    
+                    <p:menuitem value="#{seriesBundle.ClasificacionHeading}" outcome="/view/clasificacion/index" />
+                    <p:menuitem value="#{seriesBundle.CalidadHeading}" outcome="/view/calidad/index" />
+                    <p:menuitem value="#{seriesBundle.DuracionHeading}" outcome="/view/duracion/index" />
+                    <p:menuitem value="#{seriesBundle.PesoHeading}" outcome="/view/peso/index" />
+                    <p:menuitem value="#{seriesBundle.FormatoHeading}" outcome="/view/formato/index" />
+                    <p:menuitem value="#{seriesBundle.GeneroHeading}" outcome="/view/genero/index" />
+                    <p:menuitem value="#{seriesBundle.DistintivoHeading}" outcome="/view/distintivo/index" />
+                    <p:menuitem value="#{seriesBundle.IdiomaHeading}" outcome="/view/idioma/index" />                    
+                    <p:menuitem value="#{seriesBundle.PaisHeading}" outcome="/view/pais/index" />
+                </p:submenu>
+            </p:menubar>
+        </h:form>
+    </ui:composition>
+
+</html>

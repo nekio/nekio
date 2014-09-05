@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="WebViewDlg" widgetVar="WebViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.ViewWebTitle}" closeOnEscape="true">
+
+            <h:form id="WebViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{webController.selected != null}">
+
+                        <h:outputText value="#{seriesBundle.ViewWebLabel_idWeb}"/>
+                        <h:outputText value="#{webController.selected.idWeb}" title="#{seriesBundle.ViewWebTitle_idWeb}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewWebLabel_idImagen}"/>
+                        <h:outputText value="#{webController.selected.idImagen}" title="#{seriesBundle.ViewWebTitle_idImagen}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewWebLabel_idRango}"/>
+                        <h:outputText value="#{webController.selected.idRango}" title="#{seriesBundle.ViewWebTitle_idRango}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewWebLabel_titulo}"/>
+                        <h:outputText value="#{webController.selected.titulo}" title="#{seriesBundle.ViewWebTitle_titulo}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewWebLabel_siglas}"/>
+                        <h:outputText value="#{webController.selected.siglas}" title="#{seriesBundle.ViewWebTitle_siglas}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewWebLabel_facebook}"/>
+                        <h:outputText value="#{webController.selected.facebook}" title="#{seriesBundle.ViewWebTitle_facebook}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewWebLabel_pagina}"/>
+                        <h:outputText value="#{webController.selected.pagina}" title="#{seriesBundle.ViewWebTitle_pagina}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewWebLabel_descripcion}"/>
+                        <h:outputText value="#{webController.selected.descripcion}" title="#{seriesBundle.ViewWebTitle_descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="PF('WebViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PendienteViewDlg" widgetVar="PendienteViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.ViewPendienteTitle}" closeOnEscape="true">
+
+            <h:form id="PendienteViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{pendienteController.selected != null}">
+
+                        <h:outputText value="#{seriesBundle.ViewPendienteLabel_idPendiente}"/>
+                        <h:outputText value="#{pendienteController.selected.idPendiente}" title="#{seriesBundle.ViewPendienteTitle_idPendiente}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewPendienteLabel_idRango}"/>
+                        <h:outputText value="#{pendienteController.selected.idRango}" title="#{seriesBundle.ViewPendienteTitle_idRango}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewPendienteLabel_pendiente}"/>
+                        <h:outputText value="#{pendienteController.selected.pendiente}" title="#{seriesBundle.ViewPendienteTitle_pendiente}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewPendienteLabel_detalle}"/>
+                        <h:outputText value="#{pendienteController.selected.detalle}" title="#{seriesBundle.ViewPendienteTitle_detalle}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewPendienteLabel_fechaRevision}"/>
+                        <h:outputText value="#{pendienteController.selected.fechaRevision}" title="#{seriesBundle.ViewPendienteTitle_fechaRevision}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{seriesBundle.ViewPendienteLabel_enlace}"/>
+                        <h:outputText value="#{pendienteController.selected.enlace}" title="#{seriesBundle.ViewPendienteTitle_enlace}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewPendienteLabel_comentarios}"/>
+                        <h:outputText value="#{pendienteController.selected.comentarios}" title="#{seriesBundle.ViewPendienteTitle_comentarios}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewPendienteLabel_idProyecto}"/>
+                        <h:outputText value="#{pendienteController.selected.idProyecto.idProyecto}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewPendienteLabel_idEpisodio}"/>
+                        <h:outputText value="#{pendienteController.selected.idEpisodio.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="PF('PendienteViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

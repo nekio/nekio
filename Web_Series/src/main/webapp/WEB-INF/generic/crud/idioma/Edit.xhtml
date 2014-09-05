@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="IdiomaEditDlg" widgetVar="IdiomaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.EditIdiomaTitle}" closeOnEscape="true">
+
+            <h:form id="IdiomaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{idiomaController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditIdiomaLabel_idIdioma}" for="idIdioma" />
+                        <h:panelGroup>
+                            <h:outputText id="idIdioma" value="#{idiomaController.selected.idIdioma}" />
+                            <p:tooltip for="idIdioma" value="#{idiomaController.getComponentMessages('idIdioma', seriesBundle.EditIdiomaHelpText_idIdioma)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditIdiomaLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{idiomaController.selected.descripcion}" title="#{seriesBundle.EditIdiomaTitle_descripcion}" size="20" maxlength="20"/>
+                            <p:tooltip for="descripcion" value="#{idiomaController.getComponentMessages('descripcion', seriesBundle.EditIdiomaHelpText_descripcion)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{idiomaController.save}" value="#{seriesBundle.Save}" update="display,:IdiomaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('IdiomaEditDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('IdiomaEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

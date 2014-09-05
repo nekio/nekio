@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ClasificacionCreateDlg" widgetVar="ClasificacionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{seriesBundle.CreateClasificacionTitle}" closeOnEscape="true">
+
+            <h:form id="ClasificacionCreateForm">
+
+                <h:panelGroup id="display" rendered="#{clasificacionController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{seriesBundle.CreateClasificacionLabel_siglas}" for="siglas" />
+                        <h:panelGroup>
+                            <p:inputText id="siglas" value="#{clasificacionController.selected.siglas}" title="#{seriesBundle.CreateClasificacionTitle_siglas}" size="10" maxlength="10"/>
+                            <p:tooltip for="siglas" value="#{clasificacionController.getComponentMessages('siglas', seriesBundle.CreateClasificacionHelpText_siglas)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateClasificacionLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{clasificacionController.selected.descripcion}" title="#{seriesBundle.CreateClasificacionTitle_descripcion}" size="20" maxlength="20"/>
+                            <p:tooltip for="descripcion" value="#{clasificacionController.getComponentMessages('descripcion', seriesBundle.CreateClasificacionHelpText_descripcion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateClasificacionLabel_comentarios}" for="comentarios" />
+                        <h:panelGroup>
+                            <p:inputText id="comentarios" value="#{clasificacionController.selected.comentarios}" title="#{seriesBundle.CreateClasificacionTitle_comentarios}" size="255" maxlength="255"/>
+                            <p:tooltip for="comentarios" value="#{clasificacionController.getComponentMessages('comentarios', seriesBundle.CreateClasificacionHelpText_comentarios)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateClasificacionLabel_minimoEdad}" for="minimoEdad" />
+                        <h:panelGroup>
+                            <p:inputText id="minimoEdad" value="#{clasificacionController.selected.minimoEdad}" title="#{seriesBundle.CreateClasificacionTitle_minimoEdad}"/>
+                            <p:tooltip for="minimoEdad" value="#{clasificacionController.getComponentMessages('minimoEdad', seriesBundle.CreateClasificacionHelpText_minimoEdad)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{clasificacionController.saveNew}" value="#{seriesBundle.Save}" update="display,:ClasificacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ClasificacionCreateDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('ClasificacionCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

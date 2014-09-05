@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SistemaViewDlg" widgetVar="SistemaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{toolsBundle.ViewSistemaTitle}" closeOnEscape="true">
+
+            <h:form id="SistemaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{sistemaController.selected != null}">
+
+                        <h:outputText value="#{toolsBundle.ViewSistemaLabel_idSistema}"/>
+                        <h:outputText value="#{sistemaController.selected.idSistema}" title="#{toolsBundle.ViewSistemaTitle_idSistema}"/>
+
+                        <h:outputText value="#{toolsBundle.ViewSistemaLabel_descripcion}"/>
+                        <h:outputText value="#{sistemaController.selected.descripcion}" title="#{toolsBundle.ViewSistemaTitle_descripcion}"/>
+
+                        <h:outputText value="#{toolsBundle.ViewSistemaLabel_siglas}"/>
+                        <h:outputText value="#{sistemaController.selected.siglas}" title="#{toolsBundle.ViewSistemaTitle_siglas}"/>
+
+                        <h:outputText value="#{toolsBundle.ViewSistemaLabel_titulo}"/>
+                        <h:outputText value="#{sistemaController.selected.titulo}" title="#{toolsBundle.ViewSistemaTitle_titulo}"/>
+
+                        <h:outputText value="#{toolsBundle.ViewSistemaLabel_desarrollador}"/>
+                        <h:outputText value="#{sistemaController.selected.desarrollador}" title="#{toolsBundle.ViewSistemaTitle_desarrollador}"/>
+
+                        <h:outputText value="#{toolsBundle.ViewSistemaLabel_contacto}"/>
+                        <h:outputText value="#{sistemaController.selected.contacto}" title="#{toolsBundle.ViewSistemaTitle_contacto}"/>
+
+                        <h:outputText value="#{toolsBundle.ViewSistemaLabel_version}"/>
+                        <h:outputText value="#{sistemaController.selected.version}" title="#{toolsBundle.ViewSistemaTitle_version}"/>
+
+                        <h:outputText value="#{toolsBundle.ViewSistemaLabel_actualizacion}"/>
+                        <h:outputText value="#{sistemaController.selected.actualizacion}" title="#{toolsBundle.ViewSistemaTitle_actualizacion}"/>
+
+                        <h:outputText value="#{toolsBundle.ViewSistemaLabel_fechaLiberacion}"/>
+                        <h:outputText value="#{sistemaController.selected.fechaLiberacion}" title="#{toolsBundle.ViewSistemaTitle_fechaLiberacion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{toolsBundle.ViewSistemaLabel_msjMantenimiento}"/>
+                        <h:outputText value="#{sistemaController.selected.msjMantenimiento}" title="#{toolsBundle.ViewSistemaTitle_msjMantenimiento}"/>
+
+                        <h:outputText value="#{toolsBundle.ViewSistemaLabel_bdEsquema}"/>
+                        <h:outputText value="#{sistemaController.selected.bdEsquema}" title="#{toolsBundle.ViewSistemaTitle_bdEsquema}"/>
+
+                        <h:outputText value="#{toolsBundle.ViewSistemaLabel_rutaRecursos}"/>
+                        <h:outputText value="#{sistemaController.selected.rutaRecursos}" title="#{toolsBundle.ViewSistemaTitle_rutaRecursos}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{toolsBundle.Close}" onclick="PF('SistemaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

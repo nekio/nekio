@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="DuracionEditDlg" widgetVar="DuracionEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.EditDuracionTitle}" closeOnEscape="true">
+
+            <h:form id="DuracionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{duracionController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditDuracionLabel_idDuracion}" for="idDuracion" />
+                        <h:panelGroup>
+                            <h:outputText id="idDuracion" value="#{duracionController.selected.idDuracion}" />
+                            <p:tooltip for="idDuracion" value="#{duracionController.getComponentMessages('idDuracion', seriesBundle.EditDuracionHelpText_idDuracion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditDuracionLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{duracionController.selected.descripcion}" title="#{seriesBundle.EditDuracionTitle_descripcion}" size="20" maxlength="20"/>
+                            <p:tooltip for="descripcion" value="#{duracionController.getComponentMessages('descripcion', seriesBundle.EditDuracionHelpText_descripcion)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{duracionController.save}" value="#{seriesBundle.Save}" update="display,:DuracionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DuracionEditDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('DuracionEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

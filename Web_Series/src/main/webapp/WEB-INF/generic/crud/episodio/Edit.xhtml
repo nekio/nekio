@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EpisodioEditDlg" widgetVar="EpisodioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.EditEpisodioTitle}" closeOnEscape="true">
+
+            <h:form id="EpisodioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{episodioController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditEpisodioLabel_idEpisodio}" for="idEpisodio" />
+                        <h:panelGroup>
+                            <h:outputText id="idEpisodio" value="#{episodioController.selected.idEpisodio}" />
+                            <p:tooltip for="idEpisodio" value="#{episodioController.getComponentMessages('idEpisodio', seriesBundle.EditEpisodioHelpText_idEpisodio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditEpisodioLabel_temporada}" for="temporada" />
+                        <h:panelGroup>
+                            <p:inputText id="temporada" value="#{episodioController.selected.temporada}" title="#{seriesBundle.EditEpisodioTitle_temporada}"/>
+                            <p:tooltip for="temporada" value="#{episodioController.getComponentMessages('temporada', seriesBundle.EditEpisodioHelpText_temporada)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditEpisodioLabel_numEpisodioSerie}" for="numEpisodioSerie" />
+                        <h:panelGroup>
+                            <p:inputText id="numEpisodioSerie" value="#{episodioController.selected.numEpisodioSerie}" title="#{seriesBundle.EditEpisodioTitle_numEpisodioSerie}"/>
+                            <p:tooltip for="numEpisodioSerie" value="#{episodioController.getComponentMessages('numEpisodioSerie', seriesBundle.EditEpisodioHelpText_numEpisodioSerie)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditEpisodioLabel_numEpisodioTemp}" for="numEpisodioTemp" />
+                        <h:panelGroup>
+                            <p:inputText id="numEpisodioTemp" value="#{episodioController.selected.numEpisodioTemp}" title="#{seriesBundle.EditEpisodioTitle_numEpisodioTemp}"/>
+                            <p:tooltip for="numEpisodioTemp" value="#{episodioController.getComponentMessages('numEpisodioTemp', seriesBundle.EditEpisodioHelpText_numEpisodioTemp)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditEpisodioLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{episodioController.selected.descripcion}" title="#{seriesBundle.EditEpisodioTitle_descripcion}" size="255" maxlength="255"/>
+                            <p:tooltip for="descripcion" value="#{episodioController.getComponentMessages('descripcion', seriesBundle.EditEpisodioHelpText_descripcion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditEpisodioLabel_tituloAlternativo}" for="tituloAlternativo" />
+                        <h:panelGroup>
+                            <p:inputText id="tituloAlternativo" value="#{episodioController.selected.tituloAlternativo}" title="#{seriesBundle.EditEpisodioTitle_tituloAlternativo}" size="255" maxlength="255"/>
+                            <p:tooltip for="tituloAlternativo" value="#{episodioController.getComponentMessages('tituloAlternativo', seriesBundle.EditEpisodioHelpText_tituloAlternativo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditEpisodioLabel_idTipoEpisodio}" for="idTipoEpisodio" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idTipoEpisodio" value="#{episodioController.selected.idTipoEpisodio}"  converter="tipoEpisodioConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{tipoEpisodioController.items}"
+                                               var="idTipoEpisodioItem"
+                                               itemValue="#{idTipoEpisodioItem}"
+                                               itemLabel="#{idTipoEpisodioItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idTipoEpisodio" value="#{episodioController.getComponentMessages('idTipoEpisodio', seriesBundle.EditEpisodioHelpText_idTipoEpisodio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditEpisodioLabel_idSerie}" for="idSerie" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idSerie" value="#{episodioController.selected.idSerie}" required="true" requiredMessage="#{seriesBundle.EditEpisodioRequiredMessage_idSerie}" converter="serieConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{serieController.items}"
+                                               var="idSerieItem"
+                                               itemValue="#{idSerieItem}"
+                                               itemLabel="#{idSerieItem.idSerie.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idSerie" value="#{episodioController.getComponentMessages('idSerie', seriesBundle.EditEpisodioHelpText_idSerie)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{episodioController.save}" value="#{seriesBundle.Save}" update="display,:EpisodioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EpisodioEditDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('EpisodioEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

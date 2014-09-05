@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ClasificacionListForm">
+
+        <p:panel header="#{seriesBundle.ListClasificacionTitle}">
+            <p:contextMenu id="ClasificacionDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{seriesBundle.Create}" onclick="document.getElementById('ClasificacionListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{seriesBundle.View}" onclick="document.getElementById('ClasificacionListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('ClasificacionListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('ClasificacionListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{seriesBundle.ClasificacionMenuItem_serieCollection}" icon="ui-icon-search"  action="#{clasificacionController.navigateSerieCollection}" disabled="#{empty clasificacionController.selected.serieCollection}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{clasificacionController.items}"
+                         var="item"
+                         rowKey="#{item.idClasificacion}"
+                         paginator="true"
+                         rows="25"
+                         rowsPerPageTemplate="10,25,50,75,100"
+                         selectionMode="single"
+                         selection="#{clasificacionController.selected}">
+
+                <p:ajax event="rowSelect"   update=":ClasificacionListForm:createButton :ClasificacionListForm:viewButton :ClasificacionListForm:editButton :ClasificacionListForm:deleteButton :ClasificacionListForm:ClasificacionDataTableContextMenu" listener="#{clasificacionController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":ClasificacionListForm:createButton :ClasificacionListForm:viewButton :ClasificacionListForm:editButton :ClasificacionListForm:deleteButton :ClasificacionListForm:ClasificacionDataTableContextMenu" listener="#{clasificacionController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ClasificacionListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idClasificacion}" filterBy="#{item.idClasificacion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListClasificacionTitle_idClasificacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idClasificacion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.siglas}" filterBy="#{item.siglas}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListClasificacionTitle_siglas}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.siglas}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListClasificacionTitle_descripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.comentarios}" filterBy="#{item.comentarios}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListClasificacionTitle_comentarios}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.comentarios}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.minimoEdad}" filterBy="#{item.minimoEdad}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListClasificacionTitle_minimoEdad}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.minimoEdad}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{seriesBundle.Create}" actionListener="#{clasificacionController.prepareCreate}" update=":ClasificacionCreateForm" oncomplete="PF('ClasificacionCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{seriesBundle.View}" update=":ClasificacionViewForm" oncomplete="PF('ClasificacionViewDialog').show()" disabled="#{empty clasificacionController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{seriesBundle.Edit}" update=":ClasificacionEditForm" oncomplete="PF('ClasificacionEditDialog').show()" disabled="#{empty clasificacionController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{seriesBundle.Delete}" actionListener="#{clasificacionController.delete}" update=":growl,datalist" disabled="#{empty clasificacionController.selected}">
+                <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/generic/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ColaboradorListForm">
+
+        <p:panel header="#{seriesBundle.ListColaboradorTitle}">
+            <p:contextMenu id="ColaboradorDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{seriesBundle.Create}" onclick="document.getElementById('ColaboradorListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{seriesBundle.View}" onclick="document.getElementById('ColaboradorListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('ColaboradorListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('ColaboradorListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{seriesBundle.ColaboradorMenuItem_proyectoDetCollection}" icon="ui-icon-search"  action="#{colaboradorController.navigateProyectoDetCollection}" disabled="#{empty colaboradorController.selected.proyectoDetCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.ColaboradorMenuItem_idPais}" icon="ui-icon-search"  actionListener="#{colaboradorController.prepareIdPais}" update=":PaisViewForm" oncomplete="PF('PaisViewDialog').show()" disabled="#{empty colaboradorController.selected.idPais}"/>  
+                <p:menuitem value="#{seriesBundle.ColaboradorMenuItem_mensajePrivadoCollection}" icon="ui-icon-search"  action="#{colaboradorController.navigateMensajePrivadoCollection}" disabled="#{empty colaboradorController.selected.mensajePrivadoCollection}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{colaboradorController.items}"
+                         var="item"
+                         rowKey="#{item.idColaborador}"
+                         paginator="true"
+                         rows="25"
+                         rowsPerPageTemplate="10,25,50,75,100"
+                         selectionMode="single"
+                         selection="#{colaboradorController.selected}">
+
+                <p:ajax event="rowSelect"   update=":ColaboradorListForm:createButton :ColaboradorListForm:viewButton :ColaboradorListForm:editButton :ColaboradorListForm:deleteButton :ColaboradorListForm:ColaboradorDataTableContextMenu" listener="#{colaboradorController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":ColaboradorListForm:createButton :ColaboradorListForm:viewButton :ColaboradorListForm:editButton :ColaboradorListForm:deleteButton :ColaboradorListForm:ColaboradorDataTableContextMenu" listener="#{colaboradorController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ColaboradorListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idColaborador}" filterBy="#{item.idColaborador}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListColaboradorTitle_idColaborador}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idColaborador}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idImagen}" filterBy="#{item.idImagen}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListColaboradorTitle_idImagen}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idImagen}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idRango}" filterBy="#{item.idRango}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListColaboradorTitle_idRango}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idRango}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListColaboradorTitle_descripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.sexo}" filterBy="#{item.sexo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListColaboradorTitle_sexo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.sexo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.contacto}" filterBy="#{item.contacto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListColaboradorTitle_contacto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.contacto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idPais.descripcion}" filterBy="#{item.idPais.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListColaboradorTitle_idPais}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idPais.descripcion}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{seriesBundle.Create}" actionListener="#{colaboradorController.prepareCreate}" update=":ColaboradorCreateForm" oncomplete="PF('ColaboradorCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{seriesBundle.View}" update=":ColaboradorViewForm" oncomplete="PF('ColaboradorViewDialog').show()" disabled="#{empty colaboradorController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{seriesBundle.Edit}" update=":ColaboradorEditForm" oncomplete="PF('ColaboradorEditDialog').show()" disabled="#{empty colaboradorController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{seriesBundle.Delete}" actionListener="#{colaboradorController.delete}" update=":growl,datalist" disabled="#{empty colaboradorController.selected}">
+                <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/generic/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

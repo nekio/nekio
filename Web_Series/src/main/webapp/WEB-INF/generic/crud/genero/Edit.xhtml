@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="GeneroEditDlg" widgetVar="GeneroEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.EditGeneroTitle}" closeOnEscape="true">
+
+            <h:form id="GeneroEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{generoController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditGeneroLabel_idGenero}" for="idGenero" />
+                        <h:panelGroup>
+                            <h:outputText id="idGenero" value="#{generoController.selected.idGenero}" />
+                            <p:tooltip for="idGenero" value="#{generoController.getComponentMessages('idGenero', seriesBundle.EditGeneroHelpText_idGenero)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditGeneroLabel_idRango}" for="idRango" />
+                        <h:panelGroup>
+                            <p:inputText id="idRango" value="#{generoController.selected.idRango}" title="#{seriesBundle.EditGeneroTitle_idRango}" required="true" requiredMessage="#{seriesBundle.EditGeneroRequiredMessage_idRango}"/>
+                            <p:tooltip for="idRango" value="#{generoController.getComponentMessages('idRango', seriesBundle.EditGeneroHelpText_idRango)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditGeneroLabel_genero}" for="genero" />
+                        <h:panelGroup>
+                            <p:inputText id="genero" value="#{generoController.selected.genero}" title="#{seriesBundle.EditGeneroTitle_genero}" size="20" maxlength="20"/>
+                            <p:tooltip for="genero" value="#{generoController.getComponentMessages('genero', seriesBundle.EditGeneroHelpText_genero)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditGeneroLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{generoController.selected.descripcion}" title="#{seriesBundle.EditGeneroTitle_descripcion}" size="255" maxlength="255"/>
+                            <p:tooltip for="descripcion" value="#{generoController.getComponentMessages('descripcion', seriesBundle.EditGeneroHelpText_descripcion)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{generoController.save}" value="#{seriesBundle.Save}" update="display,:GeneroListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('GeneroEditDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('GeneroEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

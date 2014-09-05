@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GeneroCreateDlg" widgetVar="GeneroCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{seriesBundle.CreateGeneroTitle}" closeOnEscape="true">
+
+            <h:form id="GeneroCreateForm">
+
+                <h:panelGroup id="display" rendered="#{generoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{seriesBundle.CreateGeneroLabel_idRango}" for="idRango" />
+                        <h:panelGroup>
+                            <p:inputText id="idRango" value="#{generoController.selected.idRango}" title="#{seriesBundle.CreateGeneroTitle_idRango}" required="true" requiredMessage="#{seriesBundle.CreateGeneroRequiredMessage_idRango}"/>
+                            <p:tooltip for="idRango" value="#{generoController.getComponentMessages('idRango', seriesBundle.CreateGeneroHelpText_idRango)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateGeneroLabel_genero}" for="genero" />
+                        <h:panelGroup>
+                            <p:inputText id="genero" value="#{generoController.selected.genero}" title="#{seriesBundle.CreateGeneroTitle_genero}" size="20" maxlength="20"/>
+                            <p:tooltip for="genero" value="#{generoController.getComponentMessages('genero', seriesBundle.CreateGeneroHelpText_genero)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateGeneroLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{generoController.selected.descripcion}" title="#{seriesBundle.CreateGeneroTitle_descripcion}" size="255" maxlength="255"/>
+                            <p:tooltip for="descripcion" value="#{generoController.getComponentMessages('descripcion', seriesBundle.CreateGeneroHelpText_descripcion)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{generoController.saveNew}" value="#{seriesBundle.Save}" update="display,:GeneroListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('GeneroCreateDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('GeneroCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

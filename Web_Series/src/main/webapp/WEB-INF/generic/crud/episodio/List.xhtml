@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="EpisodioListForm">
+
+        <p:panel header="#{seriesBundle.ListEpisodioTitle}">
+            <p:contextMenu id="EpisodioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{seriesBundle.Create}" onclick="document.getElementById('EpisodioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{seriesBundle.View}" onclick="document.getElementById('EpisodioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('EpisodioListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('EpisodioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{seriesBundle.EpisodioMenuItem_passwordCollection}" icon="ui-icon-search"  action="#{episodioController.navigatePasswordCollection}" disabled="#{empty episodioController.selected.passwordCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.EpisodioMenuItem_pendienteCollection}" icon="ui-icon-search"  action="#{episodioController.navigatePendienteCollection}" disabled="#{empty episodioController.selected.pendienteCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.EpisodioMenuItem_enlaceCollection}" icon="ui-icon-search"  action="#{episodioController.navigateEnlaceCollection}" disabled="#{empty episodioController.selected.enlaceCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.EpisodioMenuItem_obtenidoCollection}" icon="ui-icon-search"  action="#{episodioController.navigateObtenidoCollection}" disabled="#{empty episodioController.selected.obtenidoCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.EpisodioMenuItem_idTipoEpisodio}" icon="ui-icon-search"  actionListener="#{episodioController.prepareIdTipoEpisodio}" update=":TipoEpisodioViewForm" oncomplete="PF('TipoEpisodioViewDialog').show()" disabled="#{empty episodioController.selected.idTipoEpisodio}"/>  
+                <p:menuitem value="#{seriesBundle.EpisodioMenuItem_idSerie}" icon="ui-icon-search"  actionListener="#{episodioController.prepareIdSerie}" update=":SerieViewForm" oncomplete="PF('SerieViewDialog').show()" disabled="#{empty episodioController.selected.idSerie}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{episodioController.items}"
+                         var="item"
+                         rowKey="#{item.idEpisodio}"
+                         paginator="true"
+                         rows="25"
+                         rowsPerPageTemplate="10,25,50,75,100"
+                         selectionMode="single"
+                         selection="#{episodioController.selected}">
+
+                <p:ajax event="rowSelect"   update=":EpisodioListForm:createButton :EpisodioListForm:viewButton :EpisodioListForm:editButton :EpisodioListForm:deleteButton :EpisodioListForm:EpisodioDataTableContextMenu" listener="#{episodioController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":EpisodioListForm:createButton :EpisodioListForm:viewButton :EpisodioListForm:editButton :EpisodioListForm:deleteButton :EpisodioListForm:EpisodioDataTableContextMenu" listener="#{episodioController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('EpisodioListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idEpisodio}" filterBy="#{item.idEpisodio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListEpisodioTitle_idEpisodio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idEpisodio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.temporada}" filterBy="#{item.temporada}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListEpisodioTitle_temporada}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.temporada}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.numEpisodioSerie}" filterBy="#{item.numEpisodioSerie}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListEpisodioTitle_numEpisodioSerie}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numEpisodioSerie}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.numEpisodioTemp}" filterBy="#{item.numEpisodioTemp}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListEpisodioTitle_numEpisodioTemp}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numEpisodioTemp}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListEpisodioTitle_descripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tituloAlternativo}" filterBy="#{item.tituloAlternativo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListEpisodioTitle_tituloAlternativo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tituloAlternativo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idTipoEpisodio.descripcion}" filterBy="#{item.idTipoEpisodio.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListEpisodioTitle_idTipoEpisodio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idTipoEpisodio.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idSerie.idSerie}" filterBy="#{item.idSerie.idSerie}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListEpisodioTitle_idSerie}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idSerie.idSerie}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{seriesBundle.Create}" actionListener="#{episodioController.prepareCreate}" update=":EpisodioCreateForm" oncomplete="PF('EpisodioCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{seriesBundle.View}" update=":EpisodioViewForm" oncomplete="PF('EpisodioViewDialog').show()" disabled="#{empty episodioController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{seriesBundle.Edit}" update=":EpisodioEditForm" oncomplete="PF('EpisodioEditDialog').show()" disabled="#{empty episodioController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{seriesBundle.Delete}" actionListener="#{episodioController.delete}" update=":growl,datalist" disabled="#{empty episodioController.selected}">
+                <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/generic/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

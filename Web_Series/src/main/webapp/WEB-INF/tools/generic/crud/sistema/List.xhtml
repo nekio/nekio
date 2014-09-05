@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="SistemaListForm">
+
+        <p:panel header="#{toolsBundle.ListSistemaTitle}">
+            <p:contextMenu id="SistemaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{toolsBundle.Create}" onclick="document.getElementById('SistemaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{toolsBundle.View}" onclick="document.getElementById('SistemaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{toolsBundle.Edit}" onclick="document.getElementById('SistemaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{toolsBundle.Delete}" onclick="document.getElementById('SistemaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{toolsBundle.SistemaMenuItem_imagenCollection}" icon="ui-icon-search"  action="#{sistemaController.navigateImagenCollection}" disabled="#{empty sistemaController.selected.imagenCollection}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{sistemaController.items}"
+                         var="item"
+                         rowKey="#{item.idSistema}"
+                         paginator="true"
+                         rows="20"
+                         rowsPerPageTemplate="10,25,50"
+                         selectionMode="single"
+                         selection="#{sistemaController.selected}">
+
+                <p:ajax event="rowSelect"   update=":SistemaListForm:createButton :SistemaListForm:viewButton :SistemaListForm:editButton :SistemaListForm:deleteButton :SistemaListForm:SistemaDataTableContextMenu" listener="#{sistemaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":SistemaListForm:createButton :SistemaListForm:viewButton :SistemaListForm:editButton :SistemaListForm:deleteButton :SistemaListForm:SistemaDataTableContextMenu" listener="#{sistemaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('SistemaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idSistema}" filterBy="#{item.idSistema}">
+                    <f:facet name="header">
+                        <h:outputText value="#{toolsBundle.ListSistemaTitle_idSistema}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idSistema}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{toolsBundle.ListSistemaTitle_descripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.siglas}" filterBy="#{item.siglas}">
+                    <f:facet name="header">
+                        <h:outputText value="#{toolsBundle.ListSistemaTitle_siglas}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.siglas}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.titulo}" filterBy="#{item.titulo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{toolsBundle.ListSistemaTitle_titulo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.titulo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.desarrollador}" filterBy="#{item.desarrollador}">
+                    <f:facet name="header">
+                        <h:outputText value="#{toolsBundle.ListSistemaTitle_desarrollador}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.desarrollador}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.contacto}" filterBy="#{item.contacto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{toolsBundle.ListSistemaTitle_contacto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.contacto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.version}" filterBy="#{item.version}">
+                    <f:facet name="header">
+                        <h:outputText value="#{toolsBundle.ListSistemaTitle_version}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.version}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.actualizacion}" filterBy="#{item.actualizacion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{toolsBundle.ListSistemaTitle_actualizacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.actualizacion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaLiberacion}" filterBy="#{item.fechaLiberacion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{toolsBundle.ListSistemaTitle_fechaLiberacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaLiberacion}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.msjMantenimiento}" filterBy="#{item.msjMantenimiento}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{toolsBundle.ListSistemaTitle_msjMantenimiento}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.msjMantenimiento}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.bdEsquema}" filterBy="#{item.bdEsquema}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{toolsBundle.ListSistemaTitle_bdEsquema}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.bdEsquema}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.rutaRecursos}" filterBy="#{item.rutaRecursos}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{toolsBundle.ListSistemaTitle_rutaRecursos}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.rutaRecursos}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{toolsBundle.Create}" actionListener="#{sistemaController.prepareCreate}" update=":SistemaCreateForm" oncomplete="PF('SistemaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{toolsBundle.View}" update=":SistemaViewForm" oncomplete="PF('SistemaViewDialog').show()" disabled="#{empty sistemaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{toolsBundle.Edit}" update=":SistemaEditForm" oncomplete="PF('SistemaEditDialog').show()" disabled="#{empty sistemaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{toolsBundle.Delete}" actionListener="#{sistemaController.delete}" update=":growl,datalist" disabled="#{empty sistemaController.selected}">
+                <p:confirm header="#{toolsBundle.ConfirmationHeader}" message="#{toolsBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/tools/generic/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

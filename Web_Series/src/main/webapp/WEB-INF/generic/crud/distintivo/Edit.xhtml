@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="DistintivoEditDlg" widgetVar="DistintivoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.EditDistintivoTitle}" closeOnEscape="true">
+
+            <h:form id="DistintivoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{distintivoController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditDistintivoLabel_idDistintivo}" for="idDistintivo" />
+                        <h:panelGroup>
+                            <h:outputText id="idDistintivo" value="#{distintivoController.selected.idDistintivo}" />
+                            <p:tooltip for="idDistintivo" value="#{distintivoController.getComponentMessages('idDistintivo', seriesBundle.EditDistintivoHelpText_idDistintivo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditDistintivoLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{distintivoController.selected.descripcion}" title="#{seriesBundle.EditDistintivoTitle_descripcion}" size="100" maxlength="100"/>
+                            <p:tooltip for="descripcion" value="#{distintivoController.getComponentMessages('descripcion', seriesBundle.EditDistintivoHelpText_descripcion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditDistintivoLabel_idTipoDistintivo}" for="idTipoDistintivo" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idTipoDistintivo" value="#{distintivoController.selected.idTipoDistintivo}"  converter="tipoDistintivoConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{tipoDistintivoController.items}"
+                                               var="idTipoDistintivoItem"
+                                               itemValue="#{idTipoDistintivoItem}"
+                                               itemLabel="#{idTipoDistintivoItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idTipoDistintivo" value="#{distintivoController.getComponentMessages('idTipoDistintivo', seriesBundle.EditDistintivoHelpText_idTipoDistintivo)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{distintivoController.save}" value="#{seriesBundle.Save}" update="display,:DistintivoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DistintivoEditDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('DistintivoEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoSerieCreateDlg" widgetVar="TipoSerieCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{seriesBundle.CreateTipoSerieTitle}" closeOnEscape="true">
+
+            <h:form id="TipoSerieCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tipoSerieController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{seriesBundle.CreateTipoSerieLabel_idRango}" for="idRango" />
+                        <h:panelGroup>
+                            <p:inputText id="idRango" value="#{tipoSerieController.selected.idRango}" title="#{seriesBundle.CreateTipoSerieTitle_idRango}" required="true" requiredMessage="#{seriesBundle.CreateTipoSerieRequiredMessage_idRango}"/>
+                            <p:tooltip for="idRango" value="#{tipoSerieController.getComponentMessages('idRango', seriesBundle.CreateTipoSerieHelpText_idRango)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateTipoSerieLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{tipoSerieController.selected.descripcion}" title="#{seriesBundle.CreateTipoSerieTitle_descripcion}" size="20" maxlength="20"/>
+                            <p:tooltip for="descripcion" value="#{tipoSerieController.getComponentMessages('descripcion', seriesBundle.CreateTipoSerieHelpText_descripcion)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoSerieController.saveNew}" value="#{seriesBundle.Save}" update="display,:TipoSerieListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoSerieCreateDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('TipoSerieCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CalidadViewDlg" widgetVar="CalidadViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.ViewCalidadTitle}" closeOnEscape="true">
+
+            <h:form id="CalidadViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{calidadController.selected != null}">
+
+                        <h:outputText value="#{seriesBundle.ViewCalidadLabel_idCalidad}"/>
+                        <h:outputText value="#{calidadController.selected.idCalidad}" title="#{seriesBundle.ViewCalidadTitle_idCalidad}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewCalidadLabel_idRango}"/>
+                        <h:outputText value="#{calidadController.selected.idRango}" title="#{seriesBundle.ViewCalidadTitle_idRango}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewCalidadLabel_descripcion}"/>
+                        <h:outputText value="#{calidadController.selected.descripcion}" title="#{seriesBundle.ViewCalidadTitle_descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="PF('CalidadViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

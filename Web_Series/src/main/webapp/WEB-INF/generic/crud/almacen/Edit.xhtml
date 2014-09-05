@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="AlmacenEditDlg" widgetVar="AlmacenEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.EditAlmacenTitle}" closeOnEscape="true">
+
+            <h:form id="AlmacenEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{almacenController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditAlmacenLabel_idAlmacen}" for="idAlmacen" />
+                        <h:panelGroup>
+                            <h:outputText id="idAlmacen" value="#{almacenController.selected.idAlmacen}" />
+                            <p:tooltip for="idAlmacen" value="#{almacenController.getComponentMessages('idAlmacen', seriesBundle.EditAlmacenHelpText_idAlmacen)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditAlmacenLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{almacenController.selected.descripcion}" title="#{seriesBundle.EditAlmacenTitle_descripcion}" required="true" requiredMessage="#{seriesBundle.EditAlmacenRequiredMessage_descripcion}" size="100" maxlength="100"/>
+                            <p:tooltip for="descripcion" value="#{almacenController.getComponentMessages('descripcion', seriesBundle.EditAlmacenHelpText_descripcion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditAlmacenLabel_proposito}" for="proposito" />
+                        <h:panelGroup>
+                            <p:inputText id="proposito" value="#{almacenController.selected.proposito}" title="#{seriesBundle.EditAlmacenTitle_proposito}" size="100" maxlength="100"/>
+                            <p:tooltip for="proposito" value="#{almacenController.getComponentMessages('proposito', seriesBundle.EditAlmacenHelpText_proposito)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditAlmacenLabel_comentarios}" for="comentarios" />
+                        <h:panelGroup>
+                            <p:inputText id="comentarios" value="#{almacenController.selected.comentarios}" title="#{seriesBundle.EditAlmacenTitle_comentarios}" size="200" maxlength="200"/>
+                            <p:tooltip for="comentarios" value="#{almacenController.getComponentMessages('comentarios', seriesBundle.EditAlmacenHelpText_comentarios)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditAlmacenLabel_capacidad}" for="capacidad" />
+                        <h:panelGroup>
+                            <p:inputText id="capacidad" value="#{almacenController.selected.capacidad}" title="#{seriesBundle.EditAlmacenTitle_capacidad}" required="true" requiredMessage="#{seriesBundle.EditAlmacenRequiredMessage_capacidad}" size="20" maxlength="20"/>
+                            <p:tooltip for="capacidad" value="#{almacenController.getComponentMessages('capacidad', seriesBundle.EditAlmacenHelpText_capacidad)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditAlmacenLabel_espacioLibre}" for="espacioLibre" />
+                        <h:panelGroup>
+                            <p:inputText id="espacioLibre" value="#{almacenController.selected.espacioLibre}" title="#{seriesBundle.EditAlmacenTitle_espacioLibre}" size="20" maxlength="20"/>
+                            <p:tooltip for="espacioLibre" value="#{almacenController.getComponentMessages('espacioLibre', seriesBundle.EditAlmacenHelpText_espacioLibre)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{almacenController.save}" value="#{seriesBundle.Save}" update="display,:AlmacenListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('AlmacenEditDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('AlmacenEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

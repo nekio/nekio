@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ObtenidoEditDlg" widgetVar="ObtenidoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.EditObtenidoTitle}" closeOnEscape="true">
+
+            <h:form id="ObtenidoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{obtenidoController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditObtenidoLabel_idObtenido}" for="idObtenido" />
+                        <h:panelGroup>
+                            <h:outputText id="idObtenido" value="#{obtenidoController.selected.idObtenido}" />
+                            <p:tooltip for="idObtenido" value="#{obtenidoController.getComponentMessages('idObtenido', seriesBundle.EditObtenidoHelpText_idObtenido)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditObtenidoLabel_fechaObtencion}" for="fechaObtencion" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaObtencion" pattern="MM/dd/yyyy HH:mm:ss" value="#{obtenidoController.selected.fechaObtencion}" title="#{seriesBundle.EditObtenidoTitle_fechaObtencion}" required="true" requiredMessage="#{seriesBundle.EditObtenidoRequiredMessage_fechaObtencion}" showOn="button"/>
+                            <p:tooltip for="fechaObtencion" value="#{obtenidoController.getComponentMessages('fechaObtencion', seriesBundle.EditObtenidoHelpText_fechaObtencion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditObtenidoLabel_nombreArchivo}" for="nombreArchivo" />
+                        <h:panelGroup>
+                            <p:inputText id="nombreArchivo" value="#{obtenidoController.selected.nombreArchivo}" title="#{seriesBundle.EditObtenidoTitle_nombreArchivo}" size="255" maxlength="255"/>
+                            <p:tooltip for="nombreArchivo" value="#{obtenidoController.getComponentMessages('nombreArchivo', seriesBundle.EditObtenidoHelpText_nombreArchivo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditObtenidoLabel_pesoArchivo}" for="pesoArchivo" />
+                        <h:panelGroup>
+                            <p:inputText id="pesoArchivo" value="#{obtenidoController.selected.pesoArchivo}" title="#{seriesBundle.EditObtenidoTitle_pesoArchivo}"/>
+                            <p:tooltip for="pesoArchivo" value="#{obtenidoController.getComponentMessages('pesoArchivo', seriesBundle.EditObtenidoHelpText_pesoArchivo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditObtenidoLabel_unidadPeso}" for="unidadPeso" />
+                        <h:panelGroup>
+                            <p:inputText id="unidadPeso" value="#{obtenidoController.selected.unidadPeso}" title="#{seriesBundle.EditObtenidoTitle_unidadPeso}" size="2" maxlength="2"/>
+                            <p:tooltip for="unidadPeso" value="#{obtenidoController.getComponentMessages('unidadPeso', seriesBundle.EditObtenidoHelpText_unidadPeso)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditObtenidoLabel_comentarios}" for="comentarios" />
+                        <h:panelGroup>
+                            <p:inputText id="comentarios" value="#{obtenidoController.selected.comentarios}" title="#{seriesBundle.EditObtenidoTitle_comentarios}" size="255" maxlength="255"/>
+                            <p:tooltip for="comentarios" value="#{obtenidoController.getComponentMessages('comentarios', seriesBundle.EditObtenidoHelpText_comentarios)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditObtenidoLabel_idSubtitulo}" for="idSubtitulo" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idSubtitulo" value="#{obtenidoController.selected.idSubtitulo}"  converter="idiomaConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{idiomaController.items}"
+                                               var="idSubtituloItem"
+                                               itemValue="#{idSubtituloItem}"
+                                               itemLabel="#{idSubtituloItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idSubtitulo" value="#{obtenidoController.getComponentMessages('idSubtitulo', seriesBundle.EditObtenidoHelpText_idSubtitulo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditObtenidoLabel_idAudio}" for="idAudio" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idAudio" value="#{obtenidoController.selected.idAudio}"  converter="idiomaConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{idiomaController.items}"
+                                               var="idAudioItem"
+                                               itemValue="#{idAudioItem}"
+                                               itemLabel="#{idAudioItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idAudio" value="#{obtenidoController.getComponentMessages('idAudio', seriesBundle.EditObtenidoHelpText_idAudio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditObtenidoLabel_idAlmacen}" for="idAlmacen" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idAlmacen" value="#{obtenidoController.selected.idAlmacen}" required="true" requiredMessage="#{seriesBundle.EditObtenidoRequiredMessage_idAlmacen}" converter="almacenConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{almacenController.items}"
+                                               var="idAlmacenItem"
+                                               itemValue="#{idAlmacenItem}"
+                                               itemLabel="#{idAlmacenItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idAlmacen" value="#{obtenidoController.getComponentMessages('idAlmacen', seriesBundle.EditObtenidoHelpText_idAlmacen)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditObtenidoLabel_idProyecto}" for="idProyecto" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idProyecto" value="#{obtenidoController.selected.idProyecto}"  converter="proyectoConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{proyectoController.items}"
+                                               var="idProyectoItem"
+                                               itemValue="#{idProyectoItem}"
+                                               itemLabel="#{idProyectoItem.idProyecto.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idProyecto" value="#{obtenidoController.getComponentMessages('idProyecto', seriesBundle.EditObtenidoHelpText_idProyecto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditObtenidoLabel_idEpisodio}" for="idEpisodio" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idEpisodio" value="#{obtenidoController.selected.idEpisodio}"  converter="episodioConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{episodioController.items}"
+                                               var="idEpisodioItem"
+                                               itemValue="#{idEpisodioItem}"
+                                               itemLabel="#{idEpisodioItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idEpisodio" value="#{obtenidoController.getComponentMessages('idEpisodio', seriesBundle.EditObtenidoHelpText_idEpisodio)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{obtenidoController.save}" value="#{seriesBundle.Save}" update="display,:ObtenidoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ObtenidoEditDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('ObtenidoEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

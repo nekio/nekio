@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="CalidadEditDlg" widgetVar="CalidadEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.EditCalidadTitle}" closeOnEscape="true">
+
+            <h:form id="CalidadEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{calidadController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditCalidadLabel_idCalidad}" for="idCalidad" />
+                        <h:panelGroup>
+                            <h:outputText id="idCalidad" value="#{calidadController.selected.idCalidad}" />
+                            <p:tooltip for="idCalidad" value="#{calidadController.getComponentMessages('idCalidad', seriesBundle.EditCalidadHelpText_idCalidad)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditCalidadLabel_idRango}" for="idRango" />
+                        <h:panelGroup>
+                            <p:inputText id="idRango" value="#{calidadController.selected.idRango}" title="#{seriesBundle.EditCalidadTitle_idRango}" required="true" requiredMessage="#{seriesBundle.EditCalidadRequiredMessage_idRango}"/>
+                            <p:tooltip for="idRango" value="#{calidadController.getComponentMessages('idRango', seriesBundle.EditCalidadHelpText_idRango)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditCalidadLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{calidadController.selected.descripcion}" title="#{seriesBundle.EditCalidadTitle_descripcion}" size="20" maxlength="20"/>
+                            <p:tooltip for="descripcion" value="#{calidadController.getComponentMessages('descripcion', seriesBundle.EditCalidadHelpText_descripcion)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{calidadController.save}" value="#{seriesBundle.Save}" update="display,:CalidadListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CalidadEditDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('CalidadEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

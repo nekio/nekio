@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TelevisoraViewDlg" widgetVar="TelevisoraViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.ViewTelevisoraTitle}" closeOnEscape="true">
+
+            <h:form id="TelevisoraViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{televisoraController.selected != null}">
+
+                        <h:outputText value="#{seriesBundle.ViewTelevisoraLabel_idTelevisora}"/>
+                        <h:outputText value="#{televisoraController.selected.idTelevisora}" title="#{seriesBundle.ViewTelevisoraTitle_idTelevisora}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewTelevisoraLabel_idImagen}"/>
+                        <h:outputText value="#{televisoraController.selected.idImagen}" title="#{seriesBundle.ViewTelevisoraTitle_idImagen}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewTelevisoraLabel_siglasTelevisora}"/>
+                        <h:outputText value="#{televisoraController.selected.siglasTelevisora}" title="#{seriesBundle.ViewTelevisoraTitle_siglasTelevisora}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewTelevisoraLabel_nombreTelevisora}"/>
+                        <h:outputText value="#{televisoraController.selected.nombreTelevisora}" title="#{seriesBundle.ViewTelevisoraTitle_nombreTelevisora}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewTelevisoraLabel_serieCollection}"/>
+                        <h:selectManyMenu converter="serieConverter">
+                            <f:selectItems value="#{televisoraController.selected.serieCollection}"
+                                           var="serieCollectionItem"
+                                           itemValue="#{serieCollectionItem}"
+                                           itemLabel="#{serieCollectionItem.idSerie.toString()}"
+                                           />
+
+                        </h:selectManyMenu>
+                    </p:panelGrid>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="PF('TelevisoraViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

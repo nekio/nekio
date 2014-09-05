@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="SistemaEditDlg" widgetVar="SistemaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{toolsBundle.EditSistemaTitle}" closeOnEscape="true">
+
+            <h:form id="SistemaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{sistemaController.selected != null}">
+
+
+                        <h:outputLabel value="#{toolsBundle.EditSistemaLabel_idSistema}" for="idSistema" />
+                        <h:panelGroup>
+                            <h:outputText id="idSistema" value="#{sistemaController.selected.idSistema}" />
+                            <p:tooltip for="idSistema" value="#{sistemaController.getComponentMessages('idSistema', toolsBundle.EditSistemaHelpText_idSistema)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{toolsBundle.EditSistemaLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{sistemaController.selected.descripcion}" title="#{toolsBundle.EditSistemaTitle_descripcion}" required="true" requiredMessage="#{toolsBundle.EditSistemaRequiredMessage_descripcion}" size="25" maxlength="25"/>
+                            <p:tooltip for="descripcion" value="#{sistemaController.getComponentMessages('descripcion', toolsBundle.EditSistemaHelpText_descripcion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{toolsBundle.EditSistemaLabel_siglas}" for="siglas" />
+                        <h:panelGroup>
+                            <p:inputText id="siglas" value="#{sistemaController.selected.siglas}" title="#{toolsBundle.EditSistemaTitle_siglas}" required="true" requiredMessage="#{toolsBundle.EditSistemaRequiredMessage_siglas}" size="15" maxlength="15"/>
+                            <p:tooltip for="siglas" value="#{sistemaController.getComponentMessages('siglas', toolsBundle.EditSistemaHelpText_siglas)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{toolsBundle.EditSistemaLabel_titulo}" for="titulo" />
+                        <h:panelGroup>
+                            <p:inputText id="titulo" value="#{sistemaController.selected.titulo}" title="#{toolsBundle.EditSistemaTitle_titulo}" required="true" requiredMessage="#{toolsBundle.EditSistemaRequiredMessage_titulo}" size="100" maxlength="100"/>
+                            <p:tooltip for="titulo" value="#{sistemaController.getComponentMessages('titulo', toolsBundle.EditSistemaHelpText_titulo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{toolsBundle.EditSistemaLabel_desarrollador}" for="desarrollador" />
+                        <h:panelGroup>
+                            <p:inputText id="desarrollador" value="#{sistemaController.selected.desarrollador}" title="#{toolsBundle.EditSistemaTitle_desarrollador}" required="true" requiredMessage="#{toolsBundle.EditSistemaRequiredMessage_desarrollador}" size="25" maxlength="25"/>
+                            <p:tooltip for="desarrollador" value="#{sistemaController.getComponentMessages('desarrollador', toolsBundle.EditSistemaHelpText_desarrollador)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{toolsBundle.EditSistemaLabel_contacto}" for="contacto" />
+                        <h:panelGroup>
+                            <p:inputText id="contacto" value="#{sistemaController.selected.contacto}" title="#{toolsBundle.EditSistemaTitle_contacto}" size="50" maxlength="50"/>
+                            <p:tooltip for="contacto" value="#{sistemaController.getComponentMessages('contacto', toolsBundle.EditSistemaHelpText_contacto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{toolsBundle.EditSistemaLabel_version}" for="version" />
+                        <h:panelGroup>
+                            <p:inputText id="version" value="#{sistemaController.selected.version}" title="#{toolsBundle.EditSistemaTitle_version}" required="true" requiredMessage="#{toolsBundle.EditSistemaRequiredMessage_version}" size="20" maxlength="20"/>
+                            <p:tooltip for="version" value="#{sistemaController.getComponentMessages('version', toolsBundle.EditSistemaHelpText_version)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{toolsBundle.EditSistemaLabel_actualizacion}" for="actualizacion" />
+                        <h:panelGroup>
+                            <p:inputText id="actualizacion" value="#{sistemaController.selected.actualizacion}" title="#{toolsBundle.EditSistemaTitle_actualizacion}" size="10" maxlength="10"/>
+                            <p:tooltip for="actualizacion" value="#{sistemaController.getComponentMessages('actualizacion', toolsBundle.EditSistemaHelpText_actualizacion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{toolsBundle.EditSistemaLabel_fechaLiberacion}" for="fechaLiberacion" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaLiberacion" pattern="MM/dd/yyyy HH:mm:ss" value="#{sistemaController.selected.fechaLiberacion}" title="#{toolsBundle.EditSistemaTitle_fechaLiberacion}" required="true" requiredMessage="#{toolsBundle.EditSistemaRequiredMessage_fechaLiberacion}" showOn="button"/>
+                            <p:tooltip for="fechaLiberacion" value="#{sistemaController.getComponentMessages('fechaLiberacion', toolsBundle.EditSistemaHelpText_fechaLiberacion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{toolsBundle.EditSistemaLabel_msjMantenimiento}" for="msjMantenimiento" />
+                        <h:panelGroup>
+                            <p:inputText id="msjMantenimiento" value="#{sistemaController.selected.msjMantenimiento}" title="#{toolsBundle.EditSistemaTitle_msjMantenimiento}" required="true" requiredMessage="#{toolsBundle.EditSistemaRequiredMessage_msjMantenimiento}" size="100" maxlength="100"/>
+                            <p:tooltip for="msjMantenimiento" value="#{sistemaController.getComponentMessages('msjMantenimiento', toolsBundle.EditSistemaHelpText_msjMantenimiento)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{toolsBundle.EditSistemaLabel_bdEsquema}" for="bdEsquema" />
+                        <h:panelGroup>
+                            <p:inputText id="bdEsquema" value="#{sistemaController.selected.bdEsquema}" title="#{toolsBundle.EditSistemaTitle_bdEsquema}" required="true" requiredMessage="#{toolsBundle.EditSistemaRequiredMessage_bdEsquema}" size="25" maxlength="25"/>
+                            <p:tooltip for="bdEsquema" value="#{sistemaController.getComponentMessages('bdEsquema', toolsBundle.EditSistemaHelpText_bdEsquema)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{toolsBundle.EditSistemaLabel_rutaRecursos}" for="rutaRecursos" />
+                        <h:panelGroup>
+                            <p:inputText id="rutaRecursos" value="#{sistemaController.selected.rutaRecursos}" title="#{toolsBundle.EditSistemaTitle_rutaRecursos}" size="255" maxlength="255"/>
+                            <p:tooltip for="rutaRecursos" value="#{sistemaController.getComponentMessages('rutaRecursos', toolsBundle.EditSistemaHelpText_rutaRecursos)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{sistemaController.save}" value="#{toolsBundle.Save}" update="display,:SistemaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('SistemaEditDialog'));">
+                        <p:confirm header="#{toolsBundle.ConfirmationHeader}" message="#{toolsBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{toolsBundle.Cancel}" onclick="PF('SistemaEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

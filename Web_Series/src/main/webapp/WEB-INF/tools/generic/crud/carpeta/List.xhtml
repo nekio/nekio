@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="CarpetaListForm">
+
+        <p:panel header="#{toolsBundle.ListCarpetaTitle}">
+            <p:contextMenu id="CarpetaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{toolsBundle.Create}" onclick="document.getElementById('CarpetaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{toolsBundle.View}" onclick="document.getElementById('CarpetaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{toolsBundle.Edit}" onclick="document.getElementById('CarpetaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{toolsBundle.Delete}" onclick="document.getElementById('CarpetaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{toolsBundle.CarpetaMenuItem_imagenCollection}" icon="ui-icon-search"  action="#{carpetaController.navigateImagenCollection}" disabled="#{empty carpetaController.selected.imagenCollection}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{carpetaController.items}"
+                         var="item"
+                         rowKey="#{item.idCarpeta}"
+                         paginator="true"
+                         rows="20"
+                         rowsPerPageTemplate="10,25,50"
+                         selectionMode="single"
+                         selection="#{carpetaController.selected}">
+
+                <p:ajax event="rowSelect"   update=":CarpetaListForm:createButton :CarpetaListForm:viewButton :CarpetaListForm:editButton :CarpetaListForm:deleteButton :CarpetaListForm:CarpetaDataTableContextMenu" listener="#{carpetaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":CarpetaListForm:createButton :CarpetaListForm:viewButton :CarpetaListForm:editButton :CarpetaListForm:deleteButton :CarpetaListForm:CarpetaDataTableContextMenu" listener="#{carpetaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('CarpetaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idCarpeta}" filterBy="#{item.idCarpeta}">
+                    <f:facet name="header">
+                        <h:outputText value="#{toolsBundle.ListCarpetaTitle_idCarpeta}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idCarpeta}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{toolsBundle.ListCarpetaTitle_descripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{toolsBundle.Create}" actionListener="#{carpetaController.prepareCreate}" update=":CarpetaCreateForm" oncomplete="PF('CarpetaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{toolsBundle.View}" update=":CarpetaViewForm" oncomplete="PF('CarpetaViewDialog').show()" disabled="#{empty carpetaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{toolsBundle.Edit}" update=":CarpetaEditForm" oncomplete="PF('CarpetaEditDialog').show()" disabled="#{empty carpetaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{toolsBundle.Delete}" actionListener="#{carpetaController.delete}" update=":growl,datalist" disabled="#{empty carpetaController.selected}">
+                <p:confirm header="#{toolsBundle.ConfirmationHeader}" message="#{toolsBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/tools/generic/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>
