@@ -9,21 +9,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Calidad.findAll", query = "SELECT c FROM Calidad c"),
     @NamedQuery(name = "Calidad.findByIdCalidad", query = "SELECT c FROM Calidad c WHERE c.idCalidad = :idCalidad"),
-    @NamedQuery(name = "Calidad.findByIdRango", query = "SELECT c FROM Calidad c WHERE c.idRango = :idRango"),
     @NamedQuery(name = "Calidad.findByDescripcion", query = "SELECT c FROM Calidad c WHERE c.descripcion = :descripcion")})
 public class Calidad implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -32,14 +32,13 @@ public class Calidad implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_calidad")
     private Integer idCalidad;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id_rango")
-    private int idRango;
     @Size(max = 20)
     private String descripcion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCalidad")
     private Collection<Proyecto> proyectoCollection;
+    @JoinColumn(name = "id_rango", referencedColumnName = "id_rango")
+    @ManyToOne(optional = false)
+    private XRango idRango;
 
     public Calidad() {
     }
@@ -48,25 +47,12 @@ public class Calidad implements Serializable {
         this.idCalidad = idCalidad;
     }
 
-    public Calidad(Integer idCalidad, int idRango) {
-        this.idCalidad = idCalidad;
-        this.idRango = idRango;
-    }
-
     public Integer getIdCalidad() {
         return idCalidad;
     }
 
     public void setIdCalidad(Integer idCalidad) {
         this.idCalidad = idCalidad;
-    }
-
-    public int getIdRango() {
-        return idRango;
-    }
-
-    public void setIdRango(int idRango) {
-        this.idRango = idRango;
     }
 
     public String getDescripcion() {
@@ -83,6 +69,14 @@ public class Calidad implements Serializable {
 
     public void setProyectoCollection(Collection<Proyecto> proyectoCollection) {
         this.proyectoCollection = proyectoCollection;
+    }
+
+    public XRango getIdRango() {
+        return idRango;
+    }
+
+    public void setIdRango(XRango idRango) {
+        this.idRango = idRango;
     }
 
     @Override

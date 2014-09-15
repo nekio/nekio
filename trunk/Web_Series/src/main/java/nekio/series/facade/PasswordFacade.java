@@ -7,7 +7,7 @@ import nekio.series.dto.Password;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Stateless
 public class PasswordFacade extends AbstractFacade<Password> {

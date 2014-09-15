@@ -7,7 +7,7 @@ import nekio.series.dto.Almacen;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Stateless
 public class AlmacenFacade extends AbstractFacade<Almacen> {

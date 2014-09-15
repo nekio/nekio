@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotNull;
@@ -18,44 +19,39 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Televisora.findAll", query = "SELECT t FROM Televisora t"),
     @NamedQuery(name = "Televisora.findByIdTelevisora", query = "SELECT t FROM Televisora t WHERE t.idTelevisora = :idTelevisora"),
-    @NamedQuery(name = "Televisora.findByIdImagen", query = "SELECT t FROM Televisora t WHERE t.idImagen = :idImagen"),
     @NamedQuery(name = "Televisora.findBySiglasTelevisora", query = "SELECT t FROM Televisora t WHERE t.siglasTelevisora = :siglasTelevisora"),
     @NamedQuery(name = "Televisora.findByNombreTelevisora", query = "SELECT t FROM Televisora t WHERE t.nombreTelevisora = :nombreTelevisora")})
 public class Televisora implements Serializable {
     private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_televisora")
     private Integer idTelevisora;
-    
-    @Column(name = "id_imagen")
-    private Integer idImagen;
-    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "siglas_televisora")
     private String siglasTelevisora;
-    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "nombre_televisora")
     private String nombreTelevisora;
-    
     @JoinTable(name = "televisora_serie", joinColumns = {
         @JoinColumn(name = "id_televisora", referencedColumnName = "id_televisora")}, inverseJoinColumns = {
         @JoinColumn(name = "id_serie", referencedColumnName = "id_serie")})
     @ManyToMany
     private Collection<Serie> serieCollection;
+    @JoinColumn(name = "id_imagen", referencedColumnName = "id_imagen")
+    @ManyToOne
+    private XImagen idImagen;
 
     public Televisora() {
     }
@@ -76,14 +72,6 @@ public class Televisora implements Serializable {
 
     public void setIdTelevisora(Integer idTelevisora) {
         this.idTelevisora = idTelevisora;
-    }
-
-    public Integer getIdImagen() {
-        return idImagen;
-    }
-
-    public void setIdImagen(Integer idImagen) {
-        this.idImagen = idImagen;
     }
 
     public String getSiglasTelevisora() {
@@ -108,6 +96,14 @@ public class Televisora implements Serializable {
 
     public void setSerieCollection(Collection<Serie> serieCollection) {
         this.serieCollection = serieCollection;
+    }
+
+    public XImagen getIdImagen() {
+        return idImagen;
+    }
+
+    public void setIdImagen(XImagen idImagen) {
+        this.idImagen = idImagen;
     }
 
     @Override

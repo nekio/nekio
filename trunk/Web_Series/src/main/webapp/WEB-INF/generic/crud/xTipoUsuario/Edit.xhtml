@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="XTipoUsuarioEditDlg" widgetVar="XTipoUsuarioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.EditXTipoUsuarioTitle}" closeOnEscape="true">
+
+            <h:form id="XTipoUsuarioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{xTipoUsuarioController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditXTipoUsuarioLabel_idTipoUsuario}" for="idTipoUsuario" />
+                        <h:panelGroup>
+                            <h:outputText id="idTipoUsuario" value="#{xTipoUsuarioController.selected.idTipoUsuario}" />
+                            <p:tooltip for="idTipoUsuario" value="#{xTipoUsuarioController.getComponentMessages('idTipoUsuario', seriesBundle.EditXTipoUsuarioHelpText_idTipoUsuario)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditXTipoUsuarioLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{xTipoUsuarioController.selected.descripcion}" title="#{seriesBundle.EditXTipoUsuarioTitle_descripcion}" size="50" maxlength="50"/>
+                            <p:tooltip for="descripcion" value="#{xTipoUsuarioController.getComponentMessages('descripcion', seriesBundle.EditXTipoUsuarioHelpText_descripcion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditXTipoUsuarioLabel_XPrivilegio}" for="XPrivilegio" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="XPrivilegio" value="#{xTipoUsuarioController.selected.XPrivilegio}"  converter="xPrivilegioConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{xPrivilegioController.items}"
+                                               var="XPrivilegioItem"
+                                               itemValue="#{XPrivilegioItem}"
+                                               itemLabel="#{XPrivilegioItem.idPrivilegio.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="XPrivilegio" value="#{xTipoUsuarioController.getComponentMessages('XPrivilegio', seriesBundle.EditXTipoUsuarioHelpText_XPrivilegio)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{xTipoUsuarioController.save}" value="#{seriesBundle.Save}" update="display,:XTipoUsuarioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('XTipoUsuarioEditDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('XTipoUsuarioEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

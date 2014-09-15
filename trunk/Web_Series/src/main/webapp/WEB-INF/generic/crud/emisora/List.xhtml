@@ -15,6 +15,7 @@
                 <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('EmisoraListForm:editButton').click();" icon="ui-icon-pencil"/>
                 <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('EmisoraListForm:deleteButton').click();" icon="ui-icon-trash"/>
                 <p:separator/>
+                <p:menuitem value="#{seriesBundle.EmisoraMenuItem_idImagen}" icon="ui-icon-search"  actionListener="#{emisoraController.prepareIdImagen}" update=":XImagenViewForm" oncomplete="PF('XImagenViewDialog').show()" disabled="#{empty emisoraController.selected.idImagen}"/>  
                 <p:menuitem value="#{seriesBundle.EmisoraMenuItem_serieCollection}" icon="ui-icon-search"  action="#{emisoraController.navigateSerieCollection}" disabled="#{empty emisoraController.selected.serieCollection}" ajax="false"/>  
             </p:contextMenu>
             <p:dataTable id="datalist"
@@ -23,7 +24,7 @@
                          rowKey="#{item.idEmisora}"
                          paginator="true"
                          rows="25"
-                         rowsPerPageTemplate="10,25,50,75,100"
+                         rowsPerPageTemplate="10,25,50,100"
                          selectionMode="single"
                          selection="#{emisoraController.selected}">
 
@@ -36,14 +37,6 @@
                         <h:outputText value="#{seriesBundle.ListEmisoraTitle_idEmisora}"/>
                     </f:facet>
                     <h:outputText value="#{item.idEmisora}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.idImagen}" filterBy="#{item.idImagen}">
-                    <f:facet name="header">
-                        <h:outputText value="#{seriesBundle.ListEmisoraTitle_idImagen}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idImagen}"/>
                 </p:column>
 
 
@@ -60,6 +53,14 @@
                         <h:outputText value="#{seriesBundle.ListEmisoraTitle_nombreEmisora}"/>
                     </f:facet>
                     <h:outputText value="#{item.nombreEmisora}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idImagen.descripcion}" filterBy="#{item.idImagen.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListEmisoraTitle_idImagen}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idImagen.descripcion}"/>
                 </p:column>
 
 

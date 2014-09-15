@@ -15,18 +15,15 @@
                 <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('ProyectoListForm:editButton').click();" icon="ui-icon-pencil"/>
                 <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('ProyectoListForm:deleteButton').click();" icon="ui-icon-trash"/>
                 <p:separator/>
+                <p:menuitem value="#{seriesBundle.ProyectoMenuItem_idRango}" icon="ui-icon-search"  actionListener="#{proyectoController.prepareIdRango}" update=":XRangoViewForm" oncomplete="PF('XRangoViewDialog').show()" disabled="#{empty proyectoController.selected.idRango}"/>  
                 <p:menuitem value="#{seriesBundle.ProyectoMenuItem_idPeso}" icon="ui-icon-search"  actionListener="#{proyectoController.prepareIdPeso}" update=":PesoViewForm" oncomplete="PF('PesoViewDialog').show()" disabled="#{empty proyectoController.selected.idPeso}"/>  
                 <p:menuitem value="#{seriesBundle.ProyectoMenuItem_idCalidad}" icon="ui-icon-search"  actionListener="#{proyectoController.prepareIdCalidad}" update=":CalidadViewForm" oncomplete="PF('CalidadViewDialog').show()" disabled="#{empty proyectoController.selected.idCalidad}"/>  
                 <p:menuitem value="#{seriesBundle.ProyectoMenuItem_idFormato}" icon="ui-icon-search"  actionListener="#{proyectoController.prepareIdFormato}" update=":FormatoViewForm" oncomplete="PF('FormatoViewDialog').show()" disabled="#{empty proyectoController.selected.idFormato}"/>  
                 <p:menuitem value="#{seriesBundle.ProyectoMenuItem_idIdioma}" icon="ui-icon-search"  actionListener="#{proyectoController.prepareIdIdioma}" update=":IdiomaViewForm" oncomplete="PF('IdiomaViewDialog').show()" disabled="#{empty proyectoController.selected.idIdioma}"/>  
                 <p:menuitem value="#{seriesBundle.ProyectoMenuItem_idWeb}" icon="ui-icon-search"  actionListener="#{proyectoController.prepareIdWeb}" update=":WebViewForm" oncomplete="PF('WebViewDialog').show()" disabled="#{empty proyectoController.selected.idWeb}"/>  
                 <p:menuitem value="#{seriesBundle.ProyectoMenuItem_idSerie}" icon="ui-icon-search"  actionListener="#{proyectoController.prepareIdSerie}" update=":SerieViewForm" oncomplete="PF('SerieViewDialog').show()" disabled="#{empty proyectoController.selected.idSerie}"/>  
-                <p:menuitem value="#{seriesBundle.ProyectoMenuItem_idEstadoProyecto}" icon="ui-icon-search"  actionListener="#{proyectoController.prepareIdEstadoProyecto}" update=":EstadoProyectoViewForm" oncomplete="PF('EstadoProyectoViewDialog').show()" disabled="#{empty proyectoController.selected.idEstadoProyecto}"/>  
                 <p:menuitem value="#{seriesBundle.ProyectoMenuItem_proyectoDetCollection}" icon="ui-icon-search"  action="#{proyectoController.navigateProyectoDetCollection}" disabled="#{empty proyectoController.selected.proyectoDetCollection}" ajax="false"/>  
                 <p:menuitem value="#{seriesBundle.ProyectoMenuItem_passwordCollection}" icon="ui-icon-search"  action="#{proyectoController.navigatePasswordCollection}" disabled="#{empty proyectoController.selected.passwordCollection}" ajax="false"/>  
-                <p:menuitem value="#{seriesBundle.ProyectoMenuItem_pendienteCollection}" icon="ui-icon-search"  action="#{proyectoController.navigatePendienteCollection}" disabled="#{empty proyectoController.selected.pendienteCollection}" ajax="false"/>  
-                <p:menuitem value="#{seriesBundle.ProyectoMenuItem_enlaceCollection}" icon="ui-icon-search"  action="#{proyectoController.navigateEnlaceCollection}" disabled="#{empty proyectoController.selected.enlaceCollection}" ajax="false"/>  
-                <p:menuitem value="#{seriesBundle.ProyectoMenuItem_obtenidoCollection}" icon="ui-icon-search"  action="#{proyectoController.navigateObtenidoCollection}" disabled="#{empty proyectoController.selected.obtenidoCollection}" ajax="false"/>  
             </p:contextMenu>
             <p:dataTable id="datalist"
                          value="#{proyectoController.items}"
@@ -34,7 +31,7 @@
                          rowKey="#{item.idProyecto}"
                          paginator="true"
                          rows="25"
-                         rowsPerPageTemplate="10,25,50,75,100"
+                         rowsPerPageTemplate="10,25,50,100"
                          selectionMode="single"
                          selection="#{proyectoController.selected}">
 
@@ -47,14 +44,6 @@
                         <h:outputText value="#{seriesBundle.ListProyectoTitle_idProyecto}"/>
                     </f:facet>
                     <h:outputText value="#{item.idProyecto}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.idRango}" filterBy="#{item.idRango}">
-                    <f:facet name="header">
-                        <h:outputText value="#{seriesBundle.ListProyectoTitle_idRango}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idRango}"/>
                 </p:column>
 
 
@@ -115,6 +104,14 @@
                         <h:outputText value="#{seriesBundle.ListProyectoTitle_enlaces}"/>
                     </f:facet>
                     <h:outputText value="#{item.enlaces}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idRango.descripcion}" filterBy="#{item.idRango.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListProyectoTitle_idRango}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idRango.descripcion}"/>
                 </p:column>
 
                 <!--

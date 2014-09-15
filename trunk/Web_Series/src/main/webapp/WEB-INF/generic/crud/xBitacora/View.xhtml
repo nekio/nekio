@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="XBitacoraViewDlg" widgetVar="XBitacoraViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.ViewXBitacoraTitle}" closeOnEscape="true">
+
+            <h:form id="XBitacoraViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{xBitacoraController.selected != null}">
+
+                        <h:outputText value="#{seriesBundle.ViewXBitacoraLabel_idBitacora}"/>
+                        <h:outputText value="#{xBitacoraController.selected.idBitacora}" title="#{seriesBundle.ViewXBitacoraTitle_idBitacora}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXBitacoraLabel_tabla}"/>
+                        <h:outputText value="#{xBitacoraController.selected.tabla}" title="#{seriesBundle.ViewXBitacoraTitle_tabla}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXBitacoraLabel_accion}"/>
+                        <h:outputText value="#{xBitacoraController.selected.accion}" title="#{seriesBundle.ViewXBitacoraTitle_accion}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXBitacoraLabel_dml}"/>
+                        <h:outputText value="#{xBitacoraController.selected.dml}" title="#{seriesBundle.ViewXBitacoraTitle_dml}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXBitacoraLabel_fecha}"/>
+                        <h:outputText value="#{xBitacoraController.selected.fecha}" title="#{seriesBundle.ViewXBitacoraTitle_fecha}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{seriesBundle.ViewXBitacoraLabel_idUsuario}"/>
+                        <h:outputText value="#{xBitacoraController.selected.idUsuario.idUsuario}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="PF('XBitacoraViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

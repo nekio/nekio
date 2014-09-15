@@ -12,6 +12,8 @@ import javax.inject.Inject;
 public class EmisoraController extends AbstractController<Emisora> {
 
     @Inject
+    private XImagenController idImagenController;
+    @Inject
     private SerieController serieCollectionController;
 
     public EmisoraController() {
@@ -23,6 +25,20 @@ public class EmisoraController extends AbstractController<Emisora> {
      * Resets the "selected" attribute of any parent Entity controllers.
      */
     public void resetParents() {
+        idImagenController.setSelected(null);
+    }
+
+    /**
+     * Sets the "selected" attribute of the XImagen controller in order to
+     * display its data in a dialog. This is reusing existing the existing View
+     * dialog.
+     *
+     * @param event Event object for the widget that triggered an action
+     */
+    public void prepareIdImagen(ActionEvent event) {
+        if (this.getSelected() != null && idImagenController.getSelected() == null) {
+            idImagenController.setSelected(this.getSelected().getIdImagen());
+        }
     }
 
     /**

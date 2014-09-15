@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="XBitacoraEditDlg" widgetVar="XBitacoraEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.EditXBitacoraTitle}" closeOnEscape="true">
+
+            <h:form id="XBitacoraEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{xBitacoraController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditXBitacoraLabel_idBitacora}" for="idBitacora" />
+                        <h:panelGroup>
+                            <h:outputText id="idBitacora" value="#{xBitacoraController.selected.idBitacora}" />
+                            <p:tooltip for="idBitacora" value="#{xBitacoraController.getComponentMessages('idBitacora', seriesBundle.EditXBitacoraHelpText_idBitacora)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditXBitacoraLabel_tabla}" for="tabla" />
+                        <h:panelGroup>
+                            <p:inputText id="tabla" value="#{xBitacoraController.selected.tabla}" title="#{seriesBundle.EditXBitacoraTitle_tabla}" required="true" requiredMessage="#{seriesBundle.EditXBitacoraRequiredMessage_tabla}" size="50" maxlength="50"/>
+                            <p:tooltip for="tabla" value="#{xBitacoraController.getComponentMessages('tabla', seriesBundle.EditXBitacoraHelpText_tabla)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditXBitacoraLabel_accion}" for="accion" />
+                        <h:panelGroup>
+                            <p:inputText id="accion" value="#{xBitacoraController.selected.accion}" title="#{seriesBundle.EditXBitacoraTitle_accion}" required="true" requiredMessage="#{seriesBundle.EditXBitacoraRequiredMessage_accion}" size="1" maxlength="1"/>
+                            <p:tooltip for="accion" value="#{xBitacoraController.getComponentMessages('accion', seriesBundle.EditXBitacoraHelpText_accion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditXBitacoraLabel_dml}" for="dml" />
+                        <h:panelGroup>
+                            <p:inputTextarea rows="4" cols="30" id="dml" value="#{xBitacoraController.selected.dml}" title="#{seriesBundle.EditXBitacoraTitle_dml}" required="true" requiredMessage="#{seriesBundle.EditXBitacoraRequiredMessage_dml}"/>
+                            <p:tooltip for="dml" value="#{xBitacoraController.getComponentMessages('dml', seriesBundle.EditXBitacoraHelpText_dml)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditXBitacoraLabel_fecha}" for="fecha" />
+                        <h:panelGroup>
+                            <p:calendar id="fecha" pattern="MM/dd/yyyy HH:mm:ss" value="#{xBitacoraController.selected.fecha}" title="#{seriesBundle.EditXBitacoraTitle_fecha}" required="true" requiredMessage="#{seriesBundle.EditXBitacoraRequiredMessage_fecha}" showOn="button"/>
+                            <p:tooltip for="fecha" value="#{xBitacoraController.getComponentMessages('fecha', seriesBundle.EditXBitacoraHelpText_fecha)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditXBitacoraLabel_idUsuario}" for="idUsuario" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idUsuario" value="#{xBitacoraController.selected.idUsuario}"  converter="xUsuarioConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{xUsuarioController.items}"
+                                               var="idUsuarioItem"
+                                               itemValue="#{idUsuarioItem}"
+                                               itemLabel="#{idUsuarioItem.idUsuario.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idUsuario" value="#{xBitacoraController.getComponentMessages('idUsuario', seriesBundle.EditXBitacoraHelpText_idUsuario)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{xBitacoraController.save}" value="#{seriesBundle.Save}" update="display,:XBitacoraListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('XBitacoraEditDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('XBitacoraEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

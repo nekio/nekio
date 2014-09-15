@@ -29,7 +29,7 @@
 
                         <p:outputLabel value="#{seriesBundle.EditEnlaceLabel_comentarios}" for="comentarios" />
                         <h:panelGroup>
-                            <p:inputText id="comentarios" value="#{enlaceController.selected.comentarios}" title="#{seriesBundle.EditEnlaceTitle_comentarios}" size="255" maxlength="255"/>
+                            <p:inputText id="comentarios" value="#{enlaceController.selected.comentarios}" title="#{seriesBundle.EditEnlaceTitle_comentarios}" size="150" maxlength="255"/>
                             <p:tooltip for="comentarios" value="#{enlaceController.getComponentMessages('comentarios', seriesBundle.EditEnlaceHelpText_comentarios)}"/>
                         </h:panelGroup>
 
@@ -40,7 +40,7 @@
                                 <f:selectItems value="#{proyectoController.items}"
                                                var="idProyectoItem"
                                                itemValue="#{idProyectoItem}"
-                                               itemLabel="#{idProyectoItem.idProyecto.toString()}"
+                                               itemLabel="#{idProyectoItem.toString()}"
                                                />
 
                             </p:selectOneMenu>

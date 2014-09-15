@@ -15,6 +15,7 @@
                 <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('PendienteListForm:editButton').click();" icon="ui-icon-pencil"/>
                 <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('PendienteListForm:deleteButton').click();" icon="ui-icon-trash"/>
                 <p:separator/>
+                <p:menuitem value="#{seriesBundle.PendienteMenuItem_idRango}" icon="ui-icon-search"  actionListener="#{pendienteController.prepareIdRango}" update=":XRangoViewForm" oncomplete="PF('XRangoViewDialog').show()" disabled="#{empty pendienteController.selected.idRango}"/>  
                 <p:menuitem value="#{seriesBundle.PendienteMenuItem_idProyecto}" icon="ui-icon-search"  actionListener="#{pendienteController.prepareIdProyecto}" update=":ProyectoViewForm" oncomplete="PF('ProyectoViewDialog').show()" disabled="#{empty pendienteController.selected.idProyecto}"/>  
                 <p:menuitem value="#{seriesBundle.PendienteMenuItem_idEpisodio}" icon="ui-icon-search"  actionListener="#{pendienteController.prepareIdEpisodio}" update=":EpisodioViewForm" oncomplete="PF('EpisodioViewDialog').show()" disabled="#{empty pendienteController.selected.idEpisodio}"/>  
             </p:contextMenu>
@@ -24,7 +25,7 @@
                          rowKey="#{item.idPendiente}"
                          paginator="true"
                          rows="25"
-                         rowsPerPageTemplate="10,25,50,75,100"
+                         rowsPerPageTemplate="10,25,50,100"
                          selectionMode="single"
                          selection="#{pendienteController.selected}">
 
@@ -37,14 +38,6 @@
                         <h:outputText value="#{seriesBundle.ListPendienteTitle_idPendiente}"/>
                     </f:facet>
                     <h:outputText value="#{item.idPendiente}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.idRango}" filterBy="#{item.idRango}">
-                    <f:facet name="header">
-                        <h:outputText value="#{seriesBundle.ListPendienteTitle_idRango}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idRango}"/>
                 </p:column>
 
 
@@ -87,6 +80,14 @@
                         <h:outputText value="#{seriesBundle.ListPendienteTitle_comentarios}"/>
                     </f:facet>
                     <h:outputText value="#{item.comentarios}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idRango.descripcion}" filterBy="#{item.idRango.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListPendienteTitle_idRango}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idRango.descripcion}"/>
                 </p:column>
 
 

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="XModalidadEditDlg" widgetVar="XModalidadEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.EditXModalidadTitle}" closeOnEscape="true">
+
+            <h:form id="XModalidadEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{xModalidadController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditXModalidadLabel_XModalidadPK_appDebug}" for="XModalidadPK_appDebug" />
+                        <h:panelGroup>
+                            <h:outputText id="XModalidadPK_appDebug" value="#{xModalidadController.selected.XModalidadPK.appDebug}" />
+                            <p:tooltip for="XModalidadPK_appDebug" value="#{xModalidadController.getComponentMessages('XModalidadPK_appDebug', seriesBundle.EditXModalidadHelpText_XModalidadPK_appDebug)}"/>
+                        </h:panelGroup>
+
+
+                        <h:outputLabel value="#{seriesBundle.EditXModalidadLabel_XModalidadPK_appDesign}" for="XModalidadPK_appDesign" />
+                        <h:panelGroup>
+                            <h:outputText id="XModalidadPK_appDesign" value="#{xModalidadController.selected.XModalidadPK.appDesign}" />
+                            <p:tooltip for="XModalidadPK_appDesign" value="#{xModalidadController.getComponentMessages('XModalidadPK_appDesign', seriesBundle.EditXModalidadHelpText_XModalidadPK_appDesign)}"/>
+                        </h:panelGroup>
+
+
+                        <h:outputLabel value="#{seriesBundle.EditXModalidadLabel_XModalidadPK_bitacoraEstilo}" for="XModalidadPK_bitacoraEstilo" />
+                        <h:panelGroup>
+                            <h:outputText id="XModalidadPK_bitacoraEstilo" value="#{xModalidadController.selected.XModalidadPK.bitacoraEstilo}" />
+                            <p:tooltip for="XModalidadPK_bitacoraEstilo" value="#{xModalidadController.getComponentMessages('XModalidadPK_bitacoraEstilo', seriesBundle.EditXModalidadHelpText_XModalidadPK_bitacoraEstilo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditXModalidadLabel_imgChica}" for="imgChica" />
+                        <h:panelGroup>
+                            <p:inputText id="imgChica" value="#{xModalidadController.selected.imgChica}" title="#{seriesBundle.EditXModalidadTitle_imgChica}" required="true" requiredMessage="#{seriesBundle.EditXModalidadRequiredMessage_imgChica}" size="7" maxlength="7"/>
+                            <p:tooltip for="imgChica" value="#{xModalidadController.getComponentMessages('imgChica', seriesBundle.EditXModalidadHelpText_imgChica)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditXModalidadLabel_imgMediana}" for="imgMediana" />
+                        <h:panelGroup>
+                            <p:inputText id="imgMediana" value="#{xModalidadController.selected.imgMediana}" title="#{seriesBundle.EditXModalidadTitle_imgMediana}" required="true" requiredMessage="#{seriesBundle.EditXModalidadRequiredMessage_imgMediana}" size="7" maxlength="7"/>
+                            <p:tooltip for="imgMediana" value="#{xModalidadController.getComponentMessages('imgMediana', seriesBundle.EditXModalidadHelpText_imgMediana)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{xModalidadController.save}" value="#{seriesBundle.Save}" update="display,:XModalidadListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('XModalidadEditDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('XModalidadEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

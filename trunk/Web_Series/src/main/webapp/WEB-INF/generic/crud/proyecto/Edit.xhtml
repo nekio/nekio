@@ -23,12 +23,6 @@
                                     <p:tooltip for="idProyecto" value="#{proyectoController.getComponentMessages('idProyecto', seriesBundle.EditProyectoHelpText_idProyecto)}"/>
                                 </h:panelGroup>
 
-                                <p:outputLabel value="#{seriesBundle.EditProyectoLabel_idRango}" for="idRango" />
-                                <h:panelGroup>
-                                    <p:inputText id="idRango" value="#{proyectoController.selected.idRango}" title="#{seriesBundle.EditProyectoTitle_idRango}" required="true" requiredMessage="#{seriesBundle.EditProyectoRequiredMessage_idRango}"/>
-                                    <p:tooltip for="idRango" value="#{proyectoController.getComponentMessages('idRango', seriesBundle.EditProyectoHelpText_idRango)}"/>
-                                </h:panelGroup>
-
                                 <p:outputLabel value="#{seriesBundle.EditProyectoLabel_fechaInicio}" for="fechaInicio" />
                                 <h:panelGroup>
                                     <p:calendar id="fechaInicio" pattern="MM/dd/yyyy HH:mm:ss" value="#{proyectoController.selected.fechaInicio}" title="#{seriesBundle.EditProyectoTitle_fechaInicio}" required="true" requiredMessage="#{seriesBundle.EditProyectoRequiredMessage_fechaInicio}" showOn="button"/>
@@ -55,7 +49,7 @@
 
                                 <p:outputLabel value="#{seriesBundle.EditProyectoLabel_enlace}" for="enlace" />
                                 <h:panelGroup>
-                                    <p:inputText id="enlace" value="#{proyectoController.selected.enlace}" title="#{seriesBundle.EditProyectoTitle_enlace}" size="255" maxlength="255"/>
+                                    <p:inputText id="enlace" value="#{proyectoController.selected.enlace}" title="#{seriesBundle.EditProyectoTitle_enlace}" size="150" maxlength="255"/>
                                     <p:tooltip for="enlace" value="#{proyectoController.getComponentMessages('enlace', seriesBundle.EditProyectoHelpText_enlace)}"/>
                                 </h:panelGroup>
 
@@ -69,6 +63,20 @@
                                 <h:panelGroup>
                                     <p:inputTextarea rows="4" cols="30" id="enlaces" value="#{proyectoController.selected.enlaces}" title="#{seriesBundle.EditProyectoTitle_enlaces}" />
                                     <p:tooltip for="enlaces" value="#{proyectoController.getComponentMessages('enlaces', seriesBundle.EditProyectoHelpText_enlaces)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{seriesBundle.EditProyectoLabel_idRango}" for="idRango" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="idRango" value="#{proyectoController.selected.idRango}" required="true" requiredMessage="#{seriesBundle.EditProyectoRequiredMessage_idRango}" converter="xRangoConverter">
+                                        <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{xRangoController.items}"
+                                                       var="idRangoItem"
+                                                       itemValue="#{idRangoItem}"
+                                                       itemLabel="#{idRangoItem.descripcion.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="idRango" value="#{proyectoController.getComponentMessages('idRango', seriesBundle.EditProyectoHelpText_idRango)}"/>
                                 </h:panelGroup>
 
                                 <p:outputLabel value="#{seriesBundle.EditProyectoLabel_idPeso}" for="idPeso" />

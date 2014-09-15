@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="XUsuarioListForm">
+
+        <p:panel header="#{seriesBundle.ListXUsuarioTitle}">
+            <p:contextMenu id="XUsuarioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{seriesBundle.Create}" onclick="document.getElementById('XUsuarioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{seriesBundle.View}" onclick="document.getElementById('XUsuarioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('XUsuarioListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('XUsuarioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{seriesBundle.XUsuarioMenuItem_XBitacoraCollection}" icon="ui-icon-search"  action="#{xUsuarioController.navigateXBitacoraCollection}" disabled="#{empty xUsuarioController.selected.xBitacoraCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.XUsuarioMenuItem_mensajePrivadoCollection}" icon="ui-icon-search"  action="#{xUsuarioController.navigateMensajePrivadoCollection}" disabled="#{empty xUsuarioController.selected.mensajePrivadoCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.XUsuarioMenuItem_idIdioma}" icon="ui-icon-search"  actionListener="#{xUsuarioController.prepareIdIdioma}" update=":XIdiomaViewForm" oncomplete="PF('XIdiomaViewDialog').show()" disabled="#{empty xUsuarioController.selected.idIdioma}"/>  
+                <p:menuitem value="#{seriesBundle.XUsuarioMenuItem_idRango}" icon="ui-icon-search"  actionListener="#{xUsuarioController.prepareIdRango}" update=":XRangoViewForm" oncomplete="PF('XRangoViewDialog').show()" disabled="#{empty xUsuarioController.selected.idRango}"/>  
+                <p:menuitem value="#{seriesBundle.XUsuarioMenuItem_idTipoUsuario}" icon="ui-icon-search"  actionListener="#{xUsuarioController.prepareIdTipoUsuario}" update=":XTipoUsuarioViewForm" oncomplete="PF('XTipoUsuarioViewDialog').show()" disabled="#{empty xUsuarioController.selected.idTipoUsuario}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{xUsuarioController.items}"
+                         var="item"
+                         rowKey="#{item.idUsuario}"
+                         paginator="true"
+                         rows="25"
+                         rowsPerPageTemplate="10,25,50,100"
+                         selectionMode="single"
+                         selection="#{xUsuarioController.selected}">
+
+                <p:ajax event="rowSelect"   update=":XUsuarioListForm:createButton :XUsuarioListForm:viewButton :XUsuarioListForm:editButton :XUsuarioListForm:deleteButton :XUsuarioListForm:XUsuarioDataTableContextMenu" listener="#{xUsuarioController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":XUsuarioListForm:createButton :XUsuarioListForm:viewButton :XUsuarioListForm:editButton :XUsuarioListForm:deleteButton :XUsuarioListForm:XUsuarioDataTableContextMenu" listener="#{xUsuarioController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('XUsuarioListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idUsuario}" filterBy="#{item.idUsuario}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXUsuarioTitle_idUsuario}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idUsuario}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXUsuarioTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nick}" filterBy="#{item.nick}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXUsuarioTitle_nick}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nick}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.autogenerado}" filterBy="#{item.autogenerado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXUsuarioTitle_autogenerado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.autogenerado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.acceso}" filterBy="#{item.acceso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXUsuarioTitle_acceso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.acceso}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.contacto}" filterBy="#{item.contacto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXUsuarioTitle_contacto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.contacto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaRegistro}" filterBy="#{item.fechaRegistro}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXUsuarioTitle_fechaRegistro}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaRegistro}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.ultimoAcceso}" filterBy="#{item.ultimoAcceso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXUsuarioTitle_ultimoAcceso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.ultimoAcceso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.activo}" filterBy="#{item.activo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXUsuarioTitle_activo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.activo}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.idIdioma.descripcion}" filterBy="#{item.idIdioma.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListXUsuarioTitle_idIdioma}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idIdioma.descripcion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idRango.descripcion}" filterBy="#{item.idRango.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListXUsuarioTitle_idRango}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idRango.descripcion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.idTipoUsuario.descripcion}" filterBy="#{item.idTipoUsuario.descripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{seriesBundle.ListXUsuarioTitle_idTipoUsuario}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.idTipoUsuario.descripcion}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{seriesBundle.Create}" actionListener="#{xUsuarioController.prepareCreate}" update=":XUsuarioCreateForm" oncomplete="PF('XUsuarioCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{seriesBundle.View}" update=":XUsuarioViewForm" oncomplete="PF('XUsuarioViewDialog').show()" disabled="#{empty xUsuarioController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{seriesBundle.Edit}" update=":XUsuarioEditForm" oncomplete="PF('XUsuarioEditDialog').show()" disabled="#{empty xUsuarioController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{seriesBundle.Delete}" actionListener="#{xUsuarioController.delete}" update=":growl,datalist" disabled="#{empty xUsuarioController.selected}">
+                <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/generic/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

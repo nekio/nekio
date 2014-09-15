@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="XPrivilegioListForm">
+
+        <p:panel header="#{seriesBundle.ListXPrivilegioTitle}">
+            <p:contextMenu id="XPrivilegioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{seriesBundle.Create}" onclick="document.getElementById('XPrivilegioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{seriesBundle.View}" onclick="document.getElementById('XPrivilegioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('XPrivilegioListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('XPrivilegioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{seriesBundle.XPrivilegioMenuItem_XTipoUsuario}" icon="ui-icon-search"  actionListener="#{xPrivilegioController.prepareXTipoUsuario}" update=":XTipoUsuarioViewForm" oncomplete="PF('XTipoUsuarioViewDialog').show()" disabled="#{empty xPrivilegioController.selected.xTipoUsuario}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{xPrivilegioController.items}"
+                         var="item"
+                         rowKey="#{item.idPrivilegio}"
+                         paginator="true"
+                         rows="25"
+                         rowsPerPageTemplate="10,25,50,100"
+                         selectionMode="single"
+                         selection="#{xPrivilegioController.selected}">
+
+                <p:ajax event="rowSelect"   update=":XPrivilegioListForm:createButton :XPrivilegioListForm:viewButton :XPrivilegioListForm:editButton :XPrivilegioListForm:deleteButton :XPrivilegioListForm:XPrivilegioDataTableContextMenu" listener="#{xPrivilegioController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":XPrivilegioListForm:createButton :XPrivilegioListForm:viewButton :XPrivilegioListForm:editButton :XPrivilegioListForm:deleteButton :XPrivilegioListForm:XPrivilegioDataTableContextMenu" listener="#{xPrivilegioController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('XPrivilegioListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idPrivilegio}" filterBy="#{item.idPrivilegio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXPrivilegioTitle_idPrivilegio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idPrivilegio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.configurar}" filterBy="#{item.configurar}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXPrivilegioTitle_configurar}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.configurar}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.buscar}" filterBy="#{item.buscar}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXPrivilegioTitle_buscar}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.buscar}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.insertar}" filterBy="#{item.insertar}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXPrivilegioTitle_insertar}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.insertar}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.modificar}" filterBy="#{item.modificar}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXPrivilegioTitle_modificar}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.modificar}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.eliminar}" filterBy="#{item.eliminar}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXPrivilegioTitle_eliminar}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.eliminar}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.XTipoUsuario.descripcion}" filterBy="#{item.XTipoUsuario.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXPrivilegioTitle_XTipoUsuario}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.XTipoUsuario.descripcion}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{seriesBundle.Create}" actionListener="#{xPrivilegioController.prepareCreate}" update=":XPrivilegioCreateForm" oncomplete="PF('XPrivilegioCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{seriesBundle.View}" update=":XPrivilegioViewForm" oncomplete="PF('XPrivilegioViewDialog').show()" disabled="#{empty xPrivilegioController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{seriesBundle.Edit}" update=":XPrivilegioEditForm" oncomplete="PF('XPrivilegioEditDialog').show()" disabled="#{empty xPrivilegioController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{seriesBundle.Delete}" actionListener="#{xPrivilegioController.delete}" update=":growl,datalist" disabled="#{empty xPrivilegioController.selected}">
+                <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/generic/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

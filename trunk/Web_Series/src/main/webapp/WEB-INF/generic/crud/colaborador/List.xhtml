@@ -16,6 +16,8 @@
                 <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('ColaboradorListForm:deleteButton').click();" icon="ui-icon-trash"/>
                 <p:separator/>
                 <p:menuitem value="#{seriesBundle.ColaboradorMenuItem_proyectoDetCollection}" icon="ui-icon-search"  action="#{colaboradorController.navigateProyectoDetCollection}" disabled="#{empty colaboradorController.selected.proyectoDetCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.ColaboradorMenuItem_idRango}" icon="ui-icon-search"  actionListener="#{colaboradorController.prepareIdRango}" update=":XRangoViewForm" oncomplete="PF('XRangoViewDialog').show()" disabled="#{empty colaboradorController.selected.idRango}"/>  
+                <p:menuitem value="#{seriesBundle.ColaboradorMenuItem_idImagen}" icon="ui-icon-search"  actionListener="#{colaboradorController.prepareIdImagen}" update=":XImagenViewForm" oncomplete="PF('XImagenViewDialog').show()" disabled="#{empty colaboradorController.selected.idImagen}"/>  
                 <p:menuitem value="#{seriesBundle.ColaboradorMenuItem_idPais}" icon="ui-icon-search"  actionListener="#{colaboradorController.prepareIdPais}" update=":PaisViewForm" oncomplete="PF('PaisViewDialog').show()" disabled="#{empty colaboradorController.selected.idPais}"/>  
                 <p:menuitem value="#{seriesBundle.ColaboradorMenuItem_mensajePrivadoCollection}" icon="ui-icon-search"  action="#{colaboradorController.navigateMensajePrivadoCollection}" disabled="#{empty colaboradorController.selected.mensajePrivadoCollection}" ajax="false"/>  
             </p:contextMenu>
@@ -25,7 +27,7 @@
                          rowKey="#{item.idColaborador}"
                          paginator="true"
                          rows="25"
-                         rowsPerPageTemplate="10,25,50,75,100"
+                         rowsPerPageTemplate="10,25,50,100"
                          selectionMode="single"
                          selection="#{colaboradorController.selected}">
 
@@ -38,22 +40,6 @@
                         <h:outputText value="#{seriesBundle.ListColaboradorTitle_idColaborador}"/>
                     </f:facet>
                     <h:outputText value="#{item.idColaborador}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.idImagen}" filterBy="#{item.idImagen}">
-                    <f:facet name="header">
-                        <h:outputText value="#{seriesBundle.ListColaboradorTitle_idImagen}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idImagen}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.idRango}" filterBy="#{item.idRango}">
-                    <f:facet name="header">
-                        <h:outputText value="#{seriesBundle.ListColaboradorTitle_idRango}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idRango}"/>
                 </p:column>
 
 
@@ -78,6 +64,22 @@
                         <h:outputText value="#{seriesBundle.ListColaboradorTitle_contacto}"/>
                     </f:facet>
                     <h:outputText value="#{item.contacto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idRango.descripcion}" filterBy="#{item.idRango.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListColaboradorTitle_idRango}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idRango.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idImagen.descripcion}" filterBy="#{item.idImagen.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListColaboradorTitle_idImagen}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idImagen.descripcion}"/>
                 </p:column>
 
 

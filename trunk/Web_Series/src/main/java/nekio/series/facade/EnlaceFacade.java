@@ -7,7 +7,7 @@ import nekio.series.dto.Enlace;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Stateless
 public class EnlaceFacade extends AbstractFacade<Enlace> {

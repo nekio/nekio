@@ -18,6 +18,7 @@
                 <p:menuitem value="#{seriesBundle.MensajePrivadoMenuItem_idColaborador}" icon="ui-icon-search"  actionListener="#{mensajePrivadoController.prepareIdColaborador}" update=":ColaboradorViewForm" oncomplete="PF('ColaboradorViewDialog').show()" disabled="#{empty mensajePrivadoController.selected.idColaborador}"/>  
                 <p:menuitem value="#{seriesBundle.MensajePrivadoMenuItem_idWeb}" icon="ui-icon-search"  actionListener="#{mensajePrivadoController.prepareIdWeb}" update=":WebViewForm" oncomplete="PF('WebViewDialog').show()" disabled="#{empty mensajePrivadoController.selected.idWeb}"/>  
                 <p:menuitem value="#{seriesBundle.MensajePrivadoMenuItem_idTipoMensaje}" icon="ui-icon-search"  actionListener="#{mensajePrivadoController.prepareIdTipoMensaje}" update=":TipoMensajeViewForm" oncomplete="PF('TipoMensajeViewDialog').show()" disabled="#{empty mensajePrivadoController.selected.idTipoMensaje}"/>  
+                <p:menuitem value="#{seriesBundle.MensajePrivadoMenuItem_XUsuario}" icon="ui-icon-search"  actionListener="#{mensajePrivadoController.prepareXUsuario}" update=":XUsuarioViewForm" oncomplete="PF('XUsuarioViewDialog').show()" disabled="#{empty mensajePrivadoController.selected.xUsuario}"/>  
             </p:contextMenu>
             <p:dataTable id="datalist"
                          value="#{mensajePrivadoController.items}"
@@ -25,7 +26,7 @@
                          rowKey="#{item.mensajePrivadoPK}"
                          paginator="true"
                          rows="25"
-                         rowsPerPageTemplate="10,25,50,75,100"
+                         rowsPerPageTemplate="10,25,50,100"
                          selectionMode="single"
                          selection="#{mensajePrivadoController.selected}">
 
@@ -38,14 +39,6 @@
                         <h:outputText value="#{seriesBundle.ListMensajePrivadoTitle_mensajePrivadoPK_idMensajePrivado}"/>
                     </f:facet>
                     <h:outputText value="#{item.mensajePrivadoPK.idMensajePrivado}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.mensajePrivadoPK.idUsuario}" filterBy="#{item.mensajePrivadoPK.idUsuario}">
-                    <f:facet name="header">
-                        <h:outputText value="#{seriesBundle.ListMensajePrivadoTitle_mensajePrivadoPK_idUsuario}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.mensajePrivadoPK.idUsuario}"/>
                 </p:column>
 
 
@@ -106,12 +99,20 @@
                     <h:outputText value="#{item.idWeb.descripcion}"/>
                 </p:column>
 
+
+                <p:column sortBy="#{item.idTipoMensaje.descripcion}" filterBy="#{item.idTipoMensaje.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListMensajePrivadoTitle_idTipoMensaje}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idTipoMensaje.descripcion}"/>
+                </p:column>
+
                 <!--
-                                    <p:column sortBy="#{item.idTipoMensaje.descripcion}" filterBy="#{item.idTipoMensaje.descripcion}">
+                                    <p:column sortBy="#{item.XUsuario.idUsuario}" filterBy="#{item.XUsuario.idUsuario}">
                                         <f:facet name="header">
-                                            <h:outputText value="#{seriesBundle.ListMensajePrivadoTitle_idTipoMensaje}"/>
+                                            <h:outputText value="#{seriesBundle.ListMensajePrivadoTitle_XUsuario}"/>
                                         </f:facet>
-                                        <h:outputText value="#{item.idTipoMensaje.descripcion}"/>
+                                        <h:outputText value="#{item.XUsuario.idUsuario}"/>
                                     </p:column>
                 -->
 

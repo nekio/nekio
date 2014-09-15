@@ -20,12 +20,6 @@
                                 <h:outputText value="#{seriesBundle.ViewSerieLabel_idSerie}"/>
                                 <h:outputText value="#{serieController.selected.idSerie}" title="#{seriesBundle.ViewSerieTitle_idSerie}"/>
 
-                                <h:outputText value="#{seriesBundle.ViewSerieLabel_idImagen}"/>
-                                <h:outputText value="#{serieController.selected.idImagen}" title="#{seriesBundle.ViewSerieTitle_idImagen}"/>
-
-                                <h:outputText value="#{seriesBundle.ViewSerieLabel_idRango}"/>
-                                <h:outputText value="#{serieController.selected.idRango}" title="#{seriesBundle.ViewSerieTitle_idRango}"/>
-
                                 <h:outputText value="#{seriesBundle.ViewSerieLabel_titulo}"/>
                                 <h:outputText value="#{serieController.selected.titulo}" title="#{seriesBundle.ViewSerieTitle_titulo}"/>
 
@@ -47,12 +41,6 @@
                                 <h:outputText value="#{seriesBundle.ViewSerieLabel_episodios}"/>
                                 <h:outputText value="#{serieController.selected.episodios}" title="#{seriesBundle.ViewSerieTitle_episodios}"/>
 
-                                <h:outputText value="#{seriesBundle.ViewSerieLabel_idGenero2}"/>
-                                <h:outputText value="#{serieController.selected.idGenero2.descripcion}"/>
-
-                                <h:outputText value="#{seriesBundle.ViewSerieLabel_idGenero1}"/>
-                                <h:outputText value="#{serieController.selected.idGenero1.descripcion}"/>
-
                                 <h:outputText value="#{seriesBundle.ViewSerieLabel_idClasificacion}"/>
                                 <h:outputText value="#{serieController.selected.idClasificacion.descripcion}"/>
 
@@ -62,30 +50,50 @@
                                 <h:outputText value="#{seriesBundle.ViewSerieLabel_idPais}"/>
                                 <h:outputText value="#{serieController.selected.idPais.descripcion}"/>
 
-                                <h:outputText value="#{seriesBundle.ViewSerieLabel_idIdiomaOrigen}"/>
-                                <h:outputText value="#{serieController.selected.idIdiomaOrigen.descripcion}"/>
-
-                                <h:outputText value="#{seriesBundle.ViewSerieLabel_idTipoSerie}"/>
-                                <h:outputText value="#{serieController.selected.idTipoSerie.descripcion}"/>
-
-                                <h:outputText value="#{seriesBundle.ViewSerieLabel_idEmisora}"/>
-                                <h:outputText value="#{serieController.selected.idEmisora.idEmisora}"/>
-
-                                <h:outputText value="#{seriesBundle.ViewSerieLabel_idDistintivo}"/>
-                                <h:outputText value="#{serieController.selected.idDistintivo.descripcion}"/>
-
-                                <h:outputText value="#{seriesBundle.ViewSerieLabel_idGenero4}"/>
-                                <h:outputText value="#{serieController.selected.idGenero4.descripcion}"/>
-
+                                <h:outputText value="#{seriesBundle.ViewSerieLabel_idSerieOrigen}"/>
+                                <h:outputText value="#{serieController.selected.idSerieOrigen.idSerie}"/>
                             </p:panelGrid>
                         </p:tab>
                         <p:tab id="SerieTab2" title="#{seriesBundle.TabHeaderPrefix} 2">
                             <p:panelGrid columns="2" columnClasses="column" rendered="#{serieController.selected != null}">
+                                <h:outputText value="#{seriesBundle.ViewSerieLabel_idDistintivo}"/>
+                                <h:outputText value="#{serieController.selected.idDistintivo.descripcion}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewSerieLabel_idRango}"/>
+                                <h:outputText value="#{serieController.selected.idRango.descripcion}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewSerieLabel_idEmisora}"/>
+                                <h:outputText value="#{serieController.selected.idEmisora.idEmisora}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewSerieLabel_idTipoSerie}"/>
+                                <h:outputText value="#{serieController.selected.idTipoSerie.descripcion}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewSerieLabel_idIdiomaOrigen}"/>
+                                <h:outputText value="#{serieController.selected.idIdiomaOrigen.descripcion}"/>
+                                
+                                <h:outputText value="#{seriesBundle.ViewSerieLabel_idGenero1}"/>
+                                <h:outputText value="#{serieController.selected.idGenero1.descripcion}"/>
+                                
+                                <h:outputText value="#{seriesBundle.ViewSerieLabel_idGenero2}"/>
+                                <h:outputText value="#{serieController.selected.idGenero2.descripcion}"/>
+                                
                                 <h:outputText value="#{seriesBundle.ViewSerieLabel_idGenero3}"/>
                                 <h:outputText value="#{serieController.selected.idGenero3.descripcion}"/>
 
-                                <h:outputText value="#{seriesBundle.ViewSerieLabel_idSerieOrigen}"/>
-                                <h:outputText value="#{serieController.selected.idSerieOrigen.idSerie}"/>
+                                <h:outputText value="#{seriesBundle.ViewSerieLabel_idGenero4}"/>
+                                <h:outputText value="#{serieController.selected.idGenero4.descripcion}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewSerieLabel_idImagen}"/>
+                                <h:outputText value="#{serieController.selected.idImagen.descripcion}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewSerieLabel_idCaptura1}"/>
+                                <h:outputText value="#{serieController.selected.idCaptura1.descripcion}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewSerieLabel_idCaptura2}"/>
+                                <h:outputText value="#{serieController.selected.idCaptura2.descripcion}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewSerieLabel_idCaptura3}"/>
+                                <h:outputText value="#{serieController.selected.idCaptura3.descripcion}"/>
                             </p:panelGrid>
                         </p:tab>
                     </p:tabView>

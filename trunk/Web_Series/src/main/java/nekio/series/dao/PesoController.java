@@ -13,6 +13,8 @@ public class PesoController extends AbstractController<Peso> {
 
     @Inject
     private ProyectoController proyectoCollectionController;
+    @Inject
+    private XRangoController idRangoController;
 
     public PesoController() {
         // Inform the Abstract parent controller of the concrete Peso?cap_first Entity
@@ -23,6 +25,7 @@ public class PesoController extends AbstractController<Peso> {
      * Resets the "selected" attribute of any parent Entity controllers.
      */
     public void resetParents() {
+        idRangoController.setSelected(null);
     }
 
     /**
@@ -38,4 +41,16 @@ public class PesoController extends AbstractController<Peso> {
         return "/view/proyecto/index";
     }
 
+    /**
+     * Sets the "selected" attribute of the XRango controller in order to
+     * display its data in a dialog. This is reusing existing the existing View
+     * dialog.
+     *
+     * @param event Event object for the widget that triggered an action
+     */
+    public void prepareIdRango(ActionEvent event) {
+        if (this.getSelected() != null && idRangoController.getSelected() == null) {
+            idRangoController.setSelected(this.getSelected().getIdRango());
+        }
+    }
 }

@@ -7,7 +7,7 @@ import nekio.series.dto.Formato;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Stateless
 public class FormatoFacade extends AbstractFacade<Formato> {

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="XIdiomaEditDlg" widgetVar="XIdiomaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.EditXIdiomaTitle}" closeOnEscape="true">
+
+            <h:form id="XIdiomaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{xIdiomaController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditXIdiomaLabel_idIdioma}" for="idIdioma" />
+                        <h:panelGroup>
+                            <h:outputText id="idIdioma" value="#{xIdiomaController.selected.idIdioma}" />
+                            <p:tooltip for="idIdioma" value="#{xIdiomaController.getComponentMessages('idIdioma', seriesBundle.EditXIdiomaHelpText_idIdioma)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditXIdiomaLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{xIdiomaController.selected.descripcion}" title="#{seriesBundle.EditXIdiomaTitle_descripcion}" required="true" requiredMessage="#{seriesBundle.EditXIdiomaRequiredMessage_descripcion}" size="80" maxlength="80"/>
+                            <p:tooltip for="descripcion" value="#{xIdiomaController.getComponentMessages('descripcion', seriesBundle.EditXIdiomaHelpText_descripcion)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{xIdiomaController.save}" value="#{seriesBundle.Save}" update="display,:XIdiomaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('XIdiomaEditDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('XIdiomaEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

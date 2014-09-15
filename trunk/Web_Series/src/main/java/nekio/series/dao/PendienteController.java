@@ -12,6 +12,8 @@ import javax.inject.Inject;
 public class PendienteController extends AbstractController<Pendiente> {
 
     @Inject
+    private XRangoController idRangoController;
+    @Inject
     private ProyectoController idProyectoController;
     @Inject
     private EpisodioController idEpisodioController;
@@ -25,8 +27,22 @@ public class PendienteController extends AbstractController<Pendiente> {
      * Resets the "selected" attribute of any parent Entity controllers.
      */
     public void resetParents() {
+        idRangoController.setSelected(null);
         idProyectoController.setSelected(null);
         idEpisodioController.setSelected(null);
+    }
+
+    /**
+     * Sets the "selected" attribute of the XRango controller in order to
+     * display its data in a dialog. This is reusing existing the existing View
+     * dialog.
+     *
+     * @param event Event object for the widget that triggered an action
+     */
+    public void prepareIdRango(ActionEvent event) {
+        if (this.getSelected() != null && idRangoController.getSelected() == null) {
+            idRangoController.setSelected(this.getSelected().getIdRango());
+        }
     }
 
     /**

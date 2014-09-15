@@ -7,7 +7,7 @@ import nekio.series.dto.MensajePrivado;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Stateless
 public class MensajePrivadoFacade extends AbstractFacade<MensajePrivado> {

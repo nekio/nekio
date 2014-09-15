@@ -9,22 +9,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Web.findAll", query = "SELECT w FROM Web w"),
     @NamedQuery(name = "Web.findByIdWeb", query = "SELECT w FROM Web w WHERE w.idWeb = :idWeb"),
-    @NamedQuery(name = "Web.findByIdImagen", query = "SELECT w FROM Web w WHERE w.idImagen = :idImagen"),
-    @NamedQuery(name = "Web.findByIdRango", query = "SELECT w FROM Web w WHERE w.idRango = :idRango"),
     @NamedQuery(name = "Web.findByTitulo", query = "SELECT w FROM Web w WHERE w.titulo = :titulo"),
     @NamedQuery(name = "Web.findBySiglas", query = "SELECT w FROM Web w WHERE w.siglas = :siglas"),
     @NamedQuery(name = "Web.findByFacebook", query = "SELECT w FROM Web w WHERE w.facebook = :facebook"),
@@ -37,12 +36,6 @@ public class Web implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_web")
     private Integer idWeb;
-    @Column(name = "id_imagen")
-    private Integer idImagen;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id_rango")
-    private int idRango;
     @Size(max = 50)
     private String titulo;
     @Size(max = 20)
@@ -57,6 +50,12 @@ public class Web implements Serializable {
     private Collection<Proyecto> proyectoCollection;
     @OneToMany(mappedBy = "idWeb")
     private Collection<MensajePrivado> mensajePrivadoCollection;
+    @JoinColumn(name = "id_rango", referencedColumnName = "id_rango")
+    @ManyToOne(optional = false)
+    private XRango idRango;
+    @JoinColumn(name = "id_imagen", referencedColumnName = "id_imagen")
+    @ManyToOne
+    private XImagen idImagen;
 
     public Web() {
     }
@@ -65,33 +64,12 @@ public class Web implements Serializable {
         this.idWeb = idWeb;
     }
 
-    public Web(Integer idWeb, int idRango) {
-        this.idWeb = idWeb;
-        this.idRango = idRango;
-    }
-
     public Integer getIdWeb() {
         return idWeb;
     }
 
     public void setIdWeb(Integer idWeb) {
         this.idWeb = idWeb;
-    }
-
-    public Integer getIdImagen() {
-        return idImagen;
-    }
-
-    public void setIdImagen(Integer idImagen) {
-        this.idImagen = idImagen;
-    }
-
-    public int getIdRango() {
-        return idRango;
-    }
-
-    public void setIdRango(int idRango) {
-        this.idRango = idRango;
     }
 
     public String getTitulo() {
@@ -150,6 +128,22 @@ public class Web implements Serializable {
         this.mensajePrivadoCollection = mensajePrivadoCollection;
     }
 
+    public XRango getIdRango() {
+        return idRango;
+    }
+
+    public void setIdRango(XRango idRango) {
+        this.idRango = idRango;
+    }
+
+    public XImagen getIdImagen() {
+        return idImagen;
+    }
+
+    public void setIdImagen(XImagen idImagen) {
+        this.idImagen = idImagen;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -172,7 +166,7 @@ public class Web implements Serializable {
 
     @Override
     public String toString() {
-        return "nekio.series.dto.Web[ idWeb=" + idWeb + " ]";
+        return siglas;
     }
     
 }

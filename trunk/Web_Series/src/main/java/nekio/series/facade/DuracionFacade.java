@@ -7,7 +7,7 @@ import nekio.series.dto.Duracion;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Stateless
 public class DuracionFacade extends AbstractFacade<Duracion> {

@@ -7,7 +7,7 @@ import nekio.series.dto.Idioma;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Stateless
 public class IdiomaFacade extends AbstractFacade<Idioma> {

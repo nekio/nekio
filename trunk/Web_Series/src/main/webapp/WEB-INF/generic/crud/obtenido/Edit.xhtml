@@ -29,7 +29,7 @@
 
                         <p:outputLabel value="#{seriesBundle.EditObtenidoLabel_nombreArchivo}" for="nombreArchivo" />
                         <h:panelGroup>
-                            <p:inputText id="nombreArchivo" value="#{obtenidoController.selected.nombreArchivo}" title="#{seriesBundle.EditObtenidoTitle_nombreArchivo}" size="255" maxlength="255"/>
+                            <p:inputText id="nombreArchivo" value="#{obtenidoController.selected.nombreArchivo}" title="#{seriesBundle.EditObtenidoTitle_nombreArchivo}" size="150" maxlength="255"/>
                             <p:tooltip for="nombreArchivo" value="#{obtenidoController.getComponentMessages('nombreArchivo', seriesBundle.EditObtenidoHelpText_nombreArchivo)}"/>
                         </h:panelGroup>
 
@@ -47,7 +47,7 @@
 
                         <p:outputLabel value="#{seriesBundle.EditObtenidoLabel_comentarios}" for="comentarios" />
                         <h:panelGroup>
-                            <p:inputText id="comentarios" value="#{obtenidoController.selected.comentarios}" title="#{seriesBundle.EditObtenidoTitle_comentarios}" size="255" maxlength="255"/>
+                            <p:inputText id="comentarios" value="#{obtenidoController.selected.comentarios}" title="#{seriesBundle.EditObtenidoTitle_comentarios}" size="150" maxlength="255"/>
                             <p:tooltip for="comentarios" value="#{obtenidoController.getComponentMessages('comentarios', seriesBundle.EditObtenidoHelpText_comentarios)}"/>
                         </h:panelGroup>
 
@@ -100,7 +100,7 @@
                                 <f:selectItems value="#{proyectoController.items}"
                                                var="idProyectoItem"
                                                itemValue="#{idProyectoItem}"
-                                               itemLabel="#{idProyectoItem.idProyecto.toString()}"
+                                               itemLabel="#{idProyectoItem.toString()}"
                                                />
 
                             </p:selectOneMenu>

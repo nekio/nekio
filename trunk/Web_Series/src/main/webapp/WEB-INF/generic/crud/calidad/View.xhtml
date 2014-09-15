@@ -18,11 +18,11 @@
                         <h:outputText value="#{seriesBundle.ViewCalidadLabel_idCalidad}"/>
                         <h:outputText value="#{calidadController.selected.idCalidad}" title="#{seriesBundle.ViewCalidadTitle_idCalidad}"/>
 
-                        <h:outputText value="#{seriesBundle.ViewCalidadLabel_idRango}"/>
-                        <h:outputText value="#{calidadController.selected.idRango}" title="#{seriesBundle.ViewCalidadTitle_idRango}"/>
-
                         <h:outputText value="#{seriesBundle.ViewCalidadLabel_descripcion}"/>
                         <h:outputText value="#{calidadController.selected.descripcion}" title="#{seriesBundle.ViewCalidadTitle_descripcion}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewCalidadLabel_idRango}"/>
+                        <h:outputText value="#{calidadController.selected.idRango.descripcion}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{seriesBundle.Close}" onclick="PF('CalidadViewDialog').hide()"/>
                 </h:panelGroup>

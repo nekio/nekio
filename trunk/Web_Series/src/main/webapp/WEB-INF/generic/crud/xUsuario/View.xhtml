@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="XUsuarioViewDlg" widgetVar="XUsuarioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.ViewXUsuarioTitle}" closeOnEscape="true">
+
+            <h:form id="XUsuarioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{xUsuarioController.selected != null}">
+
+                        <h:outputText value="#{seriesBundle.ViewXUsuarioLabel_idUsuario}"/>
+                        <h:outputText value="#{xUsuarioController.selected.idUsuario}" title="#{seriesBundle.ViewXUsuarioTitle_idUsuario}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXUsuarioLabel_nombre}"/>
+                        <h:outputText value="#{xUsuarioController.selected.nombre}" title="#{seriesBundle.ViewXUsuarioTitle_nombre}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXUsuarioLabel_nick}"/>
+                        <h:outputText value="#{xUsuarioController.selected.nick}" title="#{seriesBundle.ViewXUsuarioTitle_nick}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXUsuarioLabel_autogenerado}"/>
+                        <h:outputText value="#{xUsuarioController.selected.autogenerado}" title="#{seriesBundle.ViewXUsuarioTitle_autogenerado}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXUsuarioLabel_acceso}"/>
+                        <h:outputText value="#{xUsuarioController.selected.acceso}" title="#{seriesBundle.ViewXUsuarioTitle_acceso}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXUsuarioLabel_contacto}"/>
+                        <h:outputText value="#{xUsuarioController.selected.contacto}" title="#{seriesBundle.ViewXUsuarioTitle_contacto}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXUsuarioLabel_fechaRegistro}"/>
+                        <h:outputText value="#{xUsuarioController.selected.fechaRegistro}" title="#{seriesBundle.ViewXUsuarioTitle_fechaRegistro}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{seriesBundle.ViewXUsuarioLabel_ultimoAcceso}"/>
+                        <h:outputText value="#{xUsuarioController.selected.ultimoAcceso}" title="#{seriesBundle.ViewXUsuarioTitle_ultimoAcceso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{seriesBundle.ViewXUsuarioLabel_activo}"/>
+                        <h:outputText value="#{xUsuarioController.selected.activo}" title="#{seriesBundle.ViewXUsuarioTitle_activo}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXUsuarioLabel_idIdioma}"/>
+                        <h:outputText value="#{xUsuarioController.selected.idIdioma.descripcion}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXUsuarioLabel_idRango}"/>
+                        <h:outputText value="#{xUsuarioController.selected.idRango.descripcion}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXUsuarioLabel_idTipoUsuario}"/>
+                        <h:outputText value="#{xUsuarioController.selected.idTipoUsuario.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="PF('XUsuarioViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

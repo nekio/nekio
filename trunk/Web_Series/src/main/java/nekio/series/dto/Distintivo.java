@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Entity
 @NamedQueries({
@@ -26,20 +26,16 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Distintivo.findByDescripcion", query = "SELECT d FROM Distintivo d WHERE d.descripcion = :descripcion")})
 public class Distintivo implements Serializable {
     private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_distintivo")
     private Integer idDistintivo;
-    
     @Size(max = 100)
     private String descripcion;
-    
     @JoinColumn(name = "id_tipo_distintivo", referencedColumnName = "id_tipo_distintivo")
     @ManyToOne
     private TipoDistintivo idTipoDistintivo;
-    
     @OneToMany(mappedBy = "idDistintivo")
     private Collection<Serie> serieCollection;
 
@@ -104,7 +100,7 @@ public class Distintivo implements Serializable {
 
     @Override
     public String toString() {
-        return idTipoDistintivo.getDescripcion() + " - " + descripcion;
+        return "nekio.series.dto.Distintivo[ idDistintivo=" + idDistintivo + " ]";
     }
     
 }

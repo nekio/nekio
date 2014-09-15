@@ -41,13 +41,13 @@
 
                         <p:outputLabel value="#{seriesBundle.EditEpisodioLabel_descripcion}" for="descripcion" />
                         <h:panelGroup>
-                            <p:inputText id="descripcion" value="#{episodioController.selected.descripcion}" title="#{seriesBundle.EditEpisodioTitle_descripcion}" size="255" maxlength="255"/>
+                            <p:inputText id="descripcion" value="#{episodioController.selected.descripcion}" title="#{seriesBundle.EditEpisodioTitle_descripcion}" size="150" maxlength="255"/>
                             <p:tooltip for="descripcion" value="#{episodioController.getComponentMessages('descripcion', seriesBundle.EditEpisodioHelpText_descripcion)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{seriesBundle.EditEpisodioLabel_tituloAlternativo}" for="tituloAlternativo" />
                         <h:panelGroup>
-                            <p:inputText id="tituloAlternativo" value="#{episodioController.selected.tituloAlternativo}" title="#{seriesBundle.EditEpisodioTitle_tituloAlternativo}" size="255" maxlength="255"/>
+                            <p:inputText id="tituloAlternativo" value="#{episodioController.selected.tituloAlternativo}" title="#{seriesBundle.EditEpisodioTitle_tituloAlternativo}" size="150" maxlength="255"/>
                             <p:tooltip for="tituloAlternativo" value="#{episodioController.getComponentMessages('tituloAlternativo', seriesBundle.EditEpisodioHelpText_tituloAlternativo)}"/>
                         </h:panelGroup>
 

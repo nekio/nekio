@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="XUsuarioCreateDlg" widgetVar="XUsuarioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{seriesBundle.CreateXUsuarioTitle}" closeOnEscape="true">
+
+            <h:form id="XUsuarioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{xUsuarioController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{seriesBundle.CreateXUsuarioLabel_nombre}" for="nombre" />
+                        <h:panelGroup>
+                            <p:inputText id="nombre" value="#{xUsuarioController.selected.nombre}" title="#{seriesBundle.CreateXUsuarioTitle_nombre}" size="100" maxlength="100"/>
+                            <p:tooltip for="nombre" value="#{xUsuarioController.getComponentMessages('nombre', seriesBundle.CreateXUsuarioHelpText_nombre)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateXUsuarioLabel_nick}" for="nick" />
+                        <h:panelGroup>
+                            <p:inputText id="nick" value="#{xUsuarioController.selected.nick}" title="#{seriesBundle.CreateXUsuarioTitle_nick}" required="true" requiredMessage="#{seriesBundle.CreateXUsuarioRequiredMessage_nick}" size="20" maxlength="20"/>
+                            <p:tooltip for="nick" value="#{xUsuarioController.getComponentMessages('nick', seriesBundle.CreateXUsuarioHelpText_nick)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateXUsuarioLabel_autogenerado}" for="autogenerado" />
+                        <h:panelGroup>
+                            <p:inputText id="autogenerado" value="#{xUsuarioController.selected.autogenerado}" title="#{seriesBundle.CreateXUsuarioTitle_autogenerado}" required="true" requiredMessage="#{seriesBundle.CreateXUsuarioRequiredMessage_autogenerado}" size="45" maxlength="45"/>
+                            <p:tooltip for="autogenerado" value="#{xUsuarioController.getComponentMessages('autogenerado', seriesBundle.CreateXUsuarioHelpText_autogenerado)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateXUsuarioLabel_acceso}" for="acceso" />
+                        <h:panelGroup>
+                            <p:inputText id="acceso" value="#{xUsuarioController.selected.acceso}" title="#{seriesBundle.CreateXUsuarioTitle_acceso}" required="true" requiredMessage="#{seriesBundle.CreateXUsuarioRequiredMessage_acceso}" size="33" maxlength="33"/>
+                            <p:tooltip for="acceso" value="#{xUsuarioController.getComponentMessages('acceso', seriesBundle.CreateXUsuarioHelpText_acceso)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateXUsuarioLabel_contacto}" for="contacto" />
+                        <h:panelGroup>
+                            <p:inputText id="contacto" value="#{xUsuarioController.selected.contacto}" title="#{seriesBundle.CreateXUsuarioTitle_contacto}" size="50" maxlength="50"/>
+                            <p:tooltip for="contacto" value="#{xUsuarioController.getComponentMessages('contacto', seriesBundle.CreateXUsuarioHelpText_contacto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateXUsuarioLabel_fechaRegistro}" for="fechaRegistro" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaRegistro" pattern="MM/dd/yyyy HH:mm:ss" value="#{xUsuarioController.selected.fechaRegistro}" title="#{seriesBundle.CreateXUsuarioTitle_fechaRegistro}" required="true" requiredMessage="#{seriesBundle.CreateXUsuarioRequiredMessage_fechaRegistro}" showOn="button"/>
+                            <p:tooltip for="fechaRegistro" value="#{xUsuarioController.getComponentMessages('fechaRegistro', seriesBundle.CreateXUsuarioHelpText_fechaRegistro)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateXUsuarioLabel_ultimoAcceso}" for="ultimoAcceso" />
+                        <h:panelGroup>
+                            <p:calendar id="ultimoAcceso" pattern="MM/dd/yyyy HH:mm:ss" value="#{xUsuarioController.selected.ultimoAcceso}" title="#{seriesBundle.CreateXUsuarioTitle_ultimoAcceso}" required="true" requiredMessage="#{seriesBundle.CreateXUsuarioRequiredMessage_ultimoAcceso}" showOn="button"/>
+                            <p:tooltip for="ultimoAcceso" value="#{xUsuarioController.getComponentMessages('ultimoAcceso', seriesBundle.CreateXUsuarioHelpText_ultimoAcceso)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateXUsuarioLabel_activo}" for="activo" />
+                        <h:panelGroup>
+                            <p:inputText id="activo" value="#{xUsuarioController.selected.activo}" title="#{seriesBundle.CreateXUsuarioTitle_activo}" required="true" requiredMessage="#{seriesBundle.CreateXUsuarioRequiredMessage_activo}"/>
+                            <p:tooltip for="activo" value="#{xUsuarioController.getComponentMessages('activo', seriesBundle.CreateXUsuarioHelpText_activo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateXUsuarioLabel_idIdioma}" for="idIdioma" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idIdioma" value="#{xUsuarioController.selected.idIdioma}" required="true" requiredMessage="#{seriesBundle.CreateXUsuarioRequiredMessage_idIdioma}" converter="xIdiomaConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{xIdiomaController.items}"
+                                               var="idIdiomaItem"
+                                               itemValue="#{idIdiomaItem}"
+                                               itemLabel="#{idIdiomaItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idIdioma" value="#{xUsuarioController.getComponentMessages('idIdioma', seriesBundle.CreateXUsuarioHelpText_idIdioma)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateXUsuarioLabel_idRango}" for="idRango" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idRango" value="#{xUsuarioController.selected.idRango}" required="true" requiredMessage="#{seriesBundle.CreateXUsuarioRequiredMessage_idRango}" converter="xRangoConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{xRangoController.items}"
+                                               var="idRangoItem"
+                                               itemValue="#{idRangoItem}"
+                                               itemLabel="#{idRangoItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idRango" value="#{xUsuarioController.getComponentMessages('idRango', seriesBundle.CreateXUsuarioHelpText_idRango)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateXUsuarioLabel_idTipoUsuario}" for="idTipoUsuario" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idTipoUsuario" value="#{xUsuarioController.selected.idTipoUsuario}" required="true" requiredMessage="#{seriesBundle.CreateXUsuarioRequiredMessage_idTipoUsuario}" converter="xTipoUsuarioConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{xTipoUsuarioController.items}"
+                                               var="idTipoUsuarioItem"
+                                               itemValue="#{idTipoUsuarioItem}"
+                                               itemLabel="#{idTipoUsuarioItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idTipoUsuario" value="#{xUsuarioController.getComponentMessages('idTipoUsuario', seriesBundle.CreateXUsuarioHelpText_idTipoUsuario)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{xUsuarioController.saveNew}" value="#{seriesBundle.Save}" update="display,:XUsuarioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('XUsuarioCreateDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('XUsuarioCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

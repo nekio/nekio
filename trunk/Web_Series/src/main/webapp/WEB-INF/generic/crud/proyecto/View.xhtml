@@ -20,9 +20,6 @@
                                 <h:outputText value="#{seriesBundle.ViewProyectoLabel_idProyecto}"/>
                                 <h:outputText value="#{proyectoController.selected.idProyecto}" title="#{seriesBundle.ViewProyectoTitle_idProyecto}"/>
 
-                                <h:outputText value="#{seriesBundle.ViewProyectoLabel_idRango}"/>
-                                <h:outputText value="#{proyectoController.selected.idRango}" title="#{seriesBundle.ViewProyectoTitle_idRango}"/>
-
                                 <h:outputText value="#{seriesBundle.ViewProyectoLabel_fechaInicio}"/>
                                 <h:outputText value="#{proyectoController.selected.fechaInicio}" title="#{seriesBundle.ViewProyectoTitle_fechaInicio}">
                                     <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
@@ -47,6 +44,9 @@
 
                                 <h:outputText value="#{seriesBundle.ViewProyectoLabel_enlaces}"/>
                                 <h:outputText value="#{proyectoController.selected.enlaces}" title="#{seriesBundle.ViewProyectoTitle_enlaces}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewProyectoLabel_idRango}"/>
+                                <h:outputText value="#{proyectoController.selected.idRango.descripcion}"/>
 
                                 <h:outputText value="#{seriesBundle.ViewProyectoLabel_idPeso}"/>
                                 <h:outputText value="#{proyectoController.selected.idPeso.descripcion}"/>

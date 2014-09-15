@@ -7,7 +7,7 @@ import nekio.series.dto.Pendiente;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Stateless
 public class PendienteFacade extends AbstractFacade<Pendiente> {

@@ -16,6 +16,7 @@
                 <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('CalidadListForm:deleteButton').click();" icon="ui-icon-trash"/>
                 <p:separator/>
                 <p:menuitem value="#{seriesBundle.CalidadMenuItem_proyectoCollection}" icon="ui-icon-search"  action="#{calidadController.navigateProyectoCollection}" disabled="#{empty calidadController.selected.proyectoCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.CalidadMenuItem_idRango}" icon="ui-icon-search"  actionListener="#{calidadController.prepareIdRango}" update=":XRangoViewForm" oncomplete="PF('XRangoViewDialog').show()" disabled="#{empty calidadController.selected.idRango}"/>  
             </p:contextMenu>
             <p:dataTable id="datalist"
                          value="#{calidadController.items}"
@@ -23,7 +24,7 @@
                          rowKey="#{item.idCalidad}"
                          paginator="true"
                          rows="25"
-                         rowsPerPageTemplate="10,25,50,75,100"
+                         rowsPerPageTemplate="10,25,50,100"
                          selectionMode="single"
                          selection="#{calidadController.selected}">
 
@@ -39,19 +40,19 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.idRango}" filterBy="#{item.idRango}">
-                    <f:facet name="header">
-                        <h:outputText value="#{seriesBundle.ListCalidadTitle_idRango}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idRango}"/>
-                </p:column>
-
-
                 <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
                     <f:facet name="header">
                         <h:outputText value="#{seriesBundle.ListCalidadTitle_descripcion}"/>
                     </f:facet>
                     <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idRango.descripcion}" filterBy="#{item.idRango.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListCalidadTitle_idRango}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idRango.descripcion}"/>
                 </p:column>
 
 

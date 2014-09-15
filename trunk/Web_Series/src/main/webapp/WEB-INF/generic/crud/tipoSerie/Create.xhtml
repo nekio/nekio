@@ -15,16 +15,24 @@
                 <h:panelGroup id="display" rendered="#{tipoSerieController.selected != null}">
                     <p:panelGrid columns="2" columnClasses="column">
 
-                        <p:outputLabel value="#{seriesBundle.CreateTipoSerieLabel_idRango}" for="idRango" />
-                        <h:panelGroup>
-                            <p:inputText id="idRango" value="#{tipoSerieController.selected.idRango}" title="#{seriesBundle.CreateTipoSerieTitle_idRango}" required="true" requiredMessage="#{seriesBundle.CreateTipoSerieRequiredMessage_idRango}"/>
-                            <p:tooltip for="idRango" value="#{tipoSerieController.getComponentMessages('idRango', seriesBundle.CreateTipoSerieHelpText_idRango)}"/>
-                        </h:panelGroup>
-
                         <p:outputLabel value="#{seriesBundle.CreateTipoSerieLabel_descripcion}" for="descripcion" />
                         <h:panelGroup>
                             <p:inputText id="descripcion" value="#{tipoSerieController.selected.descripcion}" title="#{seriesBundle.CreateTipoSerieTitle_descripcion}" size="20" maxlength="20"/>
                             <p:tooltip for="descripcion" value="#{tipoSerieController.getComponentMessages('descripcion', seriesBundle.CreateTipoSerieHelpText_descripcion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateTipoSerieLabel_idRango}" for="idRango" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idRango" value="#{tipoSerieController.selected.idRango}" required="true" requiredMessage="#{seriesBundle.CreateTipoSerieRequiredMessage_idRango}" converter="xRangoConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{xRangoController.items}"
+                                               var="idRangoItem"
+                                               itemValue="#{idRangoItem}"
+                                               itemLabel="#{idRangoItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idRango" value="#{tipoSerieController.getComponentMessages('idRango', seriesBundle.CreateTipoSerieHelpText_idRango)}"/>
                         </h:panelGroup>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{tipoSerieController.saveNew}" value="#{seriesBundle.Save}" update="display,:TipoSerieListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoSerieCreateDialog'));">

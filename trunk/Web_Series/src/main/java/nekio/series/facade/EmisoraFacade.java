@@ -7,7 +7,7 @@ import nekio.series.dto.Emisora;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Stateless
 public class EmisoraFacade extends AbstractFacade<Emisora> {

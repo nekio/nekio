@@ -15,16 +15,24 @@
                 <h:panelGroup id="display" rendered="#{calidadController.selected != null}">
                     <p:panelGrid columns="2" columnClasses="column">
 
-                        <p:outputLabel value="#{seriesBundle.CreateCalidadLabel_idRango}" for="idRango" />
-                        <h:panelGroup>
-                            <p:inputText id="idRango" value="#{calidadController.selected.idRango}" title="#{seriesBundle.CreateCalidadTitle_idRango}" required="true" requiredMessage="#{seriesBundle.CreateCalidadRequiredMessage_idRango}"/>
-                            <p:tooltip for="idRango" value="#{calidadController.getComponentMessages('idRango', seriesBundle.CreateCalidadHelpText_idRango)}"/>
-                        </h:panelGroup>
-
                         <p:outputLabel value="#{seriesBundle.CreateCalidadLabel_descripcion}" for="descripcion" />
                         <h:panelGroup>
                             <p:inputText id="descripcion" value="#{calidadController.selected.descripcion}" title="#{seriesBundle.CreateCalidadTitle_descripcion}" size="20" maxlength="20"/>
                             <p:tooltip for="descripcion" value="#{calidadController.getComponentMessages('descripcion', seriesBundle.CreateCalidadHelpText_descripcion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateCalidadLabel_idRango}" for="idRango" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idRango" value="#{calidadController.selected.idRango}" required="true" requiredMessage="#{seriesBundle.CreateCalidadRequiredMessage_idRango}" converter="xRangoConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{xRangoController.items}"
+                                               var="idRangoItem"
+                                               itemValue="#{idRangoItem}"
+                                               itemLabel="#{idRangoItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idRango" value="#{calidadController.getComponentMessages('idRango', seriesBundle.CreateCalidadHelpText_idRango)}"/>
                         </h:panelGroup>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{calidadController.saveNew}" value="#{seriesBundle.Save}" update="display,:CalidadListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CalidadCreateDialog'));">

@@ -15,6 +15,7 @@
                 <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('TipoEpisodioListForm:editButton').click();" icon="ui-icon-pencil"/>
                 <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('TipoEpisodioListForm:deleteButton').click();" icon="ui-icon-trash"/>
                 <p:separator/>
+                <p:menuitem value="#{seriesBundle.TipoEpisodioMenuItem_idRango}" icon="ui-icon-search"  actionListener="#{tipoEpisodioController.prepareIdRango}" update=":XRangoViewForm" oncomplete="PF('XRangoViewDialog').show()" disabled="#{empty tipoEpisodioController.selected.idRango}"/>  
                 <p:menuitem value="#{seriesBundle.TipoEpisodioMenuItem_episodioCollection}" icon="ui-icon-search"  action="#{tipoEpisodioController.navigateEpisodioCollection}" disabled="#{empty tipoEpisodioController.selected.episodioCollection}" ajax="false"/>  
             </p:contextMenu>
             <p:dataTable id="datalist"
@@ -23,7 +24,7 @@
                          rowKey="#{item.idTipoEpisodio}"
                          paginator="true"
                          rows="25"
-                         rowsPerPageTemplate="10,25,50,75,100"
+                         rowsPerPageTemplate="10,25,50,100"
                          selectionMode="single"
                          selection="#{tipoEpisodioController.selected}">
 
@@ -39,19 +40,19 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.idRango}" filterBy="#{item.idRango}">
-                    <f:facet name="header">
-                        <h:outputText value="#{seriesBundle.ListTipoEpisodioTitle_idRango}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idRango}"/>
-                </p:column>
-
-
                 <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
                     <f:facet name="header">
                         <h:outputText value="#{seriesBundle.ListTipoEpisodioTitle_descripcion}"/>
                     </f:facet>
                     <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idRango.descripcion}" filterBy="#{item.idRango.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListTipoEpisodioTitle_idRango}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idRango.descripcion}"/>
                 </p:column>
 
 

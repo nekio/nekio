@@ -18,14 +18,14 @@
                         <h:outputText value="#{seriesBundle.ViewEmisoraLabel_idEmisora}"/>
                         <h:outputText value="#{emisoraController.selected.idEmisora}" title="#{seriesBundle.ViewEmisoraTitle_idEmisora}"/>
 
-                        <h:outputText value="#{seriesBundle.ViewEmisoraLabel_idImagen}"/>
-                        <h:outputText value="#{emisoraController.selected.idImagen}" title="#{seriesBundle.ViewEmisoraTitle_idImagen}"/>
-
                         <h:outputText value="#{seriesBundle.ViewEmisoraLabel_siglasEmisora}"/>
                         <h:outputText value="#{emisoraController.selected.siglasEmisora}" title="#{seriesBundle.ViewEmisoraTitle_siglasEmisora}"/>
 
                         <h:outputText value="#{seriesBundle.ViewEmisoraLabel_nombreEmisora}"/>
                         <h:outputText value="#{emisoraController.selected.nombreEmisora}" title="#{seriesBundle.ViewEmisoraTitle_nombreEmisora}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewEmisoraLabel_idImagen}"/>
+                        <h:outputText value="#{emisoraController.selected.idImagen.descripcion}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{seriesBundle.Close}" onclick="PF('EmisoraViewDialog').hide()"/>
                 </h:panelGroup>

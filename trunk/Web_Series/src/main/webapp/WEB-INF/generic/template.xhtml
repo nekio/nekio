@@ -21,12 +21,13 @@
                 <ui:include src="/WEB-INF/generic/appmenu.xhtml"/>
             </p:layoutUnit>
 
-            <p:layoutUnit position="south" size="60">
-                <ui:insert name="footer"/>
-            </p:layoutUnit>
-
             <p:layoutUnit position="center">
                 <ui:insert name="body"/>
+            </p:layoutUnit>
+            
+            <p:layoutUnit position="south" size="60">
+                <ui:insert name="footer"/>
+                <ui:include src="/WEB-INF/generic/footer.xhtml"/>
             </p:layoutUnit>
 
         </p:layout>

@@ -21,16 +21,24 @@
                             <p:tooltip for="idPeso" value="#{pesoController.getComponentMessages('idPeso', seriesBundle.EditPesoHelpText_idPeso)}"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{seriesBundle.EditPesoLabel_idRango}" for="idRango" />
-                        <h:panelGroup>
-                            <p:inputText id="idRango" value="#{pesoController.selected.idRango}" title="#{seriesBundle.EditPesoTitle_idRango}" required="true" requiredMessage="#{seriesBundle.EditPesoRequiredMessage_idRango}"/>
-                            <p:tooltip for="idRango" value="#{pesoController.getComponentMessages('idRango', seriesBundle.EditPesoHelpText_idRango)}"/>
-                        </h:panelGroup>
-
                         <p:outputLabel value="#{seriesBundle.EditPesoLabel_descripcion}" for="descripcion" />
                         <h:panelGroup>
                             <p:inputText id="descripcion" value="#{pesoController.selected.descripcion}" title="#{seriesBundle.EditPesoTitle_descripcion}" size="20" maxlength="20"/>
                             <p:tooltip for="descripcion" value="#{pesoController.getComponentMessages('descripcion', seriesBundle.EditPesoHelpText_descripcion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditPesoLabel_idRango}" for="idRango" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idRango" value="#{pesoController.selected.idRango}" required="true" requiredMessage="#{seriesBundle.EditPesoRequiredMessage_idRango}" converter="xRangoConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{xRangoController.items}"
+                                               var="idRangoItem"
+                                               itemValue="#{idRangoItem}"
+                                               itemLabel="#{idRangoItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idRango" value="#{pesoController.getComponentMessages('idRango', seriesBundle.EditPesoHelpText_idRango)}"/>
                         </h:panelGroup>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{pesoController.save}" value="#{seriesBundle.Save}" update="display,:PesoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PesoEditDialog'));">

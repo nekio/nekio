@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="XModalidadViewDlg" widgetVar="XModalidadViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.ViewXModalidadTitle}" closeOnEscape="true">
+
+            <h:form id="XModalidadViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{xModalidadController.selected != null}">
+
+                        <h:outputText value="#{seriesBundle.ViewXModalidadLabel_XModalidadPK_appDebug}"/>
+                        <h:outputText value="#{xModalidadController.selected.XModalidadPK.appDebug}" title="#{seriesBundle.ViewXModalidadTitle_XModalidadPK_appDebug}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXModalidadLabel_XModalidadPK_appDesign}"/>
+                        <h:outputText value="#{xModalidadController.selected.XModalidadPK.appDesign}" title="#{seriesBundle.ViewXModalidadTitle_XModalidadPK_appDesign}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXModalidadLabel_XModalidadPK_bitacoraEstilo}"/>
+                        <h:outputText value="#{xModalidadController.selected.XModalidadPK.bitacoraEstilo}" title="#{seriesBundle.ViewXModalidadTitle_XModalidadPK_bitacoraEstilo}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXModalidadLabel_imgChica}"/>
+                        <h:outputText value="#{xModalidadController.selected.imgChica}" title="#{seriesBundle.ViewXModalidadTitle_imgChica}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXModalidadLabel_imgMediana}"/>
+                        <h:outputText value="#{xModalidadController.selected.imgMediana}" title="#{seriesBundle.ViewXModalidadTitle_imgMediana}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="PF('XModalidadViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

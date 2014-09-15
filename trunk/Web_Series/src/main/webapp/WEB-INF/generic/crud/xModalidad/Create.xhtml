@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="XModalidadCreateDlg" widgetVar="XModalidadCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{seriesBundle.CreateXModalidadTitle}" closeOnEscape="true">
+
+            <h:form id="XModalidadCreateForm">
+
+                <h:panelGroup id="display" rendered="#{xModalidadController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{seriesBundle.CreateXModalidadLabel_XModalidadPK_appDebug}" for="XModalidadPK_appDebug" />
+                        <h:panelGroup>
+                            <p:inputText id="XModalidadPK_appDebug" value="#{xModalidadController.selected.XModalidadPK.appDebug}" title="#{seriesBundle.CreateXModalidadTitle_XModalidadPK_appDebug}" required="true" requiredMessage="#{seriesBundle.CreateXModalidadRequiredMessage_XModalidadPK_appDebug}"/>
+                            <p:tooltip for="XModalidadPK_appDebug" value="#{xModalidadController.getComponentMessages('XModalidadPK_appDebug', seriesBundle.CreateXModalidadHelpText_XModalidadPK_appDebug)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateXModalidadLabel_XModalidadPK_appDesign}" for="XModalidadPK_appDesign" />
+                        <h:panelGroup>
+                            <p:inputText id="XModalidadPK_appDesign" value="#{xModalidadController.selected.XModalidadPK.appDesign}" title="#{seriesBundle.CreateXModalidadTitle_XModalidadPK_appDesign}" required="true" requiredMessage="#{seriesBundle.CreateXModalidadRequiredMessage_XModalidadPK_appDesign}"/>
+                            <p:tooltip for="XModalidadPK_appDesign" value="#{xModalidadController.getComponentMessages('XModalidadPK_appDesign', seriesBundle.CreateXModalidadHelpText_XModalidadPK_appDesign)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateXModalidadLabel_XModalidadPK_bitacoraEstilo}" for="XModalidadPK_bitacoraEstilo" />
+                        <h:panelGroup>
+                            <p:inputText id="XModalidadPK_bitacoraEstilo" value="#{xModalidadController.selected.XModalidadPK.bitacoraEstilo}" title="#{seriesBundle.CreateXModalidadTitle_XModalidadPK_bitacoraEstilo}" required="true" requiredMessage="#{seriesBundle.CreateXModalidadRequiredMessage_XModalidadPK_bitacoraEstilo}"/>
+                            <p:tooltip for="XModalidadPK_bitacoraEstilo" value="#{xModalidadController.getComponentMessages('XModalidadPK_bitacoraEstilo', seriesBundle.CreateXModalidadHelpText_XModalidadPK_bitacoraEstilo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateXModalidadLabel_imgChica}" for="imgChica" />
+                        <h:panelGroup>
+                            <p:inputText id="imgChica" value="#{xModalidadController.selected.imgChica}" title="#{seriesBundle.CreateXModalidadTitle_imgChica}" required="true" requiredMessage="#{seriesBundle.CreateXModalidadRequiredMessage_imgChica}" size="7" maxlength="7"/>
+                            <p:tooltip for="imgChica" value="#{xModalidadController.getComponentMessages('imgChica', seriesBundle.CreateXModalidadHelpText_imgChica)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateXModalidadLabel_imgMediana}" for="imgMediana" />
+                        <h:panelGroup>
+                            <p:inputText id="imgMediana" value="#{xModalidadController.selected.imgMediana}" title="#{seriesBundle.CreateXModalidadTitle_imgMediana}" required="true" requiredMessage="#{seriesBundle.CreateXModalidadRequiredMessage_imgMediana}" size="7" maxlength="7"/>
+                            <p:tooltip for="imgMediana" value="#{xModalidadController.getComponentMessages('imgMediana', seriesBundle.CreateXModalidadHelpText_imgMediana)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{xModalidadController.saveNew}" value="#{seriesBundle.Save}" update="display,:XModalidadListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('XModalidadCreateDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('XModalidadCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -19,14 +19,12 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Colaborador.findAll", query = "SELECT c FROM Colaborador c"),
     @NamedQuery(name = "Colaborador.findByIdColaborador", query = "SELECT c FROM Colaborador c WHERE c.idColaborador = :idColaborador"),
-    @NamedQuery(name = "Colaborador.findByIdImagen", query = "SELECT c FROM Colaborador c WHERE c.idImagen = :idImagen"),
-    @NamedQuery(name = "Colaborador.findByIdRango", query = "SELECT c FROM Colaborador c WHERE c.idRango = :idRango"),
     @NamedQuery(name = "Colaborador.findByDescripcion", query = "SELECT c FROM Colaborador c WHERE c.descripcion = :descripcion"),
     @NamedQuery(name = "Colaborador.findBySexo", query = "SELECT c FROM Colaborador c WHERE c.sexo = :sexo"),
     @NamedQuery(name = "Colaborador.findByContacto", query = "SELECT c FROM Colaborador c WHERE c.contacto = :contacto")})
@@ -37,12 +35,6 @@ public class Colaborador implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_colaborador")
     private Integer idColaborador;
-    @Column(name = "id_imagen")
-    private Integer idImagen;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id_rango")
-    private int idRango;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
@@ -52,6 +44,12 @@ public class Colaborador implements Serializable {
     private String contacto;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idColaborador")
     private Collection<ProyectoDet> proyectoDetCollection;
+    @JoinColumn(name = "id_rango", referencedColumnName = "id_rango")
+    @ManyToOne(optional = false)
+    private XRango idRango;
+    @JoinColumn(name = "id_imagen", referencedColumnName = "id_imagen")
+    @ManyToOne
+    private XImagen idImagen;
     @JoinColumn(name = "id_pais", referencedColumnName = "id_pais")
     @ManyToOne
     private Pais idPais;
@@ -65,9 +63,8 @@ public class Colaborador implements Serializable {
         this.idColaborador = idColaborador;
     }
 
-    public Colaborador(Integer idColaborador, int idRango, String descripcion) {
+    public Colaborador(Integer idColaborador, String descripcion) {
         this.idColaborador = idColaborador;
-        this.idRango = idRango;
         this.descripcion = descripcion;
     }
 
@@ -77,22 +74,6 @@ public class Colaborador implements Serializable {
 
     public void setIdColaborador(Integer idColaborador) {
         this.idColaborador = idColaborador;
-    }
-
-    public Integer getIdImagen() {
-        return idImagen;
-    }
-
-    public void setIdImagen(Integer idImagen) {
-        this.idImagen = idImagen;
-    }
-
-    public int getIdRango() {
-        return idRango;
-    }
-
-    public void setIdRango(int idRango) {
-        this.idRango = idRango;
     }
 
     public String getDescripcion() {
@@ -125,6 +106,22 @@ public class Colaborador implements Serializable {
 
     public void setProyectoDetCollection(Collection<ProyectoDet> proyectoDetCollection) {
         this.proyectoDetCollection = proyectoDetCollection;
+    }
+
+    public XRango getIdRango() {
+        return idRango;
+    }
+
+    public void setIdRango(XRango idRango) {
+        this.idRango = idRango;
+    }
+
+    public XImagen getIdImagen() {
+        return idImagen;
+    }
+
+    public void setIdImagen(XImagen idImagen) {
+        this.idImagen = idImagen;
     }
 
     public Pais getIdPais() {

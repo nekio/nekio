@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="XCarpetaEditDlg" widgetVar="XCarpetaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.EditXCarpetaTitle}" closeOnEscape="true">
+
+            <h:form id="XCarpetaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{xCarpetaController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditXCarpetaLabel_idCarpeta}" for="idCarpeta" />
+                        <h:panelGroup>
+                            <h:outputText id="idCarpeta" value="#{xCarpetaController.selected.idCarpeta}" />
+                            <p:tooltip for="idCarpeta" value="#{xCarpetaController.getComponentMessages('idCarpeta', seriesBundle.EditXCarpetaHelpText_idCarpeta)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditXCarpetaLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{xCarpetaController.selected.descripcion}" title="#{seriesBundle.EditXCarpetaTitle_descripcion}" required="true" requiredMessage="#{seriesBundle.EditXCarpetaRequiredMessage_descripcion}" size="150" maxlength="255"/>
+                            <p:tooltip for="descripcion" value="#{xCarpetaController.getComponentMessages('descripcion', seriesBundle.EditXCarpetaHelpText_descripcion)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{xCarpetaController.save}" value="#{seriesBundle.Save}" update="display,:XCarpetaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('XCarpetaEditDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('XCarpetaEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

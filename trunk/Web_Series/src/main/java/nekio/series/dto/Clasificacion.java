@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Entity
 @NamedQueries({
@@ -28,25 +28,19 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Clasificacion.findByMinimoEdad", query = "SELECT c FROM Clasificacion c WHERE c.minimoEdad = :minimoEdad")})
 public class Clasificacion implements Serializable {
     private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_clasificacion")
     private Integer idClasificacion;
-    
     @Size(max = 10)
     private String siglas;
-    
     @Size(max = 20)
     private String descripcion;
-    
     @Size(max = 255)
     private String comentarios;
-    
     @Column(name = "minimo_edad")
     private Integer minimoEdad;
-    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idClasificacion")
     private Collection<Serie> serieCollection;
 

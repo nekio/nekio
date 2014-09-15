@@ -7,7 +7,7 @@ import nekio.series.dto.Clasificacion;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Stateless
 public class ClasificacionFacade extends AbstractFacade<Clasificacion> {

@@ -9,21 +9,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Formato.findAll", query = "SELECT f FROM Formato f"),
     @NamedQuery(name = "Formato.findByIdFormato", query = "SELECT f FROM Formato f WHERE f.idFormato = :idFormato"),
-    @NamedQuery(name = "Formato.findByIdRango", query = "SELECT f FROM Formato f WHERE f.idRango = :idRango"),
     @NamedQuery(name = "Formato.findByDescripcion", query = "SELECT f FROM Formato f WHERE f.descripcion = :descripcion")})
 public class Formato implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -32,12 +32,11 @@ public class Formato implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_formato")
     private Integer idFormato;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id_rango")
-    private int idRango;
     @Size(max = 20)
     private String descripcion;
+    @JoinColumn(name = "id_rango", referencedColumnName = "id_rango")
+    @ManyToOne(optional = false)
+    private XRango idRango;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idFormato")
     private Collection<Proyecto> proyectoCollection;
 
@@ -48,11 +47,6 @@ public class Formato implements Serializable {
         this.idFormato = idFormato;
     }
 
-    public Formato(Integer idFormato, int idRango) {
-        this.idFormato = idFormato;
-        this.idRango = idRango;
-    }
-
     public Integer getIdFormato() {
         return idFormato;
     }
@@ -61,20 +55,20 @@ public class Formato implements Serializable {
         this.idFormato = idFormato;
     }
 
-    public int getIdRango() {
-        return idRango;
-    }
-
-    public void setIdRango(int idRango) {
-        this.idRango = idRango;
-    }
-
     public String getDescripcion() {
         return descripcion;
     }
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public XRango getIdRango() {
+        return idRango;
+    }
+
+    public void setIdRango(XRango idRango) {
+        this.idRango = idRango;
     }
 
     public Collection<Proyecto> getProyectoCollection() {

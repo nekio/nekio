@@ -20,13 +20,12 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Pendiente.findAll", query = "SELECT p FROM Pendiente p"),
     @NamedQuery(name = "Pendiente.findByIdPendiente", query = "SELECT p FROM Pendiente p WHERE p.idPendiente = :idPendiente"),
-    @NamedQuery(name = "Pendiente.findByIdRango", query = "SELECT p FROM Pendiente p WHERE p.idRango = :idRango"),
     @NamedQuery(name = "Pendiente.findByPendiente", query = "SELECT p FROM Pendiente p WHERE p.pendiente = :pendiente"),
     @NamedQuery(name = "Pendiente.findByDetalle", query = "SELECT p FROM Pendiente p WHERE p.detalle = :detalle"),
     @NamedQuery(name = "Pendiente.findByFechaRevision", query = "SELECT p FROM Pendiente p WHERE p.fechaRevision = :fechaRevision"),
@@ -38,10 +37,6 @@ public class Pendiente implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_pendiente")
     private Integer idPendiente;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id_rango")
-    private int idRango;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
@@ -60,6 +55,9 @@ public class Pendiente implements Serializable {
     private String enlace;
     @Size(max = 255)
     private String comentarios;
+    @JoinColumn(name = "id_rango", referencedColumnName = "id_rango")
+    @ManyToOne(optional = false)
+    private XRango idRango;
     @JoinColumn(name = "id_proyecto", referencedColumnName = "id_proyecto")
     @ManyToOne
     private Proyecto idProyecto;
@@ -74,9 +72,8 @@ public class Pendiente implements Serializable {
         this.idPendiente = idPendiente;
     }
 
-    public Pendiente(Integer idPendiente, int idRango, String pendiente, String detalle, Date fechaRevision) {
+    public Pendiente(Integer idPendiente, String pendiente, String detalle, Date fechaRevision) {
         this.idPendiente = idPendiente;
-        this.idRango = idRango;
         this.pendiente = pendiente;
         this.detalle = detalle;
         this.fechaRevision = fechaRevision;
@@ -88,14 +85,6 @@ public class Pendiente implements Serializable {
 
     public void setIdPendiente(Integer idPendiente) {
         this.idPendiente = idPendiente;
-    }
-
-    public int getIdRango() {
-        return idRango;
-    }
-
-    public void setIdRango(int idRango) {
-        this.idRango = idRango;
     }
 
     public String getPendiente() {
@@ -136,6 +125,14 @@ public class Pendiente implements Serializable {
 
     public void setComentarios(String comentarios) {
         this.comentarios = comentarios;
+    }
+
+    public XRango getIdRango() {
+        return idRango;
+    }
+
+    public void setIdRango(XRango idRango) {
+        this.idRango = idRango;
     }
 
     public Proyecto getIdProyecto() {

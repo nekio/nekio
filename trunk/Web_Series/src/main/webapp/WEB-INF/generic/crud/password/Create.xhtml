@@ -15,12 +15,6 @@
                 <h:panelGroup id="display" rendered="#{passwordController.selected != null}">
                     <p:panelGrid columns="2" columnClasses="column">
 
-                        <p:outputLabel value="#{seriesBundle.CreatePasswordLabel_idRango}" for="idRango" />
-                        <h:panelGroup>
-                            <p:inputText id="idRango" value="#{passwordController.selected.idRango}" title="#{seriesBundle.CreatePasswordTitle_idRango}" required="true" requiredMessage="#{seriesBundle.CreatePasswordRequiredMessage_idRango}"/>
-                            <p:tooltip for="idRango" value="#{passwordController.getComponentMessages('idRango', seriesBundle.CreatePasswordHelpText_idRango)}"/>
-                        </h:panelGroup>
-
                         <p:outputLabel value="#{seriesBundle.CreatePasswordLabel_password}" for="password" />
                         <h:panelGroup>
                             <p:inputText id="password" value="#{passwordController.selected.password}" title="#{seriesBundle.CreatePasswordTitle_password}" required="true" requiredMessage="#{seriesBundle.CreatePasswordRequiredMessage_password}" size="80" maxlength="80"/>
@@ -29,8 +23,22 @@
 
                         <p:outputLabel value="#{seriesBundle.CreatePasswordLabel_comentarios}" for="comentarios" />
                         <h:panelGroup>
-                            <p:inputText id="comentarios" value="#{passwordController.selected.comentarios}" title="#{seriesBundle.CreatePasswordTitle_comentarios}" size="255" maxlength="255"/>
+                            <p:inputText id="comentarios" value="#{passwordController.selected.comentarios}" title="#{seriesBundle.CreatePasswordTitle_comentarios}" size="150" maxlength="255"/>
                             <p:tooltip for="comentarios" value="#{passwordController.getComponentMessages('comentarios', seriesBundle.CreatePasswordHelpText_comentarios)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreatePasswordLabel_idRango}" for="idRango" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idRango" value="#{passwordController.selected.idRango}" required="true" requiredMessage="#{seriesBundle.CreatePasswordRequiredMessage_idRango}" converter="xRangoConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{xRangoController.items}"
+                                               var="idRangoItem"
+                                               itemValue="#{idRangoItem}"
+                                               itemLabel="#{idRangoItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idRango" value="#{passwordController.getComponentMessages('idRango', seriesBundle.CreatePasswordHelpText_idRango)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{seriesBundle.CreatePasswordLabel_idProyecto}" for="idProyecto" />
@@ -40,7 +48,7 @@
                                 <f:selectItems value="#{proyectoController.items}"
                                                var="idProyectoItem"
                                                itemValue="#{idProyectoItem}"
-                                               itemLabel="#{idProyectoItem.idProyecto.toString()}"
+                                               itemLabel="#{idProyectoItem.toString()}"
                                                />
 
                             </p:selectOneMenu>
