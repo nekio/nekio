@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="XPrivilegioEditDlg" widgetVar="XPrivilegioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.EditXPrivilegioTitle}" closeOnEscape="true">
+
+            <h:form id="XPrivilegioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{xPrivilegioController.selected != null}">
+
+
+                        <h:outputLabel value="#{seriesBundle.EditXPrivilegioLabel_idPrivilegio}" for="idPrivilegio" />
+                        <h:panelGroup>
+                            <h:outputText id="idPrivilegio" value="#{xPrivilegioController.selected.idPrivilegio}" />
+                            <p:tooltip for="idPrivilegio" value="#{xPrivilegioController.getComponentMessages('idPrivilegio', seriesBundle.EditXPrivilegioHelpText_idPrivilegio)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditXPrivilegioLabel_configurar}" for="configurar" />
+                        <h:panelGroup>
+                            <p:inputText id="configurar" value="#{xPrivilegioController.selected.configurar}" title="#{seriesBundle.EditXPrivilegioTitle_configurar}" required="true" requiredMessage="#{seriesBundle.EditXPrivilegioRequiredMessage_configurar}"/>
+                            <p:tooltip for="configurar" value="#{xPrivilegioController.getComponentMessages('configurar', seriesBundle.EditXPrivilegioHelpText_configurar)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditXPrivilegioLabel_buscar}" for="buscar" />
+                        <h:panelGroup>
+                            <p:inputText id="buscar" value="#{xPrivilegioController.selected.buscar}" title="#{seriesBundle.EditXPrivilegioTitle_buscar}" required="true" requiredMessage="#{seriesBundle.EditXPrivilegioRequiredMessage_buscar}"/>
+                            <p:tooltip for="buscar" value="#{xPrivilegioController.getComponentMessages('buscar', seriesBundle.EditXPrivilegioHelpText_buscar)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditXPrivilegioLabel_insertar}" for="insertar" />
+                        <h:panelGroup>
+                            <p:inputText id="insertar" value="#{xPrivilegioController.selected.insertar}" title="#{seriesBundle.EditXPrivilegioTitle_insertar}" required="true" requiredMessage="#{seriesBundle.EditXPrivilegioRequiredMessage_insertar}"/>
+                            <p:tooltip for="insertar" value="#{xPrivilegioController.getComponentMessages('insertar', seriesBundle.EditXPrivilegioHelpText_insertar)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditXPrivilegioLabel_modificar}" for="modificar" />
+                        <h:panelGroup>
+                            <p:inputText id="modificar" value="#{xPrivilegioController.selected.modificar}" title="#{seriesBundle.EditXPrivilegioTitle_modificar}" required="true" requiredMessage="#{seriesBundle.EditXPrivilegioRequiredMessage_modificar}"/>
+                            <p:tooltip for="modificar" value="#{xPrivilegioController.getComponentMessages('modificar', seriesBundle.EditXPrivilegioHelpText_modificar)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditXPrivilegioLabel_eliminar}" for="eliminar" />
+                        <h:panelGroup>
+                            <p:inputText id="eliminar" value="#{xPrivilegioController.selected.eliminar}" title="#{seriesBundle.EditXPrivilegioTitle_eliminar}" required="true" requiredMessage="#{seriesBundle.EditXPrivilegioRequiredMessage_eliminar}"/>
+                            <p:tooltip for="eliminar" value="#{xPrivilegioController.getComponentMessages('eliminar', seriesBundle.EditXPrivilegioHelpText_eliminar)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditXPrivilegioLabel_XTipoUsuario}" for="XTipoUsuario" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="XTipoUsuario" value="#{xPrivilegioController.selected.XTipoUsuario}" required="true" requiredMessage="#{seriesBundle.EditXPrivilegioRequiredMessage_XTipoUsuario}" converter="xTipoUsuarioConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{xTipoUsuarioController.items}"
+                                               var="XTipoUsuarioItem"
+                                               itemValue="#{XTipoUsuarioItem}"
+                                               itemLabel="#{XTipoUsuarioItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="XTipoUsuario" value="#{xPrivilegioController.getComponentMessages('XTipoUsuario', seriesBundle.EditXPrivilegioHelpText_XTipoUsuario)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{xPrivilegioController.save}" value="#{seriesBundle.Save}" update="display,:XPrivilegioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('XPrivilegioEditDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('XPrivilegioEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

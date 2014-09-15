@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="XIdiomaViewDlg" widgetVar="XIdiomaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.ViewXIdiomaTitle}" closeOnEscape="true">
+
+            <h:form id="XIdiomaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{xIdiomaController.selected != null}">
+
+                        <h:outputText value="#{seriesBundle.ViewXIdiomaLabel_idIdioma}"/>
+                        <h:outputText value="#{xIdiomaController.selected.idIdioma}" title="#{seriesBundle.ViewXIdiomaTitle_idIdioma}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXIdiomaLabel_descripcion}"/>
+                        <h:outputText value="#{xIdiomaController.selected.descripcion}" title="#{seriesBundle.ViewXIdiomaTitle_descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="PF('XIdiomaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -21,12 +21,6 @@
                             <p:tooltip for="idEmisora" value="#{emisoraController.getComponentMessages('idEmisora', seriesBundle.EditEmisoraHelpText_idEmisora)}"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{seriesBundle.EditEmisoraLabel_idImagen}" for="idImagen" />
-                        <h:panelGroup>
-                            <p:inputText id="idImagen" value="#{emisoraController.selected.idImagen}" title="#{seriesBundle.EditEmisoraTitle_idImagen}"/>
-                            <p:tooltip for="idImagen" value="#{emisoraController.getComponentMessages('idImagen', seriesBundle.EditEmisoraHelpText_idImagen)}"/>
-                        </h:panelGroup>
-
                         <p:outputLabel value="#{seriesBundle.EditEmisoraLabel_siglasEmisora}" for="siglasEmisora" />
                         <h:panelGroup>
                             <p:inputText id="siglasEmisora" value="#{emisoraController.selected.siglasEmisora}" title="#{seriesBundle.EditEmisoraTitle_siglasEmisora}" required="true" requiredMessage="#{seriesBundle.EditEmisoraRequiredMessage_siglasEmisora}" size="20" maxlength="20"/>
@@ -37,6 +31,20 @@
                         <h:panelGroup>
                             <p:inputText id="nombreEmisora" value="#{emisoraController.selected.nombreEmisora}" title="#{seriesBundle.EditEmisoraTitle_nombreEmisora}" required="true" requiredMessage="#{seriesBundle.EditEmisoraRequiredMessage_nombreEmisora}" size="100" maxlength="100"/>
                             <p:tooltip for="nombreEmisora" value="#{emisoraController.getComponentMessages('nombreEmisora', seriesBundle.EditEmisoraHelpText_nombreEmisora)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditEmisoraLabel_idImagen}" for="idImagen" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idImagen" value="#{emisoraController.selected.idImagen}"  converter="xImagenConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{xImagenController.items}"
+                                               var="idImagenItem"
+                                               itemValue="#{idImagenItem}"
+                                               itemLabel="#{idImagenItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idImagen" value="#{emisoraController.getComponentMessages('idImagen', seriesBundle.EditEmisoraHelpText_idImagen)}"/>
                         </h:panelGroup>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{emisoraController.save}" value="#{seriesBundle.Save}" update="display,:EmisoraListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EmisoraEditDialog'));">

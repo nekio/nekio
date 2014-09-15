@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="XImagenViewDlg" widgetVar="XImagenViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.ViewXImagenTitle}" closeOnEscape="true">
+
+            <h:form id="XImagenViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{xImagenController.selected != null}">
+
+                        <h:outputText value="#{seriesBundle.ViewXImagenLabel_idImagen}"/>
+                        <h:outputText value="#{xImagenController.selected.idImagen}" title="#{seriesBundle.ViewXImagenTitle_idImagen}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXImagenLabel_nombre}"/>
+                        <h:outputText value="#{xImagenController.selected.nombre}" title="#{seriesBundle.ViewXImagenTitle_nombre}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXImagenLabel_tipo}"/>
+                        <h:outputText value="#{xImagenController.selected.tipo}" title="#{seriesBundle.ViewXImagenTitle_tipo}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXImagenLabel_fechaSubida}"/>
+                        <h:outputText value="#{xImagenController.selected.fechaSubida}" title="#{seriesBundle.ViewXImagenTitle_fechaSubida}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{seriesBundle.ViewXImagenLabel_descripcion}"/>
+                        <h:outputText value="#{xImagenController.selected.descripcion}" title="#{seriesBundle.ViewXImagenTitle_descripcion}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXImagenLabel_idCarpeta}"/>
+                        <h:outputText value="#{xImagenController.selected.idCarpeta.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="PF('XImagenViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

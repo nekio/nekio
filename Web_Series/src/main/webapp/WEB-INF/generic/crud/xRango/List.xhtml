@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="XRangoListForm">
+
+        <p:panel header="#{seriesBundle.ListXRangoTitle}">
+            <p:contextMenu id="XRangoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{seriesBundle.Create}" onclick="document.getElementById('XRangoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{seriesBundle.View}" onclick="document.getElementById('XRangoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('XRangoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('XRangoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{seriesBundle.XRangoMenuItem_formatoCollection}" icon="ui-icon-search"  action="#{xRangoController.navigateFormatoCollection}" disabled="#{empty xRangoController.selected.formatoCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.XRangoMenuItem_proyectoCollection}" icon="ui-icon-search"  action="#{xRangoController.navigateProyectoCollection}" disabled="#{empty xRangoController.selected.proyectoCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.XRangoMenuItem_passwordCollection}" icon="ui-icon-search"  action="#{xRangoController.navigatePasswordCollection}" disabled="#{empty xRangoController.selected.passwordCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.XRangoMenuItem_colaboradorCollection}" icon="ui-icon-search"  action="#{xRangoController.navigateColaboradorCollection}" disabled="#{empty xRangoController.selected.colaboradorCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.XRangoMenuItem_tipoSerieCollection}" icon="ui-icon-search"  action="#{xRangoController.navigateTipoSerieCollection}" disabled="#{empty xRangoController.selected.tipoSerieCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.XRangoMenuItem_calidadCollection}" icon="ui-icon-search"  action="#{xRangoController.navigateCalidadCollection}" disabled="#{empty xRangoController.selected.calidadCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.XRangoMenuItem_pendienteCollection}" icon="ui-icon-search"  action="#{xRangoController.navigatePendienteCollection}" disabled="#{empty xRangoController.selected.pendienteCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.XRangoMenuItem_tipoEpisodioCollection}" icon="ui-icon-search"  action="#{xRangoController.navigateTipoEpisodioCollection}" disabled="#{empty xRangoController.selected.tipoEpisodioCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.XRangoMenuItem_webCollection}" icon="ui-icon-search"  action="#{xRangoController.navigateWebCollection}" disabled="#{empty xRangoController.selected.webCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.XRangoMenuItem_XUsuarioCollection}" icon="ui-icon-search"  action="#{xRangoController.navigateXUsuarioCollection}" disabled="#{empty xRangoController.selected.xUsuarioCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.XRangoMenuItem_serieCollection}" icon="ui-icon-search"  action="#{xRangoController.navigateSerieCollection}" disabled="#{empty xRangoController.selected.serieCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.XRangoMenuItem_pesoCollection}" icon="ui-icon-search"  action="#{xRangoController.navigatePesoCollection}" disabled="#{empty xRangoController.selected.pesoCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.XRangoMenuItem_generoCollection}" icon="ui-icon-search"  action="#{xRangoController.navigateGeneroCollection}" disabled="#{empty xRangoController.selected.generoCollection}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{xRangoController.items}"
+                         var="item"
+                         rowKey="#{item.idRango}"
+                         paginator="true"
+                         rows="25"
+                         rowsPerPageTemplate="10,25,50,100"
+                         selectionMode="single"
+                         selection="#{xRangoController.selected}">
+
+                <p:ajax event="rowSelect"   update=":XRangoListForm:createButton :XRangoListForm:viewButton :XRangoListForm:editButton :XRangoListForm:deleteButton :XRangoListForm:XRangoDataTableContextMenu" listener="#{xRangoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":XRangoListForm:createButton :XRangoListForm:viewButton :XRangoListForm:editButton :XRangoListForm:deleteButton :XRangoListForm:XRangoDataTableContextMenu" listener="#{xRangoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('XRangoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idRango}" filterBy="#{item.idRango}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXRangoTitle_idRango}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idRango}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXRangoTitle_descripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.detalle}" filterBy="#{item.detalle}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXRangoTitle_detalle}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.detalle}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.accPublico}" filterBy="#{item.accPublico}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXRangoTitle_accPublico}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.accPublico}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.accGrupal}" filterBy="#{item.accGrupal}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXRangoTitle_accGrupal}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.accGrupal}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.accProtegido}" filterBy="#{item.accProtegido}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXRangoTitle_accProtegido}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.accProtegido}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.accPrivado}" filterBy="#{item.accPrivado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXRangoTitle_accPrivado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.accPrivado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.color}" filterBy="#{item.color}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXRangoTitle_color}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.color}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{seriesBundle.Create}" actionListener="#{xRangoController.prepareCreate}" update=":XRangoCreateForm" oncomplete="PF('XRangoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{seriesBundle.View}" update=":XRangoViewForm" oncomplete="PF('XRangoViewDialog').show()" disabled="#{empty xRangoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{seriesBundle.Edit}" update=":XRangoEditForm" oncomplete="PF('XRangoEditDialog').show()" disabled="#{empty xRangoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{seriesBundle.Delete}" actionListener="#{xRangoController.delete}" update=":growl,datalist" disabled="#{empty xRangoController.selected}">
+                <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/generic/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

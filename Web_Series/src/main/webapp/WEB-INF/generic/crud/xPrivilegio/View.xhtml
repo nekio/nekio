@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="XPrivilegioViewDlg" widgetVar="XPrivilegioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.ViewXPrivilegioTitle}" closeOnEscape="true">
+
+            <h:form id="XPrivilegioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{xPrivilegioController.selected != null}">
+
+                        <h:outputText value="#{seriesBundle.ViewXPrivilegioLabel_idPrivilegio}"/>
+                        <h:outputText value="#{xPrivilegioController.selected.idPrivilegio}" title="#{seriesBundle.ViewXPrivilegioTitle_idPrivilegio}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXPrivilegioLabel_configurar}"/>
+                        <h:outputText value="#{xPrivilegioController.selected.configurar}" title="#{seriesBundle.ViewXPrivilegioTitle_configurar}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXPrivilegioLabel_buscar}"/>
+                        <h:outputText value="#{xPrivilegioController.selected.buscar}" title="#{seriesBundle.ViewXPrivilegioTitle_buscar}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXPrivilegioLabel_insertar}"/>
+                        <h:outputText value="#{xPrivilegioController.selected.insertar}" title="#{seriesBundle.ViewXPrivilegioTitle_insertar}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXPrivilegioLabel_modificar}"/>
+                        <h:outputText value="#{xPrivilegioController.selected.modificar}" title="#{seriesBundle.ViewXPrivilegioTitle_modificar}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXPrivilegioLabel_eliminar}"/>
+                        <h:outputText value="#{xPrivilegioController.selected.eliminar}" title="#{seriesBundle.ViewXPrivilegioTitle_eliminar}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewXPrivilegioLabel_XTipoUsuario}"/>
+                        <h:outputText value="#{xPrivilegioController.selected.XTipoUsuario.descripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="PF('XPrivilegioViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -15,12 +15,6 @@
                 <h:panelGroup id="display" rendered="#{pendienteController.selected != null}">
                     <p:panelGrid columns="2" columnClasses="column">
 
-                        <p:outputLabel value="#{seriesBundle.CreatePendienteLabel_idRango}" for="idRango" />
-                        <h:panelGroup>
-                            <p:inputText id="idRango" value="#{pendienteController.selected.idRango}" title="#{seriesBundle.CreatePendienteTitle_idRango}" required="true" requiredMessage="#{seriesBundle.CreatePendienteRequiredMessage_idRango}"/>
-                            <p:tooltip for="idRango" value="#{pendienteController.getComponentMessages('idRango', seriesBundle.CreatePendienteHelpText_idRango)}"/>
-                        </h:panelGroup>
-
                         <p:outputLabel value="#{seriesBundle.CreatePendienteLabel_pendiente}" for="pendiente" />
                         <h:panelGroup>
                             <p:inputText id="pendiente" value="#{pendienteController.selected.pendiente}" title="#{seriesBundle.CreatePendienteTitle_pendiente}" required="true" requiredMessage="#{seriesBundle.CreatePendienteRequiredMessage_pendiente}" size="80" maxlength="80"/>
@@ -47,8 +41,22 @@
 
                         <p:outputLabel value="#{seriesBundle.CreatePendienteLabel_comentarios}" for="comentarios" />
                         <h:panelGroup>
-                            <p:inputText id="comentarios" value="#{pendienteController.selected.comentarios}" title="#{seriesBundle.CreatePendienteTitle_comentarios}" size="255" maxlength="255"/>
+                            <p:inputText id="comentarios" value="#{pendienteController.selected.comentarios}" title="#{seriesBundle.CreatePendienteTitle_comentarios}" size="150" maxlength="255"/>
                             <p:tooltip for="comentarios" value="#{pendienteController.getComponentMessages('comentarios', seriesBundle.CreatePendienteHelpText_comentarios)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreatePendienteLabel_idRango}" for="idRango" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idRango" value="#{pendienteController.selected.idRango}" required="true" requiredMessage="#{seriesBundle.CreatePendienteRequiredMessage_idRango}" converter="xRangoConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{xRangoController.items}"
+                                               var="idRangoItem"
+                                               itemValue="#{idRangoItem}"
+                                               itemLabel="#{idRangoItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idRango" value="#{pendienteController.getComponentMessages('idRango', seriesBundle.CreatePendienteHelpText_idRango)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{seriesBundle.CreatePendienteLabel_idProyecto}" for="idProyecto" />
@@ -58,7 +66,7 @@
                                 <f:selectItems value="#{proyectoController.items}"
                                                var="idProyectoItem"
                                                itemValue="#{idProyectoItem}"
-                                               itemLabel="#{idProyectoItem.idProyecto.toString()}"
+                                               itemLabel="#{idProyectoItem.toString()}"
                                                />
 
                             </p:selectOneMenu>

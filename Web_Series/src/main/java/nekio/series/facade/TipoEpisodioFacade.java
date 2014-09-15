@@ -7,7 +7,7 @@ import nekio.series.dto.TipoEpisodio;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Stateless
 public class TipoEpisodioFacade extends AbstractFacade<TipoEpisodio> {

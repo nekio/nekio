@@ -18,11 +18,11 @@
                         <h:outputText value="#{seriesBundle.ViewPesoLabel_idPeso}"/>
                         <h:outputText value="#{pesoController.selected.idPeso}" title="#{seriesBundle.ViewPesoTitle_idPeso}"/>
 
-                        <h:outputText value="#{seriesBundle.ViewPesoLabel_idRango}"/>
-                        <h:outputText value="#{pesoController.selected.idRango}" title="#{seriesBundle.ViewPesoTitle_idRango}"/>
-
                         <h:outputText value="#{seriesBundle.ViewPesoLabel_descripcion}"/>
                         <h:outputText value="#{pesoController.selected.descripcion}" title="#{seriesBundle.ViewPesoTitle_descripcion}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewPesoLabel_idRango}"/>
+                        <h:outputText value="#{pesoController.selected.idRango.descripcion}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{seriesBundle.Close}" onclick="PF('PesoViewDialog').hide()"/>
                 </h:panelGroup>

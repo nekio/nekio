@@ -7,7 +7,7 @@ import nekio.series.dto.EstadoProyecto;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Stateless
 public class EstadoProyectoFacade extends AbstractFacade<EstadoProyecto> {

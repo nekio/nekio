@@ -23,18 +23,6 @@
                                     <p:tooltip for="idSerie" value="#{serieController.getComponentMessages('idSerie', seriesBundle.EditSerieHelpText_idSerie)}"/>
                                 </h:panelGroup>
 
-                                <p:outputLabel value="#{seriesBundle.EditSerieLabel_idImagen}" for="idImagen" />
-                                <h:panelGroup>
-                                    <p:inputText id="idImagen" value="#{serieController.selected.idImagen}" title="#{seriesBundle.EditSerieTitle_idImagen}"/>
-                                    <p:tooltip for="idImagen" value="#{serieController.getComponentMessages('idImagen', seriesBundle.EditSerieHelpText_idImagen)}"/>
-                                </h:panelGroup>
-
-                                <p:outputLabel value="#{seriesBundle.EditSerieLabel_idRango}" for="idRango" />
-                                <h:panelGroup>
-                                    <p:inputText id="idRango" value="#{serieController.selected.idRango}" title="#{seriesBundle.EditSerieTitle_idRango}" required="true" requiredMessage="#{seriesBundle.EditSerieRequiredMessage_idRango}"/>
-                                    <p:tooltip for="idRango" value="#{serieController.getComponentMessages('idRango', seriesBundle.EditSerieHelpText_idRango)}"/>
-                                </h:panelGroup>
-
                                 <p:outputLabel value="#{seriesBundle.EditSerieLabel_titulo}" for="titulo" />
                                 <h:panelGroup>
                                     <p:inputText id="titulo" value="#{serieController.selected.titulo}" title="#{seriesBundle.EditSerieTitle_titulo}" required="true" requiredMessage="#{seriesBundle.EditSerieRequiredMessage_titulo}" size="80" maxlength="80"/>
@@ -147,60 +135,32 @@
                                     <p:tooltip for="idPais" value="#{serieController.getComponentMessages('idPais', seriesBundle.EditSerieHelpText_idPais)}"/>
                                 </h:panelGroup>
 
-                                <p:outputLabel value="#{seriesBundle.EditSerieLabel_idIdiomaOrigen}" for="idIdiomaOrigen" />
+                                <p:outputLabel value="#{seriesBundle.EditSerieLabel_idSerieOrigen}" for="idSerieOrigen" />
                                 <h:panelGroup>
-                                    <p:selectOneMenu id="idIdiomaOrigen" value="#{serieController.selected.idIdiomaOrigen}" required="true" requiredMessage="#{seriesBundle.EditSerieRequiredMessage_idIdiomaOrigen}" converter="idiomaConverter">
+                                    <p:selectOneMenu id="idSerieOrigen" value="#{serieController.selected.idSerieOrigen}"  converter="serieConverter">
                                         <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
-                                        <f:selectItems value="#{idiomaController.items}"
-                                                       var="idIdiomaOrigenItem"
-                                                       itemValue="#{idIdiomaOrigenItem}"
-                                                       itemLabel="#{idIdiomaOrigenItem.descripcion.toString()}"
+                                        <f:selectItems value="#{serieController.items}"
+                                                       var="idSerieOrigenItem"
+                                                       itemValue="#{idSerieOrigenItem}"
+                                                       itemLabel="#{idSerieOrigenItem.toString()}"
                                                        />
 
                                     </p:selectOneMenu>
-                                    <p:tooltip for="idIdiomaOrigen" value="#{serieController.getComponentMessages('idIdiomaOrigen', seriesBundle.EditSerieHelpText_idIdiomaOrigen)}"/>
+                                    <p:tooltip for="idSerieOrigen" value="#{serieController.getComponentMessages('idSerieOrigen', seriesBundle.EditSerieHelpText_idSerieOrigen)}"/>
                                 </h:panelGroup>
 
-                                <p:outputLabel value="#{seriesBundle.EditSerieLabel_idTipoSerie}" for="idTipoSerie" />
+                                <p:outputLabel value="#{seriesBundle.EditSerieLabel_idGenero3}" for="idGenero3" />
                                 <h:panelGroup>
-                                    <p:selectOneMenu id="idTipoSerie" value="#{serieController.selected.idTipoSerie}" required="true" requiredMessage="#{seriesBundle.EditSerieRequiredMessage_idTipoSerie}" converter="tipoSerieConverter">
+                                    <p:selectOneMenu id="idGenero3" value="#{serieController.selected.idGenero3}"  converter="generoConverter">
                                         <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
-                                        <f:selectItems value="#{tipoSerieController.items}"
-                                                       var="idTipoSerieItem"
-                                                       itemValue="#{idTipoSerieItem}"
-                                                       itemLabel="#{idTipoSerieItem.descripcion.toString()}"
+                                        <f:selectItems value="#{generoController.items}"
+                                                       var="idGenero3Item"
+                                                       itemValue="#{idGenero3Item}"
+                                                       itemLabel="#{idGenero3Item.descripcion.toString()}"
                                                        />
 
                                     </p:selectOneMenu>
-                                    <p:tooltip for="idTipoSerie" value="#{serieController.getComponentMessages('idTipoSerie', seriesBundle.EditSerieHelpText_idTipoSerie)}"/>
-                                </h:panelGroup>
-
-                                <p:outputLabel value="#{seriesBundle.EditSerieLabel_idEmisora}" for="idEmisora" />
-                                <h:panelGroup>
-                                    <p:selectOneMenu id="idEmisora" value="#{serieController.selected.idEmisora}" required="true" requiredMessage="#{seriesBundle.EditSerieRequiredMessage_idEmisora}" converter="emisoraConverter">
-                                        <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
-                                        <f:selectItems value="#{emisoraController.items}"
-                                                       var="idEmisoraItem"
-                                                       itemValue="#{idEmisoraItem}"
-                                                       itemLabel="#{idEmisoraItem.idEmisora.toString()}"
-                                                       />
-
-                                    </p:selectOneMenu>
-                                    <p:tooltip for="idEmisora" value="#{serieController.getComponentMessages('idEmisora', seriesBundle.EditSerieHelpText_idEmisora)}"/>
-                                </h:panelGroup>
-
-                                <p:outputLabel value="#{seriesBundle.EditSerieLabel_idDistintivo}" for="idDistintivo" />
-                                <h:panelGroup>
-                                    <p:selectOneMenu id="idDistintivo" value="#{serieController.selected.idDistintivo}"  converter="distintivoConverter">
-                                        <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
-                                        <f:selectItems value="#{distintivoController.items}"
-                                                       var="idDistintivoItem"
-                                                       itemValue="#{idDistintivoItem}"
-                                                       itemLabel="#{idDistintivoItem.descripcion.toString()}"
-                                                       />
-
-                                    </p:selectOneMenu>
-                                    <p:tooltip for="idDistintivo" value="#{serieController.getComponentMessages('idDistintivo', seriesBundle.EditSerieHelpText_idDistintivo)}"/>
+                                    <p:tooltip for="idGenero3" value="#{serieController.getComponentMessages('idGenero3', seriesBundle.EditSerieHelpText_idGenero3)}"/>
                                 </h:panelGroup>
 
                                 <p:outputLabel value="#{seriesBundle.EditSerieLabel_idGenero4}" for="idGenero4" />
@@ -217,36 +177,134 @@
                                     <p:tooltip for="idGenero4" value="#{serieController.getComponentMessages('idGenero4', seriesBundle.EditSerieHelpText_idGenero4)}"/>
                                 </h:panelGroup>
 
+                                <p:outputLabel value="#{seriesBundle.EditSerieLabel_idImagen}" for="idImagen" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="idImagen" value="#{serieController.selected.idImagen}"  converter="xImagenConverter">
+                                        <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{xImagenController.items}"
+                                                       var="idImagenItem"
+                                                       itemValue="#{idImagenItem}"
+                                                       itemLabel="#{idImagenItem.descripcion.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="idImagen" value="#{serieController.getComponentMessages('idImagen', seriesBundle.EditSerieHelpText_idImagen)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{seriesBundle.EditSerieLabel_idCaptura1}" for="idCaptura1" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="idCaptura1" value="#{serieController.selected.idCaptura1}"  converter="xImagenConverter">
+                                        <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{xImagenController.items}"
+                                                       var="idCaptura1Item"
+                                                       itemValue="#{idCaptura1Item}"
+                                                       itemLabel="#{idCaptura1Item.descripcion.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="idCaptura1" value="#{serieController.getComponentMessages('idCaptura1', seriesBundle.EditSerieHelpText_idCaptura1)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{seriesBundle.EditSerieLabel_idCaptura2}" for="idCaptura2" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="idCaptura2" value="#{serieController.selected.idCaptura2}"  converter="xImagenConverter">
+                                        <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{xImagenController.items}"
+                                                       var="idCaptura2Item"
+                                                       itemValue="#{idCaptura2Item}"
+                                                       itemLabel="#{idCaptura2Item.descripcion.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="idCaptura2" value="#{serieController.getComponentMessages('idCaptura2', seriesBundle.EditSerieHelpText_idCaptura2)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{seriesBundle.EditSerieLabel_idCaptura3}" for="idCaptura3" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="idCaptura3" value="#{serieController.selected.idCaptura3}"  converter="xImagenConverter">
+                                        <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{xImagenController.items}"
+                                                       var="idCaptura3Item"
+                                                       itemValue="#{idCaptura3Item}"
+                                                       itemLabel="#{idCaptura3Item.descripcion.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="idCaptura3" value="#{serieController.getComponentMessages('idCaptura3', seriesBundle.EditSerieHelpText_idCaptura3)}"/>
+                                </h:panelGroup>
+
                             </p:panelGrid>
                         </p:tab>
                         <p:tab id="SerieTab2" title="#{seriesBundle.TabHeaderPrefix} 2">
                             <p:panelGrid  columns="2" columnClasses="column" rendered="#{serieController.selected != null}">
-                                <p:outputLabel value="#{seriesBundle.EditSerieLabel_idGenero3}" for="idGenero3" />
+                                <p:outputLabel value="#{seriesBundle.EditSerieLabel_idDistintivo}" for="idDistintivo" />
                                 <h:panelGroup>
-                                    <p:selectOneMenu id="idGenero3" value="#{serieController.selected.idGenero3}"  converter="generoConverter">
+                                    <p:selectOneMenu id="idDistintivo" value="#{serieController.selected.idDistintivo}"  converter="distintivoConverter">
                                         <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
-                                        <f:selectItems value="#{generoController.items}"
-                                                       var="idGenero3Item"
-                                                       itemValue="#{idGenero3Item}"
-                                                       itemLabel="#{idGenero3Item.descripcion.toString()}"
+                                        <f:selectItems value="#{distintivoController.items}"
+                                                       var="idDistintivoItem"
+                                                       itemValue="#{idDistintivoItem}"
+                                                       itemLabel="#{idDistintivoItem.descripcion.toString()}"
                                                        />
 
                                     </p:selectOneMenu>
-                                    <p:tooltip for="idGenero3" value="#{serieController.getComponentMessages('idGenero3', seriesBundle.EditSerieHelpText_idGenero3)}"/>
+                                    <p:tooltip for="idDistintivo" value="#{serieController.getComponentMessages('idDistintivo', seriesBundle.EditSerieHelpText_idDistintivo)}"/>
                                 </h:panelGroup>
 
-                                <p:outputLabel value="#{seriesBundle.EditSerieLabel_idSerieOrigen}" for="idSerieOrigen" />
+                                <p:outputLabel value="#{seriesBundle.EditSerieLabel_idRango}" for="idRango" />
                                 <h:panelGroup>
-                                    <p:selectOneMenu id="idSerieOrigen" value="#{serieController.selected.idSerieOrigen}"  converter="serieConverter">
+                                    <p:selectOneMenu id="idRango" value="#{serieController.selected.idRango}" required="true" requiredMessage="#{seriesBundle.EditSerieRequiredMessage_idRango}" converter="xRangoConverter">
                                         <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
-                                        <f:selectItems value="#{serieController.items}"
-                                                       var="idSerieOrigenItem"
-                                                       itemValue="#{idSerieOrigenItem}"
-                                                       itemLabel="#{idSerieOrigenItem.idSerie.toString()}"
+                                        <f:selectItems value="#{xRangoController.items}"
+                                                       var="idRangoItem"
+                                                       itemValue="#{idRangoItem}"
+                                                       itemLabel="#{idRangoItem.descripcion.toString()}"
                                                        />
 
                                     </p:selectOneMenu>
-                                    <p:tooltip for="idSerieOrigen" value="#{serieController.getComponentMessages('idSerieOrigen', seriesBundle.EditSerieHelpText_idSerieOrigen)}"/>
+                                    <p:tooltip for="idRango" value="#{serieController.getComponentMessages('idRango', seriesBundle.EditSerieHelpText_idRango)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{seriesBundle.EditSerieLabel_idEmisora}" for="idEmisora" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="idEmisora" value="#{serieController.selected.idEmisora}" required="true" requiredMessage="#{seriesBundle.EditSerieRequiredMessage_idEmisora}" converter="emisoraConverter">
+                                        <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{emisoraController.items}"
+                                                       var="idEmisoraItem"
+                                                       itemValue="#{idEmisoraItem}"
+                                                       itemLabel="#{idEmisoraItem.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="idEmisora" value="#{serieController.getComponentMessages('idEmisora', seriesBundle.EditSerieHelpText_idEmisora)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{seriesBundle.EditSerieLabel_idTipoSerie}" for="idTipoSerie" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="idTipoSerie" value="#{serieController.selected.idTipoSerie}" required="true" requiredMessage="#{seriesBundle.EditSerieRequiredMessage_idTipoSerie}" converter="tipoSerieConverter">
+                                        <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{tipoSerieController.items}"
+                                                       var="idTipoSerieItem"
+                                                       itemValue="#{idTipoSerieItem}"
+                                                       itemLabel="#{idTipoSerieItem.descripcion.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="idTipoSerie" value="#{serieController.getComponentMessages('idTipoSerie', seriesBundle.EditSerieHelpText_idTipoSerie)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{seriesBundle.EditSerieLabel_idIdiomaOrigen}" for="idIdiomaOrigen" />
+                                <h:panelGroup>
+                                    <p:selectOneMenu id="idIdiomaOrigen" value="#{serieController.selected.idIdiomaOrigen}" required="true" requiredMessage="#{seriesBundle.EditSerieRequiredMessage_idIdiomaOrigen}" converter="idiomaConverter">
+                                        <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                        <f:selectItems value="#{idiomaController.items}"
+                                                       var="idIdiomaOrigenItem"
+                                                       itemValue="#{idIdiomaOrigenItem}"
+                                                       itemLabel="#{idIdiomaOrigenItem.descripcion.toString()}"
+                                                       />
+
+                                    </p:selectOneMenu>
+                                    <p:tooltip for="idIdiomaOrigen" value="#{serieController.getComponentMessages('idIdiomaOrigen', seriesBundle.EditSerieHelpText_idIdiomaOrigen)}"/>
                                 </h:panelGroup>
                             </p:panelGrid>
                         </p:tab>

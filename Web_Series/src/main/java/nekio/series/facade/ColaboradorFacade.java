@@ -7,7 +7,7 @@ import nekio.series.dto.Colaborador;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Stateless
 public class ColaboradorFacade extends AbstractFacade<Colaborador> {

@@ -10,6 +10,7 @@
         <h:form id="menuForm">
             <p:menubar>
                 <p:menuitem value="#{seriesBundle.Home}" outcome="/index" icon="ui-icon-home"/>
+                
                 <p:submenu label="#{seriesBundle.MenuAcciones}">
                     <p:menuitem value="#{seriesBundle.ProyectoHeading}" outcome="/view/proyecto/index" />
                     <p:menuitem value="#{seriesBundle.ProyectoDetHeading}" outcome="/view/proyectoDet/index" />
@@ -49,6 +50,18 @@
                     <p:menuitem value="#{seriesBundle.DistintivoHeading}" outcome="/view/distintivo/index" />
                     <p:menuitem value="#{seriesBundle.IdiomaHeading}" outcome="/view/idioma/index" />                    
                     <p:menuitem value="#{seriesBundle.PaisHeading}" outcome="/view/pais/index" />
+                </p:submenu>
+            
+                <p:submenu label="#{seriesBundle.MenuHerramientas}">
+                    <p:menuitem value="#{seriesBundle.XBitacoraHeading}" outcome="/view/xBitacora/index" />
+                    <p:menuitem value="#{seriesBundle.XCarpetaHeading}" outcome="/view/xCarpeta/index" />
+                    <p:menuitem value="#{seriesBundle.XIdiomaHeading}" outcome="/view/xIdioma/index" />
+                    <p:menuitem value="#{seriesBundle.XImagenHeading}" outcome="/view/xImagen/index" />
+                    <p:menuitem value="#{seriesBundle.XModalidadHeading}" outcome="/view/xModalidad/index" />
+                    <p:menuitem value="#{seriesBundle.XPrivilegioHeading}" outcome="/view/xPrivilegio/index" />
+                    <p:menuitem value="#{seriesBundle.XRangoHeading}" outcome="/view/xRango/index" />
+                    <p:menuitem value="#{seriesBundle.XTipoUsuarioHeading}" outcome="/view/xTipoUsuario/index" />
+                    <p:menuitem value="#{seriesBundle.XUsuarioHeading}" outcome="/view/xUsuario/index" />
                 </p:submenu>
             </p:menubar>
         </h:form>

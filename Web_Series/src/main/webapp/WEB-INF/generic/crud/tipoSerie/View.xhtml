@@ -18,11 +18,11 @@
                         <h:outputText value="#{seriesBundle.ViewTipoSerieLabel_idTipoSerie}"/>
                         <h:outputText value="#{tipoSerieController.selected.idTipoSerie}" title="#{seriesBundle.ViewTipoSerieTitle_idTipoSerie}"/>
 
-                        <h:outputText value="#{seriesBundle.ViewTipoSerieLabel_idRango}"/>
-                        <h:outputText value="#{tipoSerieController.selected.idRango}" title="#{seriesBundle.ViewTipoSerieTitle_idRango}"/>
-
                         <h:outputText value="#{seriesBundle.ViewTipoSerieLabel_descripcion}"/>
                         <h:outputText value="#{tipoSerieController.selected.descripcion}" title="#{seriesBundle.ViewTipoSerieTitle_descripcion}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewTipoSerieLabel_idRango}"/>
+                        <h:outputText value="#{tipoSerieController.selected.idRango.descripcion}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{seriesBundle.Close}" onclick="PF('TipoSerieViewDialog').hide()"/>
                 </h:panelGroup>

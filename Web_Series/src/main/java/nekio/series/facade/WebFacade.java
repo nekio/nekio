@@ -7,7 +7,7 @@ import nekio.series.dto.Web;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Stateless
 public class WebFacade extends AbstractFacade<Web> {

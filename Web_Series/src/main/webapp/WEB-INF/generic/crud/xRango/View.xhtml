@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="XRangoViewDlg" widgetVar="XRangoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.ViewXRangoTitle}" closeOnEscape="true">
+
+            <h:form id="XRangoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:tabView id="XRangoTabView">
+
+                        <p:tab id="XRangoTab1" title="#{seriesBundle.TabHeaderPrefix} 1">
+                            <p:panelGrid columns="2" columnClasses="column" rendered="#{xRangoController.selected != null}">
+                                <h:outputText value="#{seriesBundle.ViewXRangoLabel_idRango}"/>
+                                <h:outputText value="#{xRangoController.selected.idRango}" title="#{seriesBundle.ViewXRangoTitle_idRango}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewXRangoLabel_descripcion}"/>
+                                <h:outputText value="#{xRangoController.selected.descripcion}" title="#{seriesBundle.ViewXRangoTitle_descripcion}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewXRangoLabel_detalle}"/>
+                                <h:outputText value="#{xRangoController.selected.detalle}" title="#{seriesBundle.ViewXRangoTitle_detalle}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewXRangoLabel_accPublico}"/>
+                                <h:outputText value="#{xRangoController.selected.accPublico}" title="#{seriesBundle.ViewXRangoTitle_accPublico}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewXRangoLabel_accGrupal}"/>
+                                <h:outputText value="#{xRangoController.selected.accGrupal}" title="#{seriesBundle.ViewXRangoTitle_accGrupal}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewXRangoLabel_accProtegido}"/>
+                                <h:outputText value="#{xRangoController.selected.accProtegido}" title="#{seriesBundle.ViewXRangoTitle_accProtegido}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewXRangoLabel_accPrivado}"/>
+                                <h:outputText value="#{xRangoController.selected.accPrivado}" title="#{seriesBundle.ViewXRangoTitle_accPrivado}"/>
+
+                                <h:outputText value="#{seriesBundle.ViewXRangoLabel_color}"/>
+                                <h:outputText value="#{xRangoController.selected.color}" title="#{seriesBundle.ViewXRangoTitle_color}"/>
+                            </p:panelGrid>
+                        </p:tab>
+                    </p:tabView>
+                    <p:commandButton value="#{seriesBundle.Close}" onclick="PF('XRangoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -18,14 +18,14 @@
                         <h:outputText value="#{seriesBundle.ViewGeneroLabel_idGenero}"/>
                         <h:outputText value="#{generoController.selected.idGenero}" title="#{seriesBundle.ViewGeneroTitle_idGenero}"/>
 
-                        <h:outputText value="#{seriesBundle.ViewGeneroLabel_idRango}"/>
-                        <h:outputText value="#{generoController.selected.idRango}" title="#{seriesBundle.ViewGeneroTitle_idRango}"/>
-
                         <h:outputText value="#{seriesBundle.ViewGeneroLabel_genero}"/>
                         <h:outputText value="#{generoController.selected.genero}" title="#{seriesBundle.ViewGeneroTitle_genero}"/>
 
                         <h:outputText value="#{seriesBundle.ViewGeneroLabel_descripcion}"/>
                         <h:outputText value="#{generoController.selected.descripcion}" title="#{seriesBundle.ViewGeneroTitle_descripcion}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewGeneroLabel_idRango}"/>
+                        <h:outputText value="#{generoController.selected.idRango.descripcion}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{seriesBundle.Close}" onclick="PF('GeneroViewDialog').hide()"/>
                 </h:panelGroup>

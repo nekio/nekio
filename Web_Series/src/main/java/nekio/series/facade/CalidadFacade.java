@@ -7,7 +7,7 @@ import nekio.series.dto.Calidad;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Stateless
 public class CalidadFacade extends AbstractFacade<Calidad> {

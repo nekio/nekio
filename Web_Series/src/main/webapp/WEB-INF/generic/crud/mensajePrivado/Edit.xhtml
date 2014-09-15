@@ -21,13 +21,6 @@
                             <p:tooltip for="mensajePrivadoPK_idMensajePrivado" value="#{mensajePrivadoController.getComponentMessages('mensajePrivadoPK_idMensajePrivado', seriesBundle.EditMensajePrivadoHelpText_mensajePrivadoPK_idMensajePrivado)}"/>
                         </h:panelGroup>
 
-
-                        <h:outputLabel value="#{seriesBundle.EditMensajePrivadoLabel_mensajePrivadoPK_idUsuario}" for="mensajePrivadoPK_idUsuario" />
-                        <h:panelGroup>
-                            <h:outputText id="mensajePrivadoPK_idUsuario" value="#{mensajePrivadoController.selected.mensajePrivadoPK.idUsuario}" />
-                            <p:tooltip for="mensajePrivadoPK_idUsuario" value="#{mensajePrivadoController.getComponentMessages('mensajePrivadoPK_idUsuario', seriesBundle.EditMensajePrivadoHelpText_mensajePrivadoPK_idUsuario)}"/>
-                        </h:panelGroup>
-
                         <p:outputLabel value="#{seriesBundle.EditMensajePrivadoLabel_idMpRelacionado}" for="idMpRelacionado" />
                         <h:panelGroup>
                             <p:inputText id="idMpRelacionado" value="#{mensajePrivadoController.selected.idMpRelacionado}" title="#{seriesBundle.EditMensajePrivadoTitle_idMpRelacionado}"/>
@@ -98,6 +91,13 @@
 
                             </p:selectOneMenu>
                             <p:tooltip for="idTipoMensaje" value="#{mensajePrivadoController.getComponentMessages('idTipoMensaje', seriesBundle.EditMensajePrivadoHelpText_idTipoMensaje)}"/>
+                        </h:panelGroup>
+
+
+                        <h:outputLabel value="#{seriesBundle.EditMensajePrivadoLabel_XUsuario}" for="XUsuario" />
+                        <h:panelGroup>
+                            <h:outputText id="XUsuario" value="#{mensajePrivadoController.selected.XUsuario}" />
+                            <p:tooltip for="XUsuario" value="#{mensajePrivadoController.getComponentMessages('XUsuario', seriesBundle.EditMensajePrivadoHelpText_XUsuario)}"/>
                         </h:panelGroup>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{mensajePrivadoController.save}" value="#{seriesBundle.Save}" update="display,:MensajePrivadoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('MensajePrivadoEditDialog'));">

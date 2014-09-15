@@ -13,18 +13,12 @@
             <h:form id="MensajePrivadoCreateForm">
 
                 <h:panelGroup id="display" rendered="#{mensajePrivadoController.selected != null}">
-                    <p:panelGrid columns="2" columnClasses="column" >
+                    <p:panelGrid columns="2" columnClasses="column">
 
                         <p:outputLabel value="#{seriesBundle.CreateMensajePrivadoLabel_mensajePrivadoPK_idMensajePrivado}" for="mensajePrivadoPK_idMensajePrivado" />
                         <h:panelGroup>
                             <p:inputText id="mensajePrivadoPK_idMensajePrivado" value="#{mensajePrivadoController.selected.mensajePrivadoPK.idMensajePrivado}" title="#{seriesBundle.CreateMensajePrivadoTitle_mensajePrivadoPK_idMensajePrivado}" required="true" requiredMessage="#{seriesBundle.CreateMensajePrivadoRequiredMessage_mensajePrivadoPK_idMensajePrivado}"/>
                             <p:tooltip for="mensajePrivadoPK_idMensajePrivado" value="#{mensajePrivadoController.getComponentMessages('mensajePrivadoPK_idMensajePrivado', seriesBundle.CreateMensajePrivadoHelpText_mensajePrivadoPK_idMensajePrivado)}"/>
-                        </h:panelGroup>
-
-                        <p:outputLabel value="#{seriesBundle.CreateMensajePrivadoLabel_mensajePrivadoPK_idUsuario}" for="mensajePrivadoPK_idUsuario" />
-                        <h:panelGroup>
-                            <p:inputText id="mensajePrivadoPK_idUsuario" value="#{mensajePrivadoController.selected.mensajePrivadoPK.idUsuario}" title="#{seriesBundle.CreateMensajePrivadoTitle_mensajePrivadoPK_idUsuario}" required="true" requiredMessage="#{seriesBundle.CreateMensajePrivadoRequiredMessage_mensajePrivadoPK_idUsuario}"/>
-                            <p:tooltip for="mensajePrivadoPK_idUsuario" value="#{mensajePrivadoController.getComponentMessages('mensajePrivadoPK_idUsuario', seriesBundle.CreateMensajePrivadoHelpText_mensajePrivadoPK_idUsuario)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{seriesBundle.CreateMensajePrivadoLabel_idMpRelacionado}" for="idMpRelacionado" />
@@ -35,7 +29,7 @@
 
                         <p:outputLabel value="#{seriesBundle.CreateMensajePrivadoLabel_mensaje}" for="mensaje" />
                         <h:panelGroup>
-                            <p:inputTextarea rows="9" cols="130" autoResize="false" id="mensaje" value="#{mensajePrivadoController.selected.mensaje}" title="#{seriesBundle.CreateMensajePrivadoTitle_mensaje}" required="true" requiredMessage="#{seriesBundle.CreateMensajePrivadoRequiredMessage_mensaje}"/>
+                            <p:inputTextarea rows="4" cols="30" id="mensaje" value="#{mensajePrivadoController.selected.mensaje}" title="#{seriesBundle.CreateMensajePrivadoTitle_mensaje}" required="true" requiredMessage="#{seriesBundle.CreateMensajePrivadoRequiredMessage_mensaje}"/>
                             <p:tooltip for="mensaje" value="#{mensajePrivadoController.getComponentMessages('mensaje', seriesBundle.CreateMensajePrivadoHelpText_mensaje)}"/>
                         </h:panelGroup>
 
@@ -97,6 +91,20 @@
 
                             </p:selectOneMenu>
                             <p:tooltip for="idTipoMensaje" value="#{mensajePrivadoController.getComponentMessages('idTipoMensaje', seriesBundle.CreateMensajePrivadoHelpText_idTipoMensaje)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateMensajePrivadoLabel_XUsuario}" for="XUsuario" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="XUsuario" value="#{mensajePrivadoController.selected.XUsuario}" required="true" requiredMessage="#{seriesBundle.CreateMensajePrivadoRequiredMessage_XUsuario}" converter="xUsuarioConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{xUsuarioController.items}"
+                                               var="XUsuarioItem"
+                                               itemValue="#{XUsuarioItem}"
+                                               itemLabel="#{XUsuarioItem.idUsuario.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="XUsuario" value="#{mensajePrivadoController.getComponentMessages('XUsuario', seriesBundle.CreateMensajePrivadoHelpText_XUsuario)}"/>
                         </h:panelGroup>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{mensajePrivadoController.saveNew}" value="#{seriesBundle.Save}" update="display,:MensajePrivadoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('MensajePrivadoCreateDialog'));">

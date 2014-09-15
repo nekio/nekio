@@ -17,10 +17,17 @@ public class MensajePrivadoController extends AbstractController<MensajePrivado>
     private WebController idWebController;
     @Inject
     private TipoMensajeController idTipoMensajeController;
+    @Inject
+    private XUsuarioController xUsuarioController;
 
     public MensajePrivadoController() {
         // Inform the Abstract parent controller of the concrete MensajePrivado?cap_first Entity
         super(MensajePrivado.class);
+    }
+
+    @Override
+    protected void setEmbeddableKeys() {
+        this.getSelected().getMensajePrivadoPK().setIdUsuario(this.getSelected().getXUsuario().getIdUsuario());
     }
 
     @Override
@@ -35,6 +42,7 @@ public class MensajePrivadoController extends AbstractController<MensajePrivado>
         idColaboradorController.setSelected(null);
         idWebController.setSelected(null);
         idTipoMensajeController.setSelected(null);
+        xUsuarioController.setSelected(null);
     }
 
     /**
@@ -72,6 +80,19 @@ public class MensajePrivadoController extends AbstractController<MensajePrivado>
     public void prepareIdTipoMensaje(ActionEvent event) {
         if (this.getSelected() != null && idTipoMensajeController.getSelected() == null) {
             idTipoMensajeController.setSelected(this.getSelected().getIdTipoMensaje());
+        }
+    }
+
+    /**
+     * Sets the "selected" attribute of the XUsuario controller in order to
+     * display its data in a dialog. This is reusing existing the existing View
+     * dialog.
+     *
+     * @param event Event object for the widget that triggered an action
+     */
+    public void prepareXUsuario(ActionEvent event) {
+        if (this.getSelected() != null && xUsuarioController.getSelected() == null) {
+            xUsuarioController.setSelected(this.getSelected().getXUsuario());
         }
     }
 }

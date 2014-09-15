@@ -19,7 +19,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Entity
 @Table(name = "mensaje_privado")
@@ -60,6 +60,9 @@ public class MensajePrivado implements Serializable {
     @JoinColumn(name = "id_tipo_mensaje", referencedColumnName = "id_tipo_mensaje")
     @ManyToOne(optional = false)
     private TipoMensaje idTipoMensaje;
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private XUsuario xUsuario;
 
     public MensajePrivado() {
     }
@@ -149,6 +152,14 @@ public class MensajePrivado implements Serializable {
 
     public void setIdTipoMensaje(TipoMensaje idTipoMensaje) {
         this.idTipoMensaje = idTipoMensaje;
+    }
+
+    public XUsuario getXUsuario() {
+        return xUsuario;
+    }
+
+    public void setXUsuario(XUsuario xUsuario) {
+        this.xUsuario = xUsuario;
     }
 
     @Override

@@ -18,12 +18,6 @@
                         <h:outputText value="#{seriesBundle.ViewWebLabel_idWeb}"/>
                         <h:outputText value="#{webController.selected.idWeb}" title="#{seriesBundle.ViewWebTitle_idWeb}"/>
 
-                        <h:outputText value="#{seriesBundle.ViewWebLabel_idImagen}"/>
-                        <h:outputText value="#{webController.selected.idImagen}" title="#{seriesBundle.ViewWebTitle_idImagen}"/>
-
-                        <h:outputText value="#{seriesBundle.ViewWebLabel_idRango}"/>
-                        <h:outputText value="#{webController.selected.idRango}" title="#{seriesBundle.ViewWebTitle_idRango}"/>
-
                         <h:outputText value="#{seriesBundle.ViewWebLabel_titulo}"/>
                         <h:outputText value="#{webController.selected.titulo}" title="#{seriesBundle.ViewWebTitle_titulo}"/>
 
@@ -38,6 +32,12 @@
 
                         <h:outputText value="#{seriesBundle.ViewWebLabel_descripcion}"/>
                         <h:outputText value="#{webController.selected.descripcion}" title="#{seriesBundle.ViewWebTitle_descripcion}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewWebLabel_idRango}"/>
+                        <h:outputText value="#{webController.selected.idRango.descripcion}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewWebLabel_idImagen}"/>
+                        <h:outputText value="#{webController.selected.idImagen.descripcion}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{seriesBundle.Close}" onclick="PF('WebViewDialog').hide()"/>
                 </h:panelGroup>

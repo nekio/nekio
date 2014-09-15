@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Entity
 @Table(name = "tipo_distintivo")

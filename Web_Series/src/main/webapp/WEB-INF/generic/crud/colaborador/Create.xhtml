@@ -15,18 +15,6 @@
                 <h:panelGroup id="display" rendered="#{colaboradorController.selected != null}">
                     <p:panelGrid columns="2" columnClasses="column">
 
-                        <p:outputLabel value="#{seriesBundle.CreateColaboradorLabel_idImagen}" for="idImagen" />
-                        <h:panelGroup>
-                            <p:inputText id="idImagen" value="#{colaboradorController.selected.idImagen}" title="#{seriesBundle.CreateColaboradorTitle_idImagen}"/>
-                            <p:tooltip for="idImagen" value="#{colaboradorController.getComponentMessages('idImagen', seriesBundle.CreateColaboradorHelpText_idImagen)}"/>
-                        </h:panelGroup>
-
-                        <p:outputLabel value="#{seriesBundle.CreateColaboradorLabel_idRango}" for="idRango" />
-                        <h:panelGroup>
-                            <p:inputText id="idRango" value="#{colaboradorController.selected.idRango}" title="#{seriesBundle.CreateColaboradorTitle_idRango}" required="true" requiredMessage="#{seriesBundle.CreateColaboradorRequiredMessage_idRango}"/>
-                            <p:tooltip for="idRango" value="#{colaboradorController.getComponentMessages('idRango', seriesBundle.CreateColaboradorHelpText_idRango)}"/>
-                        </h:panelGroup>
-
                         <p:outputLabel value="#{seriesBundle.CreateColaboradorLabel_descripcion}" for="descripcion" />
                         <h:panelGroup>
                             <p:inputText id="descripcion" value="#{colaboradorController.selected.descripcion}" title="#{seriesBundle.CreateColaboradorTitle_descripcion}" required="true" requiredMessage="#{seriesBundle.CreateColaboradorRequiredMessage_descripcion}" size="20" maxlength="20"/>
@@ -43,6 +31,34 @@
                         <h:panelGroup>
                             <p:inputText id="contacto" value="#{colaboradorController.selected.contacto}" title="#{seriesBundle.CreateColaboradorTitle_contacto}" size="100" maxlength="100"/>
                             <p:tooltip for="contacto" value="#{colaboradorController.getComponentMessages('contacto', seriesBundle.CreateColaboradorHelpText_contacto)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateColaboradorLabel_idRango}" for="idRango" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idRango" value="#{colaboradorController.selected.idRango}" required="true" requiredMessage="#{seriesBundle.CreateColaboradorRequiredMessage_idRango}" converter="xRangoConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{xRangoController.items}"
+                                               var="idRangoItem"
+                                               itemValue="#{idRangoItem}"
+                                               itemLabel="#{idRangoItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idRango" value="#{colaboradorController.getComponentMessages('idRango', seriesBundle.CreateColaboradorHelpText_idRango)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateColaboradorLabel_idImagen}" for="idImagen" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idImagen" value="#{colaboradorController.selected.idImagen}"  converter="xImagenConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{xImagenController.items}"
+                                               var="idImagenItem"
+                                               itemValue="#{idImagenItem}"
+                                               itemLabel="#{idImagenItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idImagen" value="#{colaboradorController.getComponentMessages('idImagen', seriesBundle.CreateColaboradorHelpText_idImagen)}"/>
                         </h:panelGroup>
 
                         <p:outputLabel value="#{seriesBundle.CreateColaboradorLabel_idPais}" for="idPais" />

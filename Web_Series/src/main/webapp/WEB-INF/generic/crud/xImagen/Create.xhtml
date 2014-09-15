@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="XImagenCreateDlg" widgetVar="XImagenCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{seriesBundle.CreateXImagenTitle}" closeOnEscape="true">
+
+            <h:form id="XImagenCreateForm">
+
+                <h:panelGroup id="display" rendered="#{xImagenController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{seriesBundle.CreateXImagenLabel_nombre}" for="nombre" />
+                        <h:panelGroup>
+                            <p:inputText id="nombre" value="#{xImagenController.selected.nombre}" title="#{seriesBundle.CreateXImagenTitle_nombre}" size="30" maxlength="30"/>
+                            <p:tooltip for="nombre" value="#{xImagenController.getComponentMessages('nombre', seriesBundle.CreateXImagenHelpText_nombre)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateXImagenLabel_tipo}" for="tipo" />
+                        <h:panelGroup>
+                            <p:inputText id="tipo" value="#{xImagenController.selected.tipo}" title="#{seriesBundle.CreateXImagenTitle_tipo}" required="true" requiredMessage="#{seriesBundle.CreateXImagenRequiredMessage_tipo}" size="1" maxlength="1"/>
+                            <p:tooltip for="tipo" value="#{xImagenController.getComponentMessages('tipo', seriesBundle.CreateXImagenHelpText_tipo)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateXImagenLabel_fechaSubida}" for="fechaSubida" />
+                        <h:panelGroup>
+                            <p:calendar id="fechaSubida" pattern="MM/dd/yyyy HH:mm:ss" value="#{xImagenController.selected.fechaSubida}" title="#{seriesBundle.CreateXImagenTitle_fechaSubida}" required="true" requiredMessage="#{seriesBundle.CreateXImagenRequiredMessage_fechaSubida}" showOn="button"/>
+                            <p:tooltip for="fechaSubida" value="#{xImagenController.getComponentMessages('fechaSubida', seriesBundle.CreateXImagenHelpText_fechaSubida)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateXImagenLabel_descripcion}" for="descripcion" />
+                        <h:panelGroup>
+                            <p:inputText id="descripcion" value="#{xImagenController.selected.descripcion}" title="#{seriesBundle.CreateXImagenTitle_descripcion}" size="80" maxlength="80"/>
+                            <p:tooltip for="descripcion" value="#{xImagenController.getComponentMessages('descripcion', seriesBundle.CreateXImagenHelpText_descripcion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateXImagenLabel_idCarpeta}" for="idCarpeta" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idCarpeta" value="#{xImagenController.selected.idCarpeta}"  converter="xCarpetaConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{xCarpetaController.items}"
+                                               var="idCarpetaItem"
+                                               itemValue="#{idCarpetaItem}"
+                                               itemLabel="#{idCarpetaItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idCarpeta" value="#{xImagenController.getComponentMessages('idCarpeta', seriesBundle.CreateXImagenHelpText_idCarpeta)}"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{xImagenController.saveNew}" value="#{seriesBundle.Save}" update="display,:XImagenListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('XImagenCreateDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('XImagenCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

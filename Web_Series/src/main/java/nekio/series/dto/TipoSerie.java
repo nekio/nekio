@@ -9,23 +9,23 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Entity
 @Table(name = "tipo_serie")
 @NamedQueries({
     @NamedQuery(name = "TipoSerie.findAll", query = "SELECT t FROM TipoSerie t"),
     @NamedQuery(name = "TipoSerie.findByIdTipoSerie", query = "SELECT t FROM TipoSerie t WHERE t.idTipoSerie = :idTipoSerie"),
-    @NamedQuery(name = "TipoSerie.findByIdRango", query = "SELECT t FROM TipoSerie t WHERE t.idRango = :idRango"),
     @NamedQuery(name = "TipoSerie.findByDescripcion", query = "SELECT t FROM TipoSerie t WHERE t.descripcion = :descripcion")})
 public class TipoSerie implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -34,12 +34,11 @@ public class TipoSerie implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_tipo_serie")
     private Integer idTipoSerie;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id_rango")
-    private int idRango;
     @Size(max = 20)
     private String descripcion;
+    @JoinColumn(name = "id_rango", referencedColumnName = "id_rango")
+    @ManyToOne(optional = false)
+    private XRango idRango;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTipoSerie")
     private Collection<Serie> serieCollection;
 
@@ -50,11 +49,6 @@ public class TipoSerie implements Serializable {
         this.idTipoSerie = idTipoSerie;
     }
 
-    public TipoSerie(Integer idTipoSerie, int idRango) {
-        this.idTipoSerie = idTipoSerie;
-        this.idRango = idRango;
-    }
-
     public Integer getIdTipoSerie() {
         return idTipoSerie;
     }
@@ -63,20 +57,20 @@ public class TipoSerie implements Serializable {
         this.idTipoSerie = idTipoSerie;
     }
 
-    public int getIdRango() {
-        return idRango;
-    }
-
-    public void setIdRango(int idRango) {
-        this.idRango = idRango;
-    }
-
     public String getDescripcion() {
         return descripcion;
     }
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public XRango getIdRango() {
+        return idRango;
+    }
+
+    public void setIdRango(XRango idRango) {
+        this.idRango = idRango;
     }
 
     public Collection<Serie> getSerieCollection() {

@@ -19,6 +19,7 @@
                 <p:menuitem value="#{seriesBundle.GeneroMenuItem_serieCollection1}" icon="ui-icon-search"  action="#{generoController.navigateSerieCollection1}" disabled="#{empty generoController.selected.serieCollection1}" ajax="false"/>  
                 <p:menuitem value="#{seriesBundle.GeneroMenuItem_serieCollection2}" icon="ui-icon-search"  action="#{generoController.navigateSerieCollection2}" disabled="#{empty generoController.selected.serieCollection2}" ajax="false"/>  
                 <p:menuitem value="#{seriesBundle.GeneroMenuItem_serieCollection3}" icon="ui-icon-search"  action="#{generoController.navigateSerieCollection3}" disabled="#{empty generoController.selected.serieCollection3}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.GeneroMenuItem_idRango}" icon="ui-icon-search"  actionListener="#{generoController.prepareIdRango}" update=":XRangoViewForm" oncomplete="PF('XRangoViewDialog').show()" disabled="#{empty generoController.selected.idRango}"/>  
             </p:contextMenu>
             <p:dataTable id="datalist"
                          value="#{generoController.items}"
@@ -26,7 +27,7 @@
                          rowKey="#{item.idGenero}"
                          paginator="true"
                          rows="25"
-                         rowsPerPageTemplate="10,25,50,75,100"
+                         rowsPerPageTemplate="10,25,50,100"
                          selectionMode="single"
                          selection="#{generoController.selected}">
 
@@ -39,14 +40,6 @@
                         <h:outputText value="#{seriesBundle.ListGeneroTitle_idGenero}"/>
                     </f:facet>
                     <h:outputText value="#{item.idGenero}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.idRango}" filterBy="#{item.idRango}">
-                    <f:facet name="header">
-                        <h:outputText value="#{seriesBundle.ListGeneroTitle_idRango}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idRango}"/>
                 </p:column>
 
 
@@ -63,6 +56,14 @@
                         <h:outputText value="#{seriesBundle.ListGeneroTitle_descripcion}"/>
                     </f:facet>
                     <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idRango.descripcion}" filterBy="#{item.idRango.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListGeneroTitle_idRango}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idRango.descripcion}"/>
                 </p:column>
 
 

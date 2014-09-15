@@ -17,18 +17,15 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import nekio.tools.dto.Imagen;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Serie.findAll", query = "SELECT s FROM Serie s"),
     @NamedQuery(name = "Serie.findByIdSerie", query = "SELECT s FROM Serie s WHERE s.idSerie = :idSerie"),
-    @NamedQuery(name = "Serie.findByIdImagen", query = "SELECT s FROM Serie s WHERE s.idImagen = :idImagen"),
-    @NamedQuery(name = "Serie.findByIdRango", query = "SELECT s FROM Serie s WHERE s.idRango = :idRango"),
     @NamedQuery(name = "Serie.findByTitulo", query = "SELECT s FROM Serie s WHERE s.titulo = :titulo"),
     @NamedQuery(name = "Serie.findByTituloAlternativo", query = "SELECT s FROM Serie s WHERE s.tituloAlternativo = :tituloAlternativo"),
     @NamedQuery(name = "Serie.findByTituloAlternativo2", query = "SELECT s FROM Serie s WHERE s.tituloAlternativo2 = :tituloAlternativo2"),
@@ -38,123 +35,88 @@ import nekio.tools.dto.Imagen;
     @NamedQuery(name = "Serie.findByEpisodios", query = "SELECT s FROM Serie s WHERE s.episodios = :episodios")})
 public class Serie implements Serializable {
     private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_serie")
     private Integer idSerie;
-    
-    @Column(name = "id_imagen")
-    private Integer idImagen;
-    
-//    @JoinColumn(name = "id_imagen", referencedColumnName = "id_imagen")
-//    @ManyToOne
-//    private Imagen idImagen;
-//    
-//    @JoinColumn(name = "id_captura_1", referencedColumnName = "id_imagen")
-//    @ManyToOne
-//    private Imagen idCaptura1;
-//    
-//    @JoinColumn(name = "id_captura_2", referencedColumnName = "id_imagen")
-//    @ManyToOne
-//    private Imagen idCaptura2;
-//    
-//    @JoinColumn(name = "id_captura_3", referencedColumnName = "id_imagen")
-//    @ManyToOne
-//    private Imagen idCaptura3;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id_rango")
-    private int idRango;
-    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
     private String titulo;
-    
     @Size(max = 80)
     @Column(name = "titulo_alternativo")
     private String tituloAlternativo;
-    
     @Size(max = 80)
     @Column(name = "titulo_alternativo2")
     private String tituloAlternativo2;
-    
     @Column(name = "anio_inicio")
     private Integer anioInicio;
-    
     @Column(name = "anio_fin")
     private Integer anioFin;
-    
     private Integer temporadas;
-    
     private Integer episodios;
-    
     @ManyToMany(mappedBy = "serieCollection")
     private Collection<Televisora> televisoraCollection;
-    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSerie")
     private Collection<Proyecto> proyectoCollection;
-    
     @OneToMany(mappedBy = "idSerie")
     private Collection<Password> passwordCollection;
-    
     @OneToMany(mappedBy = "idSerie")
     private Collection<Enlace> enlaceCollection;
-    
-    @JoinColumn(name = "id_clasificacion", referencedColumnName = "id_clasificacion")
-    @ManyToOne(optional = false)
-    private Clasificacion idClasificacion;
-    
-    @JoinColumn(name = "id_duracion", referencedColumnName = "id_duracion")
-    @ManyToOne(optional = false)
-    private Duracion idDuracion;
-    
-    @JoinColumn(name = "id_pais", referencedColumnName = "id_pais")
-    @ManyToOne(optional = false)
-    private Pais idPais;
-    
-    @JoinColumn(name = "id_idioma_origen", referencedColumnName = "id_idioma")
-    @ManyToOne(optional = false)
-    private Idioma idIdiomaOrigen;
-    
-    @JoinColumn(name = "id_tipo_serie", referencedColumnName = "id_tipo_serie")
-    @ManyToOne(optional = false)
-    private TipoSerie idTipoSerie;
-    
-    @JoinColumn(name = "id_emisora", referencedColumnName = "id_emisora")
-    @ManyToOne(optional = false)
-    private Emisora idEmisora;
-    
-    @JoinColumn(name = "id_distintivo", referencedColumnName = "id_distintivo")
-    @ManyToOne
-    private Distintivo idDistintivo;
-    
-    @JoinColumn(name = "id_genero_1", referencedColumnName = "id_genero")
-    @ManyToOne(optional = false)
-    private Genero idGenero1;
-    
     @JoinColumn(name = "id_genero_2", referencedColumnName = "id_genero")
     @ManyToOne
     private Genero idGenero2;
-    
-    @JoinColumn(name = "id_genero_3", referencedColumnName = "id_genero")
-    @ManyToOne
-    private Genero idGenero3;
-    
-    @JoinColumn(name = "id_genero_4", referencedColumnName = "id_genero")
-    @ManyToOne
-    private Genero idGenero4;
-    
+    @JoinColumn(name = "id_genero_1", referencedColumnName = "id_genero")
+    @ManyToOne(optional = false)
+    private Genero idGenero1;
+    @JoinColumn(name = "id_clasificacion", referencedColumnName = "id_clasificacion")
+    @ManyToOne(optional = false)
+    private Clasificacion idClasificacion;
+    @JoinColumn(name = "id_duracion", referencedColumnName = "id_duracion")
+    @ManyToOne(optional = false)
+    private Duracion idDuracion;
+    @JoinColumn(name = "id_pais", referencedColumnName = "id_pais")
+    @ManyToOne(optional = false)
+    private Pais idPais;
     @OneToMany(mappedBy = "idSerieOrigen")
     private Collection<Serie> serieCollection;
-    
     @JoinColumn(name = "id_serie_origen", referencedColumnName = "id_serie")
     @ManyToOne
     private Serie idSerieOrigen;
-    
+    @JoinColumn(name = "id_genero_3", referencedColumnName = "id_genero")
+    @ManyToOne
+    private Genero idGenero3;
+    @JoinColumn(name = "id_genero_4", referencedColumnName = "id_genero")
+    @ManyToOne
+    private Genero idGenero4;
+    @JoinColumn(name = "id_imagen", referencedColumnName = "id_imagen")
+    @ManyToOne
+    private XImagen idImagen;
+    @JoinColumn(name = "id_captura_1", referencedColumnName = "id_imagen")
+    @ManyToOne
+    private XImagen idCaptura1;
+    @JoinColumn(name = "id_captura_2", referencedColumnName = "id_imagen")
+    @ManyToOne
+    private XImagen idCaptura2;
+    @JoinColumn(name = "id_captura_3", referencedColumnName = "id_imagen")
+    @ManyToOne
+    private XImagen idCaptura3;
+    @JoinColumn(name = "id_distintivo", referencedColumnName = "id_distintivo")
+    @ManyToOne
+    private Distintivo idDistintivo;
+    @JoinColumn(name = "id_rango", referencedColumnName = "id_rango")
+    @ManyToOne(optional = false)
+    private XRango idRango;
+    @JoinColumn(name = "id_emisora", referencedColumnName = "id_emisora")
+    @ManyToOne(optional = false)
+    private Emisora idEmisora;
+    @JoinColumn(name = "id_tipo_serie", referencedColumnName = "id_tipo_serie")
+    @ManyToOne(optional = false)
+    private TipoSerie idTipoSerie;
+    @JoinColumn(name = "id_idioma_origen", referencedColumnName = "id_idioma")
+    @ManyToOne(optional = false)
+    private Idioma idIdiomaOrigen;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSerie")
     private Collection<Episodio> episodioCollection;
 
@@ -165,9 +127,8 @@ public class Serie implements Serializable {
         this.idSerie = idSerie;
     }
 
-    public Serie(Integer idSerie, int idRango, String titulo) {
+    public Serie(Integer idSerie, String titulo) {
         this.idSerie = idSerie;
-        this.idRango = idRango;
         this.titulo = titulo;
     }
 
@@ -177,54 +138,6 @@ public class Serie implements Serializable {
 
     public void setIdSerie(Integer idSerie) {
         this.idSerie = idSerie;
-    }
-    
-    public Integer getIdImagen() {
-        return idImagen;
-    }
-
-    public void setIdImagen(Integer idImagen) {
-        this.idImagen = idImagen;
-    }
-
-//    public Imagen getIdImagen() {
-//        return idImagen;
-//    }
-//
-//    public void setIdImagen(Imagen idImagen) {
-//        this.idImagen = idImagen;
-//    }
-//    
-//    public Imagen getIdCaptura1() {
-//        return idCaptura1;
-//    }
-//
-//    public void setIdCaptura1(Imagen idCaptura1) {
-//        this.idCaptura1 = idCaptura1;
-//    }
-//
-//    public Imagen getIdCaptura2() {
-//        return idCaptura2;
-//    }
-//
-//    public void setIdCaptura2(Imagen idCaptura2) {
-//        this.idCaptura2 = idCaptura2;
-//    }
-//
-//    public Imagen getIdCaptura3() {
-//        return idCaptura3;
-//    }
-//
-//    public void setIdCaptura3(Imagen idCaptura3) {
-//        this.idCaptura3 = idCaptura3;
-//    }
-
-    public int getIdRango() {
-        return idRango;
-    }
-
-    public void setIdRango(int idRango) {
-        this.idRango = idRango;
     }
 
     public String getTitulo() {
@@ -355,54 +268,6 @@ public class Serie implements Serializable {
         this.idPais = idPais;
     }
 
-    public Idioma getIdIdiomaOrigen() {
-        return idIdiomaOrigen;
-    }
-
-    public void setIdIdiomaOrigen(Idioma idIdiomaOrigen) {
-        this.idIdiomaOrigen = idIdiomaOrigen;
-    }
-
-    public TipoSerie getIdTipoSerie() {
-        return idTipoSerie;
-    }
-
-    public void setIdTipoSerie(TipoSerie idTipoSerie) {
-        this.idTipoSerie = idTipoSerie;
-    }
-
-    public Emisora getIdEmisora() {
-        return idEmisora;
-    }
-
-    public void setIdEmisora(Emisora idEmisora) {
-        this.idEmisora = idEmisora;
-    }
-
-    public Distintivo getIdDistintivo() {
-        return idDistintivo;
-    }
-
-    public void setIdDistintivo(Distintivo idDistintivo) {
-        this.idDistintivo = idDistintivo;
-    }
-
-    public Genero getIdGenero4() {
-        return idGenero4;
-    }
-
-    public void setIdGenero4(Genero idGenero4) {
-        this.idGenero4 = idGenero4;
-    }
-
-    public Genero getIdGenero3() {
-        return idGenero3;
-    }
-
-    public void setIdGenero3(Genero idGenero3) {
-        this.idGenero3 = idGenero3;
-    }
-
     public Collection<Serie> getSerieCollection() {
         return serieCollection;
     }
@@ -417,6 +282,94 @@ public class Serie implements Serializable {
 
     public void setIdSerieOrigen(Serie idSerieOrigen) {
         this.idSerieOrigen = idSerieOrigen;
+    }
+
+    public Genero getIdGenero3() {
+        return idGenero3;
+    }
+
+    public void setIdGenero3(Genero idGenero3) {
+        this.idGenero3 = idGenero3;
+    }
+
+    public Genero getIdGenero4() {
+        return idGenero4;
+    }
+
+    public void setIdGenero4(Genero idGenero4) {
+        this.idGenero4 = idGenero4;
+    }
+
+    public XImagen getIdImagen() {
+        return idImagen;
+    }
+
+    public void setIdImagen(XImagen idImagen) {
+        this.idImagen = idImagen;
+    }
+
+    public XImagen getIdCaptura1() {
+        return idCaptura1;
+    }
+
+    public void setIdCaptura1(XImagen idCaptura1) {
+        this.idCaptura1 = idCaptura1;
+    }
+
+    public XImagen getIdCaptura2() {
+        return idCaptura2;
+    }
+
+    public void setIdCaptura2(XImagen idCaptura2) {
+        this.idCaptura2 = idCaptura2;
+    }
+
+    public XImagen getIdCaptura3() {
+        return idCaptura3;
+    }
+
+    public void setIdCaptura3(XImagen idCaptura3) {
+        this.idCaptura3 = idCaptura3;
+    }
+
+    public Distintivo getIdDistintivo() {
+        return idDistintivo;
+    }
+
+    public void setIdDistintivo(Distintivo idDistintivo) {
+        this.idDistintivo = idDistintivo;
+    }
+
+    public XRango getIdRango() {
+        return idRango;
+    }
+
+    public void setIdRango(XRango idRango) {
+        this.idRango = idRango;
+    }
+
+    public Emisora getIdEmisora() {
+        return idEmisora;
+    }
+
+    public void setIdEmisora(Emisora idEmisora) {
+        this.idEmisora = idEmisora;
+    }
+
+    public TipoSerie getIdTipoSerie() {
+        return idTipoSerie;
+    }
+
+    public void setIdTipoSerie(TipoSerie idTipoSerie) {
+        this.idTipoSerie = idTipoSerie;
+    }
+
+    public Idioma getIdIdiomaOrigen() {
+        return idIdiomaOrigen;
+    }
+
+    public void setIdIdiomaOrigen(Idioma idIdiomaOrigen) {
+        this.idIdiomaOrigen = idIdiomaOrigen;
     }
 
     public Collection<Episodio> getEpisodioCollection() {

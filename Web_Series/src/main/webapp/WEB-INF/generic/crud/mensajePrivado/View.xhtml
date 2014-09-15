@@ -18,9 +18,6 @@
                         <h:outputText value="#{seriesBundle.ViewMensajePrivadoLabel_mensajePrivadoPK_idMensajePrivado}"/>
                         <h:outputText value="#{mensajePrivadoController.selected.mensajePrivadoPK.idMensajePrivado}" title="#{seriesBundle.ViewMensajePrivadoTitle_mensajePrivadoPK_idMensajePrivado}"/>
 
-                        <h:outputText value="#{seriesBundle.ViewMensajePrivadoLabel_mensajePrivadoPK_idUsuario}"/>
-                        <h:outputText value="#{mensajePrivadoController.selected.mensajePrivadoPK.idUsuario}" title="#{seriesBundle.ViewMensajePrivadoTitle_mensajePrivadoPK_idUsuario}"/>
-
                         <h:outputText value="#{seriesBundle.ViewMensajePrivadoLabel_idMpRelacionado}"/>
                         <h:outputText value="#{mensajePrivadoController.selected.idMpRelacionado}" title="#{seriesBundle.ViewMensajePrivadoTitle_idMpRelacionado}"/>
 
@@ -46,6 +43,9 @@
 
                         <h:outputText value="#{seriesBundle.ViewMensajePrivadoLabel_idTipoMensaje}"/>
                         <h:outputText value="#{mensajePrivadoController.selected.idTipoMensaje.descripcion}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewMensajePrivadoLabel_XUsuario}"/>
+                        <h:outputText value="#{mensajePrivadoController.selected.XUsuario.idUsuario}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{seriesBundle.Close}" onclick="PF('MensajePrivadoViewDialog').hide()"/>
                 </h:panelGroup>

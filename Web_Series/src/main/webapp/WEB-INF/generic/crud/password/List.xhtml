@@ -15,6 +15,7 @@
                 <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('PasswordListForm:editButton').click();" icon="ui-icon-pencil"/>
                 <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('PasswordListForm:deleteButton').click();" icon="ui-icon-trash"/>
                 <p:separator/>
+                <p:menuitem value="#{seriesBundle.PasswordMenuItem_idRango}" icon="ui-icon-search"  actionListener="#{passwordController.prepareIdRango}" update=":XRangoViewForm" oncomplete="PF('XRangoViewDialog').show()" disabled="#{empty passwordController.selected.idRango}"/>  
                 <p:menuitem value="#{seriesBundle.PasswordMenuItem_idProyecto}" icon="ui-icon-search"  actionListener="#{passwordController.prepareIdProyecto}" update=":ProyectoViewForm" oncomplete="PF('ProyectoViewDialog').show()" disabled="#{empty passwordController.selected.idProyecto}"/>  
                 <p:menuitem value="#{seriesBundle.PasswordMenuItem_idSerie}" icon="ui-icon-search"  actionListener="#{passwordController.prepareIdSerie}" update=":SerieViewForm" oncomplete="PF('SerieViewDialog').show()" disabled="#{empty passwordController.selected.idSerie}"/>  
                 <p:menuitem value="#{seriesBundle.PasswordMenuItem_idEpisodio}" icon="ui-icon-search"  actionListener="#{passwordController.prepareIdEpisodio}" update=":EpisodioViewForm" oncomplete="PF('EpisodioViewDialog').show()" disabled="#{empty passwordController.selected.idEpisodio}"/>  
@@ -25,7 +26,7 @@
                          rowKey="#{item.idPassword}"
                          paginator="true"
                          rows="25"
-                         rowsPerPageTemplate="10,25,50,75,100"
+                         rowsPerPageTemplate="10,25,50,100"
                          selectionMode="single"
                          selection="#{passwordController.selected}">
 
@@ -38,14 +39,6 @@
                         <h:outputText value="#{seriesBundle.ListPasswordTitle_idPassword}"/>
                     </f:facet>
                     <h:outputText value="#{item.idPassword}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.idRango}" filterBy="#{item.idRango}">
-                    <f:facet name="header">
-                        <h:outputText value="#{seriesBundle.ListPasswordTitle_idRango}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idRango}"/>
                 </p:column>
 
 
@@ -62,6 +55,14 @@
                         <h:outputText value="#{seriesBundle.ListPasswordTitle_comentarios}"/>
                     </f:facet>
                     <h:outputText value="#{item.comentarios}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idRango.descripcion}" filterBy="#{item.idRango.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListPasswordTitle_idRango}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idRango.descripcion}"/>
                 </p:column>
 
 

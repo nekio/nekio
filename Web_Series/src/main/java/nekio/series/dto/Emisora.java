@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -17,13 +19,12 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Emisora.findAll", query = "SELECT e FROM Emisora e"),
     @NamedQuery(name = "Emisora.findByIdEmisora", query = "SELECT e FROM Emisora e WHERE e.idEmisora = :idEmisora"),
-    @NamedQuery(name = "Emisora.findByIdImagen", query = "SELECT e FROM Emisora e WHERE e.idImagen = :idImagen"),
     @NamedQuery(name = "Emisora.findBySiglasEmisora", query = "SELECT e FROM Emisora e WHERE e.siglasEmisora = :siglasEmisora"),
     @NamedQuery(name = "Emisora.findByNombreEmisora", query = "SELECT e FROM Emisora e WHERE e.nombreEmisora = :nombreEmisora")})
 public class Emisora implements Serializable {
@@ -33,8 +34,6 @@ public class Emisora implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_emisora")
     private Integer idEmisora;
-    @Column(name = "id_imagen")
-    private Integer idImagen;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
@@ -45,6 +44,9 @@ public class Emisora implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "nombre_emisora")
     private String nombreEmisora;
+    @JoinColumn(name = "id_imagen", referencedColumnName = "id_imagen")
+    @ManyToOne
+    private XImagen idImagen;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmisora")
     private Collection<Serie> serieCollection;
 
@@ -69,14 +71,6 @@ public class Emisora implements Serializable {
         this.idEmisora = idEmisora;
     }
 
-    public Integer getIdImagen() {
-        return idImagen;
-    }
-
-    public void setIdImagen(Integer idImagen) {
-        this.idImagen = idImagen;
-    }
-
     public String getSiglasEmisora() {
         return siglasEmisora;
     }
@@ -91,6 +85,14 @@ public class Emisora implements Serializable {
 
     public void setNombreEmisora(String nombreEmisora) {
         this.nombreEmisora = nombreEmisora;
+    }
+
+    public XImagen getIdImagen() {
+        return idImagen;
+    }
+
+    public void setIdImagen(XImagen idImagen) {
+        this.idImagen = idImagen;
     }
 
     public Collection<Serie> getSerieCollection() {

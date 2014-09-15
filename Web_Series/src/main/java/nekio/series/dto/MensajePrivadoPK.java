@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Embeddable
 public class MensajePrivadoPK implements Serializable {

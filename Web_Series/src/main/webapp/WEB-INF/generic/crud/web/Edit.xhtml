@@ -21,18 +21,6 @@
                             <p:tooltip for="idWeb" value="#{webController.getComponentMessages('idWeb', seriesBundle.EditWebHelpText_idWeb)}"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{seriesBundle.EditWebLabel_idImagen}" for="idImagen" />
-                        <h:panelGroup>
-                            <p:inputText id="idImagen" value="#{webController.selected.idImagen}" title="#{seriesBundle.EditWebTitle_idImagen}"/>
-                            <p:tooltip for="idImagen" value="#{webController.getComponentMessages('idImagen', seriesBundle.EditWebHelpText_idImagen)}"/>
-                        </h:panelGroup>
-
-                        <p:outputLabel value="#{seriesBundle.EditWebLabel_idRango}" for="idRango" />
-                        <h:panelGroup>
-                            <p:inputText id="idRango" value="#{webController.selected.idRango}" title="#{seriesBundle.EditWebTitle_idRango}" required="true" requiredMessage="#{seriesBundle.EditWebRequiredMessage_idRango}"/>
-                            <p:tooltip for="idRango" value="#{webController.getComponentMessages('idRango', seriesBundle.EditWebHelpText_idRango)}"/>
-                        </h:panelGroup>
-
                         <p:outputLabel value="#{seriesBundle.EditWebLabel_titulo}" for="titulo" />
                         <h:panelGroup>
                             <p:inputText id="titulo" value="#{webController.selected.titulo}" title="#{seriesBundle.EditWebTitle_titulo}" size="50" maxlength="50"/>
@@ -61,6 +49,34 @@
                         <h:panelGroup>
                             <p:inputText id="descripcion" value="#{webController.selected.descripcion}" title="#{seriesBundle.EditWebTitle_descripcion}" size="100" maxlength="100"/>
                             <p:tooltip for="descripcion" value="#{webController.getComponentMessages('descripcion', seriesBundle.EditWebHelpText_descripcion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditWebLabel_idRango}" for="idRango" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idRango" value="#{webController.selected.idRango}" required="true" requiredMessage="#{seriesBundle.EditWebRequiredMessage_idRango}" converter="xRangoConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{xRangoController.items}"
+                                               var="idRangoItem"
+                                               itemValue="#{idRangoItem}"
+                                               itemLabel="#{idRangoItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idRango" value="#{webController.getComponentMessages('idRango', seriesBundle.EditWebHelpText_idRango)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.EditWebLabel_idImagen}" for="idImagen" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idImagen" value="#{webController.selected.idImagen}"  converter="xImagenConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{xImagenController.items}"
+                                               var="idImagenItem"
+                                               itemValue="#{idImagenItem}"
+                                               itemLabel="#{idImagenItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idImagen" value="#{webController.getComponentMessages('idImagen', seriesBundle.EditWebHelpText_idImagen)}"/>
                         </h:panelGroup>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{webController.save}" value="#{seriesBundle.Save}" update="display,:WebListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('WebEditDialog'));">

@@ -12,6 +12,8 @@ import javax.inject.Inject;
 public class ProyectoController extends AbstractController<Proyecto> {
 
     @Inject
+    private XRangoController idRangoController;
+    @Inject
     private PesoController idPesoController;
     @Inject
     private CalidadController idCalidadController;
@@ -45,6 +47,7 @@ public class ProyectoController extends AbstractController<Proyecto> {
      * Resets the "selected" attribute of any parent Entity controllers.
      */
     public void resetParents() {
+        idRangoController.setSelected(null);
         idPesoController.setSelected(null);
         idCalidadController.setSelected(null);
         idFormatoController.setSelected(null);
@@ -52,6 +55,19 @@ public class ProyectoController extends AbstractController<Proyecto> {
         idWebController.setSelected(null);
         idSerieController.setSelected(null);
         idEstadoProyectoController.setSelected(null);
+    }
+
+    /**
+     * Sets the "selected" attribute of the XRango controller in order to
+     * display its data in a dialog. This is reusing existing the existing View
+     * dialog.
+     *
+     * @param event Event object for the widget that triggered an action
+     */
+    public void prepareIdRango(ActionEvent event) {
+        if (this.getSelected() != null && idRangoController.getSelected() == null) {
+            idRangoController.setSelected(this.getSelected().getIdRango());
+        }
     }
 
     /**

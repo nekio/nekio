@@ -17,6 +17,8 @@
                 <p:separator/>
                 <p:menuitem value="#{seriesBundle.WebMenuItem_proyectoCollection}" icon="ui-icon-search"  action="#{webController.navigateProyectoCollection}" disabled="#{empty webController.selected.proyectoCollection}" ajax="false"/>  
                 <p:menuitem value="#{seriesBundle.WebMenuItem_mensajePrivadoCollection}" icon="ui-icon-search"  action="#{webController.navigateMensajePrivadoCollection}" disabled="#{empty webController.selected.mensajePrivadoCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.WebMenuItem_idRango}" icon="ui-icon-search"  actionListener="#{webController.prepareIdRango}" update=":XRangoViewForm" oncomplete="PF('XRangoViewDialog').show()" disabled="#{empty webController.selected.idRango}"/>  
+                <p:menuitem value="#{seriesBundle.WebMenuItem_idImagen}" icon="ui-icon-search"  actionListener="#{webController.prepareIdImagen}" update=":XImagenViewForm" oncomplete="PF('XImagenViewDialog').show()" disabled="#{empty webController.selected.idImagen}"/>  
             </p:contextMenu>
             <p:dataTable id="datalist"
                          value="#{webController.items}"
@@ -24,7 +26,7 @@
                          rowKey="#{item.idWeb}"
                          paginator="true"
                          rows="25"
-                         rowsPerPageTemplate="10,25,50,75,100"
+                         rowsPerPageTemplate="10,25,50,100"
                          selectionMode="single"
                          selection="#{webController.selected}">
 
@@ -37,22 +39,6 @@
                         <h:outputText value="#{seriesBundle.ListWebTitle_idWeb}"/>
                     </f:facet>
                     <h:outputText value="#{item.idWeb}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.idImagen}" filterBy="#{item.idImagen}">
-                    <f:facet name="header">
-                        <h:outputText value="#{seriesBundle.ListWebTitle_idImagen}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idImagen}"/>
-                </p:column>
-
-
-                <p:column sortBy="#{item.idRango}" filterBy="#{item.idRango}">
-                    <f:facet name="header">
-                        <h:outputText value="#{seriesBundle.ListWebTitle_idRango}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idRango}"/>
                 </p:column>
 
 
@@ -93,6 +79,22 @@
                         <h:outputText value="#{seriesBundle.ListWebTitle_descripcion}"/>
                     </f:facet>
                     <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idRango.descripcion}" filterBy="#{item.idRango.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListWebTitle_idRango}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idRango.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idImagen.descripcion}" filterBy="#{item.idImagen.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListWebTitle_idImagen}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idImagen.descripcion}"/>
                 </p:column>
 
 

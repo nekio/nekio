@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="XBitacoraListForm">
+
+        <p:panel header="#{seriesBundle.ListXBitacoraTitle}">
+            <p:contextMenu id="XBitacoraDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{seriesBundle.Create}" onclick="document.getElementById('XBitacoraListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{seriesBundle.View}" onclick="document.getElementById('XBitacoraListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('XBitacoraListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('XBitacoraListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{seriesBundle.XBitacoraMenuItem_idUsuario}" icon="ui-icon-search"  actionListener="#{xBitacoraController.prepareIdUsuario}" update=":XUsuarioViewForm" oncomplete="PF('XUsuarioViewDialog').show()" disabled="#{empty xBitacoraController.selected.idUsuario}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{xBitacoraController.items}"
+                         var="item"
+                         rowKey="#{item.idBitacora}"
+                         paginator="true"
+                         rows="25"
+                         rowsPerPageTemplate="10,25,50,100"
+                         selectionMode="single"
+                         selection="#{xBitacoraController.selected}">
+
+                <p:ajax event="rowSelect"   update=":XBitacoraListForm:createButton :XBitacoraListForm:viewButton :XBitacoraListForm:editButton :XBitacoraListForm:deleteButton :XBitacoraListForm:XBitacoraDataTableContextMenu" listener="#{xBitacoraController.resetParents}"/>
+                <p:ajax event="rowUnselect" update=":XBitacoraListForm:createButton :XBitacoraListForm:viewButton :XBitacoraListForm:editButton :XBitacoraListForm:deleteButton :XBitacoraListForm:XBitacoraDataTableContextMenu" listener="#{xBitacoraController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('XBitacoraListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idBitacora}" filterBy="#{item.idBitacora}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXBitacoraTitle_idBitacora}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idBitacora}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tabla}" filterBy="#{item.tabla}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXBitacoraTitle_tabla}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tabla}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.accion}" filterBy="#{item.accion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXBitacoraTitle_accion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.accion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.dml}" filterBy="#{item.dml}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXBitacoraTitle_dml}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.dml}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fecha}" filterBy="#{item.fecha}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXBitacoraTitle_fecha}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fecha}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idUsuario.idUsuario}" filterBy="#{item.idUsuario.idUsuario}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXBitacoraTitle_idUsuario}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idUsuario.idUsuario}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{seriesBundle.Create}" actionListener="#{xBitacoraController.prepareCreate}" update=":XBitacoraCreateForm" oncomplete="PF('XBitacoraCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{seriesBundle.View}" update=":XBitacoraViewForm" oncomplete="PF('XBitacoraViewDialog').show()" disabled="#{empty xBitacoraController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{seriesBundle.Edit}" update=":XBitacoraEditForm" oncomplete="PF('XBitacoraEditDialog').show()" disabled="#{empty xBitacoraController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{seriesBundle.Delete}" actionListener="#{xBitacoraController.delete}" update=":growl,datalist" disabled="#{empty xBitacoraController.selected}">
+                <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/generic/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

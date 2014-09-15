@@ -7,7 +7,7 @@ import nekio.series.dto.TipoDistintivo;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Stateless
 public class TipoDistintivoFacade extends AbstractFacade<TipoDistintivo> {

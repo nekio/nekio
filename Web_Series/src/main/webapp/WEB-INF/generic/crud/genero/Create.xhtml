@@ -15,12 +15,6 @@
                 <h:panelGroup id="display" rendered="#{generoController.selected != null}">
                     <p:panelGrid columns="2" columnClasses="column">
 
-                        <p:outputLabel value="#{seriesBundle.CreateGeneroLabel_idRango}" for="idRango" />
-                        <h:panelGroup>
-                            <p:inputText id="idRango" value="#{generoController.selected.idRango}" title="#{seriesBundle.CreateGeneroTitle_idRango}" required="true" requiredMessage="#{seriesBundle.CreateGeneroRequiredMessage_idRango}"/>
-                            <p:tooltip for="idRango" value="#{generoController.getComponentMessages('idRango', seriesBundle.CreateGeneroHelpText_idRango)}"/>
-                        </h:panelGroup>
-
                         <p:outputLabel value="#{seriesBundle.CreateGeneroLabel_genero}" for="genero" />
                         <h:panelGroup>
                             <p:inputText id="genero" value="#{generoController.selected.genero}" title="#{seriesBundle.CreateGeneroTitle_genero}" size="20" maxlength="20"/>
@@ -29,8 +23,22 @@
 
                         <p:outputLabel value="#{seriesBundle.CreateGeneroLabel_descripcion}" for="descripcion" />
                         <h:panelGroup>
-                            <p:inputText id="descripcion" value="#{generoController.selected.descripcion}" title="#{seriesBundle.CreateGeneroTitle_descripcion}" size="255" maxlength="255"/>
+                            <p:inputText id="descripcion" value="#{generoController.selected.descripcion}" title="#{seriesBundle.CreateGeneroTitle_descripcion}" size="150" maxlength="255"/>
                             <p:tooltip for="descripcion" value="#{generoController.getComponentMessages('descripcion', seriesBundle.CreateGeneroHelpText_descripcion)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{seriesBundle.CreateGeneroLabel_idRango}" for="idRango" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idRango" value="#{generoController.selected.idRango}" required="true" requiredMessage="#{seriesBundle.CreateGeneroRequiredMessage_idRango}" converter="xRangoConverter">
+                                <f:selectItem itemLabel="#{seriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{xRangoController.items}"
+                                               var="idRangoItem"
+                                               itemValue="#{idRangoItem}"
+                                               itemLabel="#{idRangoItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idRango" value="#{generoController.getComponentMessages('idRango', seriesBundle.CreateGeneroHelpText_idRango)}"/>
                         </h:panelGroup>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{generoController.saveNew}" value="#{seriesBundle.Save}" update="display,:GeneroListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('GeneroCreateDialog'));">

@@ -11,11 +11,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
+
 @FacesConverter(value = "televisoraConverter")
 public class TelevisoraConverter implements Converter {
 
     @Inject
     private TelevisoraFacade ejbFacade;
+
 
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
@@ -27,20 +29,20 @@ public class TelevisoraConverter implements Converter {
 
     java.lang.Integer getKey(String value) {
         java.lang.Integer key;
-        key = Integer.valueOf(value);
+            key = Integer.valueOf(value);
         return key;
     }
 
     String getStringKey(java.lang.Integer value) {
         StringBuffer sb = new StringBuffer();
-        sb.append(value);
+            sb.append(value);
         return sb.toString();
     }
 
     @Override
     public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-        if (object == null
-                || (object instanceof String && ((String) object).length() == 0)) {
+        if (object == null || 
+            (object instanceof String && ((String) object).length() == 0)) {
             return null;
         }
         if (object instanceof Televisora) {

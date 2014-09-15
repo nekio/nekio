@@ -18,11 +18,11 @@
                         <h:outputText value="#{seriesBundle.ViewFormatoLabel_idFormato}"/>
                         <h:outputText value="#{formatoController.selected.idFormato}" title="#{seriesBundle.ViewFormatoTitle_idFormato}"/>
 
-                        <h:outputText value="#{seriesBundle.ViewFormatoLabel_idRango}"/>
-                        <h:outputText value="#{formatoController.selected.idRango}" title="#{seriesBundle.ViewFormatoTitle_idRango}"/>
-
                         <h:outputText value="#{seriesBundle.ViewFormatoLabel_descripcion}"/>
                         <h:outputText value="#{formatoController.selected.descripcion}" title="#{seriesBundle.ViewFormatoTitle_descripcion}"/>
+
+                        <h:outputText value="#{seriesBundle.ViewFormatoLabel_idRango}"/>
+                        <h:outputText value="#{formatoController.selected.idRango.descripcion}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{seriesBundle.Close}" onclick="PF('FormatoViewDialog').hide()"/>
                 </h:panelGroup>

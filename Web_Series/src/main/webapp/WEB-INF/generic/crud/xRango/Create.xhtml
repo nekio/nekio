@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="XRangoCreateDlg" widgetVar="XRangoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{seriesBundle.CreateXRangoTitle}" closeOnEscape="true">
+
+            <h:form id="XRangoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{xRangoController.selected != null}">
+                    <p:tabView id="XRangoTabView">
+
+                        <p:tab id="XRangoTab1" title="#{seriesBundle.TabHeaderPrefix} 1">
+                            <p:panelGrid columns="2" columnClasses="column">
+                                <p:outputLabel value="#{seriesBundle.CreateXRangoLabel_descripcion}" for="descripcion" />
+                                <h:panelGroup>
+                                    <p:inputText id="descripcion" value="#{xRangoController.selected.descripcion}" title="#{seriesBundle.CreateXRangoTitle_descripcion}" required="true" requiredMessage="#{seriesBundle.CreateXRangoRequiredMessage_descripcion}" size="20" maxlength="20"/>
+                                    <p:tooltip for="descripcion" value="#{xRangoController.getComponentMessages('descripcion', seriesBundle.CreateXRangoHelpText_descripcion)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{seriesBundle.CreateXRangoLabel_detalle}" for="detalle" />
+                                <h:panelGroup>
+                                    <p:inputText id="detalle" value="#{xRangoController.selected.detalle}" title="#{seriesBundle.CreateXRangoTitle_detalle}" required="true" requiredMessage="#{seriesBundle.CreateXRangoRequiredMessage_detalle}" size="25" maxlength="25"/>
+                                    <p:tooltip for="detalle" value="#{xRangoController.getComponentMessages('detalle', seriesBundle.CreateXRangoHelpText_detalle)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{seriesBundle.CreateXRangoLabel_accPublico}" for="accPublico" />
+                                <h:panelGroup>
+                                    <p:inputText id="accPublico" value="#{xRangoController.selected.accPublico}" title="#{seriesBundle.CreateXRangoTitle_accPublico}" required="true" requiredMessage="#{seriesBundle.CreateXRangoRequiredMessage_accPublico}"/>
+                                    <p:tooltip for="accPublico" value="#{xRangoController.getComponentMessages('accPublico', seriesBundle.CreateXRangoHelpText_accPublico)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{seriesBundle.CreateXRangoLabel_accGrupal}" for="accGrupal" />
+                                <h:panelGroup>
+                                    <p:inputText id="accGrupal" value="#{xRangoController.selected.accGrupal}" title="#{seriesBundle.CreateXRangoTitle_accGrupal}" required="true" requiredMessage="#{seriesBundle.CreateXRangoRequiredMessage_accGrupal}"/>
+                                    <p:tooltip for="accGrupal" value="#{xRangoController.getComponentMessages('accGrupal', seriesBundle.CreateXRangoHelpText_accGrupal)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{seriesBundle.CreateXRangoLabel_accProtegido}" for="accProtegido" />
+                                <h:panelGroup>
+                                    <p:inputText id="accProtegido" value="#{xRangoController.selected.accProtegido}" title="#{seriesBundle.CreateXRangoTitle_accProtegido}" required="true" requiredMessage="#{seriesBundle.CreateXRangoRequiredMessage_accProtegido}"/>
+                                    <p:tooltip for="accProtegido" value="#{xRangoController.getComponentMessages('accProtegido', seriesBundle.CreateXRangoHelpText_accProtegido)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{seriesBundle.CreateXRangoLabel_accPrivado}" for="accPrivado" />
+                                <h:panelGroup>
+                                    <p:inputText id="accPrivado" value="#{xRangoController.selected.accPrivado}" title="#{seriesBundle.CreateXRangoTitle_accPrivado}" required="true" requiredMessage="#{seriesBundle.CreateXRangoRequiredMessage_accPrivado}"/>
+                                    <p:tooltip for="accPrivado" value="#{xRangoController.getComponentMessages('accPrivado', seriesBundle.CreateXRangoHelpText_accPrivado)}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel value="#{seriesBundle.CreateXRangoLabel_color}" for="color" />
+                                <h:panelGroup>
+                                    <p:inputText id="color" value="#{xRangoController.selected.color}" title="#{seriesBundle.CreateXRangoTitle_color}" required="true" requiredMessage="#{seriesBundle.CreateXRangoRequiredMessage_color}" size="11" maxlength="11"/>
+                                    <p:tooltip for="color" value="#{xRangoController.getComponentMessages('color', seriesBundle.CreateXRangoHelpText_color)}"/>
+                                </h:panelGroup>
+                            </p:panelGrid>
+                        </p:tab>
+                    </p:tabView>
+                    <p:commandButton actionListener="#{xRangoController.saveNew}" value="#{seriesBundle.Save}" update="display,:XRangoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('XRangoCreateDialog'));">
+                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('XRangoCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

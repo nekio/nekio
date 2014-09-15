@@ -16,6 +16,7 @@
                 <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('PesoListForm:deleteButton').click();" icon="ui-icon-trash"/>
                 <p:separator/>
                 <p:menuitem value="#{seriesBundle.PesoMenuItem_proyectoCollection}" icon="ui-icon-search"  action="#{pesoController.navigateProyectoCollection}" disabled="#{empty pesoController.selected.proyectoCollection}" ajax="false"/>  
+                <p:menuitem value="#{seriesBundle.PesoMenuItem_idRango}" icon="ui-icon-search"  actionListener="#{pesoController.prepareIdRango}" update=":XRangoViewForm" oncomplete="PF('XRangoViewDialog').show()" disabled="#{empty pesoController.selected.idRango}"/>  
             </p:contextMenu>
             <p:dataTable id="datalist"
                          value="#{pesoController.items}"
@@ -23,7 +24,7 @@
                          rowKey="#{item.idPeso}"
                          paginator="true"
                          rows="25"
-                         rowsPerPageTemplate="10,25,50,75,100"
+                         rowsPerPageTemplate="10,25,50,100"
                          selectionMode="single"
                          selection="#{pesoController.selected}">
 
@@ -39,19 +40,19 @@
                 </p:column>
 
 
-                <p:column sortBy="#{item.idRango}" filterBy="#{item.idRango}">
-                    <f:facet name="header">
-                        <h:outputText value="#{seriesBundle.ListPesoTitle_idRango}"/>
-                    </f:facet>
-                    <h:outputText value="#{item.idRango}"/>
-                </p:column>
-
-
                 <p:column sortBy="#{item.descripcion}" filterBy="#{item.descripcion}">
                     <f:facet name="header">
                         <h:outputText value="#{seriesBundle.ListPesoTitle_descripcion}"/>
                     </f:facet>
                     <h:outputText value="#{item.descripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idRango.descripcion}" filterBy="#{item.idRango.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListPesoTitle_idRango}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idRango.descripcion}"/>
                 </p:column>
 
 

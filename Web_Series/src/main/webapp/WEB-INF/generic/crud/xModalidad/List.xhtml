@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="XModalidadListForm">
+
+        <p:panel header="#{seriesBundle.ListXModalidadTitle}">
+            <p:contextMenu id="XModalidadDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{seriesBundle.Create}" onclick="document.getElementById('XModalidadListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{seriesBundle.View}" onclick="document.getElementById('XModalidadListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{seriesBundle.Edit}" onclick="document.getElementById('XModalidadListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{seriesBundle.Delete}" onclick="document.getElementById('XModalidadListForm:deleteButton').click();" icon="ui-icon-trash"/>
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{xModalidadController.items}"
+                         var="item"
+                         rowKey="#{item.XModalidadPK}"
+                         paginator="true"
+                         rows="25"
+                         rowsPerPageTemplate="10,25,50,100"
+                         selectionMode="single"
+                         selection="#{xModalidadController.selected}">
+
+                <p:ajax event="rowSelect"   update=":XModalidadListForm:createButton :XModalidadListForm:viewButton :XModalidadListForm:editButton :XModalidadListForm:deleteButton :XModalidadListForm:XModalidadDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update=":XModalidadListForm:createButton :XModalidadListForm:viewButton :XModalidadListForm:editButton :XModalidadListForm:deleteButton :XModalidadListForm:XModalidadDataTableContextMenu"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('XModalidadListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.XModalidadPK.appDebug}" filterBy="#{item.XModalidadPK.appDebug}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXModalidadTitle_XModalidadPK_appDebug}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.XModalidadPK.appDebug}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.XModalidadPK.appDesign}" filterBy="#{item.XModalidadPK.appDesign}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXModalidadTitle_XModalidadPK_appDesign}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.XModalidadPK.appDesign}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.XModalidadPK.bitacoraEstilo}" filterBy="#{item.XModalidadPK.bitacoraEstilo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXModalidadTitle_XModalidadPK_bitacoraEstilo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.XModalidadPK.bitacoraEstilo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.imgChica}" filterBy="#{item.imgChica}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXModalidadTitle_imgChica}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.imgChica}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.imgMediana}" filterBy="#{item.imgMediana}">
+                    <f:facet name="header">
+                        <h:outputText value="#{seriesBundle.ListXModalidadTitle_imgMediana}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.imgMediana}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{seriesBundle.Create}" actionListener="#{xModalidadController.prepareCreate}" update=":XModalidadCreateForm" oncomplete="PF('XModalidadCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{seriesBundle.View}" update=":XModalidadViewForm" oncomplete="PF('XModalidadViewDialog').show()" disabled="#{empty xModalidadController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{seriesBundle.Edit}" update=":XModalidadEditForm" oncomplete="PF('XModalidadEditDialog').show()" disabled="#{empty xModalidadController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{seriesBundle.Delete}" actionListener="#{xModalidadController.delete}" update=":growl,datalist" disabled="#{empty xModalidadController.selected}">
+                <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/generic/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

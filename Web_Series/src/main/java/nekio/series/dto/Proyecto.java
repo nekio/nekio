@@ -23,13 +23,12 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Proyecto.findAll", query = "SELECT p FROM Proyecto p"),
     @NamedQuery(name = "Proyecto.findByIdProyecto", query = "SELECT p FROM Proyecto p WHERE p.idProyecto = :idProyecto"),
-    @NamedQuery(name = "Proyecto.findByIdRango", query = "SELECT p FROM Proyecto p WHERE p.idRango = :idRango"),
     @NamedQuery(name = "Proyecto.findByFechaInicio", query = "SELECT p FROM Proyecto p WHERE p.fechaInicio = :fechaInicio"),
     @NamedQuery(name = "Proyecto.findByFechaFin", query = "SELECT p FROM Proyecto p WHERE p.fechaFin = :fechaFin"),
     @NamedQuery(name = "Proyecto.findByEpisodiosSubir", query = "SELECT p FROM Proyecto p WHERE p.episodiosSubir = :episodiosSubir"),
@@ -43,10 +42,6 @@ public class Proyecto implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_proyecto")
     private Integer idProyecto;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id_rango")
-    private int idRango;
     @Basic(optional = false)
     @NotNull
     @Column(name = "fecha_inicio")
@@ -66,6 +61,9 @@ public class Proyecto implements Serializable {
     @Lob
     @Size(max = 65535)
     private String enlaces;
+    @JoinColumn(name = "id_rango", referencedColumnName = "id_rango")
+    @ManyToOne(optional = false)
+    private XRango idRango;
     @JoinColumn(name = "id_peso", referencedColumnName = "id_peso")
     @ManyToOne(optional = false)
     private Peso idPeso;
@@ -105,9 +103,8 @@ public class Proyecto implements Serializable {
         this.idProyecto = idProyecto;
     }
 
-    public Proyecto(Integer idProyecto, int idRango, Date fechaInicio) {
+    public Proyecto(Integer idProyecto, Date fechaInicio) {
         this.idProyecto = idProyecto;
-        this.idRango = idRango;
         this.fechaInicio = fechaInicio;
     }
 
@@ -117,14 +114,6 @@ public class Proyecto implements Serializable {
 
     public void setIdProyecto(Integer idProyecto) {
         this.idProyecto = idProyecto;
-    }
-
-    public int getIdRango() {
-        return idRango;
-    }
-
-    public void setIdRango(int idRango) {
-        this.idRango = idRango;
     }
 
     public Date getFechaInicio() {
@@ -181,6 +170,14 @@ public class Proyecto implements Serializable {
 
     public void setEnlaces(String enlaces) {
         this.enlaces = enlaces;
+    }
+
+    public XRango getIdRango() {
+        return idRango;
+    }
+
+    public void setIdRango(XRango idRango) {
+        this.idRango = idRango;
     }
 
     public Peso getIdPeso() {

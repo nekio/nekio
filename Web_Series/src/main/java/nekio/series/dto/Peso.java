@@ -9,21 +9,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Peso.findAll", query = "SELECT p FROM Peso p"),
     @NamedQuery(name = "Peso.findByIdPeso", query = "SELECT p FROM Peso p WHERE p.idPeso = :idPeso"),
-    @NamedQuery(name = "Peso.findByIdRango", query = "SELECT p FROM Peso p WHERE p.idRango = :idRango"),
     @NamedQuery(name = "Peso.findByDescripcion", query = "SELECT p FROM Peso p WHERE p.descripcion = :descripcion")})
 public class Peso implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -32,14 +32,13 @@ public class Peso implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_peso")
     private Integer idPeso;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id_rango")
-    private int idRango;
     @Size(max = 20)
     private String descripcion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPeso")
     private Collection<Proyecto> proyectoCollection;
+    @JoinColumn(name = "id_rango", referencedColumnName = "id_rango")
+    @ManyToOne(optional = false)
+    private XRango idRango;
 
     public Peso() {
     }
@@ -48,25 +47,12 @@ public class Peso implements Serializable {
         this.idPeso = idPeso;
     }
 
-    public Peso(Integer idPeso, int idRango) {
-        this.idPeso = idPeso;
-        this.idRango = idRango;
-    }
-
     public Integer getIdPeso() {
         return idPeso;
     }
 
     public void setIdPeso(Integer idPeso) {
         this.idPeso = idPeso;
-    }
-
-    public int getIdRango() {
-        return idRango;
-    }
-
-    public void setIdRango(int idRango) {
-        this.idRango = idRango;
     }
 
     public String getDescripcion() {
@@ -83,6 +69,14 @@ public class Peso implements Serializable {
 
     public void setProyectoCollection(Collection<Proyecto> proyectoCollection) {
         this.proyectoCollection = proyectoCollection;
+    }
+
+    public XRango getIdRango() {
+        return idRango;
+    }
+
+    public void setIdRango(XRango idRango) {
+        this.idRango = idRango;
     }
 
     @Override

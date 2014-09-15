@@ -16,13 +16,12 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Password.findAll", query = "SELECT p FROM Password p"),
     @NamedQuery(name = "Password.findByIdPassword", query = "SELECT p FROM Password p WHERE p.idPassword = :idPassword"),
-    @NamedQuery(name = "Password.findByIdRango", query = "SELECT p FROM Password p WHERE p.idRango = :idRango"),
     @NamedQuery(name = "Password.findByPassword", query = "SELECT p FROM Password p WHERE p.password = :password"),
     @NamedQuery(name = "Password.findByComentarios", query = "SELECT p FROM Password p WHERE p.comentarios = :comentarios")})
 public class Password implements Serializable {
@@ -34,14 +33,13 @@ public class Password implements Serializable {
     private Integer idPassword;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "id_rango")
-    private int idRango;
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 80)
     private String password;
     @Size(max = 255)
     private String comentarios;
+    @JoinColumn(name = "id_rango", referencedColumnName = "id_rango")
+    @ManyToOne(optional = false)
+    private XRango idRango;
     @JoinColumn(name = "id_proyecto", referencedColumnName = "id_proyecto")
     @ManyToOne
     private Proyecto idProyecto;
@@ -59,9 +57,8 @@ public class Password implements Serializable {
         this.idPassword = idPassword;
     }
 
-    public Password(Integer idPassword, int idRango, String password) {
+    public Password(Integer idPassword, String password) {
         this.idPassword = idPassword;
-        this.idRango = idRango;
         this.password = password;
     }
 
@@ -71,14 +68,6 @@ public class Password implements Serializable {
 
     public void setIdPassword(Integer idPassword) {
         this.idPassword = idPassword;
-    }
-
-    public int getIdRango() {
-        return idRango;
-    }
-
-    public void setIdRango(int idRango) {
-        this.idRango = idRango;
     }
 
     public String getPassword() {
@@ -95,6 +84,14 @@ public class Password implements Serializable {
 
     public void setComentarios(String comentarios) {
         this.comentarios = comentarios;
+    }
+
+    public XRango getIdRango() {
+        return idRango;
+    }
+
+    public void setIdRango(XRango idRango) {
+        this.idRango = idRango;
     }
 
     public Proyecto getIdProyecto() {

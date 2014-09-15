@@ -7,7 +7,7 @@ import nekio.series.dto.Peso;
 
 /**
  *
- * @author Nekio
+ * @author SITI
  */
 @Stateless
 public class PesoFacade extends AbstractFacade<Peso> {

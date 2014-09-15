@@ -19,6 +19,8 @@ public class GeneroController extends AbstractController<Genero> {
     private SerieController serieCollection2Controller;
     @Inject
     private SerieController serieCollection3Controller;
+    @Inject
+    private XRangoController idRangoController;
 
     public GeneroController() {
         // Inform the Abstract parent controller of the concrete Genero?cap_first Entity
@@ -29,6 +31,7 @@ public class GeneroController extends AbstractController<Genero> {
      * Resets the "selected" attribute of any parent Entity controllers.
      */
     public void resetParents() {
+        idRangoController.setSelected(null);
     }
 
     /**
@@ -83,4 +86,16 @@ public class GeneroController extends AbstractController<Genero> {
         return "/view/serie/index";
     }
 
+    /**
+     * Sets the "selected" attribute of the XRango controller in order to
+     * display its data in a dialog. This is reusing existing the existing View
+     * dialog.
+     *
+     * @param event Event object for the widget that triggered an action
+     */
+    public void prepareIdRango(ActionEvent event) {
+        if (this.getSelected() != null && idRangoController.getSelected() == null) {
+            idRangoController.setSelected(this.getSelected().getIdRango());
+        }
+    }
 }

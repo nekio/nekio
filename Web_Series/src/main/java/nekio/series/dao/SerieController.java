@@ -10,7 +10,6 @@ import javax.inject.Inject;
 @Named(value = "serieController")
 @ViewScoped
 public class SerieController extends AbstractController<Serie> {
-
     @Inject
     private TelevisoraController televisoraCollectionController;
     @Inject
@@ -30,21 +29,31 @@ public class SerieController extends AbstractController<Serie> {
     @Inject
     private PaisController idPaisController;
     @Inject
-    private IdiomaController idIdiomaOrigenController;
-    @Inject
-    private TipoSerieController idTipoSerieController;
-    @Inject
-    private EmisoraController idEmisoraController;
-    @Inject
-    private DistintivoController idDistintivoController;
-    @Inject
-    private GeneroController idGenero4Controller;
-    @Inject
-    private GeneroController idGenero3Controller;
-    @Inject
     private SerieController serieCollectionController;
     @Inject
     private SerieController idSerieOrigenController;
+    @Inject
+    private GeneroController idGenero3Controller;
+    @Inject
+    private GeneroController idGenero4Controller;
+    @Inject
+    private XImagenController idImagenController;
+    @Inject
+    private XImagenController idCaptura1Controller;
+    @Inject
+    private XImagenController idCaptura2Controller;
+    @Inject
+    private XImagenController idCaptura3Controller;
+    @Inject
+    private DistintivoController idDistintivoController;
+    @Inject
+    private XRangoController idRangoController;
+    @Inject
+    private EmisoraController idEmisoraController;
+    @Inject
+    private TipoSerieController idTipoSerieController;
+    @Inject
+    private IdiomaController idIdiomaOrigenController;
     @Inject
     private EpisodioController episodioCollectionController;
 
@@ -62,13 +71,18 @@ public class SerieController extends AbstractController<Serie> {
         idClasificacionController.setSelected(null);
         idDuracionController.setSelected(null);
         idPaisController.setSelected(null);
-        idIdiomaOrigenController.setSelected(null);
-        idTipoSerieController.setSelected(null);
-        idEmisoraController.setSelected(null);
-        idDistintivoController.setSelected(null);
-        idGenero4Controller.setSelected(null);
-        idGenero3Controller.setSelected(null);
         idSerieOrigenController.setSelected(null);
+        idGenero3Controller.setSelected(null);
+        idGenero4Controller.setSelected(null);
+        idImagenController.setSelected(null);
+        idCaptura1Controller.setSelected(null);
+        idCaptura2Controller.setSelected(null);
+        idCaptura3Controller.setSelected(null);
+        idDistintivoController.setSelected(null);
+        idRangoController.setSelected(null);
+        idEmisoraController.setSelected(null);
+        idTipoSerieController.setSelected(null);
+        idIdiomaOrigenController.setSelected(null);
     }
 
     /**
@@ -188,84 +202,6 @@ public class SerieController extends AbstractController<Serie> {
     }
 
     /**
-     * Sets the "selected" attribute of the Idioma controller in order to
-     * display its data in a dialog. This is reusing existing the existing View
-     * dialog.
-     *
-     * @param event Event object for the widget that triggered an action
-     */
-    public void prepareIdIdiomaOrigen(ActionEvent event) {
-        if (this.getSelected() != null && idIdiomaOrigenController.getSelected() == null) {
-            idIdiomaOrigenController.setSelected(this.getSelected().getIdIdiomaOrigen());
-        }
-    }
-
-    /**
-     * Sets the "selected" attribute of the TipoSerie controller in order to
-     * display its data in a dialog. This is reusing existing the existing View
-     * dialog.
-     *
-     * @param event Event object for the widget that triggered an action
-     */
-    public void prepareIdTipoSerie(ActionEvent event) {
-        if (this.getSelected() != null && idTipoSerieController.getSelected() == null) {
-            idTipoSerieController.setSelected(this.getSelected().getIdTipoSerie());
-        }
-    }
-
-    /**
-     * Sets the "selected" attribute of the Emisora controller in order to
-     * display its data in a dialog. This is reusing existing the existing View
-     * dialog.
-     *
-     * @param event Event object for the widget that triggered an action
-     */
-    public void prepareIdEmisora(ActionEvent event) {
-        if (this.getSelected() != null && idEmisoraController.getSelected() == null) {
-            idEmisoraController.setSelected(this.getSelected().getIdEmisora());
-        }
-    }
-
-    /**
-     * Sets the "selected" attribute of the Distintivo controller in order to
-     * display its data in a dialog. This is reusing existing the existing View
-     * dialog.
-     *
-     * @param event Event object for the widget that triggered an action
-     */
-    public void prepareIdDistintivo(ActionEvent event) {
-        if (this.getSelected() != null && idDistintivoController.getSelected() == null) {
-            idDistintivoController.setSelected(this.getSelected().getIdDistintivo());
-        }
-    }
-
-    /**
-     * Sets the "selected" attribute of the Genero controller in order to
-     * display its data in a dialog. This is reusing existing the existing View
-     * dialog.
-     *
-     * @param event Event object for the widget that triggered an action
-     */
-    public void prepareIdGenero4(ActionEvent event) {
-        if (this.getSelected() != null && idGenero4Controller.getSelected() == null) {
-            idGenero4Controller.setSelected(this.getSelected().getIdGenero4());
-        }
-    }
-
-    /**
-     * Sets the "selected" attribute of the Genero controller in order to
-     * display its data in a dialog. This is reusing existing the existing View
-     * dialog.
-     *
-     * @param event Event object for the widget that triggered an action
-     */
-    public void prepareIdGenero3(ActionEvent event) {
-        if (this.getSelected() != null && idGenero3Controller.getSelected() == null) {
-            idGenero3Controller.setSelected(this.getSelected().getIdGenero3());
-        }
-    }
-
-    /**
      * Sets the "items" attribute with a collection of Serie entities that are
      * retrieved from Serie?cap_first and returns the navigation outcome.
      *
@@ -287,6 +223,149 @@ public class SerieController extends AbstractController<Serie> {
     public void prepareIdSerieOrigen(ActionEvent event) {
         if (this.getSelected() != null && idSerieOrigenController.getSelected() == null) {
             idSerieOrigenController.setSelected(this.getSelected().getIdSerieOrigen());
+        }
+    }
+
+    /**
+     * Sets the "selected" attribute of the Genero controller in order to
+     * display its data in a dialog. This is reusing existing the existing View
+     * dialog.
+     *
+     * @param event Event object for the widget that triggered an action
+     */
+    public void prepareIdGenero3(ActionEvent event) {
+        if (this.getSelected() != null && idGenero3Controller.getSelected() == null) {
+            idGenero3Controller.setSelected(this.getSelected().getIdGenero3());
+        }
+    }
+
+    /**
+     * Sets the "selected" attribute of the Genero controller in order to
+     * display its data in a dialog. This is reusing existing the existing View
+     * dialog.
+     *
+     * @param event Event object for the widget that triggered an action
+     */
+    public void prepareIdGenero4(ActionEvent event) {
+        if (this.getSelected() != null && idGenero4Controller.getSelected() == null) {
+            idGenero4Controller.setSelected(this.getSelected().getIdGenero4());
+        }
+    }
+
+    /**
+     * Sets the "selected" attribute of the XImagen controller in order to
+     * display its data in a dialog. This is reusing existing the existing View
+     * dialog.
+     *
+     * @param event Event object for the widget that triggered an action
+     */
+    public void prepareIdImagen(ActionEvent event) {
+        if (this.getSelected() != null && idImagenController.getSelected() == null) {
+            idImagenController.setSelected(this.getSelected().getIdImagen());
+        }
+    }
+
+    /**
+     * Sets the "selected" attribute of the XImagen controller in order to
+     * display its data in a dialog. This is reusing existing the existing View
+     * dialog.
+     *
+     * @param event Event object for the widget that triggered an action
+     */
+    public void prepareIdCaptura1(ActionEvent event) {
+        if (this.getSelected() != null && idCaptura1Controller.getSelected() == null) {
+            idCaptura1Controller.setSelected(this.getSelected().getIdCaptura1());
+        }
+    }
+
+    /**
+     * Sets the "selected" attribute of the XImagen controller in order to
+     * display its data in a dialog. This is reusing existing the existing View
+     * dialog.
+     *
+     * @param event Event object for the widget that triggered an action
+     */
+    public void prepareIdCaptura2(ActionEvent event) {
+        if (this.getSelected() != null && idCaptura2Controller.getSelected() == null) {
+            idCaptura2Controller.setSelected(this.getSelected().getIdCaptura2());
+        }
+    }
+
+    /**
+     * Sets the "selected" attribute of the XImagen controller in order to
+     * display its data in a dialog. This is reusing existing the existing View
+     * dialog.
+     *
+     * @param event Event object for the widget that triggered an action
+     */
+    public void prepareIdCaptura3(ActionEvent event) {
+        if (this.getSelected() != null && idCaptura3Controller.getSelected() == null) {
+            idCaptura3Controller.setSelected(this.getSelected().getIdCaptura3());
+        }
+    }
+
+    /**
+     * Sets the "selected" attribute of the Distintivo controller in order to
+     * display its data in a dialog. This is reusing existing the existing View
+     * dialog.
+     *
+     * @param event Event object for the widget that triggered an action
+     */
+    public void prepareIdDistintivo(ActionEvent event) {
+        if (this.getSelected() != null && idDistintivoController.getSelected() == null) {
+            idDistintivoController.setSelected(this.getSelected().getIdDistintivo());
+        }
+    }
+
+    /**
+     * Sets the "selected" attribute of the XRango controller in order to
+     * display its data in a dialog. This is reusing existing the existing View
+     * dialog.
+     *
+     * @param event Event object for the widget that triggered an action
+     */
+    public void prepareIdRango(ActionEvent event) {
+        if (this.getSelected() != null && idRangoController.getSelected() == null) {
+            idRangoController.setSelected(this.getSelected().getIdRango());
+        }
+    }
+
+    /**
+     * Sets the "selected" attribute of the Emisora controller in order to
+     * display its data in a dialog. This is reusing existing the existing View
+     * dialog.
+     *
+     * @param event Event object for the widget that triggered an action
+     */
+    public void prepareIdEmisora(ActionEvent event) {
+        if (this.getSelected() != null && idEmisoraController.getSelected() == null) {
+            idEmisoraController.setSelected(this.getSelected().getIdEmisora());
+        }
+    }
+
+    /**
+     * Sets the "selected" attribute of the TipoSerie controller in order to
+     * display its data in a dialog. This is reusing existing the existing View
+     * dialog.
+     *
+     * @param event Event object for the widget that triggered an action
+     */
+    public void prepareIdTipoSerie(ActionEvent event) {
+        if (this.getSelected() != null && idTipoSerieController.getSelected() == null) {
+            idTipoSerieController.setSelected(this.getSelected().getIdTipoSerie());
+        }
+    }
+
+    /**
+     * Sets the "selected" attribute of the Idioma controller in order to
+     * display its data in a dialog. This is reusing existing the existing View
+     * dialog.
+     *
+     * @param event Event object for the widget that triggered an action
+     */
+    public void prepareIdIdiomaOrigen(ActionEvent event) {
+        if (this.getSelected() != null && idIdiomaOrigenController.getSelected() == null) {
+            idIdiomaOrigenController.setSelected(this.getSelected().getIdIdiomaOrigen());
         }
     }
 

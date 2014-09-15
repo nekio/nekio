@@ -7,7 +7,7 @@
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition>
-        <p:dialog id="TelevisoraEditDlg" widgetVar="TelevisoraEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{seriesBundle.EditTelevisoraTitle}" closeOnEscape="true">
+        <p:dialog id="TelevisoraEditDlg" widgetVar="TelevisoraEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{SeriesBundle.EditTelevisoraTitle}" closeOnEscape="true">
 
             <h:form id="TelevisoraEditForm">
 
@@ -15,31 +15,25 @@
                     <p:panelGrid  columns="2" columnClasses="column" rendered="#{televisoraController.selected != null}">
 
 
-                        <h:outputLabel value="#{seriesBundle.EditTelevisoraLabel_idTelevisora}" for="idTelevisora" />
+                        <h:outputLabel value="#{SeriesBundle.EditTelevisoraLabel_idTelevisora}" for="idTelevisora" />
                         <h:panelGroup>
                             <h:outputText id="idTelevisora" value="#{televisoraController.selected.idTelevisora}" />
-                            <p:tooltip for="idTelevisora" value="#{televisoraController.getComponentMessages('idTelevisora', seriesBundle.EditTelevisoraHelpText_idTelevisora)}"/>
+                            <p:tooltip for="idTelevisora" value="#{televisoraController.getComponentMessages('idTelevisora', SeriesBundle.EditTelevisoraHelpText_idTelevisora)}"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{seriesBundle.EditTelevisoraLabel_idImagen}" for="idImagen" />
+                        <p:outputLabel value="#{SeriesBundle.EditTelevisoraLabel_siglasTelevisora}" for="siglasTelevisora" />
                         <h:panelGroup>
-                            <p:inputText id="idImagen" value="#{televisoraController.selected.idImagen}" title="#{seriesBundle.EditTelevisoraTitle_idImagen}"/>
-                            <p:tooltip for="idImagen" value="#{televisoraController.getComponentMessages('idImagen', seriesBundle.EditTelevisoraHelpText_idImagen)}"/>
+                            <p:inputText id="siglasTelevisora" value="#{televisoraController.selected.siglasTelevisora}" title="#{SeriesBundle.EditTelevisoraTitle_siglasTelevisora}" required="true" requiredMessage="#{SeriesBundle.EditTelevisoraRequiredMessage_siglasTelevisora}" size="20" maxlength="20"/>
+                            <p:tooltip for="siglasTelevisora" value="#{televisoraController.getComponentMessages('siglasTelevisora', SeriesBundle.EditTelevisoraHelpText_siglasTelevisora)}"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{seriesBundle.EditTelevisoraLabel_siglasTelevisora}" for="siglasTelevisora" />
+                        <p:outputLabel value="#{SeriesBundle.EditTelevisoraLabel_nombreTelevisora}" for="nombreTelevisora" />
                         <h:panelGroup>
-                            <p:inputText id="siglasTelevisora" value="#{televisoraController.selected.siglasTelevisora}" title="#{seriesBundle.EditTelevisoraTitle_siglasTelevisora}" required="true" requiredMessage="#{seriesBundle.EditTelevisoraRequiredMessage_siglasTelevisora}" size="20" maxlength="20"/>
-                            <p:tooltip for="siglasTelevisora" value="#{televisoraController.getComponentMessages('siglasTelevisora', seriesBundle.EditTelevisoraHelpText_siglasTelevisora)}"/>
+                            <p:inputText id="nombreTelevisora" value="#{televisoraController.selected.nombreTelevisora}" title="#{SeriesBundle.EditTelevisoraTitle_nombreTelevisora}" required="true" requiredMessage="#{SeriesBundle.EditTelevisoraRequiredMessage_nombreTelevisora}" size="100" maxlength="100"/>
+                            <p:tooltip for="nombreTelevisora" value="#{televisoraController.getComponentMessages('nombreTelevisora', SeriesBundle.EditTelevisoraHelpText_nombreTelevisora)}"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="#{seriesBundle.EditTelevisoraLabel_nombreTelevisora}" for="nombreTelevisora" />
-                        <h:panelGroup>
-                            <p:inputText id="nombreTelevisora" value="#{televisoraController.selected.nombreTelevisora}" title="#{seriesBundle.EditTelevisoraTitle_nombreTelevisora}" required="true" requiredMessage="#{seriesBundle.EditTelevisoraRequiredMessage_nombreTelevisora}" size="100" maxlength="100"/>
-                            <p:tooltip for="nombreTelevisora" value="#{televisoraController.getComponentMessages('nombreTelevisora', seriesBundle.EditTelevisoraHelpText_nombreTelevisora)}"/>
-                        </h:panelGroup>
-
-                        <p:outputLabel value="#{seriesBundle.EditTelevisoraLabel_serieCollection}" for="serieCollection" />
+                        <p:outputLabel value="#{SeriesBundle.EditTelevisoraLabel_serieCollection}" for="serieCollection" />
                         <h:panelGroup>
                             <p:selectManyMenu id="serieCollection" value="#{televisoraController.selected.serieCollection}"  converter="serieConverter">
                                 <f:selectItems value="#{serieController.items}"
@@ -49,13 +43,27 @@
                                                />
 
                             </p:selectManyMenu>
-                            <p:tooltip for="serieCollection" value="#{televisoraController.getComponentMessages('serieCollection', seriesBundle.EditTelevisoraHelpText_serieCollection)}"/>
+                            <p:tooltip for="serieCollection" value="#{televisoraController.getComponentMessages('serieCollection', SeriesBundle.EditTelevisoraHelpText_serieCollection)}"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="#{SeriesBundle.EditTelevisoraLabel_idImagen}" for="idImagen" />
+                        <h:panelGroup>
+                            <p:selectOneMenu id="idImagen" value="#{televisoraController.selected.idImagen}"  converter="xImagenConverter">
+                                <f:selectItem itemLabel="#{SeriesBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{xImagenController.items}"
+                                               var="idImagenItem"
+                                               itemValue="#{idImagenItem}"
+                                               itemLabel="#{idImagenItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                            <p:tooltip for="idImagen" value="#{televisoraController.getComponentMessages('idImagen', SeriesBundle.EditTelevisoraHelpText_idImagen)}"/>
                         </h:panelGroup>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{televisoraController.save}" value="#{seriesBundle.Save}" update="display,:TelevisoraListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TelevisoraEditDialog'));">
-                        <p:confirm header="#{seriesBundle.ConfirmationHeader}" message="#{seriesBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    <p:commandButton actionListener="#{televisoraController.save}" value="#{SeriesBundle.Save}" update="display,:TelevisoraListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TelevisoraEditDialog'));">
+                        <p:confirm header="#{SeriesBundle.ConfirmationHeader}" message="#{SeriesBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
                     </p:commandButton>
-                    <p:commandButton value="#{seriesBundle.Cancel}" onclick="PF('TelevisoraEditDialog').hide()"/>
+                    <p:commandButton value="#{SeriesBundle.Cancel}" onclick="PF('TelevisoraEditDialog').hide()"/>
                 </h:panelGroup>
 
             </h:form>
